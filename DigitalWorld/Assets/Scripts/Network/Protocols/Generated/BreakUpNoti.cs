@@ -36,7 +36,19 @@ namespace Dream.Network
 
         public static BreakUpNoti Alloc()
         {
-             return ObjectPool<BreakUpNoti>.Allocate();
+            return ObjectPool<BreakUpNoti>.Allocate();
+        }
+
+        public override void Encode(byte[] buffer, int pos)
+        {
+            base.Encode(buffer, pos);
+
+        }
+
+        public override void Decode(byte[] buffer, int pos)
+        {
+            base.Decode(buffer, pos);
+
         }
     }
 }

@@ -48,7 +48,23 @@ namespace Dream.Network
 
         public static LoginReq Alloc()
         {
-             return ObjectPool<LoginReq>.Allocate();
+            return ObjectPool<LoginReq>.Allocate();
+        }
+
+        public override void Encode(byte[] buffer, int pos)
+        {
+            base.Encode(buffer, pos);
+
+            this.Encode(this._account);
+            this.Encode(this._password);
+        }
+
+        public override void Decode(byte[] buffer, int pos)
+        {
+            base.Decode(buffer, pos);
+
+            this.Decode(ref this._account);
+            this.Decode(ref this._password);
         }
     }
 }

@@ -48,7 +48,23 @@ namespace Dream.Network
 
         public static ErrorNoti Alloc()
         {
-             return ObjectPool<ErrorNoti>.Allocate();
+            return ObjectPool<ErrorNoti>.Allocate();
+        }
+
+        public override void Encode(byte[] buffer, int pos)
+        {
+            base.Encode(buffer, pos);
+
+            this.Encode(this._code);
+            this.Encode(this._text);
+        }
+
+        public override void Decode(byte[] buffer, int pos)
+        {
+            base.Decode(buffer, pos);
+
+            this.Decode(ref this._code);
+            this.Decode(ref this._text);
         }
     }
 }
