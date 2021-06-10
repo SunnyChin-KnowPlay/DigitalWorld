@@ -4,14 +4,15 @@ namespace DreamEngine
 {
     public class Singleton<T> : MonoBehaviour where T : Singleton<T>
     {
-        private const string _singletonRootObjectName = "Singletons";
-
+        #region Instance
         private static T _instance = null;
 
         public static T instance
         {
             get { return _instance; }
         }
+        #endregion
+
 
         /// <summary>
         /// ´´½¨ÊµÀý
@@ -19,7 +20,8 @@ namespace DreamEngine
         /// <returns></returns>
         public static T CreateInstance()
         {
-            GameObject root = GameObject.Find(_singletonRootObjectName);
+            if (null != _instance)
+                return _instance;
 
             System.Type type = typeof(T);
             string name = string.Format("Singleton of {0}", type.Name);
