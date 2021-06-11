@@ -1,28 +1,38 @@
-﻿using Dream.Network;
+﻿using Dream.Core;
+using Dream.Network;
 using System.Net.Sockets;
 
-namespace DigitalWorld.Network
+namespace DigitalWorld.Net
 {
     public partial class Agent : AgentBase
     {
-        public override void Recycle()
+        private string _key = null;
+
+        public string key
         {
-            throw new System.NotImplementedException();
+            get { return _key; }
+            set
+            {
+                _key = value;
+            }
         }
 
-        protected override void AllocateProtocols()
+        public override void Recycle()
         {
-            throw new System.NotImplementedException();
+            ObjectPool<Agent>.Recycle(this);
         }
+
 
         protected override void OnBreakup(object sender, SocketAsyncEventArgs e)
         {
-            throw new System.NotImplementedException();
+            BreakUpNoti noti = BreakUpNoti.Alloc();
+            this.PushProtocol(noti);
         }
 
         protected override void OnInterruption(object sender, SocketAsyncEventArgs e)
         {
-            throw new System.NotImplementedException();
+            InterruptionNoti noti = InterruptionNoti.Alloc();
+            this.PushProtocol(noti);
         }
     }
 }

@@ -41,4 +41,21 @@ namespace Dream.Network
         PasswordErr,
     }
 
+	/// <summary>
+    /// 
+    /// </summary>
+    public enum EnumConnectResult : int
+    {
+  
+        /// <summary>
+        /// 
+        /// </summary>
+        Success = 0,
+  
+        /// <summary>
+        /// 
+        /// </summary>
+        Failed = 1,
+    }
+
 }

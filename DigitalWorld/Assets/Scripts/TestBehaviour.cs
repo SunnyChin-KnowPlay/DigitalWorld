@@ -1,4 +1,4 @@
-using DigitalWorld.Network;
+using DigitalWorld.Net;
 using Dream.Core;
 using System.Collections;
 using System.Collections.Generic;
