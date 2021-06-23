@@ -5,16 +5,12 @@ namespace DigitalWorld.Net
 {
     public partial class Agent : AgentBase
     {
-        protected override void AllocateProtocols()
-        {
-            this.PreallocateProtocol(ObjectPool<LoginReq>.Allocate());
-            this.PreallocateProtocol(ObjectPool<LoginAck>.Allocate());
-            this.PreallocateProtocol(ObjectPool<ErrorNoti>.Allocate());
-            this.PreallocateProtocol(ObjectPool<BreakUpNoti>.Allocate());
-            this.PreallocateProtocol(ObjectPool<InterruptionNoti>.Allocate());
 
-            this.RegisterListeners();
+        protected override Protocol AllocateProtocol(ushort protocolID)
+        {
+            return null;
         }
+
 
         private void RegisterListeners()
         {

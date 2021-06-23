@@ -49,14 +49,14 @@ namespace Dream.Network
         {
             base.Encode(buffer, pos);
 
-            this.Encode(this._result);
+            this.EncodeEnum(this._result);
         }
 
         public override void Decode(byte[] buffer, int pos)
         {
             base.Decode(buffer, pos);
 
-            this.Decode(ref this._result);
+            this.DecodeEnum(ref this._result);
         }
     }
 }

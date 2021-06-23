@@ -55,7 +55,7 @@ namespace Dream.Network
         {
             base.Encode(buffer, pos);
 
-            this.Encode(this._code);
+            this.EncodeEnum(this._code);
             this.Encode(this._text);
         }
 
@@ -63,7 +63,7 @@ namespace Dream.Network
         {
             base.Decode(buffer, pos);
 
-            this.Decode(ref this._code);
+            this.DecodeEnum(ref this._code);
             this.Decode(ref this._text);
         }
     }
