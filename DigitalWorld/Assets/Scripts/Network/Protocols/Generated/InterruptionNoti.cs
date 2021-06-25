@@ -8,19 +8,22 @@ namespace Dream.Network
     [ProtocolID(0xFF02)]
     public partial class InterruptionNoti : Protocol
     {
+        protected override int validByteSize => 0;
+
+        public override ushort id => 0xFF02;
+
         public InterruptionNoti()
         {
-            this._id = 0xFF02;
         }
 
         public override void OnAllocate()
         {
             base.OnAllocate();
-
         }
 
         public override void OnRecycle()
         {
+            base.OnRecycle();
 
         }
 
@@ -37,6 +40,12 @@ namespace Dream.Network
         public static InterruptionNoti Alloc()
         {
             return ObjectPool<InterruptionNoti>.Allocate();
+        }
+
+        protected override void CalculateValids()
+        {
+            base.CalculateValids();
+
         }
 
         public override void Encode(byte[] buffer, int pos)

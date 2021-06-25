@@ -8,6 +8,10 @@ namespace Dream.Network
     [ProtocolID(0xF001)]
     public partial class ErrorNoti : Protocol
     {
+        protected override int validByteSize => 1;
+
+        public override ushort id => 0xF001;
+
         private EnumErrorCode _code;
         /// <summary>
         /// 错误编码
@@ -20,20 +24,19 @@ namespace Dream.Network
         public string text { get { return _text; } set { _text = value; } }
         public ErrorNoti()
         {
-            this._id = 0xF001;
         }
 
         public override void OnAllocate()
         {
             base.OnAllocate();
-
-            _code = default(EnumErrorCode);
-            _text = default(string);
         }
 
         public override void OnRecycle()
         {
+            base.OnRecycle();
 
+            _code = default(EnumErrorCode);
+            _text = default(string);
         }
 
         public override Protocol Allocate()
@@ -51,20 +54,32 @@ namespace Dream.Network
             return ObjectPool<ErrorNoti>.Allocate();
         }
 
+        protected override void CalculateValids()
+        {
+            base.CalculateValids();
+
+            this.SetParamValid(0, this._code != default(EnumErrorCode));
+            this.SetParamValid(1, this._text != default(string));
+        }
+
         public override void Encode(byte[] buffer, int pos)
         {
             base.Encode(buffer, pos);
 
-            this.EncodeEnum(this._code);
-            this.Encode(this._text);
+            if (this.CheckIsParamValid(0))
+                this.EncodeEnum(this._code);
+            if (this.CheckIsParamValid(1))
+                this.Encode(this._text);
         }
 
         public override void Decode(byte[] buffer, int pos)
         {
             base.Decode(buffer, pos);
 
-            this.DecodeEnum(ref this._code);
-            this.Decode(ref this._text);
+            if (this.CheckIsParamValid(0))
+                this.DecodeEnum(ref this._code);
+            if (this.CheckIsParamValid(1))
+                this.Decode(ref this._text);
         }
     }
 }

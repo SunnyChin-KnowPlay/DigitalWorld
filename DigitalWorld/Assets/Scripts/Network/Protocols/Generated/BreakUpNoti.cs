@@ -8,19 +8,22 @@ namespace Dream.Network
     [ProtocolID(0xFF01)]
     public partial class BreakUpNoti : Protocol
     {
+        protected override int validByteSize => 0;
+
+        public override ushort id => 0xFF01;
+
         public BreakUpNoti()
         {
-            this._id = 0xFF01;
         }
 
         public override void OnAllocate()
         {
             base.OnAllocate();
-
         }
 
         public override void OnRecycle()
         {
+            base.OnRecycle();
 
         }
 
@@ -37,6 +40,12 @@ namespace Dream.Network
         public static BreakUpNoti Alloc()
         {
             return ObjectPool<BreakUpNoti>.Allocate();
+        }
+
+        protected override void CalculateValids()
+        {
+            base.CalculateValids();
+
         }
 
         public override void Encode(byte[] buffer, int pos)

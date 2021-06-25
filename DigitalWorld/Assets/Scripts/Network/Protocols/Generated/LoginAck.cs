@@ -8,6 +8,10 @@ namespace Dream.Network
     [ProtocolID(0x0011)]
     public partial class LoginAck : Protocol
     {
+        protected override int validByteSize => 1;
+
+        public override ushort id => 0x0011;
+
         private string _account;
         /// <summary>
         /// 账号
@@ -18,22 +22,27 @@ namespace Dream.Network
         /// 密码md5
         /// </summary>
         public string password { get { return _password; } set { _password = value; } }
+        private ErrorNoti _error;
+        /// <summary>
+        /// 错误
+        /// </summary>
+        public ErrorNoti error { get { return _error; } set { _error = value; } }
         public LoginAck()
         {
-            this._id = 0x0011;
         }
 
         public override void OnAllocate()
         {
             base.OnAllocate();
-
-            _account = default(string);
-            _password = default(string);
         }
 
         public override void OnRecycle()
         {
+            base.OnRecycle();
 
+            _account = default(string);
+            _password = default(string);
+            _error = default(ErrorNoti);
         }
 
         public override Protocol Allocate()
@@ -51,20 +60,37 @@ namespace Dream.Network
             return ObjectPool<LoginAck>.Allocate();
         }
 
+        protected override void CalculateValids()
+        {
+            base.CalculateValids();
+
+            this.SetParamValid(0, this._account != default(string));
+            this.SetParamValid(1, this._password != default(string));
+            this.SetParamValid(2, this._error != default(ErrorNoti));
+        }
+
         public override void Encode(byte[] buffer, int pos)
         {
             base.Encode(buffer, pos);
 
-            this.Encode(this._account);
-            this.Encode(this._password);
+            if (this.CheckIsParamValid(0))
+                this.Encode(this._account);
+            if (this.CheckIsParamValid(1))
+                this.Encode(this._password);
+            if (this.CheckIsParamValid(2))
+                this.Encode(this._error);
         }
 
         public override void Decode(byte[] buffer, int pos)
         {
             base.Decode(buffer, pos);
 
-            this.Decode(ref this._account);
-            this.Decode(ref this._password);
+            if (this.CheckIsParamValid(0))
+                this.Decode(ref this._account);
+            if (this.CheckIsParamValid(1))
+                this.Decode(ref this._password);
+            if (this.CheckIsParamValid(2))
+                this.Decode(ref this._error);
         }
     }
 }

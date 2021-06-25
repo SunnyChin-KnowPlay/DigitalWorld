@@ -8,6 +8,10 @@ namespace Dream.Network
     [ProtocolID(0xFF03)]
     public partial class ConnectResultNoti : Protocol
     {
+        protected override int validByteSize => 1;
+
+        public override ushort id => 0xFF03;
+
         private EnumConnectResult _result;
         /// <summary>
         /// 结果
@@ -15,19 +19,18 @@ namespace Dream.Network
         public EnumConnectResult result { get { return _result; } set { _result = value; } }
         public ConnectResultNoti()
         {
-            this._id = 0xFF03;
         }
 
         public override void OnAllocate()
         {
             base.OnAllocate();
-
-            _result = default(EnumConnectResult);
         }
 
         public override void OnRecycle()
         {
+            base.OnRecycle();
 
+            _result = default(EnumConnectResult);
         }
 
         public override Protocol Allocate()
@@ -45,18 +48,27 @@ namespace Dream.Network
             return ObjectPool<ConnectResultNoti>.Allocate();
         }
 
+        protected override void CalculateValids()
+        {
+            base.CalculateValids();
+
+            this.SetParamValid(0, this._result != default(EnumConnectResult));
+        }
+
         public override void Encode(byte[] buffer, int pos)
         {
             base.Encode(buffer, pos);
 
-            this.EncodeEnum(this._result);
+            if (this.CheckIsParamValid(0))
+                this.EncodeEnum(this._result);
         }
 
         public override void Decode(byte[] buffer, int pos)
         {
             base.Decode(buffer, pos);
 
-            this.DecodeEnum(ref this._result);
+            if (this.CheckIsParamValid(0))
+                this.DecodeEnum(ref this._result);
         }
     }
 }

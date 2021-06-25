@@ -8,6 +8,10 @@ namespace Dream.Network
     [ProtocolID(0x0010)]
     public partial class LoginReq : Protocol
     {
+        protected override int validByteSize => 1;
+
+        public override ushort id => 0x0010;
+
         private string _account;
         /// <summary>
         /// 账号
@@ -20,20 +24,19 @@ namespace Dream.Network
         public string password { get { return _password; } set { _password = value; } }
         public LoginReq()
         {
-            this._id = 0x0010;
         }
 
         public override void OnAllocate()
         {
             base.OnAllocate();
-
-            _account = default(string);
-            _password = default(string);
         }
 
         public override void OnRecycle()
         {
+            base.OnRecycle();
 
+            _account = default(string);
+            _password = default(string);
         }
 
         public override Protocol Allocate()
@@ -51,20 +54,32 @@ namespace Dream.Network
             return ObjectPool<LoginReq>.Allocate();
         }
 
+        protected override void CalculateValids()
+        {
+            base.CalculateValids();
+
+            this.SetParamValid(0, this._account != default(string));
+            this.SetParamValid(1, this._password != default(string));
+        }
+
         public override void Encode(byte[] buffer, int pos)
         {
             base.Encode(buffer, pos);
 
-            this.Encode(this._account);
-            this.Encode(this._password);
+            if (this.CheckIsParamValid(0))
+                this.Encode(this._account);
+            if (this.CheckIsParamValid(1))
+                this.Encode(this._password);
         }
 
         public override void Decode(byte[] buffer, int pos)
         {
             base.Decode(buffer, pos);
 
-            this.Decode(ref this._account);
-            this.Decode(ref this._password);
+            if (this.CheckIsParamValid(0))
+                this.Decode(ref this._account);
+            if (this.CheckIsParamValid(1))
+                this.Decode(ref this._password);
         }
     }
 }
