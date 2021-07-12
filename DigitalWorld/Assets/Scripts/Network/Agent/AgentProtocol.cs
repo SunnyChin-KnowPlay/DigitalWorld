@@ -14,7 +14,7 @@ namespace DigitalWorld.Net
 
         private void RegisterListeners()
         {
-            this.SetProtocolListener<BreakUpNoti>(OnProcessBreakUpNoti);
+            //this.SetProtocolListener<BreakUpNoti>(OnProcessBreakUpNoti);
         }
 
         private void OnProcessBreakUpNoti(Protocol p)
