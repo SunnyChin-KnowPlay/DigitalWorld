@@ -12,21 +12,11 @@ namespace Dream.Network
 
         public override ushort Id => 0x0011;
 
-        private string _account;
-        /// <summary>
-        /// 账号
-        /// </summary>
-        public string account { get { return _account; } set { _account = value; } }
-        private string _password;
-        /// <summary>
-        /// 密码md5
-        /// </summary>
-        public string password { get { return _password; } set { _password = value; } }
-        private ErrorNoti _error;
+        private ErrorNoti _result;
         /// <summary>
         /// 错误
         /// </summary>
-        public ErrorNoti error { get { return _error; } set { _error = value; } }
+        public ErrorNoti result { get { return _result; } set { _result = value; } }
         public LoginAck()
         {
         }
@@ -40,9 +30,7 @@ namespace Dream.Network
         {
             base.OnRecycle();
 
-            _account = default(string);
-            _password = default(string);
-            _error = default(ErrorNoti);
+            _result = default(ErrorNoti);
         }
 
         public override Protocol Allocate()
@@ -64,9 +52,7 @@ namespace Dream.Network
         {
             base.CalculateValids();
 
-            this.SetParamValid(0, this._account != default(string));
-            this.SetParamValid(1, this._password != default(string));
-            this.SetParamValid(2, this._error != default(ErrorNoti));
+            this.SetParamValid(0, this._result != default(ErrorNoti));
         }
 
         public override void Encode(byte[] buffer, int pos)
@@ -74,11 +60,7 @@ namespace Dream.Network
             base.Encode(buffer, pos);
 
             if (this.CheckIsParamValid(0))
-                this.Encode(this._account);
-            if (this.CheckIsParamValid(1))
-                this.Encode(this._password);
-            if (this.CheckIsParamValid(2))
-                this.Encode(this._error);
+                this.Encode(this._result);
         }
 
         public override void Decode(byte[] buffer, int pos)
@@ -86,11 +68,7 @@ namespace Dream.Network
             base.Decode(buffer, pos);
 
             if (this.CheckIsParamValid(0))
-                this.Decode(ref this._account);
-            if (this.CheckIsParamValid(1))
-                this.Decode(ref this._password);
-            if (this.CheckIsParamValid(2))
-                this.Decode(ref this._error);
+                this.Decode(ref this._result);
         }
     }
 }
