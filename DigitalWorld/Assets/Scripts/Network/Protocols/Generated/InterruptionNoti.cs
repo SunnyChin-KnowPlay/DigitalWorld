@@ -8,9 +8,9 @@ namespace Dream.Network
     [ProtocolID(0xFF02)]
     public partial class InterruptionNoti : Protocol
     {
-        protected override int validByteSize => 0;
+        protected override int ValidByteSize => 0;
 
-        public override ushort id => 0xFF02;
+        public override ushort Id => 0xFF02;
 
         public InterruptionNoti()
         {

@@ -8,9 +8,9 @@ namespace Dream.Network
     [ProtocolID(0xFF01)]
     public partial class BreakUpNoti : Protocol
     {
-        protected override int validByteSize => 0;
+        protected override int ValidByteSize => 0;
 
-        public override ushort id => 0xFF01;
+        public override ushort Id => 0xFF01;
 
         public BreakUpNoti()
         {

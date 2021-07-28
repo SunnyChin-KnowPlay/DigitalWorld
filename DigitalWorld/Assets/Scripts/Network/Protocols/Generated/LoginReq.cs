@@ -8,9 +8,9 @@ namespace Dream.Network
     [ProtocolID(0x0010)]
     public partial class LoginReq : Protocol
     {
-        protected override int validByteSize => 1;
+        protected override int ValidByteSize => 1;
 
-        public override ushort id => 0x0010;
+        public override ushort Id => 0x0010;
 
         private string _account;
         /// <summary>

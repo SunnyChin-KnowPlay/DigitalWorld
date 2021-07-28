@@ -8,9 +8,9 @@ namespace Dream.Network
     [ProtocolID(0xF001)]
     public partial class ErrorNoti : Protocol
     {
-        protected override int validByteSize => 1;
+        protected override int ValidByteSize => 1;
 
-        public override ushort id => 0xF001;
+        public override ushort Id => 0xF001;
 
         private EnumErrorCode _code;
         /// <summary>

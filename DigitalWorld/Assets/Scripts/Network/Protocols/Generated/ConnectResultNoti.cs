@@ -8,9 +8,9 @@ namespace Dream.Network
     [ProtocolID(0xFF03)]
     public partial class ConnectResultNoti : Protocol
     {
-        protected override int validByteSize => 1;
+        protected override int ValidByteSize => 1;
 
-        public override ushort id => 0xFF03;
+        public override ushort Id => 0xFF03;
 
         private EnumConnectResult _result;
         /// <summary>
