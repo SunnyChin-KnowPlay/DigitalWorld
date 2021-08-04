@@ -1,5 +1,6 @@
 ﻿using Dream.Core;
 using Dream.Network;
+using Dream.Proto;
 
 namespace DigitalWorld.Net
 {

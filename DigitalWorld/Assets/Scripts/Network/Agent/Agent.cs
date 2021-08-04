@@ -1,4 +1,5 @@
-﻿using Dream.Core;
+﻿using DigitalWorld.Proto.Common;
+using Dream.Core;
 using Dream.Network;
 using System.Net.Sockets;
 
