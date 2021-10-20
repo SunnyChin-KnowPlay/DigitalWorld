@@ -95,17 +95,12 @@ namespace DigitalWorld.Proto.Common
 
         public override Protocol Allocate()
         {
-            return ObjectPool<LoginReq>.Allocate();
-        }
-
-        public override void Recycle()
-        {
-            ObjectPool<LoginReq>.Recycle(this);
+            return ObjectPool<LoginReq>.Instance.Allocate();
         }
 
         public static LoginReq Alloc()
         {
-            return ObjectPool<LoginReq>.Allocate();
+            return ObjectPool<LoginReq>.Instance.Allocate();
         }
 
         protected override void CalculateValids()
@@ -170,17 +165,12 @@ namespace DigitalWorld.Proto.Common
 
         public override Protocol Allocate()
         {
-            return ObjectPool<LoginAck>.Allocate();
-        }
-
-        public override void Recycle()
-        {
-            ObjectPool<LoginAck>.Recycle(this);
+            return ObjectPool<LoginAck>.Instance.Allocate();
         }
 
         public static LoginAck Alloc()
         {
-            return ObjectPool<LoginAck>.Allocate();
+            return ObjectPool<LoginAck>.Instance.Allocate();
         }
 
         protected override void CalculateValids()
@@ -246,17 +236,12 @@ namespace DigitalWorld.Proto.Common
 
         public override Protocol Allocate()
         {
-            return ObjectPool<ErrorNoti>.Allocate();
-        }
-
-        public override void Recycle()
-        {
-            ObjectPool<ErrorNoti>.Recycle(this);
+            return ObjectPool<ErrorNoti>.Instance.Allocate();
         }
 
         public static ErrorNoti Alloc()
         {
-            return ObjectPool<ErrorNoti>.Allocate();
+            return ObjectPool<ErrorNoti>.Instance.Allocate();
         }
 
         protected override void CalculateValids()
@@ -315,17 +300,12 @@ namespace DigitalWorld.Proto.Common
 
         public override Protocol Allocate()
         {
-            return ObjectPool<BreakUpNoti>.Allocate();
-        }
-
-        public override void Recycle()
-        {
-            ObjectPool<BreakUpNoti>.Recycle(this);
+            return ObjectPool<BreakUpNoti>.Instance.Allocate();
         }
 
         public static BreakUpNoti Alloc()
         {
-            return ObjectPool<BreakUpNoti>.Allocate();
+            return ObjectPool<BreakUpNoti>.Instance.Allocate();
         }
 
         protected override void CalculateValids()
@@ -374,17 +354,12 @@ namespace DigitalWorld.Proto.Common
 
         public override Protocol Allocate()
         {
-            return ObjectPool<InterruptionNoti>.Allocate();
-        }
-
-        public override void Recycle()
-        {
-            ObjectPool<InterruptionNoti>.Recycle(this);
+            return ObjectPool<InterruptionNoti>.Instance.Allocate();
         }
 
         public static InterruptionNoti Alloc()
         {
-            return ObjectPool<InterruptionNoti>.Allocate();
+            return ObjectPool<InterruptionNoti>.Instance.Allocate();
         }
 
         protected override void CalculateValids()
@@ -439,17 +414,12 @@ namespace DigitalWorld.Proto.Common
 
         public override Protocol Allocate()
         {
-            return ObjectPool<ConnectResultNoti>.Allocate();
-        }
-
-        public override void Recycle()
-        {
-            ObjectPool<ConnectResultNoti>.Recycle(this);
+            return ObjectPool<ConnectResultNoti>.Instance.Allocate();
         }
 
         public static ConnectResultNoti Alloc()
         {
-            return ObjectPool<ConnectResultNoti>.Allocate();
+            return ObjectPool<ConnectResultNoti>.Instance.Allocate();
         }
 
         protected override void CalculateValids()

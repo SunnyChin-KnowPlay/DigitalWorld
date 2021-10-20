@@ -18,12 +18,6 @@ namespace DigitalWorld.Net
             }
         }
 
-        public override void Recycle()
-        {
-            ObjectPool<Agent>.Recycle(this);
-        }
-
-
         protected override void OnBreakup(object sender, SocketAsyncEventArgs e)
         {
             BreakUpNoti noti = BreakUpNoti.Alloc();
