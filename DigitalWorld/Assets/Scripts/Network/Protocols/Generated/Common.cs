@@ -60,7 +60,7 @@ namespace DigitalWorld.Proto.Common
     /// 登录请求
     /// </summary>
     [ProtocolID(0x0010)]
-    public partial class LoginReq : Protocol
+    public partial class ReqLogin : Protocol
     {
         protected override int ValidByteSize => 1;
 
@@ -76,7 +76,7 @@ namespace DigitalWorld.Proto.Common
         /// 密码md5
         /// </summary>
         public string password { get { return _password; } set { _password = value; } }
-        public LoginReq()
+        public ReqLogin()
         {
         }
 
@@ -95,12 +95,12 @@ namespace DigitalWorld.Proto.Common
 
         public override Protocol Allocate()
         {
-            return ObjectPool<LoginReq>.Instance.Allocate();
+            return ObjectPool<ReqLogin>.Instance.Allocate();
         }
 
-        public static LoginReq Alloc()
+        public static ReqLogin Alloc()
         {
-            return ObjectPool<LoginReq>.Instance.Allocate();
+            return ObjectPool<ReqLogin>.Instance.Allocate();
         }
 
         protected override void CalculateValids()
@@ -136,18 +136,18 @@ namespace DigitalWorld.Proto.Common
     /// 登录响应
     /// </summary>
     [ProtocolID(0x0011)]
-    public partial class LoginAck : Protocol
+    public partial class AckLogin : Protocol
     {
         protected override int ValidByteSize => 1;
 
         public override ushort Id => 0x0011;
 
-        private ErrorNoti _result;
+        private NotiError _result;
         /// <summary>
-        /// 错误
+        /// 结果
         /// </summary>
-        public ErrorNoti result { get { return _result; } set { _result = value; } }
-        public LoginAck()
+        public NotiError result { get { return _result; } set { _result = value; } }
+        public AckLogin()
         {
         }
 
@@ -160,24 +160,24 @@ namespace DigitalWorld.Proto.Common
         {
             base.OnRecycle();
 
-            _result = default(ErrorNoti);
+            _result = default(NotiError);
         }
 
         public override Protocol Allocate()
         {
-            return ObjectPool<LoginAck>.Instance.Allocate();
+            return ObjectPool<AckLogin>.Instance.Allocate();
         }
 
-        public static LoginAck Alloc()
+        public static AckLogin Alloc()
         {
-            return ObjectPool<LoginAck>.Instance.Allocate();
+            return ObjectPool<AckLogin>.Instance.Allocate();
         }
 
         protected override void CalculateValids()
         {
             base.CalculateValids();
 
-            this.SetParamValid(0, this._result != default(ErrorNoti));
+            this.SetParamValid(0, this._result != default(NotiError));
         }
 
         public override void Encode(byte[] buffer, int pos)
@@ -201,7 +201,7 @@ namespace DigitalWorld.Proto.Common
     /// 错误通知
     /// </summary>
     [ProtocolID(0xF001)]
-    public partial class ErrorNoti : Protocol
+    public partial class NotiError : Protocol
     {
         protected override int ValidByteSize => 1;
 
@@ -217,7 +217,7 @@ namespace DigitalWorld.Proto.Common
         /// 提示文本
         /// </summary>
         public string text { get { return _text; } set { _text = value; } }
-        public ErrorNoti()
+        public NotiError()
         {
         }
 
@@ -236,12 +236,12 @@ namespace DigitalWorld.Proto.Common
 
         public override Protocol Allocate()
         {
-            return ObjectPool<ErrorNoti>.Instance.Allocate();
+            return ObjectPool<NotiError>.Instance.Allocate();
         }
 
-        public static ErrorNoti Alloc()
+        public static NotiError Alloc()
         {
-            return ObjectPool<ErrorNoti>.Instance.Allocate();
+            return ObjectPool<NotiError>.Instance.Allocate();
         }
 
         protected override void CalculateValids()
@@ -277,13 +277,13 @@ namespace DigitalWorld.Proto.Common
     /// 正常分手断链
     /// </summary>
     [ProtocolID(0xFF01)]
-    public partial class BreakUpNoti : Protocol
+    public partial class NotiBreakUp : Protocol
     {
         protected override int ValidByteSize => 0;
 
         public override ushort Id => 0xFF01;
 
-        public BreakUpNoti()
+        public NotiBreakUp()
         {
         }
 
@@ -300,12 +300,12 @@ namespace DigitalWorld.Proto.Common
 
         public override Protocol Allocate()
         {
-            return ObjectPool<BreakUpNoti>.Instance.Allocate();
+            return ObjectPool<NotiBreakUp>.Instance.Allocate();
         }
 
-        public static BreakUpNoti Alloc()
+        public static NotiBreakUp Alloc()
         {
-            return ObjectPool<BreakUpNoti>.Instance.Allocate();
+            return ObjectPool<NotiBreakUp>.Instance.Allocate();
         }
 
         protected override void CalculateValids()
@@ -331,13 +331,13 @@ namespace DigitalWorld.Proto.Common
     /// 链接异常断开
     /// </summary>
     [ProtocolID(0xFF02)]
-    public partial class InterruptionNoti : Protocol
+    public partial class NotiInterruption : Protocol
     {
         protected override int ValidByteSize => 0;
 
         public override ushort Id => 0xFF02;
 
-        public InterruptionNoti()
+        public NotiInterruption()
         {
         }
 
@@ -354,12 +354,12 @@ namespace DigitalWorld.Proto.Common
 
         public override Protocol Allocate()
         {
-            return ObjectPool<InterruptionNoti>.Instance.Allocate();
+            return ObjectPool<NotiInterruption>.Instance.Allocate();
         }
 
-        public static InterruptionNoti Alloc()
+        public static NotiInterruption Alloc()
         {
-            return ObjectPool<InterruptionNoti>.Instance.Allocate();
+            return ObjectPool<NotiInterruption>.Instance.Allocate();
         }
 
         protected override void CalculateValids()
@@ -385,7 +385,7 @@ namespace DigitalWorld.Proto.Common
     /// 链接远端结果通知
     /// </summary>
     [ProtocolID(0xFF03)]
-    public partial class ConnectResultNoti : Protocol
+    public partial class NotiConnectResult : Protocol
     {
         protected override int ValidByteSize => 1;
 
@@ -396,7 +396,7 @@ namespace DigitalWorld.Proto.Common
         /// 结果
         /// </summary>
         public EnumConnectResult result { get { return _result; } set { _result = value; } }
-        public ConnectResultNoti()
+        public NotiConnectResult()
         {
         }
 
@@ -414,12 +414,12 @@ namespace DigitalWorld.Proto.Common
 
         public override Protocol Allocate()
         {
-            return ObjectPool<ConnectResultNoti>.Instance.Allocate();
+            return ObjectPool<NotiConnectResult>.Instance.Allocate();
         }
 
-        public static ConnectResultNoti Alloc()
+        public static NotiConnectResult Alloc()
         {
-            return ObjectPool<ConnectResultNoti>.Instance.Allocate();
+            return ObjectPool<NotiConnectResult>.Instance.Allocate();
         }
 
         protected override void CalculateValids()
