@@ -20,13 +20,13 @@ namespace DigitalWorld.Net
 
         protected override void OnBreakup(object sender, SocketAsyncEventArgs e)
         {
-            BreakUpNoti noti = BreakUpNoti.Alloc();
+            NotiBreakUp noti = NotiBreakUp.Alloc();
             this.PushProtocol(noti);
         }
 
         protected override void OnInterruption(object sender, SocketAsyncEventArgs e)
         {
-            InterruptionNoti noti = InterruptionNoti.Alloc();
+            NotiInterruption noti = NotiInterruption.Alloc();
             this.PushProtocol(noti);
         }
     }

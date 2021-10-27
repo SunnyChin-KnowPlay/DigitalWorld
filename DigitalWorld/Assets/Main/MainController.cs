@@ -1,25 +1,25 @@
 ﻿using DigitalWorld.Net;
+using DigitalWorld.UI;
 using Dream.Core;
 
 namespace DigitalWorld
 {
     public class MainController : DreamEngine.Singleton<MainController>
     {
-        private AgentManager _agentManager;
-
         protected override void Awake()
         {
             base.Awake();
 
-            this._agentManager = AgentManager.instance;
+            _ = AgentManager.Instance;
+            _ = UIManager.Instance;
         }
 
         private void OnApplicationQuit()
         {
-            if (null != _agentManager)
-            {
-
-            }
+            //if (null != _agentManager)
+            //{
+            //    AgentManager.DestroyInstance();
+            //}
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using DreamEngine;
+﻿using DigitalWorld.Proto.Common;
+using DreamEngine;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
@@ -20,6 +21,8 @@ namespace DigitalWorld.Net
         protected override void OnDestroy()
         {
             base.OnDestroy();
+
+            var ins = AgentManager.Instance;
 
             if (null != _connectSocket)
             {
@@ -55,16 +58,21 @@ namespace DigitalWorld.Net
 
         protected void OnConnect(object sender, SocketAsyncEventArgs e)
         {
-            //
-            if (e.SocketError == SocketError.Success || e.SocketError == SocketError.WouldBlock)
-            {
+            NotiConnectResult noti = NotiConnectResult.Alloc();
 
+
+            //
+            if (e.SocketError == SocketError.Success)
+            {
+                noti.result = EnumConnectResult.Success;
             }
             else
             {
+                noti.result = EnumConnectResult.Failed;
                 //OnInterruption(sender, e);
             }
-           
+
+
         }
         #endregion
 

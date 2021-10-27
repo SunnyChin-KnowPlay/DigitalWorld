@@ -4,55 +4,136 @@ namespace DreamEngine
 {
     public class Singleton<T> : MonoBehaviour where T : Singleton<T>
     {
-        #region Instance
-        private static T _instance = null;
-
-        public static T instance
+        public enum EnumState
         {
-            get { return _instance; }
+            None = 0,
+            /// <summary>
+            /// 释放中
+            /// </summary>
+            Destroying,
+            /// <summary>
+            /// 运行中
+            /// </summary>
+            Living,
         }
+
+        #region Params
+        private const string singletonRootName = "Singletons";
+        public static EnumState currentState = EnumState.None;
+        //private static EnumState _st = EDestroySt.E_DST_DESTROYED;
         #endregion
 
+        #region Instance
+        private static T instance = null;
+
+        public static T Instance
+        {
+            get => GetInstance();
+        }
+
+        private static GameObject RootObject
+        {
+            get
+            {
+                GameObject rootObj = GameObject.Find(singletonRootName);
+                if (null == rootObj)
+                {
+                    rootObj = new GameObject(singletonRootName);
+                    GameObject.DontDestroyOnLoad(rootObj);
+                }
+                return rootObj;
+            }
+        }
 
         /// <summary>
         /// 创建实例
         /// </summary>
         /// <returns></returns>
-        public static T CreateInstance()
+        public static T GetInstance()
         {
-            if (null != _instance)
-                return _instance;
+            if (null == instance && currentState == EnumState.None)
+            {
+                System.Type type = typeof(T);
 
-            System.Type type = typeof(T);
-            string name = string.Format("Singleton of {0}", type.Name);
-            GameObject go = new GameObject(name);
-            GameObject.DontDestroyOnLoad(go);
+                instance = FindObjectOfType(type) as T;
+                if (null == instance)
+                {
+                    string name = string.Format("Singleton of {0}", type.Name);
+                    GameObject go = new GameObject(name);
+                    instance = go.AddComponent<T>();
 
-            T com = go.AddComponent<T>();
-            return com;
+                    if (instance)
+                    {
+                        GameObject rootObj = RootObject;
+                        if (rootObj != null)
+                        {
+                            go.transform.SetParent(rootObj.transform);
+                        }
+
+                        currentState = EnumState.Living;
+                    }
+                    else
+                    {
+                        GameObject.Destroy(go);
+                    }
+                }
+                else
+                {
+                    currentState = EnumState.Living;
+                }
+            }
+
+            return instance;
         }
 
         public static void DestroyInstance()
         {
-            if (null != _instance)
+            if (null != instance && currentState == EnumState.Living)
             {
-                GameObject go = _instance.gameObject;
-#if UNITY_EDITOR
-                GameObject.DestroyImmediate(go);
-#else
-                GameObject.Destroy(go);
-#endif
+                currentState = EnumState.Destroying;
+                GameObject go = instance.gameObject;
+
+                if (Application.isPlaying)
+                {
+                    GameObject.Destroy(go);
+                }
+                else
+                {
+                    GameObject.DestroyImmediate(go);
+                }
+
+                currentState = EnumState.None;
             }
         }
+        #endregion
 
         protected virtual void Awake()
         {
-            _instance = this as T;
+            if (null != instance && instance.gameObject != this.gameObject)
+            {
+                if (Application.isPlaying)
+                {
+                    GameObject.Destroy(this.gameObject);
+                }
+                else
+                {
+                    GameObject.DestroyImmediate(this.gameObject);
+                }
+                return;
+            }
+
+            if (Application.isPlaying)
+            {
+                GameObject.DontDestroyOnLoad(gameObject);
+            }
         }
 
         protected virtual void OnDestroy()
         {
-            _instance = null;
+            if (null != instance && instance.gameObject == this.gameObject)
+            {
+                instance = null;
+            }
         }
     }
 
