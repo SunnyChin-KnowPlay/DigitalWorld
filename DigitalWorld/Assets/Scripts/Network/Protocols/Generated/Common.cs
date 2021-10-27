@@ -391,6 +391,11 @@ namespace DigitalWorld.Proto.Common
 
         public override ushort Id => 0xFF03;
 
+        private string _token;
+        /// <summary>
+        /// 口令
+        /// </summary>
+        public string token { get { return _token; } set { _token = value; } }
         private EnumConnectResult _result;
         /// <summary>
         /// 结果
@@ -409,6 +414,7 @@ namespace DigitalWorld.Proto.Common
         {
             base.OnRecycle();
 
+            _token = default(string);
             _result = default(EnumConnectResult);
         }
 
@@ -426,7 +432,8 @@ namespace DigitalWorld.Proto.Common
         {
             base.CalculateValids();
 
-            this.SetParamValid(0, this._result != default(EnumConnectResult));
+            this.SetParamValid(0, this._token != default(string));
+            this.SetParamValid(1, this._result != default(EnumConnectResult));
         }
 
         public override void Encode(byte[] buffer, int pos)
@@ -434,6 +441,8 @@ namespace DigitalWorld.Proto.Common
             base.Encode(buffer, pos);
 
             if (this.CheckIsParamValid(0))
+                this.Encode(this._token);
+            if (this.CheckIsParamValid(1))
                 this.EncodeEnum(this._result);
         }
 
@@ -442,6 +451,8 @@ namespace DigitalWorld.Proto.Common
             base.Decode(buffer, pos);
 
             if (this.CheckIsParamValid(0))
+                this.Decode(ref this._token);
+            if (this.CheckIsParamValid(1))
                 this.DecodeEnum(ref this._result);
         }
     }
