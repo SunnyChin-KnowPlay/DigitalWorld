@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using DigitalWorld.Asset;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace DigitalWorld.UI
@@ -9,9 +11,19 @@ namespace DigitalWorld.UI
         private EventSystem eventSystem = null;
         private Camera rootCamera = null;
 
+        /// <summary>
+        /// 所有的面板词典 面板都是唯一的
+        /// </summary>
+        private Dictionary<string, UIContainer> panels = new Dictionary<string, UIContainer>();
+
         protected override void Awake()
         {
             base.Awake();
+
+            if (null == panels)
+                panels = new Dictionary<string, UIContainer>();
+            else
+                panels.Clear();
 
             this.InitializeRoot();
             this.InitializeEventSystem();
@@ -21,6 +33,12 @@ namespace DigitalWorld.UI
         protected override void OnDestroy()
         {
             base.OnDestroy();
+
+            if (null != rootObject)
+            {
+                GameObject.Destroy(rootObject);
+                rootObject = null;
+            }
         }
 
         #region Initialize
@@ -51,6 +69,45 @@ namespace DigitalWorld.UI
             if (null != canvas)
             {
                 this.rootCamera = canvas.worldCamera;
+            }
+        }
+        #endregion
+
+        #region Container
+        private GameObject CreateContainer(string path)
+        {
+            GameObject gameObject = null;
+            string fullPath = path + ".prefab";
+            UnityEngine.Object target = AssetManager.Instance.LoadAsset<UnityEngine.Object>(fullPath);
+
+            if (null != target)
+            {
+                gameObject = (GameObject)UnityEngine.GameObject.Instantiate(target) as GameObject;
+            }
+            return gameObject;
+        }
+        #endregion
+
+        #region Panel
+       
+        #endregion
+
+        #region Utility
+        /// <summary>
+        /// 递归设置Transform及子节点的layer
+        /// </summary>
+        /// <param name="trans"></param>
+        /// <param name="layerMask"></param>
+        public static void SetLayerWithChildren(Transform trans, int layerMask)
+        {
+            if (layerMask < 0)
+            {
+                return;
+            }
+            trans.gameObject.layer = layerMask;
+            for (int i = 0; i < trans.childCount; ++i)
+            {
+                SetLayerWithChildren(trans.GetChild(i), layerMask);
             }
         }
         #endregion
