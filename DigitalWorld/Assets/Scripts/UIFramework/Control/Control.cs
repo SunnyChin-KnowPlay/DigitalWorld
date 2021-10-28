@@ -10,18 +10,18 @@ namespace DigitalWorld.UI
         /// <summary>
         /// 容器
         /// </summary>
-        protected UIContainer container;
+        protected Container container;
 
         protected virtual void Awake()
         {
-            this.container = this.GetComponent<UIContainer>();
+            this.container = this.GetComponent<Container>();
             if (null != container)
             {
-                this.BindUIWidgets();
+                this.BindWidgets();
             }
         }
 
-        protected virtual void BindUIWidgets()
+        protected virtual void BindWidgets()
         {
 
         }

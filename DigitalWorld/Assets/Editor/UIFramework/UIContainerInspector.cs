@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace DigitalWorld.UI.Editor
 {
-    [CustomEditor(typeof(UIContainer))]
-    public class UIContainerInspector : UnityEditor.Editor
+    [CustomEditor(typeof(Container))]
+    public class ContainerInspector : UnityEditor.Editor
     {
         private class ReorderableListItem
         {

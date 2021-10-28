@@ -12,16 +12,16 @@ namespace DigitalWorld.UI
         private Camera rootCamera = null;
 
         /// <summary>
-        /// 所有的面板词典 面板都是唯一的
+        /// 面板词典 面板都是唯一的
         /// </summary>
-        private Dictionary<string, UIContainer> panels = new Dictionary<string, UIContainer>();
+        private Dictionary<string, Container> panels = new Dictionary<string, Container>();
 
         protected override void Awake()
         {
             base.Awake();
 
             if (null == panels)
-                panels = new Dictionary<string, UIContainer>();
+                panels = new Dictionary<string, Container>();
             else
                 panels.Clear();
 
@@ -74,7 +74,7 @@ namespace DigitalWorld.UI
         #endregion
 
         #region Container
-        private GameObject CreateContainer(string path)
+        public GameObject CreateContainer(string path)
         {
             GameObject gameObject = null;
             string fullPath = path + ".prefab";
@@ -89,7 +89,35 @@ namespace DigitalWorld.UI
         #endregion
 
         #region Panel
-       
+        private Container GetPanel(string key)
+        {
+            this.panels.TryGetValue(key, out Container container);
+            return container;
+        }
+
+        public Container LoadPanel(string path)
+        {
+            Container container = this.GetPanel(path);
+            if (null != container)
+                return container;
+
+            GameObject go = this.CreateContainer(path);
+            if (null == go)
+                return null;
+
+            container = go.GetComponent<Container>();
+            if (null == container)
+            {
+                container = go.AddComponent<Container>();
+            }
+
+            if (null != container)
+            {
+                this.panels.Add(path, container);
+            }
+
+            return container;
+        }
         #endregion
 
         #region Utility

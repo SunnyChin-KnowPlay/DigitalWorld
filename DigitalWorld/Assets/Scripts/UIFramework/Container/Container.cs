@@ -4,17 +4,25 @@ using UnityEngine;
 
 namespace DigitalWorld.UI
 {
-    public class UIContainer : MonoBehaviour
+    public class Container : MonoBehaviour
     {
         [HideInInspector]
         public GameObject[] widgetObjects = new GameObject[0];
         [HideInInspector]
         public string[] widgetKeys = new string[0];
 
-        private Dictionary<string, GameObject> widgetDict = new Dictionary<string, GameObject>();
+        protected RectTransform rectTransform = null;
+        /// <summary>
+        /// RectTransform emmm....
+        /// </summary>
+        public RectTransform RectTransform { get => rectTransform; }
+
+        private Dictionary<string, GameObject> widgets = new Dictionary<string, GameObject>();
 
         protected virtual void Awake()
         {
+            rectTransform = this.GetComponent<RectTransform>();
+
             InitializeWidgets();
         }
 
@@ -22,11 +30,11 @@ namespace DigitalWorld.UI
         protected virtual void InitializeWidgets()
         {
             int length = widgetKeys.Length;
-            this.widgetDict.Clear();
+            this.widgets.Clear();
 
             for (int i = 0; i < length; ++i)
             {
-                this.widgetDict.Add(widgetKeys[i], widgetObjects[i]);
+                this.widgets.Add(widgetKeys[i], widgetObjects[i]);
             }
         }
         #endregion
@@ -35,7 +43,7 @@ namespace DigitalWorld.UI
         public T GetWidget<T>(string name) where T : Component
         {
             GameObject go = null;
-            this.widgetDict.TryGetValue(name, out go);
+            this.widgets.TryGetValue(name, out go);
             if (null == go)
                 return null;
 
@@ -45,7 +53,7 @@ namespace DigitalWorld.UI
         public GameObject GetObj(string name)
         {
             GameObject go = null;
-            this.widgetDict.TryGetValue(name, out go);
+            this.widgets.TryGetValue(name, out go);
 
             return go;
         }
