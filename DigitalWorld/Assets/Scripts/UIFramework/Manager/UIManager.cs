@@ -8,12 +8,16 @@ namespace DigitalWorld.UI
     public sealed class UIManager : MonoBehaviour
     {
         #region Params
-        private EventSystem eventSystem = null;
+        public EventSystem eventSystem = null;
+        public Camera uiCamera = null;
 
         /// <summary>
-        /// 面板词典 面板都是唯一的
+        /// 界面词典 界面有唯一性
+        /// key:界面路径
         /// </summary>
-        private Dictionary<string, Container> panels = new Dictionary<string, Container>();
+        private Dictionary<string, GameObject> panels = new Dictionary<string, GameObject>();
+
+        private Transform trans = null;
         #endregion
 
         #region Instance
@@ -77,6 +81,7 @@ namespace DigitalWorld.UI
         }
         #endregion
 
+        #region Behaviour
         private void Awake()
         {
             if (null != instance && instance.gameObject != this.gameObject)
@@ -92,13 +97,9 @@ namespace DigitalWorld.UI
                 return;
             }
 
-            if (null == panels)
-                panels = new Dictionary<string, Container>();
-            else
-                panels.Clear();
+            trans = this.GetComponent<Transform>();
 
-            this.InitializeEventSystem();
-            this.InitializeCanvases();
+            this.InitializePanels();
 
         }
 
@@ -106,74 +107,146 @@ namespace DigitalWorld.UI
         {
 
         }
-
-        #region Initialize
-
-
-        private void InitializeEventSystem()
-        {
-            eventSystem = this.GetComponentInChildren<EventSystem>(true);
-            if (null == eventSystem)
-            {
-                GameObject obj = new GameObject("EventSystem");
-                eventSystem = obj.AddComponent<EventSystem>();
-                obj.AddComponent<StandaloneInputModule>();
-                obj.transform.SetParent(this.transform);
-            }
-        }
-
-        private void InitializeCanvases()
-        {
-
-        }
         #endregion
 
-        #region Container
-        public GameObject CreateContainer(string path)
+        #region Initialize
+        private void InitializePanels()
+        {
+            if (null == panels)
+                panels = new Dictionary<string, GameObject>();
+            else
+                panels.Clear();
+        }
+
+        //private void InitializeCamera()
+        //{
+        //    Transform root = this.GetComponent<Transform>();
+        //    if (null != root)
+        //    {
+        //        Transform cameraTransform = root.Find("Camera");
+        //        if (null != cameraTransform)
+        //        {
+        //            this.uiCamera = cameraTransform.GetComponent<Camera>();
+        //        }
+        //    }
+        //}
+
+        //private void InitializeEventSystem()
+        //{
+        //    eventSystem = this.GetComponentInChildren<EventSystem>(true);
+        //    if (null == eventSystem)
+        //    {
+        //        GameObject obj = new GameObject("EventSystem");
+        //        eventSystem = obj.AddComponent<EventSystem>();
+        //        obj.AddComponent<StandaloneInputModule>();
+        //        obj.transform.SetParent(this.transform);
+        //    }
+        //}
+
+        #endregion
+
+        #region Panel
+        /// <summary>
+        /// 创建界面
+        /// </summary>
+        /// <param name="path">界面在资源文件夹下的路径</param>
+        /// <returns></returns>
+        public GameObject CreatePanel(string path)
         {
             GameObject gameObject = null;
-            string fullPath = path + ".prefab";
+            string fullPath = path;
             UnityEngine.Object target = AssetManager.Instance.LoadAsset<UnityEngine.Object>(fullPath);
 
             if (null != target)
             {
                 gameObject = (GameObject)UnityEngine.GameObject.Instantiate(target) as GameObject;
+                if (null != gameObject)
+                {
+                    gameObject.name = target.name;
+                }
             }
+
             return gameObject;
         }
-        #endregion
 
-        #region Panel
-        private Container GetPanel(string key)
+        private GameObject GetPanel(string path)
         {
-            this.panels.TryGetValue(key, out Container container);
-            return container;
+            this.panels.TryGetValue(path, out GameObject go);
+            return go;
         }
 
-        public Container LoadPanel(string path)
+        public GameObject LoadPanel(string path)
         {
-            Container container = this.GetPanel(path);
-            if (null != container)
-                return container;
-
-            GameObject go = this.CreateContainer(path);
+            GameObject go = GetPanel(path);
             if (null == go)
-                return null;
-
-            container = go.GetComponent<Container>();
-            if (null == container)
             {
-                container = go.AddComponent<Container>();
+                go = this.CreatePanel(path);
             }
 
-            if (null != container)
+            if (null != go)
             {
-                this.panels.Add(path, container);
+                this.panels.Add(path, go);
             }
 
-            return container;
+            return go;
+        }
+
+        private void SetupPanel(GameObject go)
+        {
+            go.transform.SetParent(trans, false);
+
+            Canvas canvas = go.GetComponent<Canvas>();
+            if (null != canvas)
+            {
+                canvas.worldCamera = this.uiCamera;
+            }
+        }
+
+        public void ShowPanel(string path)
+        {
+            GameObject go = this.LoadPanel(path);
+            if (null != go)
+            {
+                //go.transform.SetParent(trans, false);
+                go.SetActive(true);
+
+                SetupPanel(go);
+            }
+        }
+
+        public void ShowPanel<TControl>(string path) where TControl : PanelControl
+        {
+            GameObject go = this.LoadPanel(path);
+            if (null == go)
+                return;
+
+            PanelControl panel = go.GetComponent<PanelControl>();
+            if (null == panel)
+            {
+                go.AddComponent<TControl>();
+            }
+            else if (panel.GetType() != typeof(TControl))
+            {
+                GameObject.Destroy(panel);
+                go.AddComponent<TControl>();
+            }
+
+            go.SetActive(true);
+
+            SetupPanel(go);
+        }
+
+        public void HidePanel(string path)
+        {
+            GameObject go = this.GetPanel(path);
+            if (null != go)
+            {
+                go.SetActive(false);
+            }
         }
         #endregion
+
+
 
         #region Utility
         /// <summary>

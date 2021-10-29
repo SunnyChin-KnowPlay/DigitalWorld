@@ -1,5 +1,6 @@
 ﻿using DigitalWorld.Net;
 using DigitalWorld.UI;
+using DigitalWorld.UI.Logic;
 using Dream.Core;
 
 namespace DigitalWorld
@@ -11,7 +12,10 @@ namespace DigitalWorld
             base.Awake();
 
             _ = AgentManager.Instance;
-            _ = UIManager.Instance;
+            UIManager uiManager = UIManager.Instance;
+
+            uiManager.ShowPanel<LoginControl>(LoginControl.path);
+
         }
 
         private void OnApplicationQuit()

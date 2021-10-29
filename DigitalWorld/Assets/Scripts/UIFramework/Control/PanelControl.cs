@@ -3,27 +3,20 @@
 namespace DigitalWorld.UI
 {
     /// <summary>
-    /// 逻辑控制器
+    /// 界面控制器
     /// </summary>
-    public partial class Control : MonoBehaviour
+    public partial class PanelControl : Widget
     {
         /// <summary>
-        /// 容器
+        /// 画布 界面控制器必须拥有画布
         /// </summary>
-        protected Container container;
+        protected Canvas canvas;
 
-        protected virtual void Awake()
+        protected override void Awake()
         {
-            this.container = this.GetComponent<Container>();
-            if (null != container)
-            {
-                this.BindWidgets();
-            }
-        }
+            base.Awake();
 
-        protected virtual void BindWidgets()
-        {
-
+            canvas = this.GetComponent<Canvas>();
         }
 
         public void Show()
