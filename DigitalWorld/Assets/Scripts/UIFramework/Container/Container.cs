@@ -29,6 +29,9 @@ namespace DigitalWorld.UI
         #region Initialize
         protected virtual void InitializeWidgets()
         {
+            if (widgetKeys.Length != widgetObjects.Length)
+                return;
+
             int length = widgetKeys.Length;
             this.widgets.Clear();
 
@@ -42,8 +45,7 @@ namespace DigitalWorld.UI
         #region Get
         public T GetWidget<T>(string name) where T : Component
         {
-            GameObject go = null;
-            this.widgets.TryGetValue(name, out go);
+            this.widgets.TryGetValue(name, out GameObject go);
             if (null == go)
                 return null;
 
@@ -52,8 +54,7 @@ namespace DigitalWorld.UI
 
         public GameObject GetObj(string name)
         {
-            GameObject go = null;
-            this.widgets.TryGetValue(name, out go);
+            this.widgets.TryGetValue(name, out GameObject go);
 
             return go;
         }

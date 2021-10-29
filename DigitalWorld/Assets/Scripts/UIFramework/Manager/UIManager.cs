@@ -5,71 +5,126 @@ using UnityEngine.EventSystems;
 
 namespace DigitalWorld.UI
 {
-    public sealed class UIManager : DreamEngine.Singleton<UIManager>
+    public sealed class UIManager : MonoBehaviour
     {
-        private GameObject rootObject = null;
+        #region Params
         private EventSystem eventSystem = null;
-        private Camera rootCamera = null;
 
         /// <summary>
         /// 面板词典 面板都是唯一的
         /// </summary>
         private Dictionary<string, Container> panels = new Dictionary<string, Container>();
+        #endregion
 
-        protected override void Awake()
+        #region Instance
+        private static bool isDestroying = false;
+        private const string uiRootPath = "UI/Root/UIRoot";
+
+        private static UIManager instance = null;
+
+        public static UIManager Instance
         {
-            base.Awake();
+            get
+            {
+                if (null == instance && !isDestroying)
+                {
+                    GameObject obj = AssetManager.Instance.LoadAsset<GameObject>(uiRootPath);
+                    if (null != obj)
+                    {
+                        GameObject rootObj = GameObject.Instantiate(obj);
+                        if (null != rootObj)
+                        {
+                            instance = rootObj.GetComponent<UIManager>();
+                            if (null == instance)
+                            {
+                                instance = rootObj.AddComponent<UIManager>();
+                            }
+
+                            if (null != instance)
+                            {
+                                rootObj.name = "UIRoot";
+                                GameObject.DontDestroyOnLoad(rootObj);
+                            }
+                            else
+                            {
+                                GameObject.Destroy(rootObj);
+                            }
+                        }
+                    }
+                }
+                return instance;
+            }
+        }
+
+        public static void DestroyInstance()
+        {
+            if (null != instance && !isDestroying)
+            {
+                GameObject go = instance.gameObject;
+                isDestroying = true;
+
+                if (Application.isPlaying)
+                {
+                    GameObject.Destroy(go);
+                }
+                else
+                {
+                    GameObject.DestroyImmediate(go);
+                }
+                instance = null;
+                isDestroying = false;
+            }
+        }
+        #endregion
+
+        private void Awake()
+        {
+            if (null != instance && instance.gameObject != this.gameObject)
+            {
+                if (Application.isPlaying)
+                {
+                    GameObject.Destroy(this.gameObject);
+                }
+                else
+                {
+                    GameObject.DestroyImmediate(this.gameObject);
+                }
+                return;
+            }
 
             if (null == panels)
                 panels = new Dictionary<string, Container>();
             else
                 panels.Clear();
 
-            this.InitializeRoot();
             this.InitializeEventSystem();
-            this.InitializeCamera();
+            this.InitializeCanvases();
+
         }
 
-        protected override void OnDestroy()
+        private void OnDestroy()
         {
-            base.OnDestroy();
 
-            if (null != rootObject)
-            {
-                GameObject.Destroy(rootObject);
-                rootObject = null;
-            }
         }
 
         #region Initialize
-        private void InitializeRoot()
-        {
-            GameObject rootObj = Resources.Load("UI/Root/UIRoot") as GameObject;
 
-            rootObject = null != rootObj ? GameObject.Instantiate(rootObj) : new GameObject("UIRoot");
-            rootObj.name = "UIRoot";
-            GameObject.DontDestroyOnLoad(rootObject);
-        }
 
         private void InitializeEventSystem()
         {
-            eventSystem = rootObject.GetComponentInChildren<EventSystem>(true);
+            eventSystem = this.GetComponentInChildren<EventSystem>(true);
             if (null == eventSystem)
             {
                 GameObject obj = new GameObject("EventSystem");
                 eventSystem = obj.AddComponent<EventSystem>();
                 obj.AddComponent<StandaloneInputModule>();
-                obj.transform.SetParent(rootObject.transform);
+                obj.transform.SetParent(this.transform);
             }
         }
 
-        private void InitializeCamera()
+        private void InitializeCanvases()
         {
-            Canvas canvas = rootObject.GetComponent<Canvas>();
-            if (null != canvas)
-            {
-                this.rootCamera = canvas.worldCamera;
-            }
+
         }
         #endregion
 
