@@ -35,6 +35,13 @@ namespace DigitalWorld.UI
             this.gameObject.SetActive(false);
         }
 
+        #region Bind
+        protected override void BindWidgets()
+        {
+            base.BindWidgets();
+        }
+        #endregion
+
         #region Enable & Disable
         protected virtual void OnEnable()
         {
@@ -47,6 +54,6 @@ namespace DigitalWorld.UI
         }
         #endregion
 
-
+        
     }
 }

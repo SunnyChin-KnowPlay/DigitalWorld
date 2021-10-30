@@ -19,6 +19,21 @@ namespace DigitalWorld.UI.Logic
 
         }
 
+        #region Bind
+        protected override void BindWidgets()
+        {
+            base.BindWidgets();
+
+            accountInputField = this.GetComponent<InputField>("Root/AccountInputField");
+            passwordInputField = this.GetComponent<InputField>("Root/PasswordInputField");
+            loginButton = this.GetComponent<Button>("Root/LoginButton");
+
+            if (null != loginButton)
+            {
+                loginButton.onClick.AddListener(OnClickLogin);
+            }
+        }
+        #endregion
         //protected override void BindWidgets()
         //{
         //    base.BindWidgets();
@@ -36,7 +51,7 @@ namespace DigitalWorld.UI.Logic
         #region UI Event
         private void OnClickLogin()
         {
-
+            
         }
         #endregion
     }
