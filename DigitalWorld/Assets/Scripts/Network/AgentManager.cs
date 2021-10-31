@@ -171,7 +171,6 @@ namespace DigitalWorld.Net
             else
             {
                 noti.result = EnumConnectResult.Failed;
-                //OnInterruption(sender, e);
             }
 
             lock (((ICollection)this.protocols).SyncRoot)
@@ -186,6 +185,14 @@ namespace DigitalWorld.Net
         {
             this.agents.TryGetValue(token, out Agent ag);
             return ag;
+        }
+
+        public Agent LoginAgent
+        {
+            get
+            {
+                return this.GetAgent(TokenLogin);
+            }
         }
         #endregion
     }

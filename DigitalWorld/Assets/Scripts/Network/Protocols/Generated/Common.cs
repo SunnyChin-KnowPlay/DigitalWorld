@@ -64,7 +64,9 @@ namespace DigitalWorld.Proto.Common
     {
         protected override int ValidByteSize => 1;
 
-        public override ushort Id => 0x0010;
+        public const ushort protocolId = 0x0010;
+
+        public override ushort Id => protocolId;
 
         private string _account;
         /// <summary>
@@ -140,7 +142,9 @@ namespace DigitalWorld.Proto.Common
     {
         protected override int ValidByteSize => 1;
 
-        public override ushort Id => 0x0011;
+        public const ushort protocolId = 0x0011;
+
+        public override ushort Id => protocolId;
 
         private NotiError _result;
         /// <summary>
@@ -205,7 +209,9 @@ namespace DigitalWorld.Proto.Common
     {
         protected override int ValidByteSize => 1;
 
-        public override ushort Id => 0xF001;
+        public const ushort protocolId = 0xF001;
+
+        public override ushort Id => protocolId;
 
         private EnumErrorCode _code;
         /// <summary>
@@ -281,7 +287,9 @@ namespace DigitalWorld.Proto.Common
     {
         protected override int ValidByteSize => 0;
 
-        public override ushort Id => 0xFF01;
+        public const ushort protocolId = 0xFF01;
+
+        public override ushort Id => protocolId;
 
         public NotiBreakUp()
         {
@@ -335,7 +343,9 @@ namespace DigitalWorld.Proto.Common
     {
         protected override int ValidByteSize => 0;
 
-        public override ushort Id => 0xFF02;
+        public const ushort protocolId = 0xFF02;
+
+        public override ushort Id => protocolId;
 
         public NotiInterruption()
         {
@@ -389,7 +399,9 @@ namespace DigitalWorld.Proto.Common
     {
         protected override int ValidByteSize => 1;
 
-        public override ushort Id => 0xFF03;
+        public const ushort protocolId = 0xFF03;
+
+        public override ushort Id => protocolId;
 
         private string _token;
         /// <summary>
