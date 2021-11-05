@@ -96,6 +96,21 @@ namespace DigitalWorld.Net
                     Monitor.Exit(((ICollection)this.protocols).SyncRoot);
                 }
             }
+
+            if (Monitor.TryEnter(((ICollection)this.agents).SyncRoot))
+            {
+                try
+                {
+                    foreach (var kvp in agents)
+                    {
+                        kvp.Value.Update();
+                    }        
+                }
+                finally
+                {
+                    Monitor.Exit(((ICollection)this.agents).SyncRoot);
+                }
+            }
         }
 
         #region Listen

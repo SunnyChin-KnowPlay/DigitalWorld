@@ -18,6 +18,12 @@ namespace DigitalWorld.Net
             }
         }
 
+        public override void OnAllocate()
+        {
+            base.OnAllocate();
+            this._isSyncProcess = true;
+        }
+
         protected override void OnBreakup(object sender, SocketAsyncEventArgs e)
         {
             NotiBreakUp noti = NotiBreakUp.Alloc();

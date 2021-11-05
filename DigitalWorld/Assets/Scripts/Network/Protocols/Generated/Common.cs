@@ -1,62 +1,64 @@
 using Dream.Core;
 using Dream.Proto;
+using System;
+using System.Text;
 
 namespace DigitalWorld.Proto.Common
 {
-        	/// <summary>
+    /// <summary>
     /// 
     /// </summary>
     public enum EnumTest2 : int
     {
-  
+
         /// <summary>
         /// 
         /// </summary>
         First = 1,
-  
+
         /// <summary>
         /// 
         /// </summary>
         Second,
     }
-        	/// <summary>
+    /// <summary>
     /// 
     /// </summary>
     public enum EnumErrorCode : int
     {
-  
+
         /// <summary>
         /// 
         /// </summary>
         Success = 0,
-  
+
         /// <summary>
         /// 
         /// </summary>
         AccountErr,
-  
+
         /// <summary>
         /// 
         /// </summary>
         PasswordErr,
     }
-        	/// <summary>
+    /// <summary>
     /// 
     /// </summary>
     public enum EnumConnectResult : int
     {
-  
+
         /// <summary>
         /// 
         /// </summary>
         Success = 0,
-  
+
         /// <summary>
         /// 
         /// </summary>
         Failed = 1,
     }
-            /// <summary>
+    /// <summary>
     /// 登录请求
     /// </summary>
     [ProtocolID(0x0010)]
@@ -123,6 +125,14 @@ namespace DigitalWorld.Proto.Common
                 this.Encode(this._password);
         }
 
+        private void AssertOffsetAndLength(int offset, int length)
+        {
+            if (offset < 0 ||
+                offset >= _buffer.Length ||
+                offset + length > _buffer.Length)
+                throw new ArgumentOutOfRangeException();
+        }
+
         public override void Decode(byte[] buffer, int pos)
         {
             base.Decode(buffer, pos);
@@ -134,7 +144,7 @@ namespace DigitalWorld.Proto.Common
         }
     }
 
-            /// <summary>
+    /// <summary>
     /// 登录响应
     /// </summary>
     [ProtocolID(0x0011)]
@@ -201,7 +211,7 @@ namespace DigitalWorld.Proto.Common
         }
     }
 
-            /// <summary>
+    /// <summary>
     /// 错误通知
     /// </summary>
     [ProtocolID(0xF001)]
@@ -279,7 +289,7 @@ namespace DigitalWorld.Proto.Common
         }
     }
 
-            /// <summary>
+    /// <summary>
     /// 正常分手断链
     /// </summary>
     [ProtocolID(0xFF01)]
@@ -335,7 +345,7 @@ namespace DigitalWorld.Proto.Common
         }
     }
 
-            /// <summary>
+    /// <summary>
     /// 链接异常断开
     /// </summary>
     [ProtocolID(0xFF02)]
@@ -391,7 +401,7 @@ namespace DigitalWorld.Proto.Common
         }
     }
 
-            /// <summary>
+    /// <summary>
     /// 链接远端结果通知
     /// </summary>
     [ProtocolID(0xFF03)]
