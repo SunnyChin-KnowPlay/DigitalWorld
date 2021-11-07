@@ -8,7 +8,7 @@ namespace DigitalWorld.UI.Logic
 {
     public class LoginControl : PanelControl
     {
-        public const string path = "UI/Login/LoginPanel";
+        public const string path = "UI/Login/LoginPanel.prefab";
 
         #region Param
         private InputField accountInputField;

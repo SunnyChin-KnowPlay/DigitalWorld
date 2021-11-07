@@ -1,5 +1,6 @@
 ﻿using DigitalWorld.Asset;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -22,7 +23,7 @@ namespace DigitalWorld.UI
 
         #region Instance
         private static bool isDestroying = false;
-        private const string uiRootPath = "UI/Root/UIRoot";
+        private const string uiRootPath = "UI/Root/UIRoot.prefab";
 
         private static UIManager instance = null;
 
@@ -169,6 +170,24 @@ namespace DigitalWorld.UI
             return gameObject;
         }
 
+        public async Task<GameObject> CreatePanelAsync(string path)
+        {
+            GameObject gameObject = null;
+            string fullPath = path;
+            GameObject target = await AssetManager.Instance.LoadAssetAsync<UnityEngine.GameObject>(fullPath);
+
+            if (null != target)
+            {
+                gameObject = (GameObject)UnityEngine.GameObject.Instantiate(target) as GameObject;
+                if (null != gameObject)
+                {
+                    gameObject.name = target.name;
+                }
+            }
+
+            return gameObject;
+        }
+
         private GameObject GetPanel(string path)
         {
             this.panels.TryGetValue(path, out GameObject go);
@@ -181,6 +200,22 @@ namespace DigitalWorld.UI
             if (null == go)
             {
                 go = this.CreatePanel(path);
+            }
+
+            if (null != go)
+            {
+                this.panels.Add(path, go);
+            }
+
+            return go;
+        }
+
+        public async Task<GameObject> LoadPanelAsync(string path)
+        {
+            GameObject go = GetPanel(path);
+            if (null == go)
+            {
+                go = await this.CreatePanelAsync(path);
             }
 
             if (null != go)
@@ -212,6 +247,28 @@ namespace DigitalWorld.UI
 
                 SetupPanel(go);
             }
+        }
+
+        public async void ShowPanelAsync<TControl>(string path) where TControl : PanelControl
+        {
+            GameObject go = await this.LoadPanelAsync(path);
+            if (null == go)
+                return;
+
+            PanelControl panel = go.GetComponent<PanelControl>();
+            if (null == panel)
+            {
+                go.AddComponent<TControl>();
+            }
+            else if (panel.GetType() != typeof(TControl))
+            {
+                GameObject.Destroy(panel);
+                go.AddComponent<TControl>();
+            }
+
+            go.SetActive(true);
+
+            SetupPanel(go);
         }
 
         public void ShowPanel<TControl>(string path) where TControl : PanelControl
