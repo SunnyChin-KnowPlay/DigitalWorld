@@ -14,7 +14,9 @@ namespace DigitalWorld
             _ = AgentManager.Instance;
             UIManager uiManager = UIManager.Instance;
 
-            uiManager.ShowPanel<LoginControl>(LoginControl.path);
+            uiManager.ShowPanelAsync<LoginControl>(LoginControl.path);
+
+            //uiManager.ShowPanel<LoginControl>(LoginControl.path);
 
         }
 
