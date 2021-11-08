@@ -1,64 +1,62 @@
 using Dream.Core;
 using Dream.Proto;
-using System;
-using System.Text;
 
 namespace DigitalWorld.Proto.Common
 {
-    /// <summary>
+        	/// <summary>
     /// 
     /// </summary>
-    public enum EnumTest2 : int
+    public enum EnumLoginResult : int
     {
-
-        /// <summary>
-        /// 
-        /// </summary>
-        First = 1,
-
-        /// <summary>
-        /// 
-        /// </summary>
-        Second,
-    }
-    /// <summary>
-    /// 
-    /// </summary>
-    public enum EnumErrorCode : int
-    {
-
+  
         /// <summary>
         /// 
         /// </summary>
         Success = 0,
-
+  
+        /// <summary>
+        /// 
+        /// </summary>
+        NoUser = 1,
+    }
+        	/// <summary>
+    /// 
+    /// </summary>
+    public enum EnumErrorCode : int
+    {
+  
+        /// <summary>
+        /// 
+        /// </summary>
+        Success = 0,
+  
         /// <summary>
         /// 
         /// </summary>
         AccountErr,
-
+  
         /// <summary>
         /// 
         /// </summary>
         PasswordErr,
     }
-    /// <summary>
+        	/// <summary>
     /// 
     /// </summary>
     public enum EnumConnectResult : int
     {
-
+  
         /// <summary>
         /// 
         /// </summary>
         Success = 0,
-
+  
         /// <summary>
         /// 
         /// </summary>
         Failed = 1,
     }
-    /// <summary>
+            /// <summary>
     /// 登录请求
     /// </summary>
     [ProtocolID(0x0010)]
@@ -125,14 +123,6 @@ namespace DigitalWorld.Proto.Common
                 this.Encode(this._password);
         }
 
-        private void AssertOffsetAndLength(int offset, int length)
-        {
-            if (offset < 0 ||
-                offset >= _buffer.Length ||
-                offset + length > _buffer.Length)
-                throw new ArgumentOutOfRangeException();
-        }
-
         public override void Decode(byte[] buffer, int pos)
         {
             base.Decode(buffer, pos);
@@ -144,7 +134,7 @@ namespace DigitalWorld.Proto.Common
         }
     }
 
-    /// <summary>
+            /// <summary>
     /// 登录响应
     /// </summary>
     [ProtocolID(0x0011)]
@@ -156,11 +146,21 @@ namespace DigitalWorld.Proto.Common
 
         public override ushort Id => protocolId;
 
-        private NotiError _result;
+        private string _userId;
+        /// <summary>
+        /// 用户ID，仅在拥有角色的情况下才有意义
+        /// </summary>
+        public string userId { get { return _userId; } set { _userId = value; } }
+        private string _token;
+        /// <summary>
+        /// 动态口令
+        /// </summary>
+        public string token { get { return _token; } set { _token = value; } }
+        private EnumLoginResult _result;
         /// <summary>
         /// 结果
         /// </summary>
-        public NotiError result { get { return _result; } set { _result = value; } }
+        public EnumLoginResult result { get { return _result; } set { _result = value; } }
         public AckLogin()
         {
         }
@@ -174,7 +174,9 @@ namespace DigitalWorld.Proto.Common
         {
             base.OnRecycle();
 
-            _result = default(NotiError);
+            _userId = default(string);
+            _token = default(string);
+            _result = default(EnumLoginResult);
         }
 
         public override Protocol Allocate()
@@ -191,7 +193,9 @@ namespace DigitalWorld.Proto.Common
         {
             base.CalculateValids();
 
-            this.SetParamValid(0, this._result != default(NotiError));
+            this.SetParamValid(0, this._userId != default(string));
+            this.SetParamValid(1, this._token != default(string));
+            this.SetParamValid(2, this._result != default(EnumLoginResult));
         }
 
         public override void Encode(byte[] buffer, int pos)
@@ -199,7 +203,11 @@ namespace DigitalWorld.Proto.Common
             base.Encode(buffer, pos);
 
             if (this.CheckIsParamValid(0))
-                this.Encode(this._result);
+                this.Encode(this._userId);
+            if (this.CheckIsParamValid(1))
+                this.Encode(this._token);
+            if (this.CheckIsParamValid(2))
+                this.EncodeEnum(this._result);
         }
 
         public override void Decode(byte[] buffer, int pos)
@@ -207,11 +215,15 @@ namespace DigitalWorld.Proto.Common
             base.Decode(buffer, pos);
 
             if (this.CheckIsParamValid(0))
-                this.Decode(ref this._result);
+                this.Decode(ref this._userId);
+            if (this.CheckIsParamValid(1))
+                this.Decode(ref this._token);
+            if (this.CheckIsParamValid(2))
+                this.DecodeEnum(ref this._result);
         }
     }
 
-    /// <summary>
+            /// <summary>
     /// 错误通知
     /// </summary>
     [ProtocolID(0xF001)]
@@ -289,18 +301,28 @@ namespace DigitalWorld.Proto.Common
         }
     }
 
-    /// <summary>
+            /// <summary>
     /// 正常分手断链
     /// </summary>
     [ProtocolID(0xFF01)]
     public partial class NotiBreakUp : Protocol
     {
-        protected override int ValidByteSize => 0;
+        protected override int ValidByteSize => 1;
 
         public const ushort protocolId = 0xFF01;
 
         public override ushort Id => protocolId;
 
+        private string _ip;
+        /// <summary>
+        /// IP地址
+        /// </summary>
+        public string ip { get { return _ip; } set { _ip = value; } }
+        private int _port;
+        /// <summary>
+        /// 端口
+        /// </summary>
+        public int port { get { return _port; } set { _port = value; } }
         public NotiBreakUp()
         {
         }
@@ -314,6 +336,8 @@ namespace DigitalWorld.Proto.Common
         {
             base.OnRecycle();
 
+            _ip = default(string);
+            _port = default(int);
         }
 
         public override Protocol Allocate()
@@ -330,33 +354,53 @@ namespace DigitalWorld.Proto.Common
         {
             base.CalculateValids();
 
+            this.SetParamValid(0, this._ip != default(string));
+            this.SetParamValid(1, this._port != default(int));
         }
 
         public override void Encode(byte[] buffer, int pos)
         {
             base.Encode(buffer, pos);
 
+            if (this.CheckIsParamValid(0))
+                this.Encode(this._ip);
+            if (this.CheckIsParamValid(1))
+                this.Encode(this._port);
         }
 
         public override void Decode(byte[] buffer, int pos)
         {
             base.Decode(buffer, pos);
 
+            if (this.CheckIsParamValid(0))
+                this.Decode(ref this._ip);
+            if (this.CheckIsParamValid(1))
+                this.Decode(ref this._port);
         }
     }
 
-    /// <summary>
+            /// <summary>
     /// 链接异常断开
     /// </summary>
     [ProtocolID(0xFF02)]
     public partial class NotiInterruption : Protocol
     {
-        protected override int ValidByteSize => 0;
+        protected override int ValidByteSize => 1;
 
         public const ushort protocolId = 0xFF02;
 
         public override ushort Id => protocolId;
 
+        private string _ip;
+        /// <summary>
+        /// IP地址
+        /// </summary>
+        public string ip { get { return _ip; } set { _ip = value; } }
+        private int _port;
+        /// <summary>
+        /// 端口
+        /// </summary>
+        public int port { get { return _port; } set { _port = value; } }
         public NotiInterruption()
         {
         }
@@ -370,6 +414,8 @@ namespace DigitalWorld.Proto.Common
         {
             base.OnRecycle();
 
+            _ip = default(string);
+            _port = default(int);
         }
 
         public override Protocol Allocate()
@@ -386,22 +432,32 @@ namespace DigitalWorld.Proto.Common
         {
             base.CalculateValids();
 
+            this.SetParamValid(0, this._ip != default(string));
+            this.SetParamValid(1, this._port != default(int));
         }
 
         public override void Encode(byte[] buffer, int pos)
         {
             base.Encode(buffer, pos);
 
+            if (this.CheckIsParamValid(0))
+                this.Encode(this._ip);
+            if (this.CheckIsParamValid(1))
+                this.Encode(this._port);
         }
 
         public override void Decode(byte[] buffer, int pos)
         {
             base.Decode(buffer, pos);
 
+            if (this.CheckIsParamValid(0))
+                this.Decode(ref this._ip);
+            if (this.CheckIsParamValid(1))
+                this.Decode(ref this._port);
         }
     }
 
-    /// <summary>
+            /// <summary>
     /// 链接远端结果通知
     /// </summary>
     [ProtocolID(0xFF03)]
