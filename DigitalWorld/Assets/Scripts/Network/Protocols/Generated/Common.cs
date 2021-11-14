@@ -1,5 +1,6 @@
 using Dream.Core;
 using Dream.Proto;
+using System.Collections.Generic;
 
 namespace DigitalWorld.Proto.Common
 {
@@ -113,9 +114,9 @@ namespace DigitalWorld.Proto.Common
             this.SetParamValid(1, this._password != default(string));
         }
 
-        public override void Encode(byte[] buffer, int pos)
+        protected override void OnEncode(byte[] buffer, int pos)
         {
-            base.Encode(buffer, pos);
+            base.OnEncode(buffer, pos);
 
             if (this.CheckIsParamValid(0))
                 this.Encode(this._account);
@@ -123,9 +124,9 @@ namespace DigitalWorld.Proto.Common
                 this.Encode(this._password);
         }
 
-        public override void Decode(byte[] buffer, int pos)
+        protected override void OnDecode(byte[] buffer, int pos)
         {
-            base.Decode(buffer, pos);
+            base.OnDecode(buffer, pos);
 
             if (this.CheckIsParamValid(0))
                 this.Decode(ref this._account);
@@ -198,9 +199,9 @@ namespace DigitalWorld.Proto.Common
             this.SetParamValid(2, this._result != default(EnumLoginResult));
         }
 
-        public override void Encode(byte[] buffer, int pos)
+        protected override void OnEncode(byte[] buffer, int pos)
         {
-            base.Encode(buffer, pos);
+            base.OnEncode(buffer, pos);
 
             if (this.CheckIsParamValid(0))
                 this.Encode(this._userId);
@@ -210,9 +211,9 @@ namespace DigitalWorld.Proto.Common
                 this.EncodeEnum(this._result);
         }
 
-        public override void Decode(byte[] buffer, int pos)
+        protected override void OnDecode(byte[] buffer, int pos)
         {
-            base.Decode(buffer, pos);
+            base.OnDecode(buffer, pos);
 
             if (this.CheckIsParamValid(0))
                 this.Decode(ref this._userId);
@@ -280,9 +281,9 @@ namespace DigitalWorld.Proto.Common
             this.SetParamValid(1, this._text != default(string));
         }
 
-        public override void Encode(byte[] buffer, int pos)
+        protected override void OnEncode(byte[] buffer, int pos)
         {
-            base.Encode(buffer, pos);
+            base.OnEncode(buffer, pos);
 
             if (this.CheckIsParamValid(0))
                 this.EncodeEnum(this._code);
@@ -290,9 +291,9 @@ namespace DigitalWorld.Proto.Common
                 this.Encode(this._text);
         }
 
-        public override void Decode(byte[] buffer, int pos)
+        protected override void OnDecode(byte[] buffer, int pos)
         {
-            base.Decode(buffer, pos);
+            base.OnDecode(buffer, pos);
 
             if (this.CheckIsParamValid(0))
                 this.DecodeEnum(ref this._code);
@@ -358,9 +359,9 @@ namespace DigitalWorld.Proto.Common
             this.SetParamValid(1, this._port != default(int));
         }
 
-        public override void Encode(byte[] buffer, int pos)
+        protected override void OnEncode(byte[] buffer, int pos)
         {
-            base.Encode(buffer, pos);
+            base.OnEncode(buffer, pos);
 
             if (this.CheckIsParamValid(0))
                 this.Encode(this._ip);
@@ -368,9 +369,9 @@ namespace DigitalWorld.Proto.Common
                 this.Encode(this._port);
         }
 
-        public override void Decode(byte[] buffer, int pos)
+        protected override void OnDecode(byte[] buffer, int pos)
         {
-            base.Decode(buffer, pos);
+            base.OnDecode(buffer, pos);
 
             if (this.CheckIsParamValid(0))
                 this.Decode(ref this._ip);
@@ -436,9 +437,9 @@ namespace DigitalWorld.Proto.Common
             this.SetParamValid(1, this._port != default(int));
         }
 
-        public override void Encode(byte[] buffer, int pos)
+        protected override void OnEncode(byte[] buffer, int pos)
         {
-            base.Encode(buffer, pos);
+            base.OnEncode(buffer, pos);
 
             if (this.CheckIsParamValid(0))
                 this.Encode(this._ip);
@@ -446,9 +447,9 @@ namespace DigitalWorld.Proto.Common
                 this.Encode(this._port);
         }
 
-        public override void Decode(byte[] buffer, int pos)
+        protected override void OnDecode(byte[] buffer, int pos)
         {
-            base.Decode(buffer, pos);
+            base.OnDecode(buffer, pos);
 
             if (this.CheckIsParamValid(0))
                 this.Decode(ref this._ip);
@@ -514,9 +515,9 @@ namespace DigitalWorld.Proto.Common
             this.SetParamValid(1, this._result != default(EnumConnectResult));
         }
 
-        public override void Encode(byte[] buffer, int pos)
+        protected override void OnEncode(byte[] buffer, int pos)
         {
-            base.Encode(buffer, pos);
+            base.OnEncode(buffer, pos);
 
             if (this.CheckIsParamValid(0))
                 this.Encode(this._token);
@@ -524,9 +525,9 @@ namespace DigitalWorld.Proto.Common
                 this.EncodeEnum(this._result);
         }
 
-        public override void Decode(byte[] buffer, int pos)
+        protected override void OnDecode(byte[] buffer, int pos)
         {
-            base.Decode(buffer, pos);
+            base.OnDecode(buffer, pos);
 
             if (this.CheckIsParamValid(0))
                 this.Decode(ref this._token);
