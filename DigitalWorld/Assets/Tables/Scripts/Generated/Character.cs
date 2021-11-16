@@ -1,12 +1,13 @@
 using Dream.Core;
 using Dream.Proto;
 using Dream.Table;
+using System.Xml;
 using System.Collections.Generic;
 
 namespace DigitalWorld.Table
 {
 	    /// <summary>
-    /// 
+    /// 角色
     /// </summary>
     public partial class CharacterInfo : InfoBase
     {
@@ -35,6 +36,7 @@ namespace DigitalWorld.Table
         {
         }
 
+#region Decode
         protected override void OnDecode(byte[] buffer, int pos)
         {
             base.OnDecode(buffer, pos);
@@ -44,12 +46,20 @@ namespace DigitalWorld.Table
             this.Decode(ref this._attributes);
         }
 
-        
+        protected override void OnDecode(XmlElement element)
+        {
+            base.OnDecode(element);
+
+            this.Decode(ref this._id, "id");
+            this.Decode(ref this._name, "name");
+            this.Decode(ref this._attributes, "attributes");
+        }
+#endregion
     }
 
 
 	    /// <summary>
-    /// 
+    /// 角色
     /// </summary>
     [TableNameAttibute("character")]
     public partial class CharacterTable : TableBase<CharacterInfo>
