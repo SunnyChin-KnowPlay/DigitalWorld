@@ -1,7 +1,11 @@
-﻿using DigitalWorld.Net;
+﻿using DigitalWorld.Logic;
+using DigitalWorld.Net;
 using DigitalWorld.Proto.Common;
 using Dream.Proto;
+using System.Collections;
 using System.Net;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace DigitalWorld.UI.Logic
@@ -11,9 +15,8 @@ namespace DigitalWorld.UI.Logic
         public const string path = "UI/Login/LoginPanel.prefab";
 
         #region Param
-        private InputField accountInputField;
-        private InputField passwordInputField;
-        private Button loginButton;
+
+        private Button startButton;
         #endregion
 
         #region Mono
@@ -26,14 +29,12 @@ namespace DigitalWorld.UI.Logic
         {
             base.OnEnable();
 
-            AgentManager.Instance.AddProtocolListener(NotiConnectResult.protocolId, ProcessConnect);
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
 
-            AgentManager.Instance.RemoveProtocolListener(NotiConnectResult.protocolId, ProcessConnect);
         }
         #endregion
 
@@ -42,19 +43,44 @@ namespace DigitalWorld.UI.Logic
         {
             base.BindWidgets();
 
-            accountInputField = this.GetComponent<InputField>("Root/AccountInputField");
-            passwordInputField = this.GetComponent<InputField>("Root/PasswordInputField");
-            loginButton = this.GetComponent<Button>("Root/LoginButton");
 
-            if (null != loginButton)
+            startButton = this.GetComponent<Button>("Root/StartButton");
+
+            if (null != startButton)
             {
-                loginButton.onClick.AddListener(OnClickLogin);
+                startButton.onClick.AddListener(OnClickStartGame);
             }
         }
         #endregion
 
 
         #region UI Event
+        private void OnClickStartGame()
+        {
+            UnityEngine.Debug.Log("Start Game");
+
+            MainController mc = MainController.Instance;
+            mc.worldInfo = new WorldInfo()
+            {
+                heroId = 1,
+                mapId = 1
+            };
+
+
+            StartCoroutine(Func());
+
+        }
+
+        private IEnumerator Func()
+        {
+            SceneManager.LoadScene("World");
+            yield return new WaitForEndOfFrame();
+
+            this.Hide();
+
+            WorldManager wm = WorldManager.Instance;
+        }
+
         private void OnClickLogin()
         {
             EndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 55000);
@@ -63,31 +89,31 @@ namespace DigitalWorld.UI.Logic
         #endregion
 
         #region Protocol
-        private void ProcessConnect(Protocol protocol)
-        {
-            NotiConnectResult result = protocol as NotiConnectResult;
-            if (null != result)
-            {
-                if (result.result == EnumConnectResult.Success)
-                {
-                    Agent ag = AgentManager.Instance.LoginAgent;
-                    if (null != ag)
-                    {
-                        ag.AddProtocolListener(AckLogin.protocolId, ProcessAckLogin);
-                    }
+        //private void ProcessConnect(Protocol protocol)
+        //{
+        //    NotiConnectResult result = protocol as NotiConnectResult;
+        //    if (null != result)
+        //    {
+        //        if (result.result == EnumConnectResult.Success)
+        //        {
+        //            Agent ag = AgentManager.Instance.LoginAgent;
+        //            if (null != ag)
+        //            {
+        //                ag.AddProtocolListener(AckLogin.protocolId, ProcessAckLogin);
+        //            }
 
-                    ReqLogin req = ReqLogin.Alloc();
-                    req.account = this.accountInputField.text;
-                    req.password = this.passwordInputField.text;
+        //            ReqLogin req = ReqLogin.Alloc();
+        //            req.account = this.accountInputField.text;
+        //            req.password = this.passwordInputField.text;
 
-                    AgentManager.Instance.LoginAgent.Send(req);
-                }
-                else
-                {
+        //            AgentManager.Instance.LoginAgent.Send(req);
+        //        }
+        //        else
+        //        {
 
-                }
-            }
-        }
+        //        }
+        //    }
+        //}
 
         private void ProcessAckLogin(Protocol protocol)
         {

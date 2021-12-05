@@ -25,6 +25,14 @@ MonoBehaviour:
     m_Address: Assets/Res/UI/Root/UIRoot.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: cebeb28955f0b7b4ab97dd0823f951d1
+    m_Address: Assets/Res/Unit/Animators/Unit.controller
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3e08eaa99fbf41647adc835cdda0472a
+    m_Address: Assets/Res/Unit/Characters/Orc.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 594d75798cb81484bb1f918a5de643e6, type: 2}
   m_SchemaSet:
