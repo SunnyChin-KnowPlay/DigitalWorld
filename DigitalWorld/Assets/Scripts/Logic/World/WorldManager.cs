@@ -1,4 +1,5 @@
 ﻿using DigitalWorld.Asset;
+using DigitalWorld.Behaviour;
 using DreamEngine;
 using UnityEngine;
 
@@ -29,9 +30,22 @@ namespace DigitalWorld.Logic
 
         private void SetupUnits()
         {
-            GameObject gameObject;
             string fullPath = "Unit/Characters/Orc.prefab";
-            UnityEngine.Object target = AssetManager.Instance.LoadAsset<UnityEngine.Object>(fullPath);
+
+            UnitControl hero = this.CreateCharacter(fullPath);
+            if (null != hero)
+            {
+                InputBehaviour input = hero.GetComponent<InputBehaviour>();
+                if (null == input)
+                    input = hero.gameObject.AddComponent<InputBehaviour>();
+            }
+        }
+
+        private UnitControl CreateCharacter(string path)
+        {
+            GameObject gameObject = null;
+
+            UnityEngine.Object target = AssetManager.Instance.LoadAsset<UnityEngine.Object>(path);
 
             if (null != target)
             {
@@ -43,6 +57,15 @@ namespace DigitalWorld.Logic
                     t.position = Vector3.zero;
                 }
             }
+
+            if (null == gameObject)
+                return null;
+
+            UnitControl unitControl = gameObject.GetComponent<UnitControl>();
+            if (null == unitControl)
+                unitControl = gameObject.AddComponent<UnitControl>();
+
+            return unitControl;
         }
     }
 }
