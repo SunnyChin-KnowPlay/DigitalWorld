@@ -2,7 +2,7 @@
 
 namespace DigitalWorld.Logic
 {
-    public class AttributeControl : LogicControl
+    public class ControlAttribute : ControlLogic
     {
         /// <summary>
         /// 血量

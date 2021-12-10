@@ -2,7 +2,7 @@
 
 namespace DigitalWorld.Logic
 {
-    public class AnimatorControl : LogicControl
+    public class ControlAnimator : ControlLogic
     {
         protected Animator animator;
 

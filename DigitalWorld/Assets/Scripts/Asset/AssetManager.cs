@@ -7,8 +7,6 @@ namespace DigitalWorld.Asset
 {
     public class AssetManager : DreamEngine.Singleton<AssetManager>
     {
-
-
         #region Initialize
         protected override void Awake()
         {

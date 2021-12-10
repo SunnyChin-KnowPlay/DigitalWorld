@@ -8,11 +8,11 @@ namespace DigitalWorld.Behaviour
         /// <summary>
         /// µ¥Î»¿ØÖÆÆ÷
         /// </summary>
-        private UnitControl unit;
+        private ControlCharacter unit;
 
         private void Awake()
         {
-            unit = this.GetComponent<UnitControl>();
+            unit = this.GetComponent<ControlCharacter>();
         }
 
         // Start is called before the first frame update

@@ -32,7 +32,7 @@ namespace DigitalWorld.Logic
         {
             string fullPath = "Unit/Characters/Orc.prefab";
 
-            UnitControl hero = this.CreateCharacter(fullPath);
+            ControlUnit hero = this.CreateCharacter(fullPath);
             if (null != hero)
             {
                 InputBehaviour input = hero.GetComponent<InputBehaviour>();
@@ -41,7 +41,7 @@ namespace DigitalWorld.Logic
             }
         }
 
-        private UnitControl CreateCharacter(string path)
+        private ControlUnit CreateCharacter(string path)
         {
             GameObject gameObject = null;
 
@@ -61,9 +61,9 @@ namespace DigitalWorld.Logic
             if (null == gameObject)
                 return null;
 
-            UnitControl unitControl = gameObject.GetComponent<UnitControl>();
+            ControlUnit unitControl = gameObject.GetComponent<ControlUnit>();
             if (null == unitControl)
-                unitControl = gameObject.AddComponent<UnitControl>();
+                unitControl = gameObject.AddComponent<ControlUnit>();
 
             return unitControl;
         }

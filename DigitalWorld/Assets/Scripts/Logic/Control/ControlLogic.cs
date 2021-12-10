@@ -2,7 +2,7 @@
 
 namespace DigitalWorld.Logic
 {
-    public class LogicControl : MonoBehaviour
+    public abstract class ControlLogic : MonoBehaviour
     {
         #region Params
         protected UnitInfo info;
