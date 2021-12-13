@@ -33,6 +33,62 @@ MonoBehaviour:
     m_Address: Assets/Res/Unit/Characters/Orc.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 2c4e542f3a4c6d54b8cb40d7d17fdabc
+    m_Address: Assets/Res/Map/NewTileMap.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ace70ec23e1858f4a9e91ce1551a563b
+    m_Address: Assets/Res/Tile/TileBase.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 6905abc0029faf6459783ded1c13e83d
+    m_Address: Assets/Res/Tile/TileCasino.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 8b594a03a918b694aac871dfeb523e5a
+    m_Address: Assets/Res/Tile/TileChest.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 29daf780b82f7d34bb4dad730631613f
+    m_Address: Assets/Res/Tile/TileDoor.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9408b667973435a459286b2c94b92e50
+    m_Address: Assets/Res/Tile/TileGrass.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 361fe111165f00e45ba3a73964a3bac9
+    m_Address: Assets/Res/Tile/TileGround.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 40de912ae110e474289026527e0fc8c7
+    m_Address: Assets/Res/Tile/TileMagicStone.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 8c17563ca09833d4eb59a85012b52943
+    m_Address: Assets/Res/Tile/TileMonster.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2762f5a341186dc499e8e26251bcbd53
+    m_Address: Assets/Res/Tile/TileMountion.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 24c9a9fa17f230140b03b43c9d0a0b2a
+    m_Address: Assets/Res/Tile/TileShop.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 63335c219ae48724ba8dbb892da2fb00
+    m_Address: Assets/Res/Tile/TileSpring.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 99f09cb7f9785ab4e801ea81ac541ff2
+    m_Address: Assets/Res/Tile/TileStone.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2e6af6b3f1ddb9d469403ad6e2309083
+    m_Address: Assets/Res/Tile/TileTraveller.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 594d75798cb81484bb1f918a5de643e6, type: 2}
   m_SchemaSet:

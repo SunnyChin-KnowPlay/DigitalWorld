@@ -50,7 +50,7 @@ namespace DigitalWorld.TileMap.Editor
                 return;
             }
 
-            GameObject go = new GameObject("newTileMap");
+            GameObject go = new GameObject("NewTileMap");
             TileMapControl control = go.AddComponent<TileMapControl>();
 
             int size = tileMapCreator.width * tileMapCreator.height;

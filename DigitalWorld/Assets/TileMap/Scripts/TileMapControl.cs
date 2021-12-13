@@ -46,6 +46,19 @@ namespace DigitalWorld.TileMap
                 t.localPosition = pos;
             }
         }
+
+        /// <summary>
+        /// 通过索引获取格子
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public TileGrid GetGrid(int index)
+        {
+            if (index < 0 || index >= this.grids.Length)
+                return null;
+
+            return this.grids[index];
+        }
         #endregion
     }
 
