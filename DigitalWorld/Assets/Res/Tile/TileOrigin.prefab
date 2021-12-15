@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5234892979936365786}
   - component: {fileID: 7436360521910789421}
   m_Layer: 0
-  m_Name: TileStone
+  m_Name: TileOrigin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e95b89434e632594487e453f84de4c9f, type: 2}
+  - {fileID: 2100000, guid: eea79e36e13ba594d96c50bd929ede18, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
