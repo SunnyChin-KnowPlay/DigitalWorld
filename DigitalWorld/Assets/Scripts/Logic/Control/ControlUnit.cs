@@ -43,20 +43,17 @@ namespace DigitalWorld.Logic
         {
             base.Update();
         }
+
+        /// <summary>
+        /// …æ≥˝∂‘œÛ
+        /// </summary>
+        public override void Destroy()
+        {
+            GameObject.Destroy(this.gameObject);
+        }
         #endregion
 
-        #region Logic
-        private void EachAllControls(OnProcessControl handle)
-        {
-            if (null != handle)
-            {
-                foreach (var kvp in this.controls)
-                {
-                    handle.Invoke(kvp.Value);
-                }
-            }
-        }
-
+        #region Setup
         public void Setup(uint uid, UnitInfo info)
         {
             this.uid = uid;
@@ -68,6 +65,19 @@ namespace DigitalWorld.Logic
             base.Setup(info);
 
             EachAllControls(OnSetupControl);
+        }
+        #endregion
+
+        #region Controls
+        private void EachAllControls(OnProcessControl handle)
+        {
+            if (null != handle)
+            {
+                foreach (var kvp in this.controls)
+                {
+                    handle.Invoke(kvp.Value);
+                }
+            }
         }
 
         protected virtual void SetupControls()
@@ -84,6 +94,16 @@ namespace DigitalWorld.Logic
         protected virtual void OnSetupControl(ControlLogic c)
         {
             c.Setup(this.info);
+        }
+        #endregion
+
+        #region Logic
+        /// <summary>
+        /// À¿Õˆ ±
+        /// </summary>
+        public virtual void OnDead()
+        {
+
         }
         #endregion
 

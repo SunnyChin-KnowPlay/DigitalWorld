@@ -1,0 +1,11 @@
+﻿namespace DigitalWorld.Logic
+{
+    /// <summary>
+    /// 赌场
+    /// </summary>
+    [TileAttibute(ETileType.Shop)]
+    public class TileShop : ControlTile
+    {
+
+    }
+}

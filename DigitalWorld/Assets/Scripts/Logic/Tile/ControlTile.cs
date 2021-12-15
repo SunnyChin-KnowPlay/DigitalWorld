@@ -7,10 +7,16 @@ namespace DigitalWorld.Logic
     /// <summary>
     /// 砖块对象
     /// </summary>
-    public class ControlTile : ControlLogic
+    public partial class ControlTile : ControlUnit
     {
         #region Params
-        protected WorldManager world;
+        private WorldManager world;
+
+        public WorldManager World
+        {
+            get { return world; }
+            private set { world = value; }
+        }
 
         /// <summary>
         /// 格子索引
@@ -44,18 +50,11 @@ namespace DigitalWorld.Logic
         {
             base.Awake();
 
-            world = WorldManager.Instance;
-
+            this.world = WorldManager.Instance;
             this.obstacle = this.GetComponent<NavMeshObstacle>();
         }
 
-        /// <summary>
-        /// 删除对象
-        /// </summary>
-        public virtual void Destroy()
-        {
-            GameObject.Destroy(this.gameObject);
-        }
+
         #endregion
     }
 }

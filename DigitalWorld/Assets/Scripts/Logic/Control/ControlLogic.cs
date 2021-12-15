@@ -24,6 +24,14 @@ namespace DigitalWorld.Logic
         {
 
         }
+
+        /// <summary>
+        /// 释放
+        /// </summary>
+        public virtual void Destroy()
+        {
+
+        }
         #endregion
 
         #region Setup

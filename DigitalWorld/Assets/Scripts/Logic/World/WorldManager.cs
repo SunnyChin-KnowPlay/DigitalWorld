@@ -1,6 +1,7 @@
 ﻿using DigitalWorld.Asset;
 using DigitalWorld.Behaviour;
 using DigitalWorld.TileMap;
+using Dream.Extension.Unity;
 using DreamEngine;
 using UnityEngine;
 
@@ -37,14 +38,11 @@ namespace DigitalWorld.Logic
         private void Start()
         {
             this.SetupMap();
-            this.SetupTiles();
+
             //this.SetupUnits();
         }
 
-        private void SetupTiles()
-        {
 
-        }
         //private void SetupUnits()
         //{
         //    string fullPath = "Unit/Characters/Orc.prefab";
@@ -79,7 +77,11 @@ namespace DigitalWorld.Logic
 
             if (null != gameObject)
             {
-                tileMapControl = gameObject.GetComponent<TileMapControl>();
+                tileMapControl = gameObject.GetOrAddComponent<TileMapControl>();
+                if (null != tileMapControl)
+                {
+                    tileMapControl.Setup();
+                }
             }
         }
 
