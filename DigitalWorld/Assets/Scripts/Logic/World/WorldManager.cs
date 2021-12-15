@@ -37,21 +37,26 @@ namespace DigitalWorld.Logic
         private void Start()
         {
             this.SetupMap();
-            this.SetupUnits();
+            this.SetupTiles();
+            //this.SetupUnits();
         }
 
-        private void SetupUnits()
+        private void SetupTiles()
         {
-            string fullPath = "Unit/Characters/Orc.prefab";
 
-            ControlUnit hero = this.CreateCharacter(fullPath);
-            if (null != hero)
-            {
-                InputBehaviour input = hero.GetComponent<InputBehaviour>();
-                if (null == input)
-                    input = hero.gameObject.AddComponent<InputBehaviour>();
-            }
         }
+        //private void SetupUnits()
+        //{
+        //    string fullPath = "Unit/Characters/Orc.prefab";
+
+        //    ControlUnit hero = this.CreateCharacter(fullPath);
+        //    if (null != hero)
+        //    {
+        //        InputBehaviour input = hero.GetComponent<InputBehaviour>();
+        //        if (null == input)
+        //            input = hero.gameObject.AddComponent<InputBehaviour>();
+        //    }
+        //}
 
         private void SetupMap()
         {
