@@ -25,7 +25,7 @@ namespace DigitalWorld.TileMap
 
         }
 
-        #region Common
+        #region Grids
         public void CalculateGrids()
         {
             if (null == grids || grids.Length <= 0)
@@ -58,6 +58,13 @@ namespace DigitalWorld.TileMap
                 return null;
 
             return this.grids[index];
+        }
+        #endregion
+
+        #region Common
+        public void Setup()
+        {
+
         }
         #endregion
     }
