@@ -93,6 +93,5 @@ namespace DigitalWorld.Utilities.Editor
             PlayerPrefs.SetInt(fullKey, value);
         }
     }
-
 }
 

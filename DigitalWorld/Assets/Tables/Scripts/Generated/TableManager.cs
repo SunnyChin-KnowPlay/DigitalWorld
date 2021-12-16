@@ -21,12 +21,18 @@ namespace DigitalWorld.Table
 
         #region Tables
         public CharacterTable CharacterTable { get; private set; }
+        public TilebaseTable TilebaseTable { get; private set; }
+        public TileTable TileTable { get; private set; }
         #endregion
 
         public void Decode()
         {
             CharacterTable = new CharacterTable();
             this.ApplyDecodeTable(CharacterTable, "character");
+            TilebaseTable = new TilebaseTable();
+            this.ApplyDecodeTable(TilebaseTable, "tilebase");
+            TileTable = new TileTable();
+            this.ApplyDecodeTable(TileTable, "tile");
         }
 
         private void ApplyDecodeTable(ByteBuffer table, string tableName)

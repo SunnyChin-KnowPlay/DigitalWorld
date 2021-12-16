@@ -1,0 +1,97 @@
+using Dream.Core;
+using Dream.Proto;
+using Dream.Table;
+using System.Xml;
+using System.Collections.Generic;
+
+namespace DigitalWorld.Table
+{
+    /// <summary>
+    /// 地块
+    /// </summary>
+    public partial class TileInfo : InfoBase
+    {
+        public override int GetID()
+        {
+            return _id;
+        }
+
+        private int _id;
+        /// <summary>
+        /// 唯一ID
+        /// </summary>
+        public int id => _id;
+        private string _name;
+        /// <summary>
+        /// 名字
+        /// </summary>
+        public string name => _name;
+        private int _baseType;
+        /// <summary>
+        /// 地基类型 tilebase的ID
+        /// </summary>
+        public int baseType => _baseType;
+        private string _prefabPath;
+        /// <summary>
+        /// 角色预制件路径
+        /// </summary>
+        public string prefabPath => _prefabPath;
+        private int _hp;
+        /// <summary>
+        /// 血量
+        /// </summary>
+        public int hp => _hp;
+        private int _attack;
+        /// <summary>
+        /// 攻击力
+        /// </summary>
+        public int attack => _attack;
+        private int _defense;
+        /// <summary>
+        /// 防御力
+        /// </summary>
+        public int defense => _defense;
+
+        public TileInfo()
+        {
+        }
+
+        #region Decode
+        protected override void OnDecode(byte[] buffer, int pos)
+        {
+            base.OnDecode(buffer, pos);
+
+            this.Decode(ref this._id);
+            this.Decode(ref this._name);
+            this.Decode(ref this._baseType);
+            this.Decode(ref this._prefabPath);
+            this.Decode(ref this._hp);
+            this.Decode(ref this._attack);
+            this.Decode(ref this._defense);
+        }
+
+        protected override void OnDecode(XmlElement element)
+        {
+            base.OnDecode(element);
+
+            this.Decode(ref this._id, "id");
+            this.Decode(ref this._name, "name");
+            this.Decode(ref this._baseType, "baseType");
+            this.Decode(ref this._prefabPath, "prefabPath");
+            this.Decode(ref this._hp, "hp");
+            this.Decode(ref this._attack, "attack");
+            this.Decode(ref this._defense, "defense");
+        }
+        #endregion
+    }
+
+
+    /// <summary>
+    /// 地块
+    /// </summary>
+    [TableNameAttibute("tile")]
+    public partial class TileTable : TableBase<TileInfo>
+    {
+        public override string TableName => "tile";
+    }
+}

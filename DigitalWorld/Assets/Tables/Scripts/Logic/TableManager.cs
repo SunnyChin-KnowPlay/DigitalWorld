@@ -17,7 +17,10 @@ namespace DigitalWorld.Table
         /// <param name="tableName">表名</param>
         private void OnProcessDecodeTable(ByteBuffer table, string tableName)
         {
+            if (null != table)
+            {
 
+            }
         }
     }
 }

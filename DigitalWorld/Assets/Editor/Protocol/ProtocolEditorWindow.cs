@@ -36,6 +36,7 @@ public class ProtocolEditorWindow : EditorWindow
 
         process.Start();
         process.WaitForExit();
+        process.Close();
 
         AssetDatabase.Refresh();
     }
