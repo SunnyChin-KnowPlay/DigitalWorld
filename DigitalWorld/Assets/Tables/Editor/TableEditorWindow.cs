@@ -1,5 +1,4 @@
 using DigitalWorld.Utilities.Editor;
-using Dream.TableHelper;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -91,10 +90,11 @@ namespace DigitalWorld.Table.Editor
         [MenuItem("Table/Generate Codes")]
         private static void GenerateCodes()
         {
-            string codePath = Path.Combine(Application.dataPath, Utility.GetString(outputCodeKey));
-            string modelPath = Utility.GetString(modelKey);
+            ExecuteTableGenerate(GenerateCodesCmd);
+            //string codePath = Path.Combine(Application.dataPath, Utility.GetString(outputCodeKey));
+            //string modelPath = Utility.GetString(modelKey);
 
-            Generator.GenerateCodesWithModel(modelPath, codePath);
+            //Generator.GenerateCodesWithModel(modelPath, codePath);
 
             AssetDatabase.Refresh();
         }
@@ -141,7 +141,7 @@ namespace DigitalWorld.Table.Editor
             ProcessStartInfo processStartInfo = new ProcessStartInfo(processFilePath)
             {
                 Arguments = arguments,
-                UseShellExecute = true
+                UseShellExecute = false
             };
             process.StartInfo = processStartInfo;
 
@@ -152,7 +152,7 @@ namespace DigitalWorld.Table.Editor
             }
             catch (System.Exception ex)
             {
-                UnityEngine.Debug.LogException(ex);
+                UnityEngine.Debug.LogError(ex);
             }
             finally
             {
