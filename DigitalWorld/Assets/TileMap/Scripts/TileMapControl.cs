@@ -67,14 +67,17 @@ namespace DigitalWorld.TileMap
         #region Setup
         public void Setup()
         {
-            this.SetupTiels();
+            this.SetupTiles();
         }
 
 
         #endregion
 
         #region Tiles
-        private void SetupTiels()
+        /// <summary>
+        /// ÅäÖÃ×©¿é
+        /// </summary>
+        private void SetupTiles()
         {
             if (null != this.tiles)
                 this.ClearTiles();
@@ -84,6 +87,9 @@ namespace DigitalWorld.TileMap
 
         }
 
+        /// <summary>
+        /// Çå¿Õ×©¿é
+        /// </summary>
         public void ClearTiles()
         {
             foreach (var kvp in this.tiles)
