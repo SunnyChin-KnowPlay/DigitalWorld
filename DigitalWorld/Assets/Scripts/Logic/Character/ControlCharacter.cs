@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 namespace DigitalWorld.Logic
 {
-    public class ControlCharacter : ControlUnit
+    public partial class ControlCharacter : ControlUnit
     {
         #region Params
         protected NavMeshAgent navMeshAgent;
@@ -93,6 +93,18 @@ namespace DigitalWorld.Logic
 
                 navMeshAgent.Move(offset);
             }
+        }
+        #endregion
+
+        #region Logic
+        public override void OnBorn()
+        {
+
+        }
+
+        public override void OnDead()
+        {
+
         }
         #endregion
     }

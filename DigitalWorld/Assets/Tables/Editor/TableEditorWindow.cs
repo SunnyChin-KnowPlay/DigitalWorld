@@ -58,7 +58,7 @@ namespace DigitalWorld.Table.Editor
         /// </summary>
         public static string ConfigSrcPath
         {
-            get { return Utility.GetString(configSrcKey); }
+            get { return Utility.GetString(configSrcKey, defaultConfigSrc); }
         }
 
         /// <summary>
@@ -66,17 +66,17 @@ namespace DigitalWorld.Table.Editor
         /// </summary>
         public static string ExcelTablePath
         {
-            get { return Utility.GetString(excelKey); }
+            get { return Utility.GetString(excelKey, defaultExcelPath); }
         }
 
         public static string ModelPath
         {
-            get { return Utility.GetString(modelKey); }
+            get { return Utility.GetString(modelKey, defaultModelPath); }
         }
 
         public static string CodeGeneratedPath
         {
-            get { return Utility.GetString(outputCodeKey); }
+            get { return Utility.GetString(outputCodeKey, defaultOutPutCodePath); }
         }
 
         static TableEditorWindow()
@@ -141,7 +141,7 @@ namespace DigitalWorld.Table.Editor
             ProcessStartInfo processStartInfo = new ProcessStartInfo(processFilePath)
             {
                 Arguments = arguments,
-                UseShellExecute = false
+                UseShellExecute = true
             };
             process.StartInfo = processStartInfo;
 

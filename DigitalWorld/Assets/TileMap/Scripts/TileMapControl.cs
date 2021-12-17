@@ -1,3 +1,4 @@
+using DigitalWorld.Logic;
 using Dream.FixMath;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,6 +13,8 @@ namespace DigitalWorld.TileMap
     {
         public FixVector2 size;
         public TileGrid[] grids = null;
+
+        private Dictionary<int, ControlTile> tiles = new Dictionary<int, ControlTile>();
 
         // Start is called before the first frame update
         void Start()
@@ -61,10 +64,33 @@ namespace DigitalWorld.TileMap
         }
         #endregion
 
-        #region Common
+        #region Setup
         public void Setup()
         {
+            this.SetupTiels();
+        }
 
+
+        #endregion
+
+        #region Tiles
+        private void SetupTiels()
+        {
+            if (null != this.tiles)
+                this.ClearTiles();
+            else
+                this.tiles = new Dictionary<int, ControlTile>();
+
+
+        }
+
+        public void ClearTiles()
+        {
+            foreach (var kvp in this.tiles)
+            {
+                kvp.Value.Destroy();
+            }
+            this.tiles.Clear();
         }
         #endregion
     }

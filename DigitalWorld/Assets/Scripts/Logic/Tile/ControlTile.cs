@@ -56,5 +56,17 @@ namespace DigitalWorld.Logic
 
 
         #endregion
+
+        #region Logic
+        public override void OnBorn()
+        {
+
+        }
+
+        public override void OnDead()
+        {
+
+        }
+        #endregion
     }
 }

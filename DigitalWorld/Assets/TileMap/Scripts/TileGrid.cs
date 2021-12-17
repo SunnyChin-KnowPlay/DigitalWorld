@@ -5,6 +5,7 @@ namespace DigitalWorld.TileMap
 {
     public class TileGrid : MonoBehaviour
     {
+        #region Params
         /// <summary>
         /// 索引号
         /// </summary>
@@ -19,6 +20,16 @@ namespace DigitalWorld.TileMap
             get { return tile; }
         }
 
+        private Transform trans;
+        #endregion
+
+        #region Behaviour
+        private void Awake()
+        {
+            trans = transform;
+        }
+        #endregion
+
         #region Common
         public void SetTile(ControlTile tile)
         {
@@ -29,7 +40,14 @@ namespace DigitalWorld.TileMap
             }
 
             this.tile = tile;
-            this.tile.GridIndex = this.index;
+            if (null != this.tile)
+            {
+                this.tile.GridIndex = this.index;
+                Transform tileTransform = this.tile.transform;
+                tileTransform.SetParent(trans, false);
+                tileTransform.localPosition = Vector3.up;
+            }
+
         }
         #endregion
     }

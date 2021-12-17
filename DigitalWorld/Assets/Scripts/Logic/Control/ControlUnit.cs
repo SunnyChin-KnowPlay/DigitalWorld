@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 namespace DigitalWorld.Logic
 {
-    public class ControlUnit : ControlLogic
+    public abstract class ControlUnit : ControlLogic
     {
         #region Delegate
         public delegate void OnProcessControl(ControlLogic c);
@@ -99,12 +99,14 @@ namespace DigitalWorld.Logic
 
         #region Logic
         /// <summary>
+        /// 当出生时
+        /// </summary>
+        public abstract void OnBorn();
+
+        /// <summary>
         /// 死亡时
         /// </summary>
-        public virtual void OnDead()
-        {
-
-        }
+        public abstract void OnDead();
         #endregion
 
     }
