@@ -77,10 +77,6 @@ MonoBehaviour:
     m_Address: Assets/Res/Tile/TileShop.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 63335c219ae48724ba8dbb892da2fb00
-    m_Address: Assets/Res/Tile/TileSpring.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: 99f09cb7f9785ab4e801ea81ac541ff2
     m_Address: Assets/Res/Tile/TileStone.prefab
     m_ReadOnly: 0

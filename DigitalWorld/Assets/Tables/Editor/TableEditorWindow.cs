@@ -10,26 +10,6 @@ namespace DigitalWorld.Table.Editor
     [InitializeOnLoad]
     public class TableEditorWindow : EditorWindow
     {
-        /*
-         *  if (cmd == "GenerateCodesWithModel")
-            {
-                Generator.GenerateCodesWithModel(modelPath, codePath);
-            }
-            else if (cmd == "GenerateTablesWithModel")
-            {
-                helper.GenerateTablesWithModel(modelPath, tablePath);
-            }
-            else if (cmd == "ConvertExcelsToConfig")
-            {
-                helper.ConvertExcelsToConfig(tablePath, configPath);
-            }
-            else if (cmd == "ConvertConfigsToExcel")
-            {
-                helper.ConvertConfigsToExcel(configPath, tablePath);
-            }
-         */
-
-
         private const string outputCodeKey = "Table.OutputCode";
         private const string defaultOutPutCodePath = "Tables/Scripts/Generated";
 
@@ -46,7 +26,7 @@ namespace DigitalWorld.Table.Editor
         private const string defaultConfigXml = "Tables/Config/Xml";
 
         private const string configDataKey = "Table.Config.Data";
-        private const string defaultConfigData = "Tables/Config/Data";
+        private const string defaultConfigData = "Res/Config/Datas";
 
         private const string GenerateCodesCmd = "GenerateCodesWithModel";
         private const string GenerateTablesCmd = "GenerateTablesWithModel";
@@ -84,25 +64,45 @@ namespace DigitalWorld.Table.Editor
             Utility.SetDefaultString(outputCodeKey, defaultOutPutCodePath);
             Utility.SetDefaultString(modelKey, defaultModelPath);
             Utility.SetDefaultString(excelKey, defaultExcelPath);
+            Utility.SetDefaultString(configXmlKey, Path.Combine(Application.dataPath, defaultConfigXml));
+            Utility.SetDefaultString(configDataKey, Path.Combine(Application.dataPath, defaultConfigData));
         }
 
         #region MenuItems
-        [MenuItem("Table/Generate Codes")]
+        [MenuItem("Table/Generate/Generate Codes")]
         private static void GenerateCodes()
         {
             ExecuteTableGenerate(GenerateCodesCmd);
-            //string codePath = Path.Combine(Application.dataPath, Utility.GetString(outputCodeKey));
-            //string modelPath = Utility.GetString(modelKey);
-
-            //Generator.GenerateCodesWithModel(modelPath, codePath);
-
+           
             AssetDatabase.Refresh();
         }
 
-        [MenuItem("Table/Generate Tables")]
+        [MenuItem("Table/Generate/Generate Tables")]
         private static void GenerateTablesWithModel()
         {
             ExecuteTableGenerate(GenerateTablesCmd);
+        }
+
+        [MenuItem("Table/Convert/ConvertExcelsToConfig")]
+        private static void ConvertExcelsToConfig()
+        {
+            ExecuteTableGenerate(ConvertExcelsToConfigCmd);
+        }
+
+        [MenuItem("Table/Convert/ConvertConfigsToExcel")]
+        private static void ConvertConfigsToExcel()
+        {
+            ExecuteTableGenerate(ConvertConfigsToExcelCmd);
+        }
+
+        [MenuItem("Table/CopyXmlFromConfig")]
+        private static void CopyXmlFromConfig()
+        {
+            string targetPath = Utility.GetString(configXmlKey, Path.Combine(Application.dataPath, defaultConfigXml));
+            ClearDirectory(targetPath);
+
+            CopyDirectory(Utility.GetString(configSrcKey, defaultConfigSrc), targetPath, null);
+            AssetDatabase.Refresh();
         }
         #endregion
 
@@ -160,6 +160,82 @@ namespace DigitalWorld.Table.Editor
             }
 
 
+
+        }
+
+        /// <summary>
+        /// 清空文件夹
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="index"></param>
+        private static void ClearDirectory(string path, int index = 0)
+        {
+            if (!Directory.Exists(path))
+                return;
+
+            string[] directories = Directory.GetDirectories(path);
+            for (int i = 0; i < directories.Length; ++i)
+            {
+                ClearDirectory(directories[i], index + 1);
+            }
+
+            string[] files = Directory.GetFiles(path);
+            for (int i = 0; i < files.Length; ++i)
+            {
+                File.Delete(files[i]);
+            }
+
+            if (index > 0)
+            {
+                if (Directory.Exists(path))
+                {
+                    Directory.Delete(path);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 深度拷贝目录
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="tar"></param>
+        /// <param name="subPath"></param>
+        private static void CopyDirectory(string src, string tar, string subPath)
+        {
+            if (string.IsNullOrEmpty(src) || string.IsNullOrEmpty(tar))
+            {
+                UnityEngine.Debug.LogError("TableErr: CopyDirectory path is err");
+                return;
+            }
+
+            if (!Directory.Exists(src))
+            {
+                UnityEngine.Debug.LogError("TableErr: CopyDirectory src is not found.\t" + src);
+                return;
+            }
+
+            string[] directories = Directory.GetDirectories(src);
+            for (int i = 0; i < directories.Length; ++i)
+            {
+                string dir = directories[i];
+
+                string sPath = dir.Replace(src, "");
+                CopyDirectory(src, tar, sPath);
+            }
+
+            string[] files = Directory.GetFiles(src);
+            for (int i = 0; i < files.Length; ++i)
+            {
+                string fullTarPath;
+                if (string.IsNullOrEmpty(subPath))
+                    fullTarPath = tar;
+                else
+                    fullTarPath = Path.Combine(tar, subPath);
+
+                fullTarPath = Path.Combine(fullTarPath, Path.GetFileName(files[i]));
+
+                File.Copy(files[i], fullTarPath);
+            }
 
         }
         #endregion
