@@ -1,63 +1,64 @@
 using Dream.Core;
 using Dream.Proto;
 using System.Collections.Generic;
+using System.Xml;
 
 namespace DigitalWorld.Proto.Common
 {
-    /// <summary>
+        	/// <summary>
     /// 
     /// </summary>
     public enum EnumLoginResult : int
     {
-
+  
         /// <summary>
         /// 
         /// </summary>
         Success = 0,
-
+  
         /// <summary>
         /// 
         /// </summary>
         NoUser = 1,
     }
-    /// <summary>
+        	/// <summary>
     /// 
     /// </summary>
     public enum EnumErrorCode : int
     {
-
+  
         /// <summary>
         /// 
         /// </summary>
         Success = 0,
-
+  
         /// <summary>
         /// 
         /// </summary>
         AccountErr,
-
+  
         /// <summary>
         /// 
         /// </summary>
         PasswordErr,
     }
-    /// <summary>
+        	/// <summary>
     /// 
     /// </summary>
     public enum EnumConnectResult : int
     {
-
+  
         /// <summary>
         /// 
         /// </summary>
         Success = 0,
-
+  
         /// <summary>
         /// 
         /// </summary>
         Failed = 1,
     }
-    /// <summary>
+            /// <summary>
     /// 登录请求
     /// </summary>
     [ProtocolID(0x0010)]
@@ -114,6 +115,7 @@ namespace DigitalWorld.Proto.Common
             this.SetParamValid(1, this._password != default(string));
         }
 
+#region Encode
         protected override void OnEncode(byte[] buffer, int pos)
         {
             base.OnEncode(buffer, pos);
@@ -124,6 +126,16 @@ namespace DigitalWorld.Proto.Common
                 this.Encode(this._password);
         }
 
+        protected override void OnEncode(XmlElement element)
+        {
+            base.OnEncode(element);
+
+            this.Encode(this._account, "account");
+            this.Encode(this._password, "password");
+        }
+#endregion
+
+#region Decode
         protected override void OnDecode(byte[] buffer, int pos)
         {
             base.OnDecode(buffer, pos);
@@ -133,9 +145,18 @@ namespace DigitalWorld.Proto.Common
             if (this.CheckIsParamValid(1))
                 this.Decode(ref this._password);
         }
+
+        protected override void OnDecode(XmlElement element)
+        {
+            base.OnDecode(element);
+
+            this.Decode(ref this._account, "account");
+            this.Decode(ref this._password, "password");
+        }
+#endregion
     }
 
-    /// <summary>
+            /// <summary>
     /// 登录响应
     /// </summary>
     [ProtocolID(0x0011)]
@@ -199,6 +220,7 @@ namespace DigitalWorld.Proto.Common
             this.SetParamValid(2, this._result != default(EnumLoginResult));
         }
 
+#region Encode
         protected override void OnEncode(byte[] buffer, int pos)
         {
             base.OnEncode(buffer, pos);
@@ -211,6 +233,17 @@ namespace DigitalWorld.Proto.Common
                 this.EncodeEnum(this._result);
         }
 
+        protected override void OnEncode(XmlElement element)
+        {
+            base.OnEncode(element);
+
+            this.Encode(this._userId, "userId");
+            this.Encode(this._token, "token");
+            this.EncodeEnum(this._result, "result");
+        }
+#endregion
+
+#region Decode
         protected override void OnDecode(byte[] buffer, int pos)
         {
             base.OnDecode(buffer, pos);
@@ -222,9 +255,19 @@ namespace DigitalWorld.Proto.Common
             if (this.CheckIsParamValid(2))
                 this.DecodeEnum(ref this._result);
         }
+
+        protected override void OnDecode(XmlElement element)
+        {
+            base.OnDecode(element);
+
+            this.Decode(ref this._userId, "userId");
+            this.Decode(ref this._token, "token");
+            this.DecodeEnum(ref this._result, "result");
+        }
+#endregion
     }
 
-    /// <summary>
+            /// <summary>
     /// 错误通知
     /// </summary>
     [ProtocolID(0xF001)]
@@ -281,6 +324,7 @@ namespace DigitalWorld.Proto.Common
             this.SetParamValid(1, this._text != default(string));
         }
 
+#region Encode
         protected override void OnEncode(byte[] buffer, int pos)
         {
             base.OnEncode(buffer, pos);
@@ -291,6 +335,16 @@ namespace DigitalWorld.Proto.Common
                 this.Encode(this._text);
         }
 
+        protected override void OnEncode(XmlElement element)
+        {
+            base.OnEncode(element);
+
+            this.EncodeEnum(this._code, "code");
+            this.Encode(this._text, "text");
+        }
+#endregion
+
+#region Decode
         protected override void OnDecode(byte[] buffer, int pos)
         {
             base.OnDecode(buffer, pos);
@@ -300,9 +354,18 @@ namespace DigitalWorld.Proto.Common
             if (this.CheckIsParamValid(1))
                 this.Decode(ref this._text);
         }
+
+        protected override void OnDecode(XmlElement element)
+        {
+            base.OnDecode(element);
+
+            this.DecodeEnum(ref this._code, "code");
+            this.Decode(ref this._text, "text");
+        }
+#endregion
     }
 
-    /// <summary>
+            /// <summary>
     /// 正常分手断链
     /// </summary>
     [ProtocolID(0xFF01)]
@@ -359,6 +422,7 @@ namespace DigitalWorld.Proto.Common
             this.SetParamValid(1, this._port != default(int));
         }
 
+#region Encode
         protected override void OnEncode(byte[] buffer, int pos)
         {
             base.OnEncode(buffer, pos);
@@ -369,6 +433,16 @@ namespace DigitalWorld.Proto.Common
                 this.Encode(this._port);
         }
 
+        protected override void OnEncode(XmlElement element)
+        {
+            base.OnEncode(element);
+
+            this.Encode(this._ip, "ip");
+            this.Encode(this._port, "port");
+        }
+#endregion
+
+#region Decode
         protected override void OnDecode(byte[] buffer, int pos)
         {
             base.OnDecode(buffer, pos);
@@ -378,9 +452,18 @@ namespace DigitalWorld.Proto.Common
             if (this.CheckIsParamValid(1))
                 this.Decode(ref this._port);
         }
+
+        protected override void OnDecode(XmlElement element)
+        {
+            base.OnDecode(element);
+
+            this.Decode(ref this._ip, "ip");
+            this.Decode(ref this._port, "port");
+        }
+#endregion
     }
 
-    /// <summary>
+            /// <summary>
     /// 链接异常断开
     /// </summary>
     [ProtocolID(0xFF02)]
@@ -437,6 +520,7 @@ namespace DigitalWorld.Proto.Common
             this.SetParamValid(1, this._port != default(int));
         }
 
+#region Encode
         protected override void OnEncode(byte[] buffer, int pos)
         {
             base.OnEncode(buffer, pos);
@@ -447,6 +531,16 @@ namespace DigitalWorld.Proto.Common
                 this.Encode(this._port);
         }
 
+        protected override void OnEncode(XmlElement element)
+        {
+            base.OnEncode(element);
+
+            this.Encode(this._ip, "ip");
+            this.Encode(this._port, "port");
+        }
+#endregion
+
+#region Decode
         protected override void OnDecode(byte[] buffer, int pos)
         {
             base.OnDecode(buffer, pos);
@@ -456,9 +550,18 @@ namespace DigitalWorld.Proto.Common
             if (this.CheckIsParamValid(1))
                 this.Decode(ref this._port);
         }
+
+        protected override void OnDecode(XmlElement element)
+        {
+            base.OnDecode(element);
+
+            this.Decode(ref this._ip, "ip");
+            this.Decode(ref this._port, "port");
+        }
+#endregion
     }
 
-    /// <summary>
+            /// <summary>
     /// 链接远端结果通知
     /// </summary>
     [ProtocolID(0xFF03)]
@@ -515,6 +618,7 @@ namespace DigitalWorld.Proto.Common
             this.SetParamValid(1, this._result != default(EnumConnectResult));
         }
 
+#region Encode
         protected override void OnEncode(byte[] buffer, int pos)
         {
             base.OnEncode(buffer, pos);
@@ -525,6 +629,16 @@ namespace DigitalWorld.Proto.Common
                 this.EncodeEnum(this._result);
         }
 
+        protected override void OnEncode(XmlElement element)
+        {
+            base.OnEncode(element);
+
+            this.Encode(this._token, "token");
+            this.EncodeEnum(this._result, "result");
+        }
+#endregion
+
+#region Decode
         protected override void OnDecode(byte[] buffer, int pos)
         {
             base.OnDecode(buffer, pos);
@@ -534,6 +648,15 @@ namespace DigitalWorld.Proto.Common
             if (this.CheckIsParamValid(1))
                 this.DecodeEnum(ref this._result);
         }
+
+        protected override void OnDecode(XmlElement element)
+        {
+            base.OnDecode(element);
+
+            this.Decode(ref this._token, "token");
+            this.DecodeEnum(ref this._result, "result");
+        }
+#endregion
     }
 
 }

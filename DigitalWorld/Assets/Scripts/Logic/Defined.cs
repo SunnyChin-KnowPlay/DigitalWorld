@@ -65,10 +65,6 @@
         /// </summary>
         Shop,
         /// <summary>
-        /// 草地
-        /// </summary>
-        Spring,
-        /// <summary>
         /// 阻挡
         /// </summary>
         Block,

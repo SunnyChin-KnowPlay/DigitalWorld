@@ -5,6 +5,10 @@ namespace Dream.Proto
     enum EnumProtocolID
     {
         /// <summary>
+        /// 地块数据
+        /// </summary>
+        TileData = 0x0100,
+        /// <summary>
         /// 登录请求
         /// </summary>
         ReqLogin = 0x0010,
