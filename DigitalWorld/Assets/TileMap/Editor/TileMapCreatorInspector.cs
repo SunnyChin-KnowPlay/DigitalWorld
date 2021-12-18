@@ -54,7 +54,8 @@ namespace DigitalWorld.TileMap.Editor
             TileMapControl control = go.AddComponent<TileMapControl>();
 
             int size = tileMapCreator.width * tileMapCreator.height;
-            control.size = new Dream.FixMath.FixVector2(tileMapCreator.width, tileMapCreator.height);
+            control.mapSize = new Dream.FixMath.FixVector2(tileMapCreator.width, tileMapCreator.height);
+            control.gridSize = tileMapCreator.gridSize;
             control.grids = new TileGrid[size];
             for (int i = 0; i < size; ++i)
             {

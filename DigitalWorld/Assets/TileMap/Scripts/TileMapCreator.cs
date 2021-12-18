@@ -15,5 +15,10 @@ namespace DigitalWorld.TileMap
         /// 地图高度(z)
         /// </summary>
         public int height;
+
+        /// <summary>
+        /// 格子尺寸
+        /// </summary>
+        public Vector2 gridSize;
     }
 }

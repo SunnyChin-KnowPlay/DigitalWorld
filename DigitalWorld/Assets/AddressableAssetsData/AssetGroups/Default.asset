@@ -33,10 +33,6 @@ MonoBehaviour:
     m_Address: Assets/Res/Unit/Characters/Orc.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 2c4e542f3a4c6d54b8cb40d7d17fdabc
-    m_Address: Assets/Res/Map/NewTileMap.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: ace70ec23e1858f4a9e91ce1551a563b
     m_Address: Assets/Res/Tile/TileBase.prefab
     m_ReadOnly: 0

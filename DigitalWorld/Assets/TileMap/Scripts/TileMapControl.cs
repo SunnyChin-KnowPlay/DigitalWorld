@@ -11,7 +11,16 @@ namespace DigitalWorld.TileMap
     /// </summary>
     public class TileMapControl : MonoBehaviour
     {
-        public FixVector2 size;
+        public Vector2 gridSize = Vector2.one;
+        /// <summary>
+        /// ¸ñ×Ó³ß´ç
+        /// </summary>
+        public Vector2 GridSize { get { return gridSize; } }
+        public FixVector2 mapSize;
+        /// <summary>
+        /// µØÍ¼³ß´ç
+        /// </summary>
+        public FixVector2 MapSize { get { return mapSize; } }
         public TileGrid[] grids = null;
 
         private Dictionary<int, ControlTile> tiles = new Dictionary<int, ControlTile>();
@@ -34,19 +43,10 @@ namespace DigitalWorld.TileMap
             if (null == grids || grids.Length <= 0)
                 return;
 
-            int w1 = size.x / 2;
-            int h1 = size.y / 2;
-
             for (int i = 0; i < grids.Length; ++i)
             {
                 TileGrid grid = grids[i];
-                grid.index = i;
-                int y = i / size.x;
-                int x = i % size.x;
-
-                Vector3 pos = new Vector3(x - w1 + 0.5f, 0, y - h1 + 0.5f);
-                Transform t = grid.transform;
-                t.localPosition = pos;
+                grid.Setup(this, i);
             }
         }
 
