@@ -7,6 +7,7 @@ namespace DigitalWorld.Table
         public TableManager()
         {
             this.OnDecodeTable = OnProcessDecodeTable;
+            this.OnDecodeTableWithXml = OnProcessDecodeTableWithXml;
         }
 
         /// <summary>
@@ -16,6 +17,14 @@ namespace DigitalWorld.Table
         /// <param name="table">表的数据流</param>
         /// <param name="tableName">表名</param>
         private void OnProcessDecodeTable(ByteBuffer table, string tableName)
+        {
+            if (null != table)
+            {
+
+            }
+        }
+
+        private void OnProcessDecodeTableWithXml(ByteBuffer table, string tableName)
         {
             if (null != table)
             {

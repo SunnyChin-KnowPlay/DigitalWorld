@@ -17,6 +17,7 @@ namespace DigitalWorld.Table
         /// <param name="tableName">表名</param>
         public delegate void OnDecodeTableHandle(ByteBuffer table, string tableName);
         public OnDecodeTableHandle OnDecodeTable;
+        public OnDecodeTableHandle OnDecodeTableWithXml;
         #endregion
 
         #region Tables
@@ -40,6 +41,14 @@ namespace DigitalWorld.Table
             if (null != OnDecodeTable)
             {
                 OnDecodeTable.Invoke(table, tableName);
+            }
+        }
+
+        private void ApplyDecodeTableWithXml(ByteBuffer table, string tableName)
+        {
+            if (null != OnDecodeTableWithXml)
+            {
+                OnDecodeTableWithXml.Invoke(table, tableName);
             }
         }
 
