@@ -69,8 +69,6 @@ namespace DigitalWorld.TileMap
         {
             this.SetupTiles();
         }
-
-
         #endregion
 
         #region Tiles
@@ -83,8 +81,6 @@ namespace DigitalWorld.TileMap
                 this.ClearTiles();
             else
                 this.tiles = new Dictionary<int, ControlTile>();
-
-
         }
 
         /// <summary>

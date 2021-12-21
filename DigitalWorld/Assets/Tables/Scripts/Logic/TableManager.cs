@@ -39,7 +39,7 @@ namespace DigitalWorld.Table
                     if (null != root)
                     {
                         table.Decode(root);
-                        
+
                     }
                 }
             }
