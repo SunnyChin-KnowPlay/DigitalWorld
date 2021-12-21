@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace DigitalWorld.Table
 {
-    /// <summary>
+	    /// <summary>
     /// 地基
     /// </summary>
     public partial class TilebaseInfo : InfoBase
@@ -36,7 +36,27 @@ namespace DigitalWorld.Table
         {
         }
 
-        #region Decode
+#region Encode
+        protected override void OnEncode(byte[] buffer, int pos)
+        {
+            base.OnEncode(buffer, pos);
+
+            this.Encode(this._id);
+            this.Encode(this._name);
+            this.Encode(this._prefabPath);
+        }
+
+        protected override void OnEncode(XmlElement element)
+        {
+            base.OnEncode(element);
+
+            this.Encode(this._id, "id");
+            this.Encode(this._name, "name");
+            this.Encode(this._prefabPath, "prefabPath");
+        }
+        #endregion
+
+#region Decode
         protected override void OnDecode(byte[] buffer, int pos)
         {
             base.OnDecode(buffer, pos);
@@ -54,11 +74,11 @@ namespace DigitalWorld.Table
             this.Decode(ref this._name, "name");
             this.Decode(ref this._prefabPath, "prefabPath");
         }
-        #endregion
+#endregion
     }
 
 
-    /// <summary>
+	    /// <summary>
     /// 地基
     /// </summary>
     [TableNameAttibute("tilebase")]

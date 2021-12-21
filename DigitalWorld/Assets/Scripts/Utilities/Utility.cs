@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace DigitalWorld.Utilities.Editor
+namespace DigitalWorld.Utilities
 {
     public static class Utility
     {

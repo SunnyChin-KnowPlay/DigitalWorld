@@ -1,4 +1,4 @@
-using DigitalWorld.Utilities.Editor;
+using DigitalWorld.Utilities;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -10,98 +10,52 @@ namespace DigitalWorld.Table.Editor
     [InitializeOnLoad]
     public class TableEditorWindow : EditorWindow
     {
-        private const string outputCodeKey = "Table.OutputCode";
-        private const string defaultOutPutCodePath = "Tables/Scripts/Generated";
 
-        private const string modelKey = "Table.Model";
-        private const string defaultModelPath = "D:/Projects/DigitalWorld/DigitalWorld-Config/Models/models.xml";
 
-        private const string excelKey = "Table.Excel";
-        private const string defaultExcelPath = "D:/Projects/DigitalWorld/DigitalWorld-Config/Tables";
-
-        private const string configSrcKey = "Table.Config.Src";
-        private const string defaultConfigSrc = "D:/Projects/DigitalWorld/DigitalWorld-Config/Configs";
-
-        private const string configXmlKey = "Table.Config.Xml";
-        private const string defaultConfigXml = "Tables/Config/Xml";
-
-        private const string configDataKey = "Table.Config.Data";
-        private const string defaultConfigData = "Res/Config/Datas";
-
-        private const string GenerateCodesCmd = "GenerateCodesWithModel";
-        private const string GenerateTablesCmd = "GenerateTablesWithModel";
-        private const string ConvertExcelsToConfigCmd = "ConvertExcelsToConfig";
-        private const string ConvertConfigsToExcelCmd = "ConvertConfigsToExcel";
-
-        /// <summary>
-        /// 配置的源文件(config中的)路径
-        /// </summary>
-        public static string ConfigSrcPath
-        {
-            get { return Utility.GetString(configSrcKey, defaultConfigSrc); }
-        }
-
-        /// <summary>
-        /// excel文件的路径
-        /// </summary>
-        public static string ExcelTablePath
-        {
-            get { return Utility.GetString(excelKey, defaultExcelPath); }
-        }
-
-        public static string ModelPath
-        {
-            get { return Utility.GetString(modelKey, defaultModelPath); }
-        }
-
-        public static string CodeGeneratedPath
-        {
-            get { return Utility.GetString(outputCodeKey, defaultOutPutCodePath); }
-        }
 
         static TableEditorWindow()
         {
-            Utility.SetDefaultString(outputCodeKey, defaultOutPutCodePath);
-            Utility.SetDefaultString(modelKey, defaultModelPath);
-            Utility.SetDefaultString(excelKey, defaultExcelPath);
-            Utility.SetDefaultString(configXmlKey, Path.Combine(Application.dataPath, defaultConfigXml));
-            Utility.SetDefaultString(configDataKey, Path.Combine(Application.dataPath, defaultConfigData));
+            Utilities.Utility.SetDefaultString(Utility.outputCodeKey, Path.Combine(Application.dataPath, Utility.defaultOutPutCodePath));
+            Utilities.Utility.SetDefaultString(Utility.modelKey, Utility.defaultModelPath);
+            Utilities.Utility.SetDefaultString(Utility.excelKey, Utility.defaultExcelPath);
+            Utilities.Utility.SetDefaultString(Utility.configXmlKey, Path.Combine(Application.dataPath, Utility.defaultConfigXml));
+            Utilities.Utility.SetDefaultString(Utility.configDataKey, Path.Combine(Application.dataPath, Utility.defaultConfigData));
         }
 
         #region MenuItems
         [MenuItem("Table/Generate/Generate Codes")]
         private static void GenerateCodes()
         {
-            ExecuteTableGenerate(GenerateCodesCmd);
-           
+            ExecuteTableGenerate(Utility.GenerateCodesCmd);
+
             AssetDatabase.Refresh();
         }
 
         [MenuItem("Table/Generate/Generate Tables")]
         private static void GenerateTablesWithModel()
         {
-            ExecuteTableGenerate(GenerateTablesCmd);
+            ExecuteTableGenerate(Utility.GenerateTablesCmd);
         }
 
         [MenuItem("Table/Convert/ConvertExcelsToConfig")]
         private static void ConvertExcelsToConfig()
         {
-            ExecuteTableGenerate(ConvertExcelsToConfigCmd);
+            ExecuteTableGenerate(Utility.ConvertExcelsToConfigCmd);
         }
 
         [MenuItem("Table/Convert/ConvertConfigsToExcel")]
         private static void ConvertConfigsToExcel()
         {
-            ExecuteTableGenerate(ConvertConfigsToExcelCmd);
+            ExecuteTableGenerate(Utility.ConvertConfigsToExcelCmd);
         }
 
         [MenuItem("Table/CopyXmlFromConfig")]
         private static void CopyXmlFromConfig()
         {
-            string targetPath = Utility.GetString(configXmlKey, Path.Combine(Application.dataPath, defaultConfigXml));
+            string targetPath = Utilities.Utility.GetString(Utility.configXmlKey, Path.Combine(Application.dataPath, Utility.defaultConfigXml));
             ClearDirectory(targetPath);
 
-            CopyDirectory(Utility.GetString(configSrcKey, defaultConfigSrc), targetPath, null);
+            CopyDirectory(Utilities.Utility.GetString(Utility.configSrcKey, Utility.defaultConfigSrc), targetPath, null);
             AssetDatabase.Refresh();
         }
         #endregion
@@ -126,10 +80,10 @@ namespace DigitalWorld.Table.Editor
 
             List<string> argList = new List<string>(5)
             {
-                ConfigSrcPath,
-                ExcelTablePath,
-                ModelPath,
-                CodeGeneratedPath,
+                Utility.ConfigSrcPath,
+               Utility. ExcelTablePath,
+                Utility.ModelPath,
+                Utility.CodeGeneratedPath,
                 cmd
             };
 

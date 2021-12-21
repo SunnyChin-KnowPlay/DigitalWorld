@@ -10,30 +10,45 @@ namespace DigitalWorld.Table
     {
         #region Event
         /// <summary>
-        /// 解码表格
-        /// 请执行I/O读取出数据并调用table.Decode()以实现解码并注入表格功能
+        /// 处理表格
         /// </summary>
         /// <param name="table">表格的对象</param>
         /// <param name="tableName">表名</param>
-        public delegate void OnDecodeTableHandle(ByteBuffer table, string tableName);
-        public OnDecodeTableHandle OnDecodeTable;
-        public OnDecodeTableHandle OnDecodeTableWithXml;
+        private delegate void OnTableHandle(ByteBuffer table, string tableName);
+        /// <summary>
+        /// 解码表格
+        /// 请执行I/O读取出数据并调用table.Decode()以实现解码并注入表格功能
+        /// </summary>
+        private OnTableHandle OnDecodeTable;
+        /// <summary>
+        /// 从xml来解码表格
+        /// </summary>
+        private OnTableHandle OnDecodeTableWithXml;
+        /// <summary>
+        /// encode table
+        /// </summary>
+        private OnTableHandle OnEncodeTable;
         #endregion
 
         #region Tables
-        public CharacterTable CharacterTable { get; private set; }
-        public TilebaseTable TilebaseTable { get; private set; }
-        public TileTable TileTable { get; private set; }
+        public CharacterTable CharacterTable { get; private set; } = new CharacterTable();
+        public TilebaseTable TilebaseTable { get; private set; } = new TilebaseTable();
+        public TileTable TileTable { get; private set; } = new TileTable();
         #endregion
 
+        #region Decode
         public void Decode()
         {
-            CharacterTable = new CharacterTable();
             this.ApplyDecodeTable(CharacterTable, "character");
-            TilebaseTable = new TilebaseTable();
             this.ApplyDecodeTable(TilebaseTable, "tilebase");
-            TileTable = new TileTable();
             this.ApplyDecodeTable(TileTable, "tile");
+        }
+
+        public void DecodeXml()
+        {
+            this.ApplyDecodeTableWithXml(CharacterTable, "character");
+            this.ApplyDecodeTableWithXml(TilebaseTable, "tilebase");
+            this.ApplyDecodeTableWithXml(TileTable, "tile");
         }
 
         private void ApplyDecodeTable(ByteBuffer table, string tableName)
@@ -51,6 +66,24 @@ namespace DigitalWorld.Table
                 OnDecodeTableWithXml.Invoke(table, tableName);
             }
         }
+        #endregion
+
+        #region Encode
+        public void Encode()
+        {
+            this.ApplyEncodeTable(CharacterTable, "character");
+            this.ApplyEncodeTable(TilebaseTable, "tilebase");
+            this.ApplyEncodeTable(TileTable, "tile");
+        }
+
+        private void ApplyEncodeTable(ByteBuffer table, string tableName)
+        {
+            if (null != OnEncodeTable)
+            {
+                OnEncodeTable.Invoke(table, tableName);
+            }
+        }
+        #endregion
 
     }
 }

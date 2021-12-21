@@ -1,4 +1,6 @@
 ﻿using Dream.Proto;
+using System.IO;
+using System.Xml;
 
 namespace DigitalWorld.Table
 {
@@ -8,8 +10,17 @@ namespace DigitalWorld.Table
         {
             this.OnDecodeTable = OnProcessDecodeTable;
             this.OnDecodeTableWithXml = OnProcessDecodeTableWithXml;
+            this.OnEncodeTable = OnProcessEncodeTable;
         }
 
+        #region Utility
+        private string GetXmlFilePath(string tableName)
+        {
+            return "";
+        }
+        #endregion
+
+        #region Listen
         /// <summary>
         /// 处理解码表格
         /// 先I/O出数据流并解析到对象
@@ -20,7 +31,17 @@ namespace DigitalWorld.Table
         {
             if (null != table)
             {
-
+                using (FileStream fs = File.Open(GetXmlFilePath(tableName), FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    XmlDocument xmlDocument = new XmlDocument();
+                    xmlDocument.Load(fs);
+                    XmlElement root = xmlDocument["table"];
+                    if (null != root)
+                    {
+                        table.Decode(root);
+                        
+                    }
+                }
             }
         }
 
@@ -31,5 +52,14 @@ namespace DigitalWorld.Table
 
             }
         }
+
+        private void OnProcessEncodeTable(ByteBuffer table, string tableName)
+        {
+            if (null != table)
+            {
+
+            }
+        }
+        #endregion
     }
 }

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace DigitalWorld.Table
 {
-    /// <summary>
+	    /// <summary>
     /// 地块
     /// </summary>
     public partial class TileInfo : InfoBase
@@ -46,17 +46,38 @@ namespace DigitalWorld.Table
         /// 攻击力
         /// </summary>
         public int attack => _attack;
-        private int _defense;
-        /// <summary>
-        /// 防御力
-        /// </summary>
-        public int defense => _defense;
 
         public TileInfo()
         {
         }
 
-        #region Decode
+#region Encode
+        protected override void OnEncode(byte[] buffer, int pos)
+        {
+            base.OnEncode(buffer, pos);
+
+            this.Encode(this._id);
+            this.Encode(this._name);
+            this.Encode(this._baseType);
+            this.Encode(this._prefabPath);
+            this.Encode(this._hp);
+            this.Encode(this._attack);
+        }
+
+        protected override void OnEncode(XmlElement element)
+        {
+            base.OnEncode(element);
+
+            this.Encode(this._id, "id");
+            this.Encode(this._name, "name");
+            this.Encode(this._baseType, "baseType");
+            this.Encode(this._prefabPath, "prefabPath");
+            this.Encode(this._hp, "hp");
+            this.Encode(this._attack, "attack");
+        }
+        #endregion
+
+#region Decode
         protected override void OnDecode(byte[] buffer, int pos)
         {
             base.OnDecode(buffer, pos);
@@ -67,7 +88,6 @@ namespace DigitalWorld.Table
             this.Decode(ref this._prefabPath);
             this.Decode(ref this._hp);
             this.Decode(ref this._attack);
-            this.Decode(ref this._defense);
         }
 
         protected override void OnDecode(XmlElement element)
@@ -80,13 +100,12 @@ namespace DigitalWorld.Table
             this.Decode(ref this._prefabPath, "prefabPath");
             this.Decode(ref this._hp, "hp");
             this.Decode(ref this._attack, "attack");
-            this.Decode(ref this._defense, "defense");
         }
-        #endregion
+#endregion
     }
 
 
-    /// <summary>
+	    /// <summary>
     /// 地块
     /// </summary>
     [TableNameAttibute("tile")]

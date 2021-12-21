@@ -2,7 +2,7 @@ using System.Diagnostics;
 using UnityEditor;
 using UnityEngine;
 using System.IO;
-using DigitalWorld.Utilities.Editor;
+using DigitalWorld.Utilities;
 
 [InitializeOnLoad]
 public class ProtocolEditorWindow : EditorWindow
