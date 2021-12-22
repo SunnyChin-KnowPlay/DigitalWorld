@@ -15,10 +15,10 @@ public class ProtocolEditorWindow : EditorWindow
 
     static ProtocolEditorWindow()
     {
-        PlayerPrefs.DeleteAll();
+        //PlayerPrefs.DeleteAll();
 
-        Utility.SetDefaultString(outputKey, defaultOutPutPath);
-        Utility.SetDefaultString(srcKey, defaultSrcPath);
+        //Utility.SetDefaultString(outputKey, defaultOutPutPath);
+        //Utility.SetDefaultString(srcKey, defaultSrcPath);
     }
 
     [MenuItem("Protocol/Generate Protocols")]
