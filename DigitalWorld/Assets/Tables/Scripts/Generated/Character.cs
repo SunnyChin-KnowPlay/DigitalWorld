@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace DigitalWorld.Table
 {
-    /// <summary>
+	    /// <summary>
     /// 角色
     /// </summary>
     public partial class CharacterInfo : InfoBase
@@ -36,7 +36,7 @@ namespace DigitalWorld.Table
         {
         }
 
-        #region Encode
+#region Encode
         protected override void OnEncode(byte[] buffer, int pos)
         {
             base.OnEncode(buffer, pos);
@@ -56,7 +56,7 @@ namespace DigitalWorld.Table
         }
         #endregion
 
-        #region Decode
+#region Decode
         protected override void OnDecode(byte[] buffer, int pos)
         {
             base.OnDecode(buffer, pos);
@@ -74,9 +74,9 @@ namespace DigitalWorld.Table
             this.Decode(ref this._name, "name");
             this.Decode(ref this._attributes, "attributes");
         }
-        #endregion
+#endregion
 
-        #region Calculate Size
+#region Calculate Size
         protected override void OnCalculateSize()
         {
             base.OnCalculateSize();
@@ -85,22 +85,16 @@ namespace DigitalWorld.Table
             this.CalculateSize(this._name);
             this.CalculateSize(this._attributes);
         }
-        #endregion
+#endregion
     }
 
 
-    /// <summary>
+	    /// <summary>
     /// 角色
     /// </summary>
     [TableNameAttibute("character")]
     public partial class CharacterTable : TableBase<CharacterInfo>
     {
-        public CharacterTable()
-        {
-            
-        }
-
-
         public override string TableName => "character";
     }
 }

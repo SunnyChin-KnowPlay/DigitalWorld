@@ -11,17 +11,15 @@ namespace DigitalWorld.Table.Editor
     public class TableEditorWindow : EditorWindow
     {
 
-
-
         static TableEditorWindow()
         {
-            PlayerPrefs.DeleteAll();
+            //PlayerPrefs.DeleteAll();
 
-            Utilities.Utility.SetDefaultString(Utility.outputCodeKey, Path.Combine(Application.dataPath, Utility.defaultOutPutCodePath));
-            Utilities.Utility.SetDefaultString(Utility.modelKey, Utility.defaultModelPath);
-            Utilities.Utility.SetDefaultString(Utility.excelKey, Utility.defaultExcelPath);
-            Utilities.Utility.SetDefaultString(Utility.configXmlKey, Path.Combine(Application.dataPath, Utility.defaultConfigXml));
-            Utilities.Utility.SetDefaultString(Utility.configDataKey, Path.Combine(Application.dataPath, Utility.defaultConfigData));
+            //Utilities.Utility.SetDefaultString(Utility.outputCodeKey, Path.Combine(Application.dataPath, Utility.defaultOutPutCodePath));
+            //Utilities.Utility.SetDefaultString(Utility.modelKey, Utility.defaultModelPath);
+            //Utilities.Utility.SetDefaultString(Utility.excelKey, Utility.defaultExcelPath);
+            //Utilities.Utility.SetDefaultString(Utility.configXmlKey, Path.Combine(Application.dataPath, Utility.defaultConfigXml));
+            //Utilities.Utility.SetDefaultString(Utility.configDataKey, Path.Combine(Application.dataPath, Utility.defaultConfigData));
         }
 
         #region MenuItems

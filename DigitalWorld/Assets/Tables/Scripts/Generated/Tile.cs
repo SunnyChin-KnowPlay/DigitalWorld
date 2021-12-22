@@ -108,12 +108,12 @@ namespace DigitalWorld.Table
         {
             base.OnCalculateSize();
 
-             this.CalculateSize(this._id);
-             this.CalculateSize(this._name);
-             this.CalculateSize(this._baseType);
-             this.CalculateSize(this._prefabPath);
-             this.CalculateSize(this._hp);
-             this.CalculateSize(this._attack);
+            this.CalculateSize(this._id);
+            this.CalculateSize(this._name);
+            this.CalculateSize(this._baseType);
+            this.CalculateSize(this._prefabPath);
+            this.CalculateSize(this._hp);
+            this.CalculateSize(this._attack);
         }
 #endregion
     }

@@ -1,58 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <table>
-  <record>
-    <id key="id" value="1" type="int" desc="唯一ID" />
-    <name key="name" value="起点" type="string" desc="名字" />
-    <prefabPath key="prefabPath" value="Tile/Origin" type="string" desc="地块预制件路径" />
-  </record>
-  <record>
-    <id key="id" value="2" type="int" desc="唯一ID" />
-    <name key="name" value="赌场" type="string" desc="名字" />
-    <prefabPath key="prefabPath" value="Tile/Casino" type="string" desc="地块预制件路径" />
-  </record>
-  <record>
-    <id key="id" value="3" type="int" desc="唯一ID" />
-    <name key="name" value="宝箱" type="string" desc="名字" />
-    <prefabPath key="prefabPath" value="Tile/Chest" type="string" desc="地块预制件路径" />
-  </record>
-  <record>
-    <id key="id" value="4" type="int" desc="唯一ID" />
-    <name key="name" value="门" type="string" desc="名字" />
-    <prefabPath key="prefabPath" value="Tile/Door" type="string" desc="地块预制件路径" />
-  </record>
-  <record>
-    <id key="id" value="5" type="int" desc="唯一ID" />
-    <name key="name" value="草地" type="string" desc="名字" />
-    <prefabPath key="prefabPath" value="Tile/Grass" type="string" desc="地块预制件路径" />
-  </record>
-  <record>
-    <id key="id" value="6" type="int" desc="唯一ID" />
-    <name key="name" value="魔晶" type="string" desc="名字" />
-    <prefabPath key="prefabPath" value="Tile/MagicStone" type="string" desc="地块预制件路径" />
-  </record>
-  <record>
-    <id key="id" value="7" type="int" desc="唯一ID" />
-    <name key="name" value="怪物" type="string" desc="名字" />
-    <prefabPath key="prefabPath" value="Tile/Monster" type="string" desc="地块预制件路径" />
-  </record>
-  <record>
-    <id key="id" value="8" type="int" desc="唯一ID" />
-    <name key="name" value="山" type="string" desc="名字" />
-    <prefabPath key="prefabPath" value="Tile/Mountion" type="string" desc="地块预制件路径" />
-  </record>
-  <record>
-    <id key="id" value="9" type="int" desc="唯一ID" />
-    <name key="name" value="商店" type="string" desc="名字" />
-    <prefabPath key="prefabPath" value="Tile/Shop" type="string" desc="地块预制件路径" />
-  </record>
-  <record>
-    <id key="id" value="10" type="int" desc="唯一ID" />
-    <name key="name" value="阻挡" type="string" desc="名字" />
-    <prefabPath key="prefabPath" value="Tile/Block" type="string" desc="地块预制件路径" />
-  </record>
-  <record>
-    <id key="id" value="11" type="int" desc="唯一ID" />
-    <name key="name" value="旅行者" type="string" desc="名字" />
-    <prefabPath key="prefabPath" value="Tile/Traveller" type="string" desc="地块预制件路径" />
-  </record>
+  <record id="1" name="起点" prefabPath="Tile/Origin" />
+  <record id="2" name="赌场" prefabPath="Tile/Casino" />
+  <record id="3" name="宝箱" prefabPath="Tile/Chest" />
+  <record id="4" name="门" prefabPath="Tile/Door" />
+  <record id="5" name="草地" prefabPath="Tile/Grass" />
+  <record id="6" name="魔晶" prefabPath="Tile/MagicStone" />
+  <record id="7" name="怪物" prefabPath="Tile/Monster" />
+  <record id="8" name="山" prefabPath="Tile/Mountion" />
+  <record id="9" name="商店" prefabPath="Tile/Shop" />
+  <record id="10" name="阻挡" prefabPath="Tile/Block" />
+  <record id="11" name="旅行者" prefabPath="Tile/Traveller" />
 </table>

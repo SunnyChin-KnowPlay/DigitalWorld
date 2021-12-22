@@ -14,7 +14,7 @@ namespace DigitalWorld.Table
             this.OnEncodeTable = OnProcessEncodeTable;
 
             this.DecodeXml();
-
+            this.Encode();
 
             int x = 1;
         }
@@ -22,7 +22,8 @@ namespace DigitalWorld.Table
         #region Utility
         private string GetXmlFilePath(string tableName)
         {
-            return Utilities.Utility.GetString(Utility.configXmlKey, Path.Combine(Application.dataPath, Utility.defaultConfigXml));
+            string folderPath = Utilities.Utility.GetString(Utility.configXmlKey, Path.Combine(Application.dataPath, Utility.defaultConfigXml));
+            return string.Format("{0}/{1}.xml", folderPath, tableName);
         }
         #endregion
 
@@ -37,6 +38,14 @@ namespace DigitalWorld.Table
         {
             if (null != table)
             {
+                
+            }
+        }
+
+        private void OnProcessDecodeTableWithXml(ByteBuffer table, string tableName)
+        {
+            if (null != table)
+            {
                 using (FileStream fs = File.Open(GetXmlFilePath(tableName), FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
                     XmlDocument xmlDocument = new XmlDocument();
@@ -48,14 +57,6 @@ namespace DigitalWorld.Table
 
                     }
                 }
-            }
-        }
-
-        private void OnProcessDecodeTableWithXml(ByteBuffer table, string tableName)
-        {
-            if (null != table)
-            {
-
             }
         }
 
