@@ -154,6 +154,16 @@ namespace DigitalWorld.Proto.Common
             this.Decode(ref this._password, "password");
         }
 #endregion
+
+#region Calculate Size
+        protected override void OnCalculateSize()
+        {
+            base.OnCalculateSize();
+
+             this.CalculateSize(this._account);
+             this.CalculateSize(this._password);
+        }
+#endregion
     }
 
             /// <summary>
@@ -265,6 +275,17 @@ namespace DigitalWorld.Proto.Common
             this.DecodeEnum(ref this._result, "result");
         }
 #endregion
+
+#region Calculate Size
+        protected override void OnCalculateSize()
+        {
+            base.OnCalculateSize();
+
+             this.CalculateSize(this._userId);
+             this.CalculateSize(this._token);
+             this.CalculateSizeEnum(this._result);
+        }
+#endregion
     }
 
             /// <summary>
@@ -361,6 +382,16 @@ namespace DigitalWorld.Proto.Common
 
             this.DecodeEnum(ref this._code, "code");
             this.Decode(ref this._text, "text");
+        }
+#endregion
+
+#region Calculate Size
+        protected override void OnCalculateSize()
+        {
+            base.OnCalculateSize();
+
+             this.CalculateSizeEnum(this._code);
+             this.CalculateSize(this._text);
         }
 #endregion
     }
@@ -461,6 +492,16 @@ namespace DigitalWorld.Proto.Common
             this.Decode(ref this._port, "port");
         }
 #endregion
+
+#region Calculate Size
+        protected override void OnCalculateSize()
+        {
+            base.OnCalculateSize();
+
+             this.CalculateSize(this._ip);
+             this.CalculateSize(this._port);
+        }
+#endregion
     }
 
             /// <summary>
@@ -559,6 +600,16 @@ namespace DigitalWorld.Proto.Common
             this.Decode(ref this._port, "port");
         }
 #endregion
+
+#region Calculate Size
+        protected override void OnCalculateSize()
+        {
+            base.OnCalculateSize();
+
+             this.CalculateSize(this._ip);
+             this.CalculateSize(this._port);
+        }
+#endregion
     }
 
             /// <summary>
@@ -655,6 +706,16 @@ namespace DigitalWorld.Proto.Common
 
             this.Decode(ref this._token, "token");
             this.DecodeEnum(ref this._result, "result");
+        }
+#endregion
+
+#region Calculate Size
+        protected override void OnCalculateSize()
+        {
+            base.OnCalculateSize();
+
+             this.CalculateSize(this._token);
+             this.CalculateSizeEnum(this._result);
         }
 #endregion
     }

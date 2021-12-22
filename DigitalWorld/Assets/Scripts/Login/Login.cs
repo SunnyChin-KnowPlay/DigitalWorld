@@ -1,4 +1,5 @@
-﻿using DigitalWorld.UI;
+﻿using DigitalWorld.Table;
+using DigitalWorld.UI;
 using DigitalWorld.UI.Logic;
 using UnityEngine;
 
@@ -12,6 +13,8 @@ namespace DigitalWorld.Login
 
             UIManager uiManager = UIManager.Instance;
             uiManager.ShowPanel<LoginControl>(LoginControl.path);
+
+            _ = TableManager.instance;
         }
     }
 }

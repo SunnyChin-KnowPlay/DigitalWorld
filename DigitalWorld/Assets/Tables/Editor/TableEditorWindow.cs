@@ -15,6 +15,8 @@ namespace DigitalWorld.Table.Editor
 
         static TableEditorWindow()
         {
+            PlayerPrefs.DeleteAll();
+
             Utilities.Utility.SetDefaultString(Utility.outputCodeKey, Path.Combine(Application.dataPath, Utility.defaultOutPutCodePath));
             Utilities.Utility.SetDefaultString(Utility.modelKey, Utility.defaultModelPath);
             Utilities.Utility.SetDefaultString(Utility.excelKey, Utility.defaultExcelPath);

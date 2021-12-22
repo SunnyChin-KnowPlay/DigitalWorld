@@ -101,6 +101,16 @@ namespace DigitalWorld.Proto.Game
             this.Decode(ref this._tileBaseId, "tileBaseId");
         }
         #endregion
+
+        #region Calculate Size
+        protected override void OnCalculateSize()
+        {
+            base.OnCalculateSize();
+
+            this.CalculateSize(this._tileId);
+            this.CalculateSize(this._tileBaseId);
+        }
+        #endregion
     }
 
 }

@@ -1,6 +1,7 @@
 ﻿using Dream.Proto;
 using System.IO;
 using System.Xml;
+using UnityEngine;
 
 namespace DigitalWorld.Table
 {
@@ -11,12 +12,17 @@ namespace DigitalWorld.Table
             this.OnDecodeTable = OnProcessDecodeTable;
             this.OnDecodeTableWithXml = OnProcessDecodeTableWithXml;
             this.OnEncodeTable = OnProcessEncodeTable;
+
+            this.DecodeXml();
+
+
+            int x = 1;
         }
 
         #region Utility
         private string GetXmlFilePath(string tableName)
         {
-            return "";
+            return Utilities.Utility.GetString(Utility.configXmlKey, Path.Combine(Application.dataPath, Utility.defaultConfigXml));
         }
         #endregion
 
@@ -57,6 +63,10 @@ namespace DigitalWorld.Table
         {
             if (null != table)
             {
+                int size = table.CalculateSize();
+                byte[] data = new byte[size];
+                table.Encode(data, 0);
+
 
             }
         }

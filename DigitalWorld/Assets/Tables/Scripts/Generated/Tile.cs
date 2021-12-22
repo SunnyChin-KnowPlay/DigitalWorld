@@ -102,6 +102,20 @@ namespace DigitalWorld.Table
             this.Decode(ref this._attack, "attack");
         }
 #endregion
+
+#region Calculate Size
+        protected override void OnCalculateSize()
+        {
+            base.OnCalculateSize();
+
+             this.CalculateSize(this._id);
+             this.CalculateSize(this._name);
+             this.CalculateSize(this._baseType);
+             this.CalculateSize(this._prefabPath);
+             this.CalculateSize(this._hp);
+             this.CalculateSize(this._attack);
+        }
+#endregion
     }
 
 
