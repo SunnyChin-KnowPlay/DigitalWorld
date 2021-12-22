@@ -21,20 +21,8 @@ MonoBehaviour:
     m_Address: UI
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: c437655b1edf23a4098ff720d9f2a8cb
-    m_Address: Unit
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: c9871b819084f884a9f90789785d24db
-    m_Address: Animators
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: bbaf918217f261544bf09334b548c615
     m_Address: Map
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: e5aa5ea6074c84e46b5c4cd1474a8842
-    m_Address: Tile
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0
