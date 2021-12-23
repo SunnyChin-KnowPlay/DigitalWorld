@@ -11,6 +11,7 @@ namespace DigitalWorld.TileMap
     /// </summary>
     public class TileMapControl : MonoBehaviour
     {
+        #region Params
         public Vector2 gridSize = Vector2.one;
         /// <summary>
         /// 格子尺寸
@@ -24,6 +25,25 @@ namespace DigitalWorld.TileMap
         public TileGrid[] grids = null;
 
         private Dictionary<int, ControlTile> tiles = new Dictionary<int, ControlTile>();
+        #endregion
+
+        #region Edit Params
+#if UNITY_EDITOR
+        /// <summary>
+        /// 是否正在编辑中
+        /// </summary>
+        private bool isEditing = false;
+        public bool IsEditing
+        {
+            get { return isEditing; }
+        }
+
+        /// <summary>
+        /// 当前选中的瓦片
+        /// </summary>
+        public static GameObject currentEditTileGo = null;
+#endif
+        #endregion
 
         // Start is called before the first frame update
         void Start()
@@ -69,6 +89,11 @@ namespace DigitalWorld.TileMap
         {
             this.SetupTiles();
         }
+
+        public void Clear()
+        {
+            this.ClearTiles();
+        }
         #endregion
 
         #region Tiles
@@ -94,6 +119,21 @@ namespace DigitalWorld.TileMap
             }
             this.tiles.Clear();
         }
+        #endregion
+
+        #region Edit Func
+#if UNITY_EDITOR
+        public void StartEdit()
+        {
+            this.isEditing = true;
+        }
+
+        public void StopEdit()
+        {
+
+            this.isEditing = false;
+        }
+#endif
         #endregion
     }
 

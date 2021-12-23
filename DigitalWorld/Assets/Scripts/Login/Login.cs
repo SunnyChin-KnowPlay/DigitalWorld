@@ -9,13 +9,13 @@ namespace DigitalWorld.Login
     {
         private void Awake()
         {
+            TableManager tm = TableManager.instance;
+            tm.Decode();
+
             _ = MainController.Instance;
 
             UIManager uiManager = UIManager.Instance;
             uiManager.ShowPanel<LoginControl>(LoginControl.path);
-
-            TableManager tm = TableManager.instance;
-            tm.Decode();
 
         }
     }

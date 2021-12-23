@@ -50,6 +50,8 @@ namespace DigitalWorld.TileMap
 
             trans.localPosition = pos;
             trans.localScale = new Vector3(mapControl.GridSize.x, trans.localScale.y, mapControl.GridSize.y);
+
+            this.gameObject.layer = LayerMask.NameToLayer("Terrain");
         }
         #endregion
 
@@ -72,6 +74,10 @@ namespace DigitalWorld.TileMap
             }
 
         }
+        #endregion
+
+        #region Touch
+
         #endregion
     }
 }
