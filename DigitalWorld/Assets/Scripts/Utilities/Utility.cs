@@ -1,4 +1,4 @@
-using UnityEditor;
+using System.IO;
 using UnityEngine;
 
 namespace DigitalWorld.Utilities
@@ -91,6 +91,32 @@ namespace DigitalWorld.Utilities
                 return;
 
             PlayerPrefs.SetInt(fullKey, value);
+        }
+
+        public static void ClearDirectory(string path, int index = 0)
+        {
+            if (!Directory.Exists(path))
+                return;
+
+            string[] directories = Directory.GetDirectories(path);
+            for (int i = 0; i < directories.Length; ++i)
+            {
+                ClearDirectory(directories[i], index + 1);
+            }
+
+            string[] files = Directory.GetFiles(path);
+            for (int i = 0; i < files.Length; ++i)
+            {
+                File.Delete(files[i]);
+            }
+
+            if (index > 0)
+            {
+                if (Directory.Exists(path))
+                {
+                    Directory.Delete(path);
+                }
+            }
         }
     }
 }

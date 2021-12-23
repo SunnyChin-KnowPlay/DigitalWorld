@@ -14,7 +14,9 @@ namespace DigitalWorld.Login
             UIManager uiManager = UIManager.Instance;
             uiManager.ShowPanel<LoginControl>(LoginControl.path);
 
-            _ = TableManager.instance;
+            TableManager tm = TableManager.instance;
+            tm.Decode();
+
         }
     }
 }

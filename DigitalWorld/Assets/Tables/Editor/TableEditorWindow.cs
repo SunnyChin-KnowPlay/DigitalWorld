@@ -49,6 +49,27 @@ namespace DigitalWorld.Table.Editor
             ExecuteTableGenerate(Utility.ConvertConfigsToExcelCmd);
         }
 
+        [MenuItem("Table/Convert/ConvertXmlToBytes")]
+        private static void ConvertXmlToBytes()
+        {
+            string bytesDirectory = Utilities.Utility.GetString(Utility.configDataKey, Path.Combine(Application.dataPath, Utility.defaultConfigData));
+            if (!string.IsNullOrEmpty(bytesDirectory))
+            {
+                if (!Directory.Exists(bytesDirectory))
+                    Directory.CreateDirectory(bytesDirectory);
+                else
+                {
+                    ClearDirectory(bytesDirectory);
+                }
+            }
+
+            TableManager m = TableManager.instance;
+            m.DecodeXml();
+            m.Encode();
+
+            AssetDatabase.Refresh();
+        }
+
         [MenuItem("Table/CopyXmlFromConfig")]
         private static void CopyXmlFromConfig()
         {
@@ -81,7 +102,7 @@ namespace DigitalWorld.Table.Editor
             List<string> argList = new List<string>(5)
             {
                 Utility.ConfigSrcPath,
-               Utility. ExcelTablePath,
+                Utility.ExcelTablePath,
                 Utility.ModelPath,
                 Utility.CodeGeneratedPath,
                 cmd
@@ -112,9 +133,6 @@ namespace DigitalWorld.Table.Editor
             {
                 process.Close();
             }
-
-
-
         }
 
         /// <summary>

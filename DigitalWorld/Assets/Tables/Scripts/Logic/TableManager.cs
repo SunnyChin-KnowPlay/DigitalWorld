@@ -12,11 +12,6 @@ namespace DigitalWorld.Table
             this.OnDecodeTable = OnProcessDecodeTable;
             this.OnDecodeTableWithXml = OnProcessDecodeTableWithXml;
             this.OnEncodeTable = OnProcessEncodeTable;
-
-            this.DecodeXml();
-            this.Encode();
-
-            int x = 1;
         }
 
         #region Utility
@@ -24,6 +19,12 @@ namespace DigitalWorld.Table
         {
             string folderPath = Utilities.Utility.GetString(Utility.configXmlKey, Path.Combine(Application.dataPath, Utility.defaultConfigXml));
             return string.Format("{0}/{1}.xml", folderPath, tableName);
+        }
+
+        private string GetDataFilePath(string tableName)
+        {
+            string folderPath = Utilities.Utility.GetString(Utility.configDataKey, Path.Combine(Application.dataPath, Utility.defaultConfigData));
+            return string.Format("{0}/{1}.bytes", folderPath, tableName);
         }
         #endregion
 
@@ -38,7 +39,22 @@ namespace DigitalWorld.Table
         {
             if (null != table)
             {
-                
+                string path = GetDataFilePath(tableName);
+                if (!string.IsNullOrEmpty(path))
+                {
+                    if (File.Exists(path))
+                    {
+                        using FileStream fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+                        int size = (int)fs.Length;
+                        if (size > 0)
+                        {
+                            byte[] buffer = new byte[size];
+                            size = fs.Read(buffer, 0, size);
+
+                            table.Decode(buffer, 0);
+                        }
+                    }
+                }
             }
         }
 
@@ -46,16 +62,13 @@ namespace DigitalWorld.Table
         {
             if (null != table)
             {
-                using (FileStream fs = File.Open(GetXmlFilePath(tableName), FileMode.Open, FileAccess.Read, FileShare.Read))
+                using FileStream fs = File.Open(GetXmlFilePath(tableName), FileMode.Open, FileAccess.Read, FileShare.Read);
+                XmlDocument xmlDocument = new XmlDocument();
+                xmlDocument.Load(fs);
+                XmlElement root = xmlDocument["table"];
+                if (null != root)
                 {
-                    XmlDocument xmlDocument = new XmlDocument();
-                    xmlDocument.Load(fs);
-                    XmlElement root = xmlDocument["table"];
-                    if (null != root)
-                    {
-                        table.Decode(root);
-
-                    }
+                    table.Decode(root);
                 }
             }
         }
@@ -68,7 +81,18 @@ namespace DigitalWorld.Table
                 byte[] data = new byte[size];
                 table.Encode(data, 0);
 
+                string path = GetDataFilePath(tableName);
+                if (!string.IsNullOrEmpty(path))
+                {
+                    string directoryPath = Path.GetDirectoryName(path);
+                    if (!Directory.Exists(directoryPath))
+                    {
+                        Directory.CreateDirectory(directoryPath);
+                    }
 
+                    using FileStream fs = File.Open(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
+                    fs.Write(data, 0, size);
+                }
             }
         }
         #endregion
