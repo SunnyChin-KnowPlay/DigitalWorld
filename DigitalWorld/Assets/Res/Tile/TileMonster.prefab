@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5900591452580415209}
   - component: {fileID: 5234892979936365786}
   - component: {fileID: 7436360521910789421}
+  - component: {fileID: -5586184345078551277}
   m_Layer: 0
   m_Name: TileMonster
   m_TagString: Untagged
@@ -97,3 +98,15 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-5586184345078551277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5287179982778252880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcb74db6551b556479e77f3858c4b4be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

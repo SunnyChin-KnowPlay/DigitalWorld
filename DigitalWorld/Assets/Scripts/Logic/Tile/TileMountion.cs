@@ -6,6 +6,6 @@
     [TileAttibute(ETileType.Mountion)]
     public class TileMountion : ControlTile
     {
-
+        public override ETileType TileType => ETileType.Mountion;
     }
 }

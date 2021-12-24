@@ -6,6 +6,6 @@
     [TileAttibute(ETileType.Shop)]
     public class TileShop : ControlTile
     {
-
+        public override ETileType TileType => ETileType.Shop;
     }
 }

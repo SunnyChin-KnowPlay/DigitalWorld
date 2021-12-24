@@ -6,6 +6,6 @@
     [TileAttibute(ETileType.Traveller)]
     public class TileTraveller : ControlTile
     {
-
+        public override ETileType TileType => ETileType.Traveller;
     }
 }

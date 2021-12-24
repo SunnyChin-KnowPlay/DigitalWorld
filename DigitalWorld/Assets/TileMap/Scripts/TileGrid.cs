@@ -60,24 +60,34 @@ namespace DigitalWorld.TileMap
         {
             if (null != this.tile)
             {
-                tile.Destroy();
+                this.tile.Destroy();
                 this.tile = null;
             }
 
             this.tile = tile;
             if (null != this.tile)
             {
+                if (null == trans)
+                {
+                    trans = this.transform;
+                }
+
                 this.tile.GridIndex = this.index;
                 Transform tileTransform = this.tile.transform;
                 tileTransform.SetParent(trans, false);
                 tileTransform.localPosition = Vector3.up;
-            }
+                tileTransform.localScale = Vector3.one;
 
+                GameObject tileGo = this.tile.gameObject;
+                tileGo.name = "Tile";
+            }
+        }
+
+        public void Reset()
+        {
+            this.SetTile(null);
         }
         #endregion
 
-        #region Touch
-
-        #endregion
     }
 }

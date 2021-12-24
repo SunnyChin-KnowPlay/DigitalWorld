@@ -49,7 +49,14 @@ namespace DigitalWorld.Logic
         /// </summary>
         public override void Destroy()
         {
-            GameObject.Destroy(this.gameObject);
+            if (Application.isPlaying)
+            {
+                GameObject.Destroy(this.gameObject);
+            }
+            else
+            {
+                GameObject.DestroyImmediate(this.gameObject);
+            }
         }
         #endregion
 

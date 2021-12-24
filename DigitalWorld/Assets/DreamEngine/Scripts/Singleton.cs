@@ -39,7 +39,10 @@ namespace DreamEngine
                 if (null == rootObj)
                 {
                     rootObj = new GameObject(singletonRootName);
-                    GameObject.DontDestroyOnLoad(rootObj);
+                    if (Application.isPlaying)
+                    {
+                        GameObject.DontDestroyOnLoad(rootObj);
+                    }
                 }
                 return rootObj;
             }

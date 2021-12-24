@@ -1,8 +1,10 @@
+using DigitalWorld.Asset;
 using DigitalWorld.Logic;
 using Dream.FixMath;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace DigitalWorld.TileMap
 {
@@ -119,6 +121,21 @@ namespace DigitalWorld.TileMap
             }
             this.tiles.Clear();
         }
+
+        /// <summary>
+        /// 重置所有地块
+        /// </summary>
+        public void ResetGrids()
+        {
+            if (null == grids || grids.Length <= 0)
+                return;
+
+            for (int i = 0; i < grids.Length; ++i)
+            {
+                TileGrid grid = grids[i];
+                grid.Reset();
+            }
+        }
         #endregion
 
         #region Edit Func
@@ -126,11 +143,18 @@ namespace DigitalWorld.TileMap
         public void StartEdit()
         {
             this.isEditing = true;
+
+            GameObject go = AssetManager.Instance.LoadAsset<GameObject>("Tile/TileOrigin.prefab");
+            currentEditTileGo = GameObject.Instantiate(go);
         }
 
         public void StopEdit()
         {
-
+            if (null != currentEditTileGo)
+            {
+                GameObject.DestroyImmediate(currentEditTileGo);
+                currentEditTileGo = null;
+            }
             this.isEditing = false;
         }
 #endif

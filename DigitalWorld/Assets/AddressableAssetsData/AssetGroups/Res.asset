@@ -29,6 +29,14 @@ MonoBehaviour:
     m_Address: Config
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: e5aa5ea6074c84e46b5c4cd1474a8842
+    m_Address: Tile
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 07d1527261447ed4d817bc53b80eb967
+    m_Address: Shaders
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 594d75798cb81484bb1f918a5de643e6, type: 2}
   m_SchemaSet:

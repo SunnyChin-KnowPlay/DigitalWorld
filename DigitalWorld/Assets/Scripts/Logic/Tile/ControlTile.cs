@@ -7,7 +7,7 @@ namespace DigitalWorld.Logic
     /// <summary>
     /// 砖块对象
     /// </summary>
-    public partial class ControlTile : ControlUnit
+    public abstract partial class ControlTile : ControlUnit
     {
         #region Params
         private WorldManager world;
@@ -41,6 +41,8 @@ namespace DigitalWorld.Logic
                 return map.GetGrid(this.gridIndex);
             }
         }
+
+        public abstract ETileType TileType { get; }
 
         protected NavMeshObstacle obstacle = null;
         #endregion

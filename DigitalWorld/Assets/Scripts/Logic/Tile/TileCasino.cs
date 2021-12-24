@@ -6,6 +6,6 @@
     [TileAttibute(ETileType.Casino)]
     public class TileCasino : ControlTile
     {
-
+        public override ETileType TileType => ETileType.Casino;
     }
 }

@@ -6,6 +6,6 @@
     [TileAttibute(ETileType.Origin)]
     public class TileOrigin : ControlTile
     {
-
+        public override ETileType TileType => ETileType.Origin;
     }
 }

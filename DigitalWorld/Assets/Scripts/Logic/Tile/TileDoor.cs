@@ -6,6 +6,6 @@
     [TileAttibute(ETileType.Door)]
     public class TileDoor : ControlTile
     {
-
+        public override ETileType TileType => ETileType.Door;
     }
 }

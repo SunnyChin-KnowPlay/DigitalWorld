@@ -6,6 +6,6 @@
     [TileAttibute(ETileType.MagicStone)]
     public class TileMagicStone : ControlTile
     {
-
+        public override ETileType TileType => ETileType.MagicStone;
     }
 }
