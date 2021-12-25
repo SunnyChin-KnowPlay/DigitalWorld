@@ -15,6 +15,8 @@ namespace DigitalWorld.TileMap
     public class TileMapControl : MonoBehaviour
     {
         #region Params
+        public const string defaultMapDataPath = "Res/Config/Maps";
+
         public Vector2 gridSize = Vector2.one;
         /// <summary>
         /// ¸ñ×Ó³ß´ç

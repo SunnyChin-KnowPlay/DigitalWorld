@@ -9,7 +9,7 @@ namespace DigitalWorld.TileMap.Editor
     [CustomEditor(typeof(TileMapControl))]
     public class TileMapControlInspector : UnityEditor.Editor
     {
-        public const string defaultMapDataPath = "Res/Config/Maps";
+
 
         public TileMapControl tileMapControl;
 
@@ -126,7 +126,7 @@ namespace DigitalWorld.TileMap.Editor
                 data.Encode(buffer, 0);
 
                 string fileName = string.Format("{0}.bytes", data.mapId);
-                string path = Path.Combine(defaultMapDataPath, fileName);
+                string path = Path.Combine(TileMapControl.defaultMapDataPath, fileName);
                 string fullPath = Path.Combine(Application.dataPath, path);
 
                 string directoryPath = Path.GetDirectoryName(fullPath);

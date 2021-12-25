@@ -107,7 +107,7 @@ namespace DigitalWorld.TileMap.Editor
                 data.Encode(buffer, 0);
 
                 string fileName = string.Format("{0}.bytes", name);
-                string path = Path.Combine(TileMapControlInspector.defaultMapDataPath, fileName);
+                string path = Path.Combine(TileMapControl.defaultMapDataPath, fileName);
                 string fullPath = Path.Combine(Application.dataPath, path);
 
                 if (File.Exists(fullPath))

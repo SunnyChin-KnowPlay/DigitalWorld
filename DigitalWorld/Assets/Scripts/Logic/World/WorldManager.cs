@@ -1,8 +1,10 @@
 ﻿using DigitalWorld.Asset;
 using DigitalWorld.Behaviour;
+using DigitalWorld.Proto.Game;
 using DigitalWorld.TileMap;
 using Dream.Extension.Unity;
 using DreamEngine;
+using System.IO;
 using UnityEngine;
 
 namespace DigitalWorld.Logic
@@ -80,7 +82,14 @@ namespace DigitalWorld.Logic
                 tileMapControl = gameObject.GetOrAddComponent<TileMapControl>();
                 if (null != tileMapControl)
                 {
-                    tileMapControl.Setup(null);
+                    string fileName = string.Format("{0}.bytes", 1);
+                    string path = Path.Combine(TileMapControl.defaultMapDataPath, fileName);
+
+                    TextAsset mapTA = AssetManager.LoadAsset<TextAsset>(path);
+                    MapData data = new MapData();
+                    data.Decode(mapTA.bytes, 0);
+
+                    tileMapControl.Setup(data);
                 }
             }
         }
