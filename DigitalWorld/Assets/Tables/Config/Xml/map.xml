@@ -1,2 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<table />
+<table>
+  <record id="1" name="初始地图" assetPath="Res/Config/Maps/1" level="1" />
+</table>

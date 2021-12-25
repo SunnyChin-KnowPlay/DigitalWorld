@@ -9,7 +9,12 @@ namespace DigitalWorld.TileMap
         /// <summary>
         /// 索引号
         /// </summary>
+        [SerializeField]
         private int index;
+        /// <summary>
+        /// 索引号
+        /// </summary>
+        public int Index { get { return index; } }
 
         /// <summary>
         /// 砖块

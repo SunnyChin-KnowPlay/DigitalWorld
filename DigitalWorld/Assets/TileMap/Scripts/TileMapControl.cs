@@ -1,10 +1,11 @@
 using DigitalWorld.Asset;
 using DigitalWorld.Logic;
+using DigitalWorld.Proto.Game;
+using DigitalWorld.Table;
+using Dream.Extension.Unity;
 using Dream.FixMath;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace DigitalWorld.TileMap
 {
@@ -32,6 +33,29 @@ namespace DigitalWorld.TileMap
         /// 地图等级
         /// </summary>
         public int level;
+
+        /// <summary>
+        /// 当前地图资源
+        /// </summary>
+        private TextAsset currentMapAsset;
+        /// <summary>
+        /// 当前操作的地图资源
+        /// </summary>
+        public TextAsset CurrentMapAsset { get { return currentMapAsset; } }
+
+        /// <summary>
+        /// 当前地图数据
+        /// </summary>
+        private MapData mapData = null;
+        public MapData MapData
+        {
+            get { return mapData; }
+        }
+
+        private int mapId = 0;
+        public int MapId
+        { get { return mapId; } }
+
         #endregion
 
         #region Edit Params
@@ -92,11 +116,30 @@ namespace DigitalWorld.TileMap
 
             return this.grids[index];
         }
+
+
+        /// <summary>
+        /// 重置所有地块
+        /// </summary>
+        public void ResetGrids()
+        {
+            if (null == grids || grids.Length <= 0)
+                return;
+
+            for (int i = 0; i < grids.Length; ++i)
+            {
+                TileGrid grid = grids[i];
+                grid.Reset();
+            }
+        }
         #endregion
 
         #region Setup
-        public void Setup()
+        public void Setup(MapData data)
         {
+            this.mapData = data;
+            this.mapId = null != mapData ? mapData.mapId : 0;
+
             this.SetupTiles();
         }
 
@@ -116,6 +159,33 @@ namespace DigitalWorld.TileMap
                 this.ClearTiles();
             else
                 this.tiles = new Dictionary<int, ControlTile>();
+
+            if (null != this.mapData)
+            {
+                if (null != this.mapData.tiles)
+                {
+                    foreach (TileData tile in this.mapData.tiles)
+                    {
+                        ControlTile tileC = MakeTile(tile);
+                        if (null != tileC)
+                        {
+                            TileGrid grid = GetGrid(tile.index);
+                            if (null != grid)
+                            {
+                                grid.SetTile(tileC);
+
+                                if (this.tiles.ContainsKey(tile.index))
+                                    this.tiles.Remove(tile.index);
+                                this.tiles.Add(tile.index, tileC);
+                            }
+                            else
+                            {
+                                tileC.Destroy();
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -130,19 +200,38 @@ namespace DigitalWorld.TileMap
             this.tiles.Clear();
         }
 
-        /// <summary>
-        /// 重置所有地块
-        /// </summary>
-        public void ResetGrids()
+        private ControlTile MakeTile(TileData tileData)
         {
-            if (null == grids || grids.Length <= 0)
-                return;
+            TableManager tm = TableManager.instance;
+            //强制加载
+            tm.Decode();
 
-            for (int i = 0; i < grids.Length; ++i)
-            {
-                TileGrid grid = grids[i];
-                grid.Reset();
-            }
+            TilebaseInfo info = tm.TilebaseTable[tileData.tileBaseId];
+            if (null == info)
+                return null;
+
+            string path = string.Format("{0}.prefab", info.prefabPath);
+            GameObject obj = AssetManager.LoadAsset<GameObject>(path);
+            if (null == obj)
+                return null;
+
+            GameObject go = GameObject.Instantiate(obj) as GameObject;
+            return go.GetComponent<ControlTile>();
+        }
+
+        public bool SetTile(ControlTile tile, int index)
+        {
+            TileGrid grid = this.GetGrid(index);
+            if (null == grid)
+                return false;
+
+            grid.SetTile(tile);
+            if (this.tiles.ContainsKey(index))
+                this.tiles.Remove(index);
+            if (null != tile)
+                this.tiles.Add(index, tile);
+
+            return true;
         }
         #endregion
 
@@ -152,13 +241,24 @@ namespace DigitalWorld.TileMap
         {
             this.isEditing = true;
 
+            if (null != this.currentMapAsset)
+            {
+                MapData mapData = new MapData();
+                mapData.Decode(this.currentMapAsset.bytes, 0);
+
+                this.Setup(mapData);
+            }
+
             //GameObject go = AssetManager.Instance.LoadAsset<GameObject>("Tile/TileOrigin.prefab");
             //currentEditTileGo = GameObject.Instantiate(go);
         }
 
         public void StopEdit()
         {
+            this.Clear();
+
             DestroyEditTileGo();
+            this.currentMapAsset = null;
             this.currentSelectedTileGo = null;
             this.isEditing = false;
         }
@@ -183,6 +283,34 @@ namespace DigitalWorld.TileMap
                 GameObject.DestroyImmediate(currentEditTileGo);
                 currentEditTileGo = null;
             }
+        }
+
+        public void OpenMap(TextAsset mapAsset)
+        {
+            if (null != this.mapData)
+            {
+                this.Clear();
+                mapData = null;
+            }
+
+            this.currentMapAsset = mapAsset;
+
+
+        }
+
+        public MapData SaveMap()
+        {
+            this.mapData = new MapData();
+            this.mapData.mapId = this.mapId;
+
+            List<TileData> tiles = new List<TileData>();
+            foreach (KeyValuePair<int, ControlTile> kvp in this.tiles)
+            {
+                tiles.Add(kvp.Value.ExportData());
+            }
+            mapData.tiles = tiles;
+
+            return mapData;
         }
 #endif
         #endregion

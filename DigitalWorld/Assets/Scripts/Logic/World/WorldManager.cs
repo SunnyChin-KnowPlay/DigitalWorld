@@ -80,7 +80,7 @@ namespace DigitalWorld.Logic
                 tileMapControl = gameObject.GetOrAddComponent<TileMapControl>();
                 if (null != tileMapControl)
                 {
-                    tileMapControl.Setup();
+                    tileMapControl.Setup(null);
                 }
             }
         }

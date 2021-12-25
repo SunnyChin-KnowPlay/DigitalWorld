@@ -5,7 +5,7 @@ using System.Xml;
 
 namespace DigitalWorld.Proto.Game
 {
-    /// <summary>
+            /// <summary>
     /// 地块数据
     /// </summary>
     [ProtocolID(0x0100)]
@@ -22,6 +22,11 @@ namespace DigitalWorld.Proto.Game
         /// 配置ID
         /// </summary>
         public int tileId { get { return _tileId; } set { _tileId = value; } }
+        private int _index;
+        /// <summary>
+        /// 索引号
+        /// </summary>
+        public int index { get { return _index; } set { _index = value; } }
         private int _tileBaseId;
         /// <summary>
         /// 地基ID
@@ -51,6 +56,7 @@ namespace DigitalWorld.Proto.Game
             base.OnRecycle();
 
             _tileId = default(int);
+            _index = default(int);
             _tileBaseId = default(int);
             _objectId = default(int);
             _level = default(int);
@@ -71,12 +77,13 @@ namespace DigitalWorld.Proto.Game
             base.CalculateValids();
 
             this.SetParamValid(0, this._tileId != default(int));
-            this.SetParamValid(1, this._tileBaseId != default(int));
-            this.SetParamValid(2, this._objectId != default(int));
-            this.SetParamValid(3, this._level != default(int));
+            this.SetParamValid(1, this._index != default(int));
+            this.SetParamValid(2, this._tileBaseId != default(int));
+            this.SetParamValid(3, this._objectId != default(int));
+            this.SetParamValid(4, this._level != default(int));
         }
 
-        #region Encode
+#region Encode
         protected override void OnEncode(byte[] buffer, int pos)
         {
             base.OnEncode(buffer, pos);
@@ -84,10 +91,12 @@ namespace DigitalWorld.Proto.Game
             if (this.CheckIsParamValid(0))
                 this.Encode(this._tileId);
             if (this.CheckIsParamValid(1))
-                this.Encode(this._tileBaseId);
+                this.Encode(this._index);
             if (this.CheckIsParamValid(2))
-                this.Encode(this._objectId);
+                this.Encode(this._tileBaseId);
             if (this.CheckIsParamValid(3))
+                this.Encode(this._objectId);
+            if (this.CheckIsParamValid(4))
                 this.Encode(this._level);
         }
 
@@ -96,13 +105,14 @@ namespace DigitalWorld.Proto.Game
             base.OnEncode(element);
 
             this.Encode(this._tileId, "tileId");
+            this.Encode(this._index, "index");
             this.Encode(this._tileBaseId, "tileBaseId");
             this.Encode(this._objectId, "objectId");
             this.Encode(this._level, "level");
         }
-        #endregion
+#endregion
 
-        #region Decode
+#region Decode
         protected override void OnDecode(byte[] buffer, int pos)
         {
             base.OnDecode(buffer, pos);
@@ -110,10 +120,12 @@ namespace DigitalWorld.Proto.Game
             if (this.CheckIsParamValid(0))
                 this.Decode(ref this._tileId);
             if (this.CheckIsParamValid(1))
-                this.Decode(ref this._tileBaseId);
+                this.Decode(ref this._index);
             if (this.CheckIsParamValid(2))
-                this.Decode(ref this._objectId);
+                this.Decode(ref this._tileBaseId);
             if (this.CheckIsParamValid(3))
+                this.Decode(ref this._objectId);
+            if (this.CheckIsParamValid(4))
                 this.Decode(ref this._level);
         }
 
@@ -122,26 +134,28 @@ namespace DigitalWorld.Proto.Game
             base.OnDecode(element);
 
             this.Decode(ref this._tileId, "tileId");
+            this.Decode(ref this._index, "index");
             this.Decode(ref this._tileBaseId, "tileBaseId");
             this.Decode(ref this._objectId, "objectId");
             this.Decode(ref this._level, "level");
         }
-        #endregion
+#endregion
 
-        #region Calculate Size
+#region Calculate Size
         protected override void OnCalculateSize()
         {
             base.OnCalculateSize();
 
-            this.CalculateSize(this._tileId);
-            this.CalculateSize(this._tileBaseId);
-            this.CalculateSize(this._objectId);
-            this.CalculateSize(this._level);
+             this.CalculateSize(this._tileId);
+             this.CalculateSize(this._index);
+             this.CalculateSize(this._tileBaseId);
+             this.CalculateSize(this._objectId);
+             this.CalculateSize(this._level);
         }
-        #endregion
+#endregion
     }
 
-    /// <summary>
+            /// <summary>
     /// 地图数据
     /// </summary>
     [ProtocolID(0x0101)]
@@ -205,7 +219,7 @@ namespace DigitalWorld.Proto.Game
             this.SetParamValid(2, this._tiles != default(List<TileData>));
         }
 
-        #region Encode
+#region Encode
         protected override void OnEncode(byte[] buffer, int pos)
         {
             base.OnEncode(buffer, pos);
@@ -226,9 +240,9 @@ namespace DigitalWorld.Proto.Game
             this.Encode(this._level, "level");
             this.Encode(this._tiles, "tiles");
         }
-        #endregion
+#endregion
 
-        #region Decode
+#region Decode
         protected override void OnDecode(byte[] buffer, int pos)
         {
             base.OnDecode(buffer, pos);
@@ -249,18 +263,18 @@ namespace DigitalWorld.Proto.Game
             this.Decode(ref this._level, "level");
             this.Decode(ref this._tiles, "tiles");
         }
-        #endregion
+#endregion
 
-        #region Calculate Size
+#region Calculate Size
         protected override void OnCalculateSize()
         {
             base.OnCalculateSize();
 
-            this.CalculateSize(this._mapId);
-            this.CalculateSize(this._level);
-            this.CalculateSize(this._tiles);
+             this.CalculateSize(this._mapId);
+             this.CalculateSize(this._level);
+             this.CalculateSize(this._tiles);
         }
-        #endregion
+#endregion
     }
 
 }

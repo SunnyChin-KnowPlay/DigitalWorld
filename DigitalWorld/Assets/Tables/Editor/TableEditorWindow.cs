@@ -83,11 +83,8 @@ namespace DigitalWorld.Table.Editor
         private static void AutoProcess()
         {
             GenerateCodes();
-            GenerateTablesWithModel();
 
-            ConvertExcelsToConfig();
             CopyXmlFromConfig();
-
             ConvertXmlToBytes();
         }
         #endregion

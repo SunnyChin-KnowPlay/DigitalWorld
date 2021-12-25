@@ -94,6 +94,8 @@ namespace DigitalWorld.Table
 
                     using FileStream fs = File.Open(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
                     fs.Write(data, 0, size);
+                    fs.Flush();
+                    fs.Close();
                 }
             }
 #endif

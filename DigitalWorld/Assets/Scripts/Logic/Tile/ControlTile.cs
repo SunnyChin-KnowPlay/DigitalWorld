@@ -1,4 +1,5 @@
-﻿using DigitalWorld.TileMap;
+﻿using DigitalWorld.Proto.Game;
+using DigitalWorld.TileMap;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -45,6 +46,10 @@ namespace DigitalWorld.Logic
         public abstract ETileType TileType { get; }
 
         protected NavMeshObstacle obstacle = null;
+
+        protected TileData data;
+        public TileData Data { get { return data; } }
+
         #endregion
 
         #region Behaviour
@@ -54,6 +59,26 @@ namespace DigitalWorld.Logic
 
             this.world = WorldManager.Instance;
             this.obstacle = this.GetComponent<NavMeshObstacle>();
+        }
+
+
+        #endregion
+
+        #region Setup
+        public virtual void Setup(TileData data)
+        {
+            this.data = data;
+        }
+
+        public virtual TileData ExportData()
+        {
+            this.data = new TileData();
+
+            data.index = this.gridIndex;
+            data.tileBaseId = (int)this.TileType;
+            data.level = this.level;
+
+            return data;
         }
 
 

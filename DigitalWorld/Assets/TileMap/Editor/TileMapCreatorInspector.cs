@@ -1,4 +1,8 @@
-﻿using UnityEditor;
+﻿using DigitalWorld.Proto.Game;
+using DigitalWorld.Table;
+using System.Collections.Generic;
+using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 namespace DigitalWorld.TileMap.Editor
@@ -25,15 +29,20 @@ namespace DigitalWorld.TileMap.Editor
 
             if (null != tileMapCreator)
             {
-                if (GUILayout.Button(new GUIContent("创建地图")))
+                if (GUILayout.Button(new GUIContent("创建地基")))
                 {
-                    CreateMap();
+                    CreateMapGround();
+                }
+
+                if (GUILayout.Button(new GUIContent("预创建地图")))
+                {
+                    CreateMapFromTable();
                 }
             }
         }
 
         #region Common
-        private void CreateMap()
+        private void CreateMapGround()
         {
             if (null == tileMapCreator)
                 return;
@@ -68,6 +77,56 @@ namespace DigitalWorld.TileMap.Editor
             go.isStatic = true;
 
             control.CalculateGrids();
+        }
+
+        private void CreateMapFromTable()
+        {
+            TableManager tm = TableManager.instance;
+            tm.Decode();
+
+            Dictionary<int, MapInfo> maps = tm.MapTable.Infos;
+            foreach (KeyValuePair<int, MapInfo> kvp in maps)
+            {
+                MapInfo info = kvp.Value;
+                MapData data = new MapData();
+                data.mapId = info.id;
+                data.level = 1;
+
+                WriteMap(data, data.mapId.ToString());
+            }
+
+            AssetDatabase.Refresh();
+        }
+
+        private void WriteMap(MapData data, string name)
+        {
+            if (null != data)
+            {
+                int size = data.CalculateSize();
+                byte[] buffer = new byte[size];
+                data.Encode(buffer, 0);
+
+                string fileName = string.Format("{0}.bytes", name);
+                string path = Path.Combine(TileMapControlInspector.defaultMapDataPath, fileName);
+                string fullPath = Path.Combine(Application.dataPath, path);
+
+                if (File.Exists(fullPath))
+                {
+                    return;
+                }
+
+                string directoryPath = Path.GetDirectoryName(fullPath);
+                if (string.IsNullOrEmpty(directoryPath))
+                    return;
+
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+
+                using FileStream fs = File.Open(fullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
+                fs.Write(buffer);
+            }
         }
         #endregion
     }
