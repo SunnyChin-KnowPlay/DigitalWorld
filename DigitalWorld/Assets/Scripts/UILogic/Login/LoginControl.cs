@@ -12,7 +12,7 @@ namespace DigitalWorld.UI.Logic
 {
     public class LoginControl : PanelControl
     {
-        public const string path = "UI/Login/LoginPanel.prefab";
+        public const string path = "Res/UI/Login/LoginPanel.prefab";
 
         #region Param
 

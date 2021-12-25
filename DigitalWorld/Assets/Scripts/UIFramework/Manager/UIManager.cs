@@ -23,7 +23,7 @@ namespace DigitalWorld.UI
 
         #region Instance
         private static bool isDestroying = false;
-        private const string uiRootPath = "UI/Root/UIRoot.prefab";
+        private const string uiRootPath = "Res/UI/Root/UIRoot.prefab";
 
         private static UIManager instance = null;
 

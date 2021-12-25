@@ -58,7 +58,7 @@ namespace DigitalWorld.Logic
 
         private void SetupMap()
         {
-            string fullPath = "Map/NewTileMap.prefab";
+            string fullPath = "Res/Map/NewTileMap.prefab";
 
             GameObject gameObject = null;
 
