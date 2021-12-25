@@ -11,6 +11,7 @@ namespace DigitalWorld.TileMap.Editor
 
         private SceneView sceneView;
 
+        #region Mono
         private void OnEnable()
         {
             if (target == null) return;
@@ -26,33 +27,49 @@ namespace DigitalWorld.TileMap.Editor
         {
             SceneView.duringSceneGui -= OnDuringScene;
         }
+        #endregion
 
+        #region GUI
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
 
             if (null != tileMapControl)
             {
-                if (GUILayout.Button(new GUIContent("配置地图")))
-                {
-                    tileMapControl.CalculateGrids();
-                }
+                // 选择地图文件
+                EditorGUI.BeginDisabledGroup(tileMapControl.IsEditing);
 
-                if (GUILayout.Button(new GUIContent("清空地图")))
-                {
-                    tileMapControl.Clear();
-                }
-
-                if (GUILayout.Button(new GUIContent("重置地块")))
-                {
-                    tileMapControl.ResetGrids();
-                }
+                EditorGUI.EndDisabledGroup();
 
                 if (tileMapControl.IsEditing)
                 {
+                   
+
                     if (GUILayout.Button(new GUIContent("停止编辑")))
                     {
                         this.OnStopEdit();
+                    }
+
+                    if (GUILayout.Button(new GUIContent("配置地图")))
+                    {
+                        tileMapControl.CalculateGrids();
+                    }
+
+                    if (GUILayout.Button(new GUIContent("清空地图")))
+                    {
+                        tileMapControl.Clear();
+                    }
+
+                    if (GUILayout.Button(new GUIContent("重置地块")))
+                    {
+                        tileMapControl.ResetGrids();
+                    }
+
+                    GameObject go = this.tileMapControl.CurrentSelectedTileGo;
+                    go = EditorGUILayout.ObjectField(new GUIContent("当前地块"), go, typeof(GameObject), false) as GameObject;
+                    if (go != this.tileMapControl.CurrentSelectedTileGo)
+                    {
+                        this.tileMapControl.SelectTileGo(go);
                     }
                 }
                 else
@@ -64,6 +81,7 @@ namespace DigitalWorld.TileMap.Editor
                 }
             }
         }
+        #endregion
 
         #region Callback
         private void OnStartEdit()

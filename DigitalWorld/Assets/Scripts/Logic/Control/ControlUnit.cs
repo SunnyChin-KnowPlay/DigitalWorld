@@ -14,6 +14,22 @@ namespace DigitalWorld.Logic
         #region Params
         protected uint uid = 0;
         public uint Uid { get { return uid; } }
+
+        protected int level = 0;
+        /// <summary>
+        /// µÈ¼¶
+        /// </summary>
+        public int Level
+        {
+            get { return level; }
+            set
+            {
+                if (value != level)
+                {
+                    level = value;
+                }
+            }
+        }
         #endregion
 
         #region Controls

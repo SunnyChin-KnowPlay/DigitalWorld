@@ -33,7 +33,7 @@ namespace DigitalWorld.UI
             {
                 if (null == instance && !isDestroying)
                 {
-                    GameObject obj = AssetManager.Instance.LoadAsset<GameObject>(uiRootPath);
+                    GameObject obj = AssetManager.LoadAsset<GameObject>(uiRootPath);
                     if (null != obj)
                     {
                         GameObject rootObj = GameObject.Instantiate(obj);
@@ -156,7 +156,7 @@ namespace DigitalWorld.UI
         {
             GameObject gameObject = null;
             string fullPath = path;
-            UnityEngine.Object target = AssetManager.Instance.LoadAsset<UnityEngine.Object>(fullPath);
+            UnityEngine.Object target = AssetManager.LoadAsset<UnityEngine.Object>(fullPath);
 
             if (null != target)
             {
@@ -174,7 +174,7 @@ namespace DigitalWorld.UI
         {
             GameObject gameObject = null;
             string fullPath = path;
-            GameObject target = await AssetManager.Instance.LoadAssetAsync<UnityEngine.GameObject>(fullPath);
+            GameObject target = await AssetManager.LoadAssetAsync<UnityEngine.GameObject>(fullPath);
 
             if (null != target)
             {

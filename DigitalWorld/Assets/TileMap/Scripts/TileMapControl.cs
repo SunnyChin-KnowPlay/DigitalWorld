@@ -27,6 +27,11 @@ namespace DigitalWorld.TileMap
         public TileGrid[] grids = null;
 
         private Dictionary<int, ControlTile> tiles = new Dictionary<int, ControlTile>();
+
+        /// <summary>
+        /// 地图等级
+        /// </summary>
+        public int level;
         #endregion
 
         #region Edit Params
@@ -44,6 +49,9 @@ namespace DigitalWorld.TileMap
         /// 当前选中的瓦片
         /// </summary>
         public static GameObject currentEditTileGo = null;
+
+        private GameObject currentSelectedTileGo = null;
+        public GameObject CurrentSelectedTileGo { get { return currentSelectedTileGo; } }
 #endif
         #endregion
 
@@ -144,18 +152,37 @@ namespace DigitalWorld.TileMap
         {
             this.isEditing = true;
 
-            GameObject go = AssetManager.Instance.LoadAsset<GameObject>("Tile/TileOrigin.prefab");
-            currentEditTileGo = GameObject.Instantiate(go);
+            //GameObject go = AssetManager.Instance.LoadAsset<GameObject>("Tile/TileOrigin.prefab");
+            //currentEditTileGo = GameObject.Instantiate(go);
         }
 
         public void StopEdit()
+        {
+            DestroyEditTileGo();
+            this.currentSelectedTileGo = null;
+            this.isEditing = false;
+        }
+
+        public void SelectTileGo(GameObject go)
+        {
+            this.currentSelectedTileGo = go;
+
+            DestroyEditTileGo();
+
+            if (null != currentSelectedTileGo)
+            {
+                GameObject g = GameObject.Instantiate(go) as GameObject;
+                currentEditTileGo = g;
+            }
+        }
+
+        private void DestroyEditTileGo()
         {
             if (null != currentEditTileGo)
             {
                 GameObject.DestroyImmediate(currentEditTileGo);
                 currentEditTileGo = null;
             }
-            this.isEditing = false;
         }
 #endif
         #endregion

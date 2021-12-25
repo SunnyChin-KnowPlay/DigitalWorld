@@ -10,7 +10,6 @@ namespace DigitalWorld.Table.Editor
     [InitializeOnLoad]
     public class TableEditorWindow : EditorWindow
     {
-
         static TableEditorWindow()
         {
             //PlayerPrefs.DeleteAll();
@@ -78,6 +77,18 @@ namespace DigitalWorld.Table.Editor
 
             CopyDirectory(Utilities.Utility.GetString(Utility.configSrcKey, Utility.defaultConfigSrc), targetPath, null);
             AssetDatabase.Refresh();
+        }
+
+        [MenuItem("Table/Auto Process")]
+        private static void AutoProcess()
+        {
+            GenerateCodes();
+            GenerateTablesWithModel();
+
+            ConvertExcelsToConfig();
+            CopyXmlFromConfig();
+
+            ConvertXmlToBytes();
         }
         #endregion
 

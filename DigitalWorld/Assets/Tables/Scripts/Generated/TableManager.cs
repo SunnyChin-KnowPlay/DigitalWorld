@@ -34,6 +34,7 @@ namespace DigitalWorld.Table
         public CharacterTable CharacterTable { get; private set; } = new CharacterTable();
         public TilebaseTable TilebaseTable { get; private set; } = new TilebaseTable();
         public TileTable TileTable { get; private set; } = new TileTable();
+        public MapTable MapTable { get; private set; } = new MapTable();
         #endregion
 
         #region Decode
@@ -42,6 +43,7 @@ namespace DigitalWorld.Table
             this.ApplyDecodeTable(CharacterTable, "character");
             this.ApplyDecodeTable(TilebaseTable, "tilebase");
             this.ApplyDecodeTable(TileTable, "tile");
+            this.ApplyDecodeTable(MapTable, "map");
         }
 
         public void DecodeXml()
@@ -49,6 +51,7 @@ namespace DigitalWorld.Table
             this.ApplyDecodeTableWithXml(CharacterTable, "character");
             this.ApplyDecodeTableWithXml(TilebaseTable, "tilebase");
             this.ApplyDecodeTableWithXml(TileTable, "tile");
+            this.ApplyDecodeTableWithXml(MapTable, "map");
         }
 
         private void ApplyDecodeTable(ByteBuffer table, string tableName)
@@ -74,6 +77,7 @@ namespace DigitalWorld.Table
             this.ApplyEncodeTable(CharacterTable, "character");
             this.ApplyEncodeTable(TilebaseTable, "tilebase");
             this.ApplyEncodeTable(TileTable, "tile");
+            this.ApplyEncodeTable(MapTable, "map");
         }
 
         private void ApplyEncodeTable(ByteBuffer table, string tableName)

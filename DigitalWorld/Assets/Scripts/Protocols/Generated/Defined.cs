@@ -9,6 +9,10 @@ namespace Dream.Proto
         /// </summary>
         TileData = 0x0100,
         /// <summary>
+        /// 地图数据
+        /// </summary>
+        MapData = 0x0101,
+        /// <summary>
         /// 登录请求
         /// </summary>
         ReqLogin = 0x0010,

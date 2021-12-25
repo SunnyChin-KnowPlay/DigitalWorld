@@ -62,7 +62,7 @@ namespace DigitalWorld.Logic
 
             GameObject gameObject = null;
 
-            UnityEngine.Object target = AssetManager.Instance.LoadAsset<UnityEngine.Object>(fullPath);
+            UnityEngine.Object target = AssetManager.LoadAsset<UnityEngine.Object>(fullPath);
 
             if (null != target)
             {
@@ -89,7 +89,7 @@ namespace DigitalWorld.Logic
         {
             GameObject gameObject = null;
 
-            UnityEngine.Object target = AssetManager.Instance.LoadAsset<UnityEngine.Object>(path);
+            UnityEngine.Object target = AssetManager.LoadAsset<UnityEngine.Object>(path);
 
             if (null != target)
             {
