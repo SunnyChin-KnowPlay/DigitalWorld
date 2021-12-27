@@ -212,11 +212,9 @@ namespace DigitalWorld.TileMap
                 return null;
 
             GameObject go = GameObject.Instantiate(obj) as GameObject;
-            ControlTile tile = go.GetComponent<ControlTile>();
+            ControlTile tile = ControlTile.GetOrAddControl(go, (ETileType)tileData.tileBaseId);
 
-
-
-            return go.GetComponent<ControlTile>();
+            return tile;
         }
 
         public bool SetTile(ControlTile tile, int index)
@@ -263,7 +261,7 @@ namespace DigitalWorld.TileMap
             this.isEditing = false;
         }
 
-      
+
         public void OpenMap(TextAsset mapAsset)
         {
             if (null != this.mapData)
