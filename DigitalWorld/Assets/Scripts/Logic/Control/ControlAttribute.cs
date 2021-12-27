@@ -40,23 +40,14 @@ namespace DigitalWorld.Logic
         public int BaseAttack
         { get { return info.attack; } }
 
+        protected int level;
         /// <summary>
-        /// 防御力
+        /// 等级
         /// </summary>
-        [SerializeField]
-        protected int defense;
-
-        public int Defense
+        public int Level
         {
-            get { return defense; }
-            set { defense = value; }
+            get { return level; }
         }
-
-        /// <summary>
-        /// 基础 初始防御力
-        /// </summary>
-        public int BaseDefense
-        { get { return info.defense; } }
 
         #region Setup
         public override void Setup(UnitInfo info)
@@ -65,7 +56,7 @@ namespace DigitalWorld.Logic
 
             this.hp = info.hp;
             this.attack = info.attack;
-            this.defense = info.defense;
+            this.level = info.level;
         }
         #endregion
     }

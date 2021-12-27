@@ -1,5 +1,7 @@
-﻿using DigitalWorld.Logic;
+﻿using DigitalWorld.Asset;
+using DigitalWorld.Logic;
 using DigitalWorld.Proto.Game;
+using DigitalWorld.Table;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -9,11 +11,11 @@ namespace DigitalWorld.TileMap.Editor
     [CustomEditor(typeof(TileMapControl))]
     public class TileMapControlInspector : UnityEditor.Editor
     {
-
-
         public TileMapControl tileMapControl;
 
         private SceneView sceneView;
+
+        private TableManager tableManager;
 
         #region Mono
         private void OnEnable()
@@ -24,7 +26,8 @@ namespace DigitalWorld.TileMap.Editor
 
             tileMapControl = (TileMapControl)target;
 
-
+            tableManager = TableManager.instance;
+            tableManager.Decode();
         }
 
         private void OnDisable()
@@ -80,12 +83,12 @@ namespace DigitalWorld.TileMap.Editor
                         tileMapControl.ResetGrids();
                     }
 
-                    GameObject go = this.tileMapControl.CurrentSelectedTileGo;
-                    go = EditorGUILayout.ObjectField(new GUIContent("当前地块"), go, typeof(GameObject), false) as GameObject;
-                    if (go != this.tileMapControl.CurrentSelectedTileGo)
-                    {
-                        this.tileMapControl.SelectTileGo(go);
-                    }
+                    //GameObject go = this.tileMapControl.CurrentSelectedTileGo;
+                    //go = EditorGUILayout.ObjectField(new GUIContent("当前地块"), go, typeof(GameObject), false) as GameObject;
+                    //if (go != this.tileMapControl.CurrentSelectedTileGo)
+                    //{
+                    //    this.tileMapControl.SelectTileGo(go);
+                    //}
                 }
 
                 EditorGUI.EndDisabledGroup();
@@ -157,35 +160,35 @@ namespace DigitalWorld.TileMap.Editor
             if (e != null)
             {
                 UpdateBuild(e);
-                UpdateMove(e);
+                //UpdateMove(e);
             }
         }
 
         private void UpdateMove(Event e)
         {
-            // 拖动或移动
-            if (e.type == EventType.MouseDrag || e.type == EventType.MouseMove)
-            {
-                GameObject go = TileMapControl.currentEditTileGo;
-                if (null != go)
-                {
-                    Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
+            //// 拖动或移动
+            //if (e.type == EventType.MouseDrag || e.type == EventType.MouseMove)
+            //{
+            //    GameObject go = TileMapControl.currentEditTileGo;
+            //    if (null != go)
+            //    {
+            //        Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
 
-                    if (Physics.Raycast(ray, out RaycastHit hit))
-                    {
-                        if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Terrain"))
-                        {
-                            Transform t = go.GetComponent<Transform>();
-                            Transform groundTrans = hit.collider.transform;
+            //        if (Physics.Raycast(ray, out RaycastHit hit))
+            //        {
+            //            if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Terrain"))
+            //            {
+            //                Transform t = go.GetComponent<Transform>();
+            //                Transform groundTrans = hit.collider.transform;
 
-                            t.position = groundTrans.position + Vector3.up;
-                            t.localScale = groundTrans.localScale;
+            //                t.position = groundTrans.position + Vector3.up;
+            //                t.localScale = groundTrans.localScale;
 
 
-                        }
-                    }
-                }
-            }
+            //            }
+            //        }
+            //    }
+            //}
         }
 
         private void UpdateBuild(Event e)
@@ -193,6 +196,14 @@ namespace DigitalWorld.TileMap.Editor
             // 按住ctrl抬起左键时才算做构件
             if (e.control && e.button == 0 && (e.type == EventType.MouseUp || e.type == EventType.Used))
             {
+                GameObject go = null;
+                TilebaseInfo info = tableManager.TilebaseTable[(int)this.tileMapControl.currentType];
+                if (null != info)
+                {
+                    string path = string.Format("{0}.prefab", info.prefabPath);
+                    go = AssetManager.LoadAsset<GameObject>(path);
+                }
+
                 Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
 
                 RaycastHit[] hits = Physics.RaycastAll(ray);
@@ -208,11 +219,10 @@ namespace DigitalWorld.TileMap.Editor
                             TileGrid grid = hit.collider.GetComponent<TileGrid>();
                             if (null != grid)
                             {
-                                GameObject go = TileMapControl.currentEditTileGo;
                                 if (null != go)
                                 {
                                     GameObject currentGo = GameObject.Instantiate(go);
-                                    ControlTile tile = currentGo.GetComponent<ControlTile>();
+                                    ControlTile tile = ControlTile.GetOrAddControl(currentGo, this.tileMapControl.currentType);
                                     if (null != tile)
                                     {
                                         this.tileMapControl.SetTile(tile, grid.Index);

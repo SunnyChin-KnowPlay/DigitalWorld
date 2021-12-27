@@ -13,8 +13,8 @@
         public int attack;
 
         /// <summary>
-        /// 防御力
+        /// 等级
         /// </summary>
-        public int defense;
+        public int level;
     }
 }

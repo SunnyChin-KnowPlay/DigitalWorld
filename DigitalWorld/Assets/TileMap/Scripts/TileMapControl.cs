@@ -71,13 +71,7 @@ namespace DigitalWorld.TileMap
             get { return isEditing; }
         }
 
-        /// <summary>
-        /// 当前选中的瓦片
-        /// </summary>
-        public static GameObject currentEditTileGo = null;
-
-        private GameObject currentSelectedTileGo = null;
-        public GameObject CurrentSelectedTileGo { get { return currentSelectedTileGo; } }
+        public ETileType currentType = ETileType.None;
 #endif
         #endregion
 
@@ -218,6 +212,10 @@ namespace DigitalWorld.TileMap
                 return null;
 
             GameObject go = GameObject.Instantiate(obj) as GameObject;
+            ControlTile tile = go.GetComponent<ControlTile>();
+
+
+
             return go.GetComponent<ControlTile>();
         }
 
@@ -251,6 +249,7 @@ namespace DigitalWorld.TileMap
                 this.Setup(mapData);
             }
 
+            this.currentType = ETileType.None;
             //GameObject go = AssetManager.Instance.LoadAsset<GameObject>("Tile/TileOrigin.prefab");
             //currentEditTileGo = GameObject.Instantiate(go);
         }
@@ -259,34 +258,12 @@ namespace DigitalWorld.TileMap
         {
             this.Clear();
 
-            DestroyEditTileGo();
             this.currentMapAsset = null;
-            this.currentSelectedTileGo = null;
+            this.currentType = ETileType.None;
             this.isEditing = false;
         }
 
-        public void SelectTileGo(GameObject go)
-        {
-            this.currentSelectedTileGo = go;
-
-            DestroyEditTileGo();
-
-            if (null != currentSelectedTileGo)
-            {
-                GameObject g = GameObject.Instantiate(go) as GameObject;
-                currentEditTileGo = g;
-            }
-        }
-
-        private void DestroyEditTileGo()
-        {
-            if (null != currentEditTileGo)
-            {
-                GameObject.DestroyImmediate(currentEditTileGo);
-                currentEditTileGo = null;
-            }
-        }
-
+      
         public void OpenMap(TextAsset mapAsset)
         {
             if (null != this.mapData)
@@ -296,8 +273,6 @@ namespace DigitalWorld.TileMap
             }
 
             this.currentMapAsset = mapAsset;
-
-
         }
 
         public MapData SaveMap()
