@@ -15,7 +15,7 @@ namespace DigitalWorld.Game
         protected uint uid = 0;
         public uint Uid { get { return uid; } }
 
-       
+
         #endregion
 
         #region Controls
@@ -26,6 +26,14 @@ namespace DigitalWorld.Game
             get
             {
                 return this.controls[ELogicControlType.Animator] as ControlAnimator;
+            }
+        }
+
+        public ControlProperty Property
+        {
+            get
+            {
+                return this.controls[ELogicControlType.Property] as ControlProperty;
             }
         }
         #endregion
@@ -96,7 +104,7 @@ namespace DigitalWorld.Game
             else
                 this.controls.Clear();
 
-            this.controls.Add(ELogicControlType.Attribute, this.GetOrAddComponent<ControlAttribute>());
+            this.controls.Add(ELogicControlType.Property, this.GetOrAddComponent<ControlProperty>());
             this.controls.Add(ELogicControlType.Animator, this.GetOrAddComponent<ControlAnimator>());
         }
 

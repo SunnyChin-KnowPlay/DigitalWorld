@@ -6,7 +6,7 @@ namespace DigitalWorld.Game
     /// <summary>
     /// 属性值
     /// </summary>
-    public sealed class AttributeValue : IEquatable<AttributeValue>
+    public sealed class PropertyValue : IEquatable<PropertyValue>
     {
         private readonly int minV;
         /// <summary>
@@ -71,14 +71,14 @@ namespace DigitalWorld.Game
             get { return this.currentV >= this.maxV; }
         }
 
-        public AttributeValue()
+        public PropertyValue()
         {
             this.currentV = int.MaxValue;
             this.minV = 0;
             this.maxV = int.MaxValue;
         }
 
-        public AttributeValue(int min = 0, int max = int.MaxValue, int defaultValue = int.MaxValue)
+        public PropertyValue(int min = 0, int max = int.MaxValue, int defaultValue = int.MaxValue)
         {
             this.currentV = defaultValue;
             this.minV = min;
@@ -97,7 +97,7 @@ namespace DigitalWorld.Game
             this.Clamp();
         }
 
-        public bool Equals(AttributeValue other)
+        public bool Equals(PropertyValue other)
         {
             return this.Value == other.Value;
         }
@@ -108,14 +108,14 @@ namespace DigitalWorld.Game
         }
 
         #region Operator
-        public static AttributeValue operator +(AttributeValue a, int b)
+        public static PropertyValue operator +(PropertyValue a, int b)
         {
             a.currentV += b;
             a.Clamp();
             return a;
         }
 
-        public static AttributeValue operator +(AttributeValue a, FixFactor b)
+        public static PropertyValue operator +(PropertyValue a, FixFactor b)
         {
             int changeV = a.Range * b;
             a.currentV += changeV;
@@ -123,14 +123,14 @@ namespace DigitalWorld.Game
             return a;
         }
 
-        public static AttributeValue operator -(AttributeValue a, int b)
+        public static PropertyValue operator -(PropertyValue a, int b)
         {
             a.currentV -= b;
             a.Clamp();
             return a;
         }
 
-        public static AttributeValue operator -(AttributeValue a, FixFactor b)
+        public static PropertyValue operator -(PropertyValue a, FixFactor b)
         {
             int changeV = a.Range * b;
             a.currentV -= changeV;

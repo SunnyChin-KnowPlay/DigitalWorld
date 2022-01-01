@@ -18,7 +18,7 @@
         /// <summary>
         /// 属性
         /// </summary>
-        Attribute,
+        Property,
         /// <summary>
         /// 动画
         /// </summary>
