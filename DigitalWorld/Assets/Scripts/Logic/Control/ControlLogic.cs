@@ -7,6 +7,11 @@ namespace DigitalWorld.Logic
         #region Params
         protected UnitInfo info;
         protected Transform trans = null;
+
+        public virtual UnitInfo Info
+        {
+            get { return info; }
+        }
         #endregion
 
         #region Behaviour

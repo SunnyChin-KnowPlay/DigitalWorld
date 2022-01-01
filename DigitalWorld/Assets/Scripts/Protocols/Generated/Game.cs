@@ -5,6 +5,27 @@ using System.Xml;
 
 namespace DigitalWorld.Proto.Game
 {
+        	/// <summary>
+    /// 
+    /// </summary>
+    public enum EAttributeType : int
+    {
+  
+        /// <summary>
+        /// 
+        /// </summary>
+        Hp = 1,
+  
+        /// <summary>
+        /// 
+        /// </summary>
+        Attack = 2,
+  
+        /// <summary>
+        /// 
+        /// </summary>
+        Level = 3,
+    }
             /// <summary>
     /// 地块数据
     /// </summary>

@@ -64,11 +64,11 @@ namespace DigitalWorld.Logic
 
             GameObject gameObject = null;
 
-            UnityEngine.Object target = AssetManager.LoadAsset<UnityEngine.Object>(fullPath);
+            Object target = AssetManager.LoadAsset<Object>(fullPath);
 
             if (null != target)
             {
-                gameObject = (GameObject)UnityEngine.GameObject.Instantiate(target) as GameObject;
+                gameObject = (GameObject)Instantiate(target);
                 if (null != gameObject)
                 {
                     gameObject.name = target.name;
