@@ -1,7 +1,7 @@
 ﻿using Dream.FixMath;
 using System;
 
-namespace DigitalWorld.Logic
+namespace DigitalWorld.Game
 {
     /// <summary>
     /// 属性值

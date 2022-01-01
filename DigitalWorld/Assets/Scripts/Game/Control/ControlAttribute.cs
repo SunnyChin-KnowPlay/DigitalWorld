@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DigitalWorld.Logic
+namespace DigitalWorld.Game
 {
     public class ControlAttribute : ControlLogic
     {

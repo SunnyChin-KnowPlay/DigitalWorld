@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-namespace DigitalWorld.Logic
+namespace DigitalWorld.Game
 {
     public partial class ControlCharacter : ControlUnit
     {

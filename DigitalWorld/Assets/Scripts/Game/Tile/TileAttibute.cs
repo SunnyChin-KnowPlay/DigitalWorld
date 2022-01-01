@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DigitalWorld.Logic
+namespace DigitalWorld.Game
 {
     public class TileAttibute : Attribute
     {

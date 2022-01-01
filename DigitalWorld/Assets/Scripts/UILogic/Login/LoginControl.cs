@@ -1,4 +1,4 @@
-﻿using DigitalWorld.Logic;
+﻿using DigitalWorld.Game;
 using DigitalWorld.Net;
 using DigitalWorld.Proto.Common;
 using Dream.Proto;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace DigitalWorld.Logic
+namespace DigitalWorld.Game
 {
     public abstract class ControlUnit : ControlLogic
     {

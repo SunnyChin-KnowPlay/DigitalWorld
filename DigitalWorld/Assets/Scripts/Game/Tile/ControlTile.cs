@@ -3,7 +3,7 @@ using DigitalWorld.TileMap;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace DigitalWorld.Logic
+namespace DigitalWorld.Game
 {
     /// <summary>
     /// 砖块对象

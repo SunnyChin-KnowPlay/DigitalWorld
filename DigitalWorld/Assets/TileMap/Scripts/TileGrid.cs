@@ -1,4 +1,4 @@
-﻿using DigitalWorld.Logic;
+﻿using DigitalWorld.Game;
 using UnityEngine;
 
 namespace DigitalWorld.TileMap

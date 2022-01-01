@@ -1,4 +1,4 @@
-﻿namespace DigitalWorld.Logic
+﻿namespace DigitalWorld.Game
 {
     /// <summary>
     /// 起点

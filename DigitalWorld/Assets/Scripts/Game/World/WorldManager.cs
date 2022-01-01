@@ -7,7 +7,7 @@ using DreamEngine;
 using System.IO;
 using UnityEngine;
 
-namespace DigitalWorld.Logic
+namespace DigitalWorld.Game
 {
     public sealed class WorldManager : Singleton<WorldManager>
     {

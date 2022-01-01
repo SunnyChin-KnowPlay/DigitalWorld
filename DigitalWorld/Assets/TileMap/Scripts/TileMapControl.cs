@@ -1,5 +1,5 @@
 using DigitalWorld.Asset;
-using DigitalWorld.Logic;
+using DigitalWorld.Game;
 using DigitalWorld.Proto.Game;
 using DigitalWorld.Table;
 using Dream.Extension.Unity;
