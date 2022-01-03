@@ -2,6 +2,5 @@
 {
     public abstract partial class BaseCondition : BaseNode
     {
-
     }
 }

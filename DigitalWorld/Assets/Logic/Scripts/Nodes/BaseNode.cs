@@ -1,6 +1,7 @@
 ﻿using Dream.Core;
 using Dream.Proto;
 using System;
+using System.Xml;
 
 namespace DigitalWorld.Logic
 {
@@ -29,6 +30,7 @@ namespace DigitalWorld.Logic
         }
         protected bool enabled = false;
 
+        #region Pool
         public override void OnAllocate()
         {
             this.OnAllocate();
@@ -40,5 +42,24 @@ namespace DigitalWorld.Logic
         {
             this.OnRecycle();
         }
+        #endregion
+
+        #region Proto
+        protected override void OnEncode(byte[] buffer, int pos)
+        {
+            base.OnEncode(buffer, pos);
+
+            this.Encode(this.uid);
+            this.Encode(this.enabled);
+        }
+
+        protected override void OnEncode(XmlElement element)
+        {
+            base.OnEncode(element);
+
+            this.Encode(this.uid, "uid");
+            this.Encode(this.enabled, "enabled");
+        }
+        #endregion
     }
 }
