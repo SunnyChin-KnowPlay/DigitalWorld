@@ -1,6 +1,7 @@
 ﻿using Dream.Core;
 using Dream.Proto;
 using System;
+using System.Collections.Generic;
 using System.Xml;
 
 namespace DigitalWorld.Logic
@@ -20,6 +21,16 @@ namespace DigitalWorld.Logic
         /// </summary>
         public Guid Uid { get { return uid; } }
 
+        protected BaseNode parent;
+
+        public BaseNode Parent => parent;
+
+        protected List<BaseNode> children = new List<BaseNode>();
+        /// <summary>
+        /// 所有的子节点
+        /// </summary>
+        public List<BaseNode> Children => children;
+
         /// <summary>
         /// 是否激活
         /// </summary>
@@ -36,11 +47,74 @@ namespace DigitalWorld.Logic
             this.OnAllocate();
             this.uid = Guid.Empty;
             this.enabled = false;
+            this.parent = null;
+            if (null == this.children)
+                this.children = new List<BaseNode>();
         }
 
         public override void OnRecycle()
         {
             this.OnRecycle();
+            this.DetachChildren();
+            this.parent = null;
+        }
+        #endregion
+
+        #region Relation
+        protected virtual void AddChild(BaseNode node)
+        {
+            this.children.Add(node);
+        }
+
+        protected virtual void RemoveChild(BaseNode node)
+        {
+            this.children.Remove(node);
+        }
+
+        public virtual void SetParent(BaseNode parent)
+        {
+            if (this.parent == parent)
+            {
+                return;
+            }
+
+            if (null != this.parent)
+            {
+                this.parent.RemoveChild(this);
+            }
+
+            this.parent = parent;
+
+            if (null != this.parent)
+            {
+                this.parent.AddChild(this);
+            }
+        }
+
+        public virtual void DetachChildren()
+        {
+            if (null != this.children && this.children.Count > 0)
+            {
+                for (int i = this.children.Count - 1; i >= 0; --i)
+                {
+                    BaseNode child = this.children[i];
+                    if (null != child)
+                    {
+                        child.Recycle();
+                    }
+                }
+                this.children.Clear();
+            }
+        }
+
+        public BaseNode Find(Guid uid)
+        {
+            for (int i = 0; i < this.children.Count; ++i)
+            {
+                if (this.children[i].Uid == uid)
+                    return this.children[i];
+            }
+            return null;
         }
         #endregion
 
@@ -59,6 +133,22 @@ namespace DigitalWorld.Logic
 
             this.Encode(this.uid, "uid");
             this.Encode(this.enabled, "enabled");
+        }
+
+        protected override void OnDecode(byte[] buffer, int pos)
+        {
+            base.OnDecode(buffer, pos);
+
+            this.Decode(ref this.uid);
+            this.Decode(ref this.enabled);
+        }
+
+        protected override void OnDecode(XmlElement element)
+        {
+            base.OnDecode(element);
+
+            this.Decode(ref this.uid, "uid");
+            this.Decode(ref this.enabled, "enabled");
         }
         #endregion
     }

@@ -1,4 +1,6 @@
-﻿namespace DigitalWorld.Logic
+﻿using System.Collections.Generic;
+
+namespace DigitalWorld.Logic
 {
     public partial class Trigger : BaseNode
     {
@@ -14,6 +16,9 @@
         /// 监听的事件ID
         /// </summary>
         public uint ListenEventId { get; set; }
+
+        private readonly List<BaseAction> actions = new List<BaseAction>();
+        private readonly List<BaseCondition> conditions = new List<BaseCondition>();
         #endregion
 
         #region Pooled
@@ -25,21 +30,35 @@
         }
         #endregion
 
-        #region Event
-        public void DispatchEvent(IEvent ev)
+        #region Relation
+        public override void DetachChildren()
         {
-            if (ev.Id == this.ListenEventId)
-            {
-                this.Process(ev);
-            }
+            base.DetachChildren();
 
+            this.actions.Clear();
+            this.conditions.Clear();
         }
 
-        private void Process(IEvent ev)
+        protected override void AddChild(BaseNode node)
         {
-            this.triggeringEvent = ev;
+            base.AddChild(node);
 
+            if (node is BaseAction ba)
+                this.actions.Add(ba);
 
+            if (node is BaseCondition bc)
+                this.conditions.Add(bc);
+        }
+
+        protected override void RemoveChild(BaseNode node)
+        {
+            base.RemoveChild(node);
+
+            if (node is BaseAction ba)
+                this.actions.Remove(ba);
+
+            if (node is BaseCondition bc)
+                this.conditions.Remove(bc);
         }
         #endregion
     }
