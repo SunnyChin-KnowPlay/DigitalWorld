@@ -8,7 +8,7 @@ namespace DigitalWorld.Logic
     /// <summary>
     /// 逻辑根节点
     /// </summary>
-    public abstract partial class BaseNode : DataBuffer
+    public abstract partial class BaseNode : ByteBuffer
     {
         /// <summary>
         /// 节点唯一ID
