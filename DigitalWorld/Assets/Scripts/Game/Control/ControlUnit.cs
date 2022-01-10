@@ -14,8 +14,6 @@ namespace DigitalWorld.Game
         #region Params
         protected uint uid = 0;
         public uint Uid { get { return uid; } }
-
-
         #endregion
 
         #region Controls
