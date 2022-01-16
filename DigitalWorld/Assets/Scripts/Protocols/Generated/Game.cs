@@ -5,28 +5,110 @@ using System.Xml;
 
 namespace DigitalWorld.Proto.Game
 {
-        	/// <summary>
+    /// <summary>
     /// 属性类型
     /// </summary>
     public enum EPropertyType : int
     {
-  
+
         /// <summary>
         /// 血量
         /// </summary>
         Hp = 1,
-  
+
         /// <summary>
         /// 攻击力
         /// </summary>
         Attack = 2,
-  
+
         /// <summary>
         /// 等级
         /// </summary>
         Level = 3,
     }
-            /// <summary>
+    /// <summary>
+    /// 单位类型
+    /// </summary>
+    public enum EUnitType : int
+    {
+
+        /// <summary>
+        /// 角色
+        /// </summary>
+        Character = 1,
+
+        /// <summary>
+        /// 地块
+        /// </summary>
+        Tile = 2,
+    }
+    /// <summary>
+    /// 地块类型
+    /// </summary>
+    public enum ETileType : int
+    {
+
+        /// <summary>
+        /// 未定义
+        /// </summary>
+        None = 0,
+
+        /// <summary>
+        /// 出生点
+        /// </summary>
+        Origin = 1,
+
+        /// <summary>
+        /// 赌场
+        /// </summary>
+        Casino = 2,
+
+        /// <summary>
+        /// 宝箱
+        /// </summary>
+        Chest = 3,
+
+        /// <summary>
+        /// 门
+        /// </summary>
+        Door = 4,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        Grass = 5,
+
+        /// <summary>
+        /// 魔晶
+        /// </summary>
+        MagicStone = 6,
+
+        /// <summary>
+        /// 怪物
+        /// </summary>
+        Monster = 7,
+
+        /// <summary>
+        /// 山
+        /// </summary>
+        Mountion = 8,
+
+        /// <summary>
+        /// 商店
+        /// </summary>
+        Shop = 9,
+
+        /// <summary>
+        /// 阻挡
+        /// </summary>
+        Block = 10,
+
+        /// <summary>
+        /// 旅行者
+        /// </summary>
+        Traveller = 11,
+    }
+    /// <summary>
     /// 地块数据
     /// </summary>
     [ProtocolID(0x0100)]
@@ -91,7 +173,7 @@ namespace DigitalWorld.Proto.Game
             return ObjectPool<TileData>.Instance.Allocate();
         }
 
-#region Encode
+        #region Encode
         protected override void OnEncode(byte[] buffer, int pos)
         {
             base.OnEncode(buffer, pos);
@@ -113,9 +195,9 @@ namespace DigitalWorld.Proto.Game
             this.Encode(this._objectId, "objectId");
             this.Encode(this._level, "level");
         }
-#endregion
+        #endregion
 
-#region Decode
+        #region Decode
         protected override void OnDecode(byte[] buffer, int pos)
         {
             base.OnDecode(buffer, pos);
@@ -137,9 +219,9 @@ namespace DigitalWorld.Proto.Game
             this.Decode(ref this._objectId, "objectId");
             this.Decode(ref this._level, "level");
         }
-#endregion
+        #endregion
 
-#region Calculate Size
+        #region Calculate Size
         protected override void OnCalculateSize()
         {
             base.OnCalculateSize();
@@ -150,10 +232,10 @@ namespace DigitalWorld.Proto.Game
             this.CalculateSize(this._objectId);
             this.CalculateSize(this._level);
         }
-#endregion
+        #endregion
     }
 
-            /// <summary>
+    /// <summary>
     /// 地图数据
     /// </summary>
     [ProtocolID(0x0101)]
@@ -206,7 +288,7 @@ namespace DigitalWorld.Proto.Game
             return ObjectPool<MapData>.Instance.Allocate();
         }
 
-#region Encode
+        #region Encode
         protected override void OnEncode(byte[] buffer, int pos)
         {
             base.OnEncode(buffer, pos);
@@ -224,9 +306,9 @@ namespace DigitalWorld.Proto.Game
             this.Encode(this._level, "level");
             this.Encode(this._tiles, "tiles");
         }
-#endregion
+        #endregion
 
-#region Decode
+        #region Decode
         protected override void OnDecode(byte[] buffer, int pos)
         {
             base.OnDecode(buffer, pos);
@@ -244,9 +326,9 @@ namespace DigitalWorld.Proto.Game
             this.Decode(ref this._level, "level");
             this.Decode(ref this._tiles, "tiles");
         }
-#endregion
+        #endregion
 
-#region Calculate Size
+        #region Calculate Size
         protected override void OnCalculateSize()
         {
             base.OnCalculateSize();
@@ -255,7 +337,7 @@ namespace DigitalWorld.Proto.Game
             this.CalculateSize(this._level);
             this.CalculateSize(this._tiles);
         }
-#endregion
+        #endregion
     }
 
 }

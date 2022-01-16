@@ -162,7 +162,7 @@ namespace DigitalWorld.TileMap
                 {
                     foreach (TileData tile in this.mapData.tiles)
                     {
-                        ControlTile tileC = MakeTile(tile);
+                        ControlTile tileC = WorldManager.Instance.CreateTile(tile);
                         if (null != tileC)
                         {
                             TileGrid grid = GetGrid(tile.index);
@@ -196,27 +196,7 @@ namespace DigitalWorld.TileMap
             this.tiles.Clear();
         }
 
-        private ControlTile MakeTile(TileData tileData)
-        {
-            TableManager tm = TableManager.instance;
-            //«ø÷∆º”‘ÿ
-            tm.Decode();
-
-            TilebaseInfo info = tm.TilebaseTable[tileData.tileBaseId];
-            if (null == info)
-                return null;
-
-            string path = string.Format("{0}.prefab", info.prefabPath);
-            GameObject obj = AssetManager.LoadAsset<GameObject>(path);
-            if (null == obj)
-                return null;
-
-            GameObject go = GameObject.Instantiate(obj) as GameObject;
-            ControlTile tile = ControlTile.GetOrAddControl(go, (ETileType)tileData.tileBaseId);
-
-            return tile;
-        }
-
+       
         public bool SetTile(ControlTile tile, int index)
         {
             TileGrid grid = this.GetGrid(index);

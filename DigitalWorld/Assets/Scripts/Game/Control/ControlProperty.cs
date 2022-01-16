@@ -9,9 +9,9 @@ namespace DigitalWorld.Game
         private Dictionary<EPropertyType, PropertyValue> attributes = new Dictionary<EPropertyType, PropertyValue>();
 
         #region Setup
-        public override void Setup(UnitInfo info)
+        public override void Setup(UnitData data)
         {
-            base.Setup(info);
+            base.Setup(data);
 
             if (null == attributes)
                 attributes = new Dictionary<EPropertyType, PropertyValue>();
@@ -19,10 +19,10 @@ namespace DigitalWorld.Game
                 attributes.Clear();
 
             PropertyValue av;
-            av = new PropertyValue(0, info.hp, info.hp);
+            av = new PropertyValue(0, data.Hp, data.Hp);
             attributes.Add(EPropertyType.Hp, av);
 
-            av = new PropertyValue(0, int.MaxValue, info.attack);
+            av = new PropertyValue(0, int.MaxValue, data.Attack);
             attributes.Add(EPropertyType.Attack, av);
 
             av = new PropertyValue(1, int.MaxValue, 1);

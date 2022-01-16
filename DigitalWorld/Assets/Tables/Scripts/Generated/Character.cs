@@ -26,11 +26,16 @@ namespace DigitalWorld.Table
         /// 名字
         /// </summary>
         public string name => _name;
-        private List<int> _attributes;
+        private int _hp;
         /// <summary>
-        /// 属性
+        /// 基础血量
         /// </summary>
-        public List<int> attributes => _attributes;
+        public int hp => _hp;
+        private int _attack;
+        /// <summary>
+        /// 攻击力
+        /// </summary>
+        public int attack => _attack;
 
         public CharacterInfo()
         {
@@ -43,7 +48,8 @@ namespace DigitalWorld.Table
 
             this.Encode(this._id);
             this.Encode(this._name);
-            this.Encode(this._attributes);
+            this.Encode(this._hp);
+            this.Encode(this._attack);
         }
 
         protected override void OnEncode(XmlElement element)
@@ -52,7 +58,8 @@ namespace DigitalWorld.Table
 
             this.Encode(this._id, "id");
             this.Encode(this._name, "name");
-            this.Encode(this._attributes, "attributes");
+            this.Encode(this._hp, "hp");
+            this.Encode(this._attack, "attack");
         }
         #endregion
 
@@ -63,7 +70,8 @@ namespace DigitalWorld.Table
 
             this.Decode(ref this._id);
             this.Decode(ref this._name);
-            this.Decode(ref this._attributes);
+            this.Decode(ref this._hp);
+            this.Decode(ref this._attack);
         }
 
         protected override void OnDecode(XmlElement element)
@@ -72,7 +80,8 @@ namespace DigitalWorld.Table
 
             this.Decode(ref this._id, "id");
             this.Decode(ref this._name, "name");
-            this.Decode(ref this._attributes, "attributes");
+            this.Decode(ref this._hp, "hp");
+            this.Decode(ref this._attack, "attack");
         }
 #endregion
 
@@ -83,7 +92,8 @@ namespace DigitalWorld.Table
 
             this.CalculateSize(this._id);
             this.CalculateSize(this._name);
-            this.CalculateSize(this._attributes);
+            this.CalculateSize(this._hp);
+            this.CalculateSize(this._attack);
         }
 #endregion
     }

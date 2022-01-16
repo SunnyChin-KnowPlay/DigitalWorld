@@ -1,6 +1,7 @@
 ﻿using DigitalWorld.Asset;
 using DigitalWorld.Behaviour;
 using DigitalWorld.Proto.Game;
+using DigitalWorld.Table;
 using DigitalWorld.TileMap;
 using Dream.Extension.Unity;
 using DreamEngine;
@@ -60,7 +61,7 @@ namespace DigitalWorld.Game
 
         private void SetupMap()
         {
-            string fullPath = "Res/Map/NewTileMap.prefab";
+            string fullPath = "Res/Map/Map.prefab";
 
             GameObject gameObject = null;
 
@@ -93,6 +94,24 @@ namespace DigitalWorld.Game
                 }
             }
         }
+
+        public ControlTile CreateTile(TileData tileData)
+        {
+            TilebaseInfo info = tileData.TilebaseInfo;
+            if (null == info)
+                return null;
+
+            string path = string.Format("{0}.prefab", info.prefabPath);
+            GameObject obj = AssetManager.LoadAsset<GameObject>(path);
+            if (null == obj)
+                return null;
+
+            GameObject go = GameObject.Instantiate(obj) as GameObject;
+            ControlTile tile = ControlTile.GetOrAddControl(go, (ETileType)tileData.tileBaseId);
+
+            return tile;
+        }
+
 
         private ControlUnit CreateCharacter(string path)
         {

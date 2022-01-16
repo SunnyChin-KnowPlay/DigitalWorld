@@ -1,2 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<table />
+<table>
+  <record id="1" name="小怪" baseType="7" prefabPath="Res/Unit/Characters/Bat" hp="10" attack="1" />
+  <record id="2" name="龙" baseType="7" prefabPath="Res/Unit/Characters/Dragon" hp="15" attack="2" />
+</table>

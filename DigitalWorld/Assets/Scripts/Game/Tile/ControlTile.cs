@@ -11,14 +11,6 @@ namespace DigitalWorld.Game
     public abstract partial class ControlTile : ControlUnit
     {
         #region Params
-        private WorldManager world;
-
-        public WorldManager World
-        {
-            get { return world; }
-            private set { world = value; }
-        }
-
         /// <summary>
         /// 格子索引
         /// </summary>
@@ -45,10 +37,20 @@ namespace DigitalWorld.Game
 
         public abstract ETileType TileType { get; }
 
+        /// <summary>
+        /// 导航块
+        /// </summary>
         protected NavMeshObstacle obstacle = null;
 
-        protected TileData data;
-        public TileData Data { get { return data; } }
+
+        /// <summary>
+        /// 砖块上的角色对象
+        /// </summary>
+        protected GameObject characterObject = null;
+        public GameObject CharacterObject
+        {
+            get { return characterObject; }
+        }
 
 #if UNITY_EDITOR
         public int level = 0;
@@ -62,7 +64,6 @@ namespace DigitalWorld.Game
         {
             base.Awake();
 
-            this.world = WorldManager.Instance;
             this.obstacle = this.GetComponent<NavMeshObstacle>();
         }
 
@@ -70,28 +71,34 @@ namespace DigitalWorld.Game
         #endregion
 
         #region Setup
+        public override void Setup(UnitData data)
+        {
+            base.Setup(data);
 
+
+        }
         #endregion
 
         #region Editor
-        public virtual void Setup(TileData data)
-        {
-            this.data = data;
-        }
-
-        public virtual TileData ExportData()
-        {
-            this.data = new TileData();
 
 #if UNITY_EDITOR
-            data.index = this.gridIndex;
-            data.tileBaseId = (int)this.TileType;
-            data.level = this.level;
-            data.objectId = this.objectId;
-#endif
+        public virtual TileData ExportData()
+        {
+            TileData data;
+
+            data = new TileData()
+            {
+
+                index = this.gridIndex,
+                tileBaseId = (int)this.TileType,
+                level = this.level,
+                objectId = this.objectId,
+
+            };
+
             return data;
         }
-
+#endif
 
         #endregion
 

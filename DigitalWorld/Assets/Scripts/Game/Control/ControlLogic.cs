@@ -5,12 +5,12 @@ namespace DigitalWorld.Game
     public abstract class ControlLogic : MonoBehaviour
     {
         #region Params
-        protected UnitInfo info;
+        protected UnitData data;
         protected Transform trans = null;
 
-        public virtual UnitInfo Info
+        public virtual UnitData Info
         {
-            get { return info; }
+            get { return data; }
         }
         #endregion
 
@@ -40,9 +40,9 @@ namespace DigitalWorld.Game
         #endregion
 
         #region Setup
-        public virtual void Setup(UnitInfo info)
+        public virtual void Setup(UnitData data)
         {
-            this.info = info;
+            this.data = data;
         }
         #endregion
     }

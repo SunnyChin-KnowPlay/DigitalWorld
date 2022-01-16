@@ -22,12 +22,15 @@ namespace DigitalWorld.TileMap.Editor
         {
             if (target == null) return;
 
-            sceneView = (SceneView)EditorWindow.GetWindow(typeof(SceneView));
+            if (!UnityEditor.EditorApplication.isPlaying)
+            {
+                sceneView = (SceneView)EditorWindow.GetWindow(typeof(SceneView));
+                tileMapControl = (TileMapControl)target;
 
-            tileMapControl = (TileMapControl)target;
+                tableManager = TableManager.instance;
+                tableManager.Decode();
+            }
 
-            tableManager = TableManager.instance;
-            tableManager.Decode();
         }
 
         private void OnDisable()

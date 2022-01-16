@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DigitalWorld.Proto.Game;
+using System;
 
 namespace DigitalWorld.Game
 {

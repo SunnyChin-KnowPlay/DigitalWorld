@@ -1,4 +1,6 @@
-﻿namespace DigitalWorld.Game
+﻿using DigitalWorld.Proto.Game;
+
+namespace DigitalWorld.Game
 {
     /// <summary>
     /// 赌场

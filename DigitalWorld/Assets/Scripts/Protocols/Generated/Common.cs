@@ -5,60 +5,60 @@ using System.Xml;
 
 namespace DigitalWorld.Proto.Common
 {
-    /// <summary>
+        	/// <summary>
     /// 
     /// </summary>
     public enum EnumLoginResult : int
     {
-
+  
         /// <summary>
         /// 
         /// </summary>
         Success = 0,
-
+  
         /// <summary>
         /// 
         /// </summary>
         NoUser = 1,
     }
-    /// <summary>
+        	/// <summary>
     /// 
     /// </summary>
     public enum EnumErrorCode : int
     {
-
+  
         /// <summary>
         /// 
         /// </summary>
         Success = 0,
-
+  
         /// <summary>
         /// 
         /// </summary>
         AccountErr,
-
+  
         /// <summary>
         /// 
         /// </summary>
         PasswordErr,
     }
-    /// <summary>
+        	/// <summary>
     /// 
     /// </summary>
     public enum EnumConnectResult : int
     {
-
+  
         /// <summary>
         /// 
         /// </summary>
         Success = 0,
-
+  
         /// <summary>
         /// 
         /// </summary>
         Failed = 1,
     }
-    /// <summary>
+            /// <summary>
     /// 登录请求
     /// </summary>
     [ProtocolID(0x0010)]
@@ -105,7 +105,7 @@ namespace DigitalWorld.Proto.Common
             return ObjectPool<ReqLogin>.Instance.Allocate();
         }
 
-        #region Encode
+#region Encode
         protected override void OnEncode(byte[] buffer, int pos)
         {
             base.OnEncode(buffer, pos);
@@ -121,9 +121,9 @@ namespace DigitalWorld.Proto.Common
             this.Encode(this._account, "account");
             this.Encode(this._password, "password");
         }
-        #endregion
+#endregion
 
-        #region Decode
+#region Decode
         protected override void OnDecode(byte[] buffer, int pos)
         {
             base.OnDecode(buffer, pos);
@@ -139,9 +139,9 @@ namespace DigitalWorld.Proto.Common
             this.Decode(ref this._account, "account");
             this.Decode(ref this._password, "password");
         }
-        #endregion
+#endregion
 
-        #region Calculate Size
+#region Calculate Size
         protected override void OnCalculateSize()
         {
             base.OnCalculateSize();
@@ -149,10 +149,10 @@ namespace DigitalWorld.Proto.Common
             this.CalculateSize(this._account);
             this.CalculateSize(this._password);
         }
-        #endregion
+#endregion
     }
 
-    /// <summary>
+            /// <summary>
     /// 登录响应
     /// </summary>
     [ProtocolID(0x0011)]
@@ -205,7 +205,7 @@ namespace DigitalWorld.Proto.Common
             return ObjectPool<AckLogin>.Instance.Allocate();
         }
 
-        #region Encode
+#region Encode
         protected override void OnEncode(byte[] buffer, int pos)
         {
             base.OnEncode(buffer, pos);
@@ -223,9 +223,9 @@ namespace DigitalWorld.Proto.Common
             this.Encode(this._token, "token");
             this.EncodeEnum(this._result, "result");
         }
-        #endregion
+#endregion
 
-        #region Decode
+#region Decode
         protected override void OnDecode(byte[] buffer, int pos)
         {
             base.OnDecode(buffer, pos);
@@ -243,9 +243,9 @@ namespace DigitalWorld.Proto.Common
             this.Decode(ref this._token, "token");
             this.DecodeEnum(ref this._result, "result");
         }
-        #endregion
+#endregion
 
-        #region Calculate Size
+#region Calculate Size
         protected override void OnCalculateSize()
         {
             base.OnCalculateSize();
@@ -254,10 +254,10 @@ namespace DigitalWorld.Proto.Common
             this.CalculateSize(this._token);
             this.CalculateSizeEnum(this._result);
         }
-        #endregion
+#endregion
     }
 
-    /// <summary>
+            /// <summary>
     /// 错误通知
     /// </summary>
     [ProtocolID(0xF001)]
@@ -304,7 +304,7 @@ namespace DigitalWorld.Proto.Common
             return ObjectPool<NotiError>.Instance.Allocate();
         }
 
-        #region Encode
+#region Encode
         protected override void OnEncode(byte[] buffer, int pos)
         {
             base.OnEncode(buffer, pos);
@@ -320,9 +320,9 @@ namespace DigitalWorld.Proto.Common
             this.EncodeEnum(this._code, "code");
             this.Encode(this._text, "text");
         }
-        #endregion
+#endregion
 
-        #region Decode
+#region Decode
         protected override void OnDecode(byte[] buffer, int pos)
         {
             base.OnDecode(buffer, pos);
@@ -338,9 +338,9 @@ namespace DigitalWorld.Proto.Common
             this.DecodeEnum(ref this._code, "code");
             this.Decode(ref this._text, "text");
         }
-        #endregion
+#endregion
 
-        #region Calculate Size
+#region Calculate Size
         protected override void OnCalculateSize()
         {
             base.OnCalculateSize();
@@ -348,10 +348,10 @@ namespace DigitalWorld.Proto.Common
             this.CalculateSizeEnum(this._code);
             this.CalculateSize(this._text);
         }
-        #endregion
+#endregion
     }
 
-    /// <summary>
+            /// <summary>
     /// 正常分手断链
     /// </summary>
     [ProtocolID(0xFF01)]
@@ -398,7 +398,7 @@ namespace DigitalWorld.Proto.Common
             return ObjectPool<NotiBreakUp>.Instance.Allocate();
         }
 
-        #region Encode
+#region Encode
         protected override void OnEncode(byte[] buffer, int pos)
         {
             base.OnEncode(buffer, pos);
@@ -414,9 +414,9 @@ namespace DigitalWorld.Proto.Common
             this.Encode(this._ip, "ip");
             this.Encode(this._port, "port");
         }
-        #endregion
+#endregion
 
-        #region Decode
+#region Decode
         protected override void OnDecode(byte[] buffer, int pos)
         {
             base.OnDecode(buffer, pos);
@@ -432,9 +432,9 @@ namespace DigitalWorld.Proto.Common
             this.Decode(ref this._ip, "ip");
             this.Decode(ref this._port, "port");
         }
-        #endregion
+#endregion
 
-        #region Calculate Size
+#region Calculate Size
         protected override void OnCalculateSize()
         {
             base.OnCalculateSize();
@@ -442,10 +442,10 @@ namespace DigitalWorld.Proto.Common
             this.CalculateSize(this._ip);
             this.CalculateSize(this._port);
         }
-        #endregion
+#endregion
     }
 
-    /// <summary>
+            /// <summary>
     /// 链接异常断开
     /// </summary>
     [ProtocolID(0xFF02)]
@@ -492,7 +492,7 @@ namespace DigitalWorld.Proto.Common
             return ObjectPool<NotiInterruption>.Instance.Allocate();
         }
 
-        #region Encode
+#region Encode
         protected override void OnEncode(byte[] buffer, int pos)
         {
             base.OnEncode(buffer, pos);
@@ -508,9 +508,9 @@ namespace DigitalWorld.Proto.Common
             this.Encode(this._ip, "ip");
             this.Encode(this._port, "port");
         }
-        #endregion
+#endregion
 
-        #region Decode
+#region Decode
         protected override void OnDecode(byte[] buffer, int pos)
         {
             base.OnDecode(buffer, pos);
@@ -526,9 +526,9 @@ namespace DigitalWorld.Proto.Common
             this.Decode(ref this._ip, "ip");
             this.Decode(ref this._port, "port");
         }
-        #endregion
+#endregion
 
-        #region Calculate Size
+#region Calculate Size
         protected override void OnCalculateSize()
         {
             base.OnCalculateSize();
@@ -536,10 +536,10 @@ namespace DigitalWorld.Proto.Common
             this.CalculateSize(this._ip);
             this.CalculateSize(this._port);
         }
-        #endregion
+#endregion
     }
 
-    /// <summary>
+            /// <summary>
     /// 链接远端结果通知
     /// </summary>
     [ProtocolID(0xFF03)]
@@ -586,7 +586,7 @@ namespace DigitalWorld.Proto.Common
             return ObjectPool<NotiConnectResult>.Instance.Allocate();
         }
 
-        #region Encode
+#region Encode
         protected override void OnEncode(byte[] buffer, int pos)
         {
             base.OnEncode(buffer, pos);
@@ -602,9 +602,9 @@ namespace DigitalWorld.Proto.Common
             this.Encode(this._token, "token");
             this.EncodeEnum(this._result, "result");
         }
-        #endregion
+#endregion
 
-        #region Decode
+#region Decode
         protected override void OnDecode(byte[] buffer, int pos)
         {
             base.OnDecode(buffer, pos);
@@ -620,9 +620,9 @@ namespace DigitalWorld.Proto.Common
             this.Decode(ref this._token, "token");
             this.DecodeEnum(ref this._result, "result");
         }
-        #endregion
+#endregion
 
-        #region Calculate Size
+#region Calculate Size
         protected override void OnCalculateSize()
         {
             base.OnCalculateSize();
@@ -630,7 +630,7 @@ namespace DigitalWorld.Proto.Common
             this.CalculateSize(this._token);
             this.CalculateSizeEnum(this._result);
         }
-        #endregion
+#endregion
     }
 
 }
