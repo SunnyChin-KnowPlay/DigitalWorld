@@ -36,7 +36,7 @@ namespace DigitalWorld.Game
         /// <summary>
         /// 单位词典
         /// </summary>
-        private Dictionary<uint, ControlUnit> units = new Dictionary<uint, ControlUnit>();
+        private readonly Dictionary<uint, ControlUnit> units = new Dictionary<uint, ControlUnit>();
         #endregion
 
         protected override void Awake()
@@ -110,6 +110,25 @@ namespace DigitalWorld.Game
             return tile;
         }
 
+        public void AddUnit(ControlUnit unit)
+        {
+            if (this.units.ContainsKey(unit.Uid))
+            {
+                this.units[unit.Uid] = unit;
+            }
+            else
+            {
+                this.units.Add(unit.Uid, unit);
+            }
+        }
+
+        public void RemoveUnit(ControlUnit unit)
+        {
+            if (this.units.ContainsKey(unit.Uid))
+            {
+                this.units.Remove(unit.Uid);
+            }
+        }
 
         private ControlUnit CreateCharacter(string path)
         {
