@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace DigitalWorld.Game
 {
-    public struct CharacterHandle : IEquatable<CharacterHandle>
+    public struct UnitHandle : IEquatable<UnitHandle>
     {
         public uint uid;
-        private ControlCharacter obj;
+        private ControlUnit obj;
 
-        public ControlCharacter Character => obj;
+        public ControlUnit Unit => obj;
 
-        public static CharacterHandle Null = default(CharacterHandle);
+        public static UnitHandle Null = default(UnitHandle);
 
-        public CharacterHandle(ControlCharacter obj)
+        public UnitHandle(ControlUnit obj)
         {
             if (null != obj && obj.Uid > 0u)
             {
@@ -25,7 +25,7 @@ namespace DigitalWorld.Game
             else
             {
                 this.uid = 0u;
-                this.obj = (ControlCharacter)((object)null);
+                this.obj = (ControlUnit)((object)null);
             }
         }
 
@@ -37,17 +37,17 @@ namespace DigitalWorld.Game
         public void Reset()
         {
             this.uid = 0u;
-            this.obj = (ControlCharacter)((object)null);
+            this.obj = (ControlUnit)((object)null);
         }
 
-        public bool Equals(CharacterHandle other)
+        public bool Equals(UnitHandle other)
         {
             return this == other;
         }
 
         public override bool Equals(object obj)
         {
-            return obj != null && obj.GetType() == base.GetType() && this == (CharacterHandle)obj;
+            return obj != null && obj.GetType() == base.GetType() && this == (UnitHandle)obj;
         }
 
         public override int GetHashCode()
@@ -55,24 +55,24 @@ namespace DigitalWorld.Game
             return base.GetHashCode();
         }
 
-        public static implicit operator bool(CharacterHandle ptr)
+        public static implicit operator bool(UnitHandle ptr)
         {
             return null != ptr.obj && ptr.obj.Uid == ptr.uid;
         }
 
-        public static bool operator ==(CharacterHandle lhs, CharacterHandle rhs)
+        public static bool operator ==(UnitHandle lhs, UnitHandle rhs)
         {
             return lhs.obj == rhs.obj && lhs.uid == rhs.uid;
         }
 
-        public static bool operator !=(CharacterHandle lhs, CharacterHandle rhs)
+        public static bool operator !=(UnitHandle lhs, UnitHandle rhs)
         {
             return lhs.obj != rhs.obj || lhs.uid != rhs.uid;
         }
 
-        public static implicit operator ControlCharacter(CharacterHandle ptr)
+        public static implicit operator ControlUnit(UnitHandle ptr)
         {
-            return ptr.Character;
+            return ptr.Unit;
         }
     }
 }

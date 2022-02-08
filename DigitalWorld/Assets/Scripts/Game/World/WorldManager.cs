@@ -5,6 +5,7 @@ using DigitalWorld.Table;
 using DigitalWorld.TileMap;
 using Dream.Extension.Unity;
 using DreamEngine;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ namespace DigitalWorld.Game
 {
     public sealed class WorldManager : Singleton<WorldManager>
     {
+        #region Params
         public Camera MainCamera
         {
             get
@@ -31,6 +33,12 @@ namespace DigitalWorld.Game
 
         private TileMapControl tileMapControl = null;
 
+        /// <summary>
+        /// 单位词典
+        /// </summary>
+        private Dictionary<uint, ControlUnit> units = new Dictionary<uint, ControlUnit>();
+        #endregion
+
         protected override void Awake()
         {
             base.Awake();
@@ -40,24 +48,14 @@ namespace DigitalWorld.Game
 
         private void Start()
         {
-            this.SetupMap();
-
-            //this.SetupUnits();
+            this.Setup();
         }
 
-
-        //private void SetupUnits()
-        //{
-        //    string fullPath = "Unit/Characters/Orc.prefab";
-
-        //    ControlUnit hero = this.CreateCharacter(fullPath);
-        //    if (null != hero)
-        //    {
-        //        InputBehaviour input = hero.GetComponent<InputBehaviour>();
-        //        if (null == input)
-        //            input = hero.gameObject.AddComponent<InputBehaviour>();
-        //    }
-        //}
+        private void Setup()
+        {
+            this.units.Clear();
+            this.SetupMap();
+        }
 
         private void SetupMap()
         {
