@@ -48,11 +48,22 @@ namespace DigitalWorld.Game
                 switch (this.unitType)
                 {
                     case EUnitType.Character:
-                        hp = this.CharacterInfo.hp;
+                    {
+                        CharacterInfo info = this.CharacterInfo;
+                        if (null != info)
+                        {
+                            hp = info.hp;
+                        }
                         break;
+                    }
+
                     case EUnitType.Tile:
-                        hp = this.TileInfo.hp;
+                    {
+                        TileInfo info = this.TileInfo;
+                        if (null != info)
+                            hp = info.hp;
                         break;
+                    }
                 }
 
                 return hp;
@@ -71,11 +82,22 @@ namespace DigitalWorld.Game
                 switch (this.unitType)
                 {
                     case EUnitType.Character:
-                        attack = this.CharacterInfo.attack;
+                    {
+                        CharacterInfo info = this.CharacterInfo;
+                        if (null != info)
+                        {
+                            attack = info.attack;
+                        }
                         break;
+                    }
+
                     case EUnitType.Tile:
-                        attack = this.TileInfo.attack;
+                    {
+                        TileInfo info = this.TileInfo;
+                        if (null != info)
+                            attack = info.attack;
                         break;
+                    }
                 }
 
                 return attack;

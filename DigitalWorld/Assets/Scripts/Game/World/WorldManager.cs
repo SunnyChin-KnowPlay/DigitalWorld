@@ -37,6 +37,11 @@ namespace DigitalWorld.Game
         /// 单位词典
         /// </summary>
         private readonly Dictionary<uint, ControlUnit> units = new Dictionary<uint, ControlUnit>();
+
+        /// <summary>
+        /// 单位id池
+        /// </summary>
+        private uint unitIdPool = 0;
         #endregion
 
         protected override void Awake()
@@ -53,7 +58,9 @@ namespace DigitalWorld.Game
 
         private void Setup()
         {
+            unitIdPool = 0;
             this.units.Clear();
+
             this.SetupMap();
         }
 
@@ -106,15 +113,30 @@ namespace DigitalWorld.Game
 
             GameObject go = GameObject.Instantiate(obj) as GameObject;
             ControlTile tile = ControlTile.GetOrAddControl(go, (ETileType)tileData.tileBaseId);
+            UnitData unitData = new UnitData()
+            {
+                configId = tileData.tileId,
+                unitType = EUnitType.Tile,
+                level = 1,
+            };
 
+            this.RegisterUnit(tile, unitData);
             return tile;
         }
 
-        public void AddUnit(ControlUnit unit)
+        private uint GetNewUnitId()
         {
-            if (this.units.ContainsKey(unit.Uid))
+            return ++unitIdPool;
+        }
+
+        public void RegisterUnit(ControlUnit unit, UnitData data)
+        {
+            uint uid = GetNewUnitId();
+            unit.Setup(uid, data);
+
+            if (this.units.ContainsKey(uid))
             {
-                this.units[unit.Uid] = unit;
+                this.units[uid] = unit;
             }
             else
             {
@@ -122,11 +144,13 @@ namespace DigitalWorld.Game
             }
         }
 
-        public void RemoveUnit(ControlUnit unit)
+        public void UnregisterUnit(ControlUnit unit)
         {
             if (this.units.ContainsKey(unit.Uid))
             {
                 this.units.Remove(unit.Uid);
+
+                unit.Destroy();
             }
         }
 

@@ -25,7 +25,7 @@ namespace DigitalWorld.Game
             av = new PropertyValue(0, int.MaxValue, data.Attack);
             attributes.Add(EPropertyType.Attack, av);
 
-            av = new PropertyValue(1, int.MaxValue, 1);
+            av = new PropertyValue(1, int.MaxValue, data.level);
             attributes.Add(EPropertyType.Level, av);
         }
         #endregion

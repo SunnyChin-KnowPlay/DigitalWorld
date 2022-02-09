@@ -20,12 +20,6 @@ namespace DigitalWorld.Game
 
         protected WorldManager world;
 
-        public WorldManager World
-        {
-            get { return world; }
-            private set { world = value; }
-        }
-
         #endregion
 
         #region Controls
