@@ -37,10 +37,7 @@ namespace DigitalWorld.Proto.Game
         /// </summary>
         Character = 1,
 
-        /// <summary>
-        /// 地块
-        /// </summary>
-        Tile = 2,
+       
     }
     /// <summary>
     /// 地块类型

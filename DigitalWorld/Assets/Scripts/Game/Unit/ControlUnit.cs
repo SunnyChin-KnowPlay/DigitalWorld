@@ -54,10 +54,7 @@ namespace DigitalWorld.Game
         protected override void Awake()
         {
             base.Awake();
-
             this.world = WorldManager.Instance;
-
-            this.SetupControls();
         }
 
         // Update is called once per frame
@@ -93,7 +90,8 @@ namespace DigitalWorld.Game
         {
             base.Setup(data);
 
-            EachAllControls(OnSetupControl);
+            this.SetupControls();
+            
         }
         #endregion
 
@@ -112,13 +110,15 @@ namespace DigitalWorld.Game
         protected virtual void SetupControls()
         {
             if (null == this.controls)
+            {
                 this.controls = new Dictionary<ELogicControlType, ControlLogic>();
-            else
-                this.controls.Clear();
 
-            this.controls.Add(ELogicControlType.Property, this.GetOrAddComponent<ControlProperty>());
-            this.controls.Add(ELogicControlType.Animator, this.GetOrAddComponent<ControlAnimator>());
-            this.controls.Add(ELogicControlType.Skill, this.GetOrAddComponent<ControlSkill>());
+                this.controls.Add(ELogicControlType.Property, this.GetOrAddComponent<ControlProperty>());
+                this.controls.Add(ELogicControlType.Animator, this.GetOrAddComponent<ControlAnimator>());
+                this.controls.Add(ELogicControlType.Skill, this.GetOrAddComponent<ControlSkill>());
+            }
+
+            this.EachAllControls(OnSetupControl);
         }
 
         protected virtual void OnSetupControl(ControlLogic c)

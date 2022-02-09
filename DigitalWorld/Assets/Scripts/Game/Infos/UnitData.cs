@@ -29,14 +29,6 @@ namespace DigitalWorld.Game
         }
 
         /// <summary>
-        /// 地块信息
-        /// </summary>
-        public TileInfo TileInfo
-        {
-            get { return TableManager.instance.TileTable[configId]; }
-        }
-
-        /// <summary>
         /// 血量
         /// </summary>
         public int Hp
@@ -54,14 +46,6 @@ namespace DigitalWorld.Game
                         {
                             hp = info.hp;
                         }
-                        break;
-                    }
-
-                    case EUnitType.Tile:
-                    {
-                        TileInfo info = this.TileInfo;
-                        if (null != info)
-                            hp = info.hp;
                         break;
                     }
                 }
@@ -88,14 +72,6 @@ namespace DigitalWorld.Game
                         {
                             attack = info.attack;
                         }
-                        break;
-                    }
-
-                    case EUnitType.Tile:
-                    {
-                        TileInfo info = this.TileInfo;
-                        if (null != info)
-                            attack = info.attack;
                         break;
                     }
                 }

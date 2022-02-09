@@ -26,6 +26,11 @@ namespace DigitalWorld.Table
         /// 名字
         /// </summary>
         public string name => _name;
+        private string _prefabPath;
+        /// <summary>
+        /// 角色预制件路径
+        /// </summary>
+        public string prefabPath => _prefabPath;
         private int _hp;
         /// <summary>
         /// 基础血量
@@ -48,6 +53,7 @@ namespace DigitalWorld.Table
 
             this.Encode(this._id);
             this.Encode(this._name);
+            this.Encode(this._prefabPath);
             this.Encode(this._hp);
             this.Encode(this._attack);
         }
@@ -58,6 +64,7 @@ namespace DigitalWorld.Table
 
             this.Encode(this._id, "id");
             this.Encode(this._name, "name");
+            this.Encode(this._prefabPath, "prefabPath");
             this.Encode(this._hp, "hp");
             this.Encode(this._attack, "attack");
         }
@@ -70,6 +77,7 @@ namespace DigitalWorld.Table
 
             this.Decode(ref this._id);
             this.Decode(ref this._name);
+            this.Decode(ref this._prefabPath);
             this.Decode(ref this._hp);
             this.Decode(ref this._attack);
         }
@@ -80,6 +88,7 @@ namespace DigitalWorld.Table
 
             this.Decode(ref this._id, "id");
             this.Decode(ref this._name, "name");
+            this.Decode(ref this._prefabPath, "prefabPath");
             this.Decode(ref this._hp, "hp");
             this.Decode(ref this._attack, "attack");
         }
@@ -92,6 +101,7 @@ namespace DigitalWorld.Table
 
             this.CalculateSize(this._id);
             this.CalculateSize(this._name);
+            this.CalculateSize(this._prefabPath);
             this.CalculateSize(this._hp);
             this.CalculateSize(this._attack);
         }
