@@ -1,5 +1,4 @@
 using Dream.Extension.Unity;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -158,14 +157,6 @@ namespace DigitalWorld.Game
         public virtual void OnDead()
         {
             this.status = EUnitStatus.Dead;
-
-            StartCoroutine(ApplyDead());
-        }
-
-        private IEnumerator ApplyDead()
-        {
-            yield return new WaitForSeconds(Defined.deadDuration);
-
             this.OnFuneral();
         }
 

@@ -1,7 +1,7 @@
 ﻿using DigitalWorld.Proto.Game;
 using DigitalWorld.TileMap;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace DigitalWorld.Game
 {
@@ -49,43 +49,9 @@ namespace DigitalWorld.Game
         {
             base.Awake();
         }
-
-
         #endregion
 
-        #region Setup
-        public override void Setup(UnitData data)
-        {
-            base.Setup(data);
-
-
-        }
-        #endregion
-
-        #region Editor
-
-#if UNITY_EDITOR
-        public virtual TileData ExportData()
-        {
-            TileData data;
-
-            data = new TileData()
-            {
-
-                index = this.gridIndex,
-                tileBaseId = (int)this.TileType,
-                level = this.level,
-                objectId = this.objectId,
-
-            };
-
-            return data;
-        }
-#endif
-
-        #endregion
-
-        #region Logic
+        #region Factory
         public static ControlTile GetOrAddControl(GameObject go, ETileType type)
         {
             if (null == go)
@@ -122,7 +88,35 @@ namespace DigitalWorld.Game
 
             return tile;
         }
+        #endregion
 
+        #region Setup
+        public override void Setup(UnitData data)
+        {
+            base.Setup(data);
+        }
+        #endregion
+
+        #region Editor
+#if UNITY_EDITOR
+        public virtual TileData ExportData()
+        {
+            TileData data;
+
+            data = new TileData()
+            {
+                index = this.gridIndex,
+                tileBaseId = (int)this.TileType,
+                level = this.level,
+                objectId = this.objectId,
+            };
+
+            return data;
+        }
+#endif
+        #endregion
+
+        #region Logic
         public override void OnBorn()
         {
             base.OnBorn();
@@ -131,7 +125,25 @@ namespace DigitalWorld.Game
         public override void OnDead()
         {
             base.OnDead();
+
+            StartCoroutine(ApplyDead());
         }
+
+        /// <summary>
+        /// 访问
+        /// </summary>
+        public virtual void Visit()
+        {
+            
+        }
+
+        private IEnumerator ApplyDead()
+        {
+            yield return new WaitForSeconds(Defined.deadDuration);
+
+            this.OnFuneral();
+        }
+
         #endregion
     }
 }
