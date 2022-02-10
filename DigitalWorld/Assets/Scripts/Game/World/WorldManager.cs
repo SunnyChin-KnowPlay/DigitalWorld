@@ -131,7 +131,7 @@ namespace DigitalWorld.Game
             UnitData unitData = new UnitData()
             {
                 configId = tileData.tileId,
-                unitType = EUnitType.Character,
+                unitType = EUnitType.Tile,
                 level = 1,
             };
 

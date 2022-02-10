@@ -37,17 +37,10 @@ namespace DigitalWorld.Game
             {
                 int hp = 0;
 
-                switch (this.unitType)
+                CharacterInfo info = this.CharacterInfo;
+                if (null != info)
                 {
-                    case EUnitType.Character:
-                    {
-                        CharacterInfo info = this.CharacterInfo;
-                        if (null != info)
-                        {
-                            hp = info.hp;
-                        }
-                        break;
-                    }
+                    hp = info.hp;
                 }
 
                 return hp;
@@ -63,17 +56,10 @@ namespace DigitalWorld.Game
             {
                 int attack = 0;
 
-                switch (this.unitType)
+                CharacterInfo info = this.CharacterInfo;
+                if (null != info)
                 {
-                    case EUnitType.Character:
-                    {
-                        CharacterInfo info = this.CharacterInfo;
-                        if (null != info)
-                        {
-                            attack = info.attack;
-                        }
-                        break;
-                    }
+                    attack = info.attack;
                 }
 
                 return attack;

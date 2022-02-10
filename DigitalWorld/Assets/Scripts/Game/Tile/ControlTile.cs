@@ -37,21 +37,6 @@ namespace DigitalWorld.Game
 
         public abstract ETileType TileType { get; }
 
-        /// <summary>
-        /// 导航块
-        /// </summary>
-        protected NavMeshObstacle obstacle = null;
-
-
-        /// <summary>
-        /// 砖块上的角色对象
-        /// </summary>
-        protected GameObject characterObject = null;
-        public GameObject CharacterObject
-        {
-            get { return characterObject; }
-        }
-
 #if UNITY_EDITOR
         public int level = 0;
         public int objectId = 0;
@@ -63,8 +48,6 @@ namespace DigitalWorld.Game
         protected override void Awake()
         {
             base.Awake();
-
-            this.obstacle = this.GetComponent<NavMeshObstacle>();
         }
 
 
