@@ -37,6 +37,10 @@ namespace DigitalWorld.Game
         /// 单位词典
         /// </summary>
         private readonly Dictionary<uint, ControlUnit> units = new Dictionary<uint, ControlUnit>();
+        /// <summary>
+        /// 跑Update用的单位队列
+        /// </summary>
+        private readonly List<ControlUnit> runningUnits = new List<ControlUnit>();
 
         /// <summary>
         /// 单位id池
@@ -44,6 +48,7 @@ namespace DigitalWorld.Game
         private uint unitIdPool = 0;
         #endregion
 
+        #region Mono
         protected override void Awake()
         {
             base.Awake();
@@ -56,6 +61,14 @@ namespace DigitalWorld.Game
             this.Setup();
         }
 
+        private void Update()
+        {
+            float delta = Time.deltaTime;
+            UpdateUnits(delta);
+        }
+        #endregion
+
+        #region Setup
         private void Setup()
         {
             unitIdPool = 0;
@@ -99,7 +112,9 @@ namespace DigitalWorld.Game
                 }
             }
         }
+        #endregion
 
+        #region Create & Register
         public ControlTile CreateTile(TileData tileData)
         {
             TilebaseInfo info = tileData.TilebaseInfo;
@@ -120,6 +135,7 @@ namespace DigitalWorld.Game
                 level = 1,
             };
 
+            tile.OnBorn();
             this.RegisterUnit(tile, unitData);
             return tile;
         }
@@ -129,7 +145,7 @@ namespace DigitalWorld.Game
             return ++unitIdPool;
         }
 
-        public void RegisterUnit(ControlUnit unit, UnitData data)
+        private void RegisterUnit(ControlUnit unit, UnitData data)
         {
             uint uid = GetNewUnitId();
             unit.Setup(uid, data);
@@ -144,13 +160,11 @@ namespace DigitalWorld.Game
             }
         }
 
-        public void UnregisterUnit(ControlUnit unit)
+        private void UnregisterUnit(ControlUnit unit)
         {
             if (this.units.ContainsKey(unit.Uid))
             {
                 this.units.Remove(unit.Uid);
-
-                unit.Destroy();
             }
         }
 
@@ -180,5 +194,26 @@ namespace DigitalWorld.Game
 
             return unitControl;
         }
+        #endregion
+
+        #region Update
+        private void UpdateUnits(float dt)
+        {
+            this.runningUnits.Clear();
+            foreach (var kvp in this.units)
+                this.runningUnits.Add(kvp.Value);
+
+            for (int i = 0; i < this.runningUnits.Count; ++i)
+            {
+                ControlUnit unit = this.runningUnits[i];
+                if (unit.Status == EUnitStatus.WaitRecycle)
+                {
+                    this.UnregisterUnit(unit);
+                    unit.Destroy();
+                }
+            }
+        }
+        #endregion
+
     }
 }

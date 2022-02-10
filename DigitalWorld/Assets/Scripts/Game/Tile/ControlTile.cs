@@ -142,12 +142,12 @@ namespace DigitalWorld.Game
 
         public override void OnBorn()
         {
-
+            base.OnBorn();
         }
 
         public override void OnDead()
         {
-
+            base.OnDead();
         }
         #endregion
     }

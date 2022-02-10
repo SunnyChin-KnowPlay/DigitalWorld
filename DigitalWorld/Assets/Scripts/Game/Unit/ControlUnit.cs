@@ -1,4 +1,5 @@
 using Dream.Extension.Unity;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -17,6 +18,20 @@ namespace DigitalWorld.Game
         /// 单位的唯一ID
         /// </summary>
         public uint Uid { get { return uid; } }
+
+        /// <summary>
+        /// 本地状态
+        /// </summary>
+        protected EUnitStatus status;
+        public EUnitStatus Status { get { return status; } }
+
+        /// <summary>
+        /// 是否为活跃中的
+        /// </summary>
+        public bool IsRunning
+        {
+            get { return status == EUnitStatus.Running; }
+        }
 
         protected WorldManager world;
 
@@ -55,6 +70,7 @@ namespace DigitalWorld.Game
         {
             base.Awake();
             this.world = WorldManager.Instance;
+            this.status = EUnitStatus.Idle;
         }
 
         // Update is called once per frame
@@ -91,7 +107,7 @@ namespace DigitalWorld.Game
             base.Setup(data);
 
             this.SetupControls();
-            
+
         }
         #endregion
 
@@ -131,12 +147,35 @@ namespace DigitalWorld.Game
         /// <summary>
         /// 当出生时
         /// </summary>
-        public abstract void OnBorn();
+        public virtual void OnBorn()
+        {
+            status = EUnitStatus.Running;
+        }
 
         /// <summary>
         /// 死亡时
         /// </summary>
-        public abstract void OnDead();
+        public virtual void OnDead()
+        {
+            this.status = EUnitStatus.Dead;
+
+            StartCoroutine(ApplyDead());
+        }
+
+        private IEnumerator ApplyDead()
+        {
+            yield return new WaitForSeconds(Defined.deadDuration);
+
+            this.OnFuneral();
+        }
+
+        /// <summary>
+        /// 嗯...生命周期彻底结束...
+        /// </summary>
+        protected virtual void OnFuneral()
+        {
+            this.status = EUnitStatus.WaitRecycle;
+        }
         #endregion
 
     }

@@ -29,5 +29,32 @@
         Skill,
     }
 
-   
+    public enum EUnitStatus
+    {
+        /// <summary>
+        /// 待机
+        /// </summary>
+        Idle = 0,
+        /// <summary>
+        /// 活跃中
+        /// </summary>
+        Running,
+        /// <summary>
+        /// 已死亡的
+        /// </summary>
+        Dead,
+        /// <summary>
+        /// 待回收 待释放的
+        /// </summary>
+        WaitRecycle,
+    }
+
+    public class Defined
+    {
+        /// <summary>
+        /// 死亡存续周期
+        /// </summary>
+        public const float deadDuration = 5f;
+    }
+
 }
