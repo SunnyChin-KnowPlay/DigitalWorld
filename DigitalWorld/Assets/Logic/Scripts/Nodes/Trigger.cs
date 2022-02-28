@@ -19,6 +19,42 @@ namespace DigitalWorld.Logic
 
         private readonly List<BaseAction> actions = new List<BaseAction>();
         private readonly List<BaseCondition> conditions = new List<BaseCondition>();
+
+        private int runningTime = 0;
+        /// <summary>
+        /// 运行的时间
+        /// </summary>
+        public int RunningTime
+        {
+            get { return runningTime; }
+        }
+
+        private int lastedTriggeredTime = 0;
+        /// <summary>
+        /// 最后一次触发的时间
+        /// </summary>
+        public int LastedTriggeredTime
+        {
+            get { return lastedTriggeredTime; }
+            protected set { lastedTriggeredTime = value; }
+        }
+
+        private ECheckLogic checkLogic;
+        public ECheckLogic CheckLogic
+        {
+            get
+            {
+                return checkLogic;
+            }
+            set
+            {
+                if (checkLogic != value)
+                {
+                    SetDirty();
+                    checkLogic = value;
+                }
+            }
+        }
         #endregion
 
         #region Pooled
@@ -26,7 +62,9 @@ namespace DigitalWorld.Logic
         {
             base.OnAllocate();
 
-            ListenEventId = 0;
+            this.ListenEventId = 0;
+            this.runningTime = 0;
+            this.lastedTriggeredTime = 0;
         }
         #endregion
 

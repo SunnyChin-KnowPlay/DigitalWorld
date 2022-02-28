@@ -11,6 +11,7 @@ namespace DigitalWorld.Logic
     /// </summary>
     public abstract partial class BaseNode : ByteBuffer
     {
+        #region Params
         /// <summary>
         /// 节点唯一ID
         /// </summary>
@@ -40,6 +41,27 @@ namespace DigitalWorld.Logic
             set { enabled = value; }
         }
         protected bool enabled = false;
+
+        /// <summary>
+        /// 运行状态枚举
+        /// </summary>
+        public enum EState
+        {
+            Idle = 0,
+            Running,
+            End
+        }
+
+        private EState state;
+        /// <summary>
+        /// 运行状态
+        /// </summary>
+        public EState State
+        {
+            get { return state; }
+            protected set { state = value; }
+        }
+        #endregion
 
         #region Pool
         public override void OnAllocate()
@@ -151,5 +173,7 @@ namespace DigitalWorld.Logic
             this.Decode(ref this.enabled, "enabled");
         }
         #endregion
+
+       
     }
 }

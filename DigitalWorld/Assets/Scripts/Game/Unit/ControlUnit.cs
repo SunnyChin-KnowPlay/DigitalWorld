@@ -126,11 +126,12 @@ namespace DigitalWorld.Game
         {
             if (null == this.controls)
             {
-                this.controls = new Dictionary<ELogicControlType, ControlLogic>();
-
-                this.controls.Add(ELogicControlType.Property, this.GetOrAddComponent<ControlProperty>());
-                this.controls.Add(ELogicControlType.Animator, this.GetOrAddComponent<ControlAnimator>());
-                this.controls.Add(ELogicControlType.Skill, this.GetOrAddComponent<ControlSkill>());
+                this.controls = new Dictionary<ELogicControlType, ControlLogic>
+                {
+                    { ELogicControlType.Property, this.GetOrAddComponent<ControlProperty>() },
+                    { ELogicControlType.Animator, this.GetOrAddComponent<ControlAnimator>() },
+                    { ELogicControlType.Skill, this.GetOrAddComponent<ControlSkill>() }
+                };
             }
 
             this.EachAllControls(OnSetupControl);
