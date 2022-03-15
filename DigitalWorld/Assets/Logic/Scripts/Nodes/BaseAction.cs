@@ -11,5 +11,12 @@
             }
         }
         #endregion
+
+        #region Logic
+        public virtual void Invoke()
+        {
+
+        }
+        #endregion
     }
 }

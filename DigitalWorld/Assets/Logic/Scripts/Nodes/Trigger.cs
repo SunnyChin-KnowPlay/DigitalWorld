@@ -99,5 +99,71 @@ namespace DigitalWorld.Logic
                 this.conditions.Remove(bc);
         }
         #endregion
+
+        #region Event
+        public void DispatchEvent(IEvent ev)
+        {
+            if (ev.Id == this.ListenEventId)
+            {
+                this.Process(ev);
+            }
+        }
+
+        private void Process(IEvent ev)
+        {
+            this.triggeringEvent = ev;
+
+            bool conf = false;
+            ConstructTriggerUnit(ev);
+            if (CheckLogic == ECheckLogic.And)
+            {
+                conf = true;
+                for (int i = 0; i < conditions.Count; i++)
+                {
+                    if (!conditions[i].Enabled) continue;
+                    conf = conf && conditions[i].Check();
+                    if (!conf) break;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < conditions.Count; i++)
+                {
+                    if (!conditions[i].Enabled) continue;
+                    conf = conf || conditions[i].Check();
+                    if (conf) break;
+                }
+            }
+
+            if (conf)
+            {
+                Invoke();
+            }
+        }
+        #endregion
+
+        #region Logic
+        public virtual void OnUpdate(int delta)
+        {
+            if (this.enabled)
+            {
+                this.runningTime += delta;
+            }
+        }
+
+        private void ConstructTriggerUnit(IEvent ev)
+        {
+
+        }
+
+        private void Invoke()
+        {
+            for (int i = 0; i < actions.Count; i++)
+            {
+                if (!actions[i].Enabled) continue;
+                actions[i].Invoke();
+            }
+        }
+        #endregion
     }
 }

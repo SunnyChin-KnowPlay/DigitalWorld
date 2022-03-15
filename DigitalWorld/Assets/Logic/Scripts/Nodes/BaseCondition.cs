@@ -11,5 +11,12 @@
             }
         }
         #endregion
+
+        #region Logic
+        public virtual bool Check()
+        {
+            return true;
+        }
+        #endregion
     }
 }
