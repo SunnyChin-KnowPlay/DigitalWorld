@@ -2,7 +2,6 @@
 {
     public partial class BaseNode
     {
-#if UNITY_EDITOR
 
         public virtual void SetDirty()
         {
@@ -11,6 +10,5 @@
                 parent.SetDirty();
             }
         }
-#endif
     }
 }

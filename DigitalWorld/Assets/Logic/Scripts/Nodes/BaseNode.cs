@@ -22,6 +22,23 @@ namespace DigitalWorld.Logic
         /// </summary>
         public Guid Uid { get { return uid; } }
 
+        /// <summary>
+        /// 索引号
+        /// </summary>
+        protected int index = 0;
+        public int Index
+        {
+            get { return index; }
+            set
+            {
+                if (index == value)
+                    return;
+
+                index = value;
+                SetDirty();
+            }
+        }
+
         protected BaseNode parent;
 
         public BaseNode Parent => parent;
@@ -41,6 +58,14 @@ namespace DigitalWorld.Logic
             set { enabled = value; }
         }
         protected bool enabled = false;
+
+        public virtual string Name
+        {
+            get
+            {
+                return this.GetType().ToString();
+            }
+        }
 
         /// <summary>
         /// 运行状态枚举
@@ -69,16 +94,24 @@ namespace DigitalWorld.Logic
             this.OnAllocate();
             this.uid = Guid.Empty;
             this.enabled = false;
+            this.index = 0;
             this.parent = null;
+            this.state = EState.Idle;
             if (null == this.children)
                 this.children = new List<BaseNode>();
         }
 
         public override void OnRecycle()
         {
-            this.OnRecycle();
             this.DetachChildren();
             this.parent = null;
+
+            this.OnRecycle();
+        }
+
+        public void NewUID()
+        {
+            this.uid = Guid.NewGuid();
         }
         #endregion
 
@@ -137,6 +170,11 @@ namespace DigitalWorld.Logic
                     return this.children[i];
             }
             return null;
+        }
+
+        public virtual void ResetChildrenIndex()
+        {
+
         }
         #endregion
 
