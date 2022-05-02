@@ -8,6 +8,13 @@ namespace DigitalWorld.Game
         protected UnitData data;
         protected Transform trans = null;
 
+        public ControlUnit Unit
+        {
+            get { return unit; }
+        }
+        protected ControlUnit unit = null;
+        protected UnitHandle unitHandle = UnitHandle.Null;
+
         public virtual UnitData Info
         {
             get { return data; }
@@ -40,9 +47,10 @@ namespace DigitalWorld.Game
         #endregion
 
         #region Setup
-        public virtual void Setup(UnitData data)
+        public virtual void Setup(ControlUnit unit, UnitData data)
         {
             this.data = data;
+            this.unit = unit;
         }
         #endregion
     }

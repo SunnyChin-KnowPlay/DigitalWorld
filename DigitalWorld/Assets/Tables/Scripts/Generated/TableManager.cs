@@ -32,7 +32,6 @@ namespace DigitalWorld.Table
 
         #region Tables
         public CharacterTable CharacterTable { get; private set; } = new CharacterTable();
-        public TilebaseTable TilebaseTable { get; private set; } = new TilebaseTable();
         public MapTable MapTable { get; private set; } = new MapTable();
         #endregion
 
@@ -40,14 +39,12 @@ namespace DigitalWorld.Table
         public void Decode()
         {
             this.ApplyDecodeTable(CharacterTable, "character");
-            this.ApplyDecodeTable(TilebaseTable, "tilebase");
             this.ApplyDecodeTable(MapTable, "map");
         }
 
         public void DecodeXml()
         {
             this.ApplyDecodeTableWithXml(CharacterTable, "character");
-            this.ApplyDecodeTableWithXml(TilebaseTable, "tilebase");
             this.ApplyDecodeTableWithXml(MapTable, "map");
         }
 
@@ -72,7 +69,6 @@ namespace DigitalWorld.Table
         public void Encode()
         {
             this.ApplyEncodeTable(CharacterTable, "character");
-            this.ApplyEncodeTable(TilebaseTable, "tilebase");
             this.ApplyEncodeTable(MapTable, "map");
         }
 

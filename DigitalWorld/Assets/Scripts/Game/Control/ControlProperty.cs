@@ -6,17 +6,14 @@ namespace DigitalWorld.Game
 {
     public class ControlProperty : ControlLogic
     {
-        private Dictionary<EPropertyType, PropertyValue> attributes = new Dictionary<EPropertyType, PropertyValue>();
+        private readonly Dictionary<EPropertyType, PropertyValue> attributes = new Dictionary<EPropertyType, PropertyValue>();
 
         #region Setup
-        public override void Setup(UnitData data)
+        public override void Setup(ControlUnit unit, UnitData data)
         {
-            base.Setup(data);
+            base.Setup(unit, data);
 
-            if (null == attributes)
-                attributes = new Dictionary<EPropertyType, PropertyValue>();
-            else
-                attributes.Clear();
+            attributes.Clear();
 
             PropertyValue av;
             av = new PropertyValue(0, data.Hp, data.Hp);
@@ -25,8 +22,8 @@ namespace DigitalWorld.Game
             av = new PropertyValue(0, int.MaxValue, data.Attack);
             attributes.Add(EPropertyType.Attack, av);
 
-            av = new PropertyValue(1, int.MaxValue, data.level);
-            attributes.Add(EPropertyType.Level, av);
+            av = new PropertyValue(0, int.MaxValue, data.MoveSpeed);
+            attributes.Add(EPropertyType.MoveSpeed, av);
         }
         #endregion
 
@@ -41,7 +38,7 @@ namespace DigitalWorld.Game
 
         public PropertyValue Attack { get { return GetValue(EPropertyType.Attack); } }
 
-        public PropertyValue Level { get { return GetValue(EPropertyType.Level); } }
+        public PropertyValue MoveSpeed { get { return GetValue(EPropertyType.MoveSpeed); } }
         #endregion
     }
 }

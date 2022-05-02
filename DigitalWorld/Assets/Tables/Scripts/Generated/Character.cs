@@ -26,11 +26,6 @@ namespace DigitalWorld.Table
         /// 名字
         /// </summary>
         public string name => _name;
-        private string _prefabPath;
-        /// <summary>
-        /// 角色预制件路径
-        /// </summary>
-        public string prefabPath => _prefabPath;
         private int _hp;
         /// <summary>
         /// 基础血量
@@ -41,6 +36,11 @@ namespace DigitalWorld.Table
         /// 攻击力
         /// </summary>
         public int attack => _attack;
+        private int _moveSpeed;
+        /// <summary>
+        /// 移动速度
+        /// </summary>
+        public int moveSpeed => _moveSpeed;
 
         public CharacterInfo()
         {
@@ -53,9 +53,9 @@ namespace DigitalWorld.Table
 
             this.Encode(this._id);
             this.Encode(this._name);
-            this.Encode(this._prefabPath);
             this.Encode(this._hp);
             this.Encode(this._attack);
+            this.Encode(this._moveSpeed);
         }
 
         protected override void OnEncode(XmlElement element)
@@ -64,9 +64,9 @@ namespace DigitalWorld.Table
 
             this.Encode(this._id, "id");
             this.Encode(this._name, "name");
-            this.Encode(this._prefabPath, "prefabPath");
             this.Encode(this._hp, "hp");
             this.Encode(this._attack, "attack");
+            this.Encode(this._moveSpeed, "moveSpeed");
         }
         #endregion
 
@@ -77,9 +77,9 @@ namespace DigitalWorld.Table
 
             this.Decode(ref this._id);
             this.Decode(ref this._name);
-            this.Decode(ref this._prefabPath);
             this.Decode(ref this._hp);
             this.Decode(ref this._attack);
+            this.Decode(ref this._moveSpeed);
         }
 
         protected override void OnDecode(XmlElement element)
@@ -88,9 +88,9 @@ namespace DigitalWorld.Table
 
             this.Decode(ref this._id, "id");
             this.Decode(ref this._name, "name");
-            this.Decode(ref this._prefabPath, "prefabPath");
             this.Decode(ref this._hp, "hp");
             this.Decode(ref this._attack, "attack");
+            this.Decode(ref this._moveSpeed, "moveSpeed");
         }
 #endregion
 
@@ -101,9 +101,9 @@ namespace DigitalWorld.Table
 
             this.CalculateSize(this._id);
             this.CalculateSize(this._name);
-            this.CalculateSize(this._prefabPath);
             this.CalculateSize(this._hp);
             this.CalculateSize(this._attack);
+            this.CalculateSize(this._moveSpeed);
         }
 #endregion
     }

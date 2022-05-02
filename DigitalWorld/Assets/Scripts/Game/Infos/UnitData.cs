@@ -65,5 +65,21 @@ namespace DigitalWorld.Game
                 return attack;
             }
         }
+
+        public int MoveSpeed
+        {
+            get
+            {
+                int moveSpeed = 0;
+
+                CharacterInfo info = this.CharacterInfo;
+                if (null != info)
+                {
+                    moveSpeed = info.moveSpeed;
+                }
+
+                return moveSpeed;
+            }
+        }
     }
 }

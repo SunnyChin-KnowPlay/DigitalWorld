@@ -5,10 +5,6 @@ namespace Dream.Proto
     enum EnumProtocolID
     {
         /// <summary>
-        /// 地块数据
-        /// </summary>
-        TileData = 0x0100,
-        /// <summary>
         /// 地图数据
         /// </summary>
         MapData = 0x0101,

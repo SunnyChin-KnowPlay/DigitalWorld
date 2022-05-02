@@ -98,12 +98,12 @@ namespace DigitalWorld.Game
         public void Setup(uint uid, UnitData data)
         {
             this.uid = uid;
-            this.Setup(data);
+            this.Setup(this, data);
         }
 
-        public override void Setup(UnitData data)
+        public override void Setup(ControlUnit unit, UnitData data)
         {
-            base.Setup(data);
+            base.Setup(unit, data);
 
             this.SetupControls();
 
@@ -139,7 +139,7 @@ namespace DigitalWorld.Game
 
         protected virtual void OnSetupControl(ControlLogic c)
         {
-            c.Setup(this.data);
+            c.Setup(this, this.data);
         }
         #endregion
 
