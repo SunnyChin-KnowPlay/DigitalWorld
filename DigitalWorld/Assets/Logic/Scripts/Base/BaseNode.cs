@@ -57,7 +57,7 @@ namespace DigitalWorld.Logic
             get { return enabled; }
             set { enabled = value; }
         }
-        protected bool enabled = false;
+        private bool enabled = false;
 
         public virtual string Name
         {
@@ -67,25 +67,7 @@ namespace DigitalWorld.Logic
             }
         }
 
-        /// <summary>
-        /// 运行状态枚举
-        /// </summary>
-        public enum EState
-        {
-            Idle = 0,
-            Running,
-            End
-        }
-
-        private EState state;
-        /// <summary>
-        /// 运行状态
-        /// </summary>
-        public EState State
-        {
-            get { return state; }
-            protected set { state = value; }
-        }
+        
         #endregion
 
         #region Pool
@@ -96,7 +78,7 @@ namespace DigitalWorld.Logic
             this.enabled = false;
             this.index = 0;
             this.parent = null;
-            this.state = EState.Idle;
+          
             if (null == this.children)
                 this.children = new List<BaseNode>();
         }
@@ -213,24 +195,7 @@ namespace DigitalWorld.Logic
         #endregion
 
         #region Logic
-        public virtual void ToState(EState state)
-        {
-            if (State != state)
-            {
-                EState lastState = State;
-                State = state;
-                OnStateChanged(lastState);
-                if (State == EState.End)
-                {
-                    State = EState.Idle;
-                }
-            }
-        }
-
-        protected virtual void OnStateChanged(EState laststate)
-        {
-
-        }
+       
         #endregion
     }
 }

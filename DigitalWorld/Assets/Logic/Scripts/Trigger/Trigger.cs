@@ -2,7 +2,7 @@
 
 namespace DigitalWorld.Logic
 {
-    public partial class Trigger : BaseNode
+    public partial class Trigger : NodeFSE
     {
         #region Params
         /// <summary>
@@ -15,29 +15,10 @@ namespace DigitalWorld.Logic
         /// <summary>
         /// 监听的事件ID
         /// </summary>
-        public uint ListenEventId { get; set; }
+        public int ListenEventId { get; set; }
 
         private readonly List<BaseAction> actions = new List<BaseAction>();
         private readonly List<BaseCondition> conditions = new List<BaseCondition>();
-
-        private int runningTime = 0;
-        /// <summary>
-        /// 运行的时间
-        /// </summary>
-        public int RunningTime
-        {
-            get { return runningTime; }
-        }
-
-        private int lastedTriggeredTime = 0;
-        /// <summary>
-        /// 最后一次触发的时间
-        /// </summary>
-        public int LastedTriggeredTime
-        {
-            get { return lastedTriggeredTime; }
-            protected set { lastedTriggeredTime = value; }
-        }
 
         private ECheckLogic checkLogic;
         public ECheckLogic CheckLogic
@@ -63,8 +44,7 @@ namespace DigitalWorld.Logic
             base.OnAllocate();
 
             this.ListenEventId = 0;
-            this.runningTime = 0;
-            this.lastedTriggeredTime = 0;
+
         }
         #endregion
 
@@ -75,6 +55,7 @@ namespace DigitalWorld.Logic
 
             this.actions.Clear();
             this.conditions.Clear();
+
         }
 
         protected override void AddChild(BaseNode node)
@@ -83,7 +64,6 @@ namespace DigitalWorld.Logic
 
             if (node is BaseAction ba)
                 this.actions.Add(ba);
-
             if (node is BaseCondition bc)
                 this.conditions.Add(bc);
         }
@@ -94,7 +74,6 @@ namespace DigitalWorld.Logic
 
             if (node is BaseAction ba)
                 this.actions.Remove(ba);
-
             if (node is BaseCondition bc)
                 this.conditions.Remove(bc);
         }
@@ -103,26 +82,28 @@ namespace DigitalWorld.Logic
         #region Event
         public void DispatchEvent(IEvent ev)
         {
+            if (this.State != EState.Idle)
+                return;
+
             if (ev.Id == this.ListenEventId)
             {
-                this.Process(ev);
+                this.triggeringEvent = ev;
+                this.Start();
             }
         }
 
-        private void Process(IEvent ev)
+        private bool Check()
         {
-            this.triggeringEvent = ev;
+            bool ret = false;
 
-            bool conf = false;
-            ConstructTriggerUnit(ev);
             if (CheckLogic == ECheckLogic.And)
             {
-                conf = true;
+                ret = true;
                 for (int i = 0; i < conditions.Count; i++)
                 {
                     if (!conditions[i].Enabled) continue;
-                    conf = conf && conditions[i].Check();
-                    if (!conf) break;
+                    ret = ret && conditions[i].Check();
+                    if (!ret) break;
                 }
             }
             else
@@ -130,39 +111,79 @@ namespace DigitalWorld.Logic
                 for (int i = 0; i < conditions.Count; i++)
                 {
                     if (!conditions[i].Enabled) continue;
-                    conf = conf || conditions[i].Check();
-                    if (conf) break;
+                    ret = ret || conditions[i].Check();
+                    if (ret) break;
                 }
             }
 
-            if (conf)
-            {
-                Invoke();
-            }
+            return ret;
         }
+
+
         #endregion
 
         #region Logic
-        public virtual void OnUpdate(int delta)
+        protected void Invoke(float delta)
         {
-            if (this.enabled)
+            for (int i = 0; i < this.actions.Count; ++i)
             {
-                this.runningTime += delta;
+                BaseAction ba = this.actions[i];
+                if (null != ba)
+                {
+                    ba.Invoke(delta);
+                }
             }
         }
 
-        private void ConstructTriggerUnit(IEvent ev)
+        protected override void OnUpdate(float delta)
+        {
+            base.OnUpdate(delta);
+
+            switch (this.State)
+            {
+                case EState.Running:
+                {
+                    bool ret = this.Check();
+                    if (ret)
+                    {
+                        Invoke(delta);
+                    }
+                    else
+                    {
+                        this.State = EState.End;
+                    }
+                    break;
+                }
+            }
+        }
+
+        protected override void OnStateChanged(EState laststate)
+        {
+            base.OnStateChanged(laststate);
+
+            switch (this.State)
+            {
+                case EState.Running:
+                {
+                    this.Enter();
+                    break;
+                }
+                case EState.End:
+                {
+                    this.Exit();
+                    break;
+                }
+            }
+        }
+
+        protected void Enter()
         {
 
         }
 
-        private void Invoke()
+        protected void Exit()
         {
-            for (int i = 0; i < actions.Count; i++)
-            {
-                if (!actions[i].Enabled) continue;
-                actions[i].Invoke();
-            }
+
         }
         #endregion
     }

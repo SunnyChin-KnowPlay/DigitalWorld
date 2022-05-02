@@ -8,6 +8,11 @@
         /// <summary>
         /// 事件ID
         /// </summary>
-        public uint Id { get; }
+        public int Id { get; }
+
+        /// <summary>
+        /// 触发者的单位ID
+        /// </summary>
+        public uint TriggerUnitUid { get; set; }
     }
 }
