@@ -37,6 +37,10 @@ MonoBehaviour:
     m_Address: Res/Shaders
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: c437655b1edf23a4098ff720d9f2a8cb
+    m_Address: Res/Unit
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 594d75798cb81484bb1f918a5de643e6, type: 2}
   m_SchemaSet:

@@ -63,11 +63,15 @@ namespace DigitalWorld.Game
             unitIdPool = 0;
             this.units.Clear();
 
-            ControlUnit unit = this.CreateCharacter("Res/Map/Unit/Orc.prefab");
+            UnitData unitData = UnitData.CreateFromCharacter(1001);
+
+            ControlUnit unit = this.RegisterUnit(unitData);
             if (null != unit)
             {
-                //this.RegisterUnit(unit, )
+                unit.LogicPosition = Vector3.zero;
             }
+
+
         }
         #endregion
 

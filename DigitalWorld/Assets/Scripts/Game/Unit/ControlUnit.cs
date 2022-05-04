@@ -38,6 +38,7 @@ namespace DigitalWorld.Game
         public Vector3 LogicPosition
         {
             get { return this.trans.position; }
+            set { this.trans.position = value; }
         }
         protected WorldManager world;
 
