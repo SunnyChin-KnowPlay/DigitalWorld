@@ -32,6 +32,13 @@ namespace DigitalWorld.Game
             get { return status == EUnitStatus.Running; }
         }
 
+        /// <summary>
+        /// 当前的逻辑位置
+        /// </summary>
+        public Vector3 LogicPosition
+        {
+            get { return this.trans.position; }
+        }
         protected WorldManager world;
 
         #endregion

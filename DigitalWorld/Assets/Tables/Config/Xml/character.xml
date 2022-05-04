@@ -1,2 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<table />
+<table>
+  <record id="1001" name="兽人" hp="100" attack="100" moveSpeed="1000" prefabPath="Res/Unit/Characters/Orc.prefab" />
+</table>

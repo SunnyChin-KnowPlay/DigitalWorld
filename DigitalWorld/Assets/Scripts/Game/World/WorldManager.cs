@@ -62,6 +62,12 @@ namespace DigitalWorld.Game
         {
             unitIdPool = 0;
             this.units.Clear();
+
+            ControlUnit unit = this.CreateCharacter("Res/Map/Unit/Orc.prefab");
+            if (null != unit)
+            {
+                //this.RegisterUnit(unit, )
+            }
         }
         #endregion
 
@@ -69,6 +75,16 @@ namespace DigitalWorld.Game
         private uint GetNewUnitId()
         {
             return ++unitIdPool;
+        }
+
+        public ControlUnit RegisterUnit(UnitData data)
+        {
+            ControlUnit unit = this.CreateCharacter(data.CharacterInfo.prefabPath);
+            if (null != unit)
+            {
+                this.RegisterUnit(unit, data);
+            }
+            return null;
         }
 
         private void RegisterUnit(ControlUnit unit, UnitData data)

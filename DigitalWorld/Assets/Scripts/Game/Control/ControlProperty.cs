@@ -6,7 +6,11 @@ namespace DigitalWorld.Game
 {
     public class ControlProperty : ControlLogic
     {
+        #region Params
         private readonly Dictionary<EPropertyType, PropertyValue> attributes = new Dictionary<EPropertyType, PropertyValue>();
+
+        private const int speedStandValue = 1000;
+        #endregion
 
         #region Setup
         public override void Setup(ControlUnit unit, UnitData data)
@@ -16,13 +20,13 @@ namespace DigitalWorld.Game
             attributes.Clear();
 
             PropertyValue av;
-            av = new PropertyValue(0, data.Hp, data.Hp);
+            av = new PropertyValue(0, data.Hp, data.Hp, data.Hp);
             attributes.Add(EPropertyType.Hp, av);
 
-            av = new PropertyValue(0, int.MaxValue, data.Attack);
+            av = new PropertyValue(0, int.MaxValue, data.Attack, data.Attack);
             attributes.Add(EPropertyType.Attack, av);
 
-            av = new PropertyValue(0, int.MaxValue, data.MoveSpeed);
+            av = new PropertyValue(0, int.MaxValue, data.MoveSpeed, speedStandValue);
             attributes.Add(EPropertyType.MoveSpeed, av);
         }
         #endregion

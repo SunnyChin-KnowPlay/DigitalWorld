@@ -8,39 +8,56 @@ namespace DigitalWorld.Game
     /// </summary>
     public sealed class PropertyValue : IEquatable<PropertyValue>
     {
-        private readonly int minV;
         /// <summary>
         /// 最小值
         /// </summary>
         public int MinV { get { return minV; } }
+        private readonly int minV;
 
-        private int maxV;
         /// <summary>
         /// 最大值
         /// </summary>
         public int MaxV { get { return maxV; } }
+        private int maxV;
 
-        private int currentV;
+        /// <summary>
+        /// 基础值
+        /// </summary>
+        private int baseV;
+
+        /// <summary>
+        /// 标准值
+        /// </summary>
+        public int StandV { get { return standV; } }
+        private int standV;
 
         public int Value
         {
             get
             {
-                return currentV;
+                return baseV;
             }
         }
 
         /// <summary>
         /// 当前值域比值
         /// </summary>
-        public FixFactor Factor
+        public FixFactor FactorInRange
         {
             get
             {
                 if (this.maxV == this.minV)
                     return FixFactor.one;
 
-                return new FixFactor(this.currentV, this.Range);
+                return new FixFactor(this.baseV, this.Range);
+            }
+        }
+
+        public FixFactor FactorByStand
+        {
+            get
+            {
+                return new FixFactor(this.Value, this.StandV);
             }
         }
 
@@ -60,7 +77,7 @@ namespace DigitalWorld.Game
         /// </summary>
         public bool IsMin
         {
-            get { return this.currentV <= this.minV; }
+            get { return this.baseV <= this.minV; }
         }
 
         /// <summary>
@@ -68,19 +85,21 @@ namespace DigitalWorld.Game
         /// </summary>
         public bool IsMax
         {
-            get { return this.currentV >= this.maxV; }
+            get { return this.baseV >= this.maxV; }
         }
 
         public PropertyValue()
         {
-            this.currentV = int.MaxValue;
+            this.standV = 0;
+            this.baseV = int.MaxValue;
             this.minV = 0;
             this.maxV = int.MaxValue;
         }
 
-        public PropertyValue(int min = 0, int max = int.MaxValue, int defaultValue = int.MaxValue)
+        public PropertyValue(int min = 0, int max = int.MaxValue, int defaultValue = int.MaxValue, int standValue = 0)
         {
-            this.currentV = defaultValue;
+            this.standV = standValue;
+            this.baseV = defaultValue;
             this.minV = min;
             this.maxV = max;
         }
@@ -104,13 +123,13 @@ namespace DigitalWorld.Game
 
         private void Clamp()
         {
-            this.currentV = Math.Clamp(this.currentV, this.minV, this.maxV);
+            this.baseV = Math.Clamp(this.baseV, this.minV, this.maxV);
         }
 
         #region Operator
         public static PropertyValue operator +(PropertyValue a, int b)
         {
-            a.currentV += b;
+            a.baseV += b;
             a.Clamp();
             return a;
         }
@@ -118,14 +137,14 @@ namespace DigitalWorld.Game
         public static PropertyValue operator +(PropertyValue a, FixFactor b)
         {
             int changeV = a.Range * b;
-            a.currentV += changeV;
+            a.baseV += changeV;
             a.Clamp();
             return a;
         }
 
         public static PropertyValue operator -(PropertyValue a, int b)
         {
-            a.currentV -= b;
+            a.baseV -= b;
             a.Clamp();
             return a;
         }
@@ -133,7 +152,7 @@ namespace DigitalWorld.Game
         public static PropertyValue operator -(PropertyValue a, FixFactor b)
         {
             int changeV = a.Range * b;
-            a.currentV -= changeV;
+            a.baseV -= changeV;
             a.Clamp();
             return a;
         }

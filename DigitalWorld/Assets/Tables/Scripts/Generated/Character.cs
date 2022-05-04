@@ -41,6 +41,11 @@ namespace DigitalWorld.Table
         /// 移动速度
         /// </summary>
         public int moveSpeed => _moveSpeed;
+        private string _prefabPath;
+        /// <summary>
+        /// 预制件路径
+        /// </summary>
+        public string prefabPath => _prefabPath;
 
         public CharacterInfo()
         {
@@ -56,6 +61,7 @@ namespace DigitalWorld.Table
             this.Encode(this._hp);
             this.Encode(this._attack);
             this.Encode(this._moveSpeed);
+            this.Encode(this._prefabPath);
         }
 
         protected override void OnEncode(XmlElement element)
@@ -67,6 +73,7 @@ namespace DigitalWorld.Table
             this.Encode(this._hp, "hp");
             this.Encode(this._attack, "attack");
             this.Encode(this._moveSpeed, "moveSpeed");
+            this.Encode(this._prefabPath, "prefabPath");
         }
         #endregion
 
@@ -80,6 +87,7 @@ namespace DigitalWorld.Table
             this.Decode(ref this._hp);
             this.Decode(ref this._attack);
             this.Decode(ref this._moveSpeed);
+            this.Decode(ref this._prefabPath);
         }
 
         protected override void OnDecode(XmlElement element)
@@ -91,6 +99,7 @@ namespace DigitalWorld.Table
             this.Decode(ref this._hp, "hp");
             this.Decode(ref this._attack, "attack");
             this.Decode(ref this._moveSpeed, "moveSpeed");
+            this.Decode(ref this._prefabPath, "prefabPath");
         }
 #endregion
 
@@ -104,6 +113,7 @@ namespace DigitalWorld.Table
             this.CalculateSize(this._hp);
             this.CalculateSize(this._attack);
             this.CalculateSize(this._moveSpeed);
+            this.CalculateSize(this._prefabPath);
         }
 #endregion
     }

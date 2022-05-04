@@ -5,6 +5,7 @@ namespace DigitalWorld.Game
 {
     public struct UnitData
     {
+        #region Params
         /// <summary>
         /// 单位类型
         /// </summary>
@@ -81,5 +82,17 @@ namespace DigitalWorld.Game
                 return moveSpeed;
             }
         }
+        #endregion
+
+        #region Common
+        public static UnitData CreateFromCharacter(int configId)
+        {
+            UnitData unitData = new UnitData();
+            unitData.configId = configId;
+            unitData.unitType = EUnitType.Character;
+            unitData.level = 1;
+            return unitData;
+        }
+        #endregion
     }
 }
