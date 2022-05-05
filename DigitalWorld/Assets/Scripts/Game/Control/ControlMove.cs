@@ -47,9 +47,6 @@ namespace DigitalWorld.Game
 
         private bool isMoving = false;
 
-        protected NavMeshAgent navMeshAgent;
-
-        private float startTime = 0;
         #endregion
 
         #region Mono
@@ -57,7 +54,6 @@ namespace DigitalWorld.Game
         {
             base.Awake();
 
-            navMeshAgent = this.GetComponent<NavMeshAgent>();
         }
 
         protected virtual void OnEnable()
@@ -74,9 +70,7 @@ namespace DigitalWorld.Game
 
         private IEnumerator StartEnum()
         {
-
             yield return new WaitForSeconds(5.0f);
-            navMeshAgent.Warp(Vector3.zero);
             ApplyMoveTo(new Vector3(0, 0, 5));
         }
 
@@ -110,13 +104,7 @@ namespace DigitalWorld.Game
         public virtual void ApplyMoveTo(Vector3 target)
         {
             targetPos = target;
-
             isMoving = true;
-            navMeshAgent.SetDestination(targetPos);
-
-            UnityEngine.Debug.Log("ApplyMoveTo");
-            startTime = Time.time;
-
             animContrl.SetBool("isMoving", true);
         }
 
@@ -130,28 +118,16 @@ namespace DigitalWorld.Game
             }
             else
             {
-                navMeshAgent.speed = moveSpeed;
+                Vector3 offset = NormalizeXZDir * delta * moveSpeed;
+                SetAnimatorSpeed(moveSpeed);
+
+                Vector3 targetPos = TargetPos;
+                Vector3 targetXZ = new Vector3(targetPos.x, this.trans.position.y, targetPos.z);
+                this.trans.LookAt(targetXZ);
+
+                this.trans.Translate(offset);
                 animContrl.SetFloat("z", moveSpeed);
             }
-
-            //Vector3 offset = NormalizeXZDir * delta * moveSpeed;
-            //UnityEngine.Debug.Log(offset);
-            //if (CheckIsNearestByTarget(offset))
-            //{
-            //    OnArrived();
-            //}
-            //else
-            //{
-            //    SetAnimatorSpeed(moveSpeed);
-
-            //    if (null != navMeshAgent)
-            //    {
-            //        Vector3 targetPos = TargetPos;
-            //        Vector3 targetXZ = new Vector3(targetPos.x, this.trans.position.y, targetPos.z);
-            //        this.trans.LookAt(targetXZ);
-            //        navMeshAgent.Move(offset);
-            //    }
-            //}
         }
 
         private void SetAnimatorSpeed(float speed)
@@ -180,7 +156,6 @@ namespace DigitalWorld.Game
         private void OnArrived()
         {
             animContrl.SetBool("isMoving", false);
-            UnityEngine.Debug.Log("OnArrived");
             this.isMoving = false;
         }
         #endregion
