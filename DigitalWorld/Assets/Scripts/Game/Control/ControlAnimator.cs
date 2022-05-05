@@ -32,6 +32,16 @@ namespace DigitalWorld.Game
         {
             this.animator.speed = speed;
         }
+
+        public void SetFloat(string name, float value)
+        {
+            this.animator.SetFloat(name, value);
+        }
+
+        public void SetBool(string name, bool v)
+        {
+            this.animator.SetBool(name, v);
+        }
         #endregion
     }
 }

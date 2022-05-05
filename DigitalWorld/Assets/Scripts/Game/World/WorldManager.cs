@@ -116,9 +116,8 @@ namespace DigitalWorld.Game
 
         private ControlUnit CreateCharacter(string path)
         {
-            GameObject gameObject = null;
-
             UnityEngine.Object target = AssetManager.LoadAsset<UnityEngine.Object>(path);
+            GameObject gameObject = null;
 
             if (null != target)
             {
@@ -136,7 +135,10 @@ namespace DigitalWorld.Game
 
             ControlUnit unitControl = gameObject.GetComponent<ControlUnit>();
             if (null == unitControl)
-                unitControl = gameObject.AddComponent<ControlUnit>();
+            {
+                unitControl = gameObject.AddComponent<ControlCharacter>();
+            }
+               
 
             return unitControl;
         }

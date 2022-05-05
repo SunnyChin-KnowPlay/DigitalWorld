@@ -33,6 +33,7 @@ namespace DigitalWorld.Table
         #region Tables
         public CharacterTable CharacterTable { get; private set; } = new CharacterTable();
         public MapTable MapTable { get; private set; } = new MapTable();
+        public CampTable CampTable { get; private set; } = new CampTable();
         #endregion
 
         #region Decode
@@ -40,12 +41,14 @@ namespace DigitalWorld.Table
         {
             this.ApplyDecodeTable(CharacterTable, "character");
             this.ApplyDecodeTable(MapTable, "map");
+            this.ApplyDecodeTable(CampTable, "camp");
         }
 
         public void DecodeXml()
         {
             this.ApplyDecodeTableWithXml(CharacterTable, "character");
             this.ApplyDecodeTableWithXml(MapTable, "map");
+            this.ApplyDecodeTableWithXml(CampTable, "camp");
         }
 
         private void ApplyDecodeTable(ByteBuffer table, string tableName)
@@ -70,6 +73,7 @@ namespace DigitalWorld.Table
         {
             this.ApplyEncodeTable(CharacterTable, "character");
             this.ApplyEncodeTable(MapTable, "map");
+            this.ApplyEncodeTable(CampTable, "camp");
         }
 
         private void ApplyEncodeTable(ByteBuffer table, string tableName)

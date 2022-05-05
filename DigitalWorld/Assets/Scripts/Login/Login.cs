@@ -9,6 +9,8 @@ namespace DigitalWorld.Login
     {
         private void Awake()
         {
+        
+
             TableManager tm = TableManager.instance;
             tm.Decode();
 

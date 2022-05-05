@@ -70,6 +70,14 @@ namespace DigitalWorld.Game
                 return this.controls[ELogicControlType.Skill] as ControlSkill;
             }
         }
+
+        public ControlMove Move
+        {
+            get
+            {
+                return this.controls[ELogicControlType.Move] as ControlMove;
+            }
+        }
         #endregion
 
         #region Behaviour
@@ -138,7 +146,8 @@ namespace DigitalWorld.Game
                 {
                     { ELogicControlType.Property, this.GetOrAddComponent<ControlProperty>() },
                     { ELogicControlType.Animator, this.GetOrAddComponent<ControlAnimator>() },
-                    { ELogicControlType.Skill, this.GetOrAddComponent<ControlSkill>() }
+                    { ELogicControlType.Skill, this.GetOrAddComponent<ControlSkill>() },
+                    { ELogicControlType.Move, this.GetOrAddComponent<ControlMove>() },
                 };
             }
 

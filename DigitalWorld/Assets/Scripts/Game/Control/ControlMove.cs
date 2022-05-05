@@ -1,10 +1,18 @@
-﻿using UnityEngine;
+﻿using Dream.FixMath;
+using System.Collections;
+using UnityEngine;
+using UnityEngine.AI;
 
 namespace DigitalWorld.Game
 {
     public class ControlMove : ControlLogic
     {
         #region Params
+        /// <summary>
+        /// 检测是否走到位置的临界值
+        /// </summary>
+        private const float moveMagnitudeCriticalSqr = 0.1f * 0.1f;
+
         public PropertyValue MoveSpeed
         {
             get
@@ -26,36 +34,50 @@ namespace DigitalWorld.Game
             get { return this.unit.LogicPosition; }
         }
 
-        /// <summary>
-        /// 目标方向
-        /// </summary>
-        public Vector3 TargetDir
+        public Vector3 NormalizeXZDir
         {
             get
             {
-                Vector3 dir = TargetPos - LogicPos;
-                return dir;
+                Vector3 d = TargetPos - LogicPos;
+                FixVector3 dir = new FixVector3(d.x, 0, d.z);
+                dir = dir.NormalizeTo(1000);
+                return new Vector3(dir.x / FixDefined.floatPrecision, dir.y / FixDefined.floatPrecision, dir.z / FixDefined.floatPrecision);
             }
         }
-        /// <summary>
-        /// 检测是否走到位置的临界值
-        /// </summary>
-        private const float moveMagnitudeCriticalSqr = 0.1f * 0.1f;
 
         private bool isMoving = false;
+
+        protected NavMeshAgent navMeshAgent;
+
+        private float startTime = 0;
         #endregion
 
         #region Mono
         protected override void Awake()
         {
             base.Awake();
+
+            navMeshAgent = this.GetComponent<NavMeshAgent>();
         }
 
         protected virtual void OnEnable()
         {
-            this.animContrl = this.unit.Animator;
             this.targetPos = Vector3.zero;
+
             this.isMoving = false;
+        }
+
+        protected override void Start()
+        {
+            base.Start();
+        }
+
+        private IEnumerator StartEnum()
+        {
+
+            yield return new WaitForSeconds(5.0f);
+            navMeshAgent.Warp(Vector3.zero);
+            ApplyMoveTo(new Vector3(0, 0, 5));
         }
 
         protected override void Update()
@@ -67,10 +89,20 @@ namespace DigitalWorld.Game
                 this.OnMove(Time.deltaTime);
             }
 
+
+
         }
         #endregion
 
         #region Logic
+        public override void Setup(ControlUnit unit, UnitData data)
+        {
+            base.Setup(unit, data);
+
+            this.animContrl = this.unit.Animator;
+            StartCoroutine(StartEnum());
+        }
+
         /// <summary>
         /// 请求移动
         /// </summary>
@@ -78,14 +110,48 @@ namespace DigitalWorld.Game
         public virtual void ApplyMoveTo(Vector3 target)
         {
             targetPos = target;
+
+            isMoving = true;
+            navMeshAgent.SetDestination(targetPos);
+
+            UnityEngine.Debug.Log("ApplyMoveTo");
+            startTime = Time.time;
+
+            animContrl.SetBool("isMoving", true);
         }
 
         protected virtual void OnMove(float delta)
         {
             float moveSpeed = this.MoveSpeed.FactorByStand.singleFloat;
-            SetAnimatorSpeed(moveSpeed);
 
-            Vector3.MoveTowards(LogicPos, targetPos, delta * moveSpeed);
+            if (CheckIsNearestByTarget())
+            {
+                OnArrived();
+            }
+            else
+            {
+                navMeshAgent.speed = moveSpeed;
+                animContrl.SetFloat("z", moveSpeed);
+            }
+
+            //Vector3 offset = NormalizeXZDir * delta * moveSpeed;
+            //UnityEngine.Debug.Log(offset);
+            //if (CheckIsNearestByTarget(offset))
+            //{
+            //    OnArrived();
+            //}
+            //else
+            //{
+            //    SetAnimatorSpeed(moveSpeed);
+
+            //    if (null != navMeshAgent)
+            //    {
+            //        Vector3 targetPos = TargetPos;
+            //        Vector3 targetXZ = new Vector3(targetPos.x, this.trans.position.y, targetPos.z);
+            //        this.trans.LookAt(targetXZ);
+            //        navMeshAgent.Move(offset);
+            //    }
+            //}
         }
 
         private void SetAnimatorSpeed(float speed)
@@ -104,12 +170,18 @@ namespace DigitalWorld.Game
         private bool CheckIsNearestByTarget()
         {
             Vector3 v3 = (TargetPos - LogicPos);
-            return v3.sqrMagnitude < moveMagnitudeCriticalSqr;
+
+            return v3.sqrMagnitude <= moveMagnitudeCriticalSqr;
         }
 
-        private Vector3 NextMoveStep(float delta)
+        /// <summary>
+        /// 到达目标点
+        /// </summary>
+        private void OnArrived()
         {
-            return Vector3.one;
+            animContrl.SetBool("isMoving", false);
+            UnityEngine.Debug.Log("OnArrived");
+            this.isMoving = false;
         }
         #endregion
     }

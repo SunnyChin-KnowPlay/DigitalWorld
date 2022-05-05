@@ -9,7 +9,6 @@
         Left = 1 << 3,
     }
 
-
     /// <summary>
     /// 逻辑控制器类型
     /// </summary>
@@ -27,6 +26,10 @@
         /// 技能
         /// </summary>
         Skill,
+        /// <summary>
+        /// 移动
+        /// </summary>
+        Move,
     }
 
     public enum EUnitStatus

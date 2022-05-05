@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.AI;
 
 namespace DigitalWorld.Game
@@ -6,7 +7,7 @@ namespace DigitalWorld.Game
     public partial class ControlCharacter : ControlUnit
     {
         #region Params
-        protected NavMeshAgent navMeshAgent;
+        
         protected int currentMoveType;
         private const int moveTypeMask = 0x1;
         public float moveSpeed = 1f;
@@ -17,7 +18,7 @@ namespace DigitalWorld.Game
         {
             base.Awake();
 
-            navMeshAgent = this.GetComponent<NavMeshAgent>();
+          
         }
 
         protected override void Update()
@@ -85,14 +86,7 @@ namespace DigitalWorld.Game
 
         public virtual void Move(Vector3 offset)
         {
-            if (null != navMeshAgent)
-            {
-                Vector3 worldPos = trans.position;
-                Vector3 targetPos = worldPos + offset;
-                this.transform.LookAt(targetPos);
-
-                navMeshAgent.Move(offset);
-            }
+            
         }
         #endregion
 
