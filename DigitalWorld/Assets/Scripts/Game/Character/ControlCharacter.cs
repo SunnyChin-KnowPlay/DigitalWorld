@@ -24,72 +24,11 @@ namespace DigitalWorld.Game
         protected override void Update()
         {
             base.Update();
-            UpdateMove();
+          
         }
         #endregion
 
-        #region Move
-        public void AddMoveDir(EMoveType t)
-        {
-            this.currentMoveType |= moveTypeMask << (int)t;
-        }
-
-        public void RemoveMoveDir(EMoveType t)
-        {
-            this.currentMoveType &= ~(moveTypeMask << (int)t);
-        }
-
-        private bool CheckMoveType(EMoveType t)
-        {
-            return ((this.currentMoveType >> (int)t) & moveTypeMask) == moveTypeMask;
-        }
-
-        private void UpdateMove()
-        {
-            Vector3 v = Vector3.zero;
-
-            ControlAnimator ac = this.Animator;
-
-            if (this.CheckMoveType(EMoveType.Forward))
-            {
-                v += Vector3.forward;
-            }
-            if (this.CheckMoveType(EMoveType.Right))
-            {
-                v += Vector3.right;
-            }
-            if (this.CheckMoveType(EMoveType.Back))
-            {
-                v += Vector3.back;
-            }
-            if (this.CheckMoveType(EMoveType.Left))
-            {
-                v += Vector3.left;
-            }
-
-            if (v != Vector3.zero)
-            {
-                v.Normalize();
-                v = v * Time.deltaTime * moveSpeed;
-
-                this.Move(v);
-
-                if (null != ac && null != ac.Animator)
-                    ac.Animator.SetBool("isRunning", true);
-            }
-            else
-            {
-                if (null != ac && null != ac.Animator)
-                    ac.Animator.SetBool("isRunning", false);
-            }
-        }
-
-        public virtual void Move(Vector3 offset)
-        {
-            
-        }
-        #endregion
-
+      
         #region Logic
         public override void OnBorn()
         {

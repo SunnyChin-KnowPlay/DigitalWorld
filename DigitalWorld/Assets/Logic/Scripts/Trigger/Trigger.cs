@@ -8,9 +8,9 @@ namespace DigitalWorld.Logic
         /// <summary>
         /// 触发的事件
         /// </summary>
-        protected IEvent triggeringEvent;
+        protected Event triggeringEvent;
 
-        public IEvent TriggeringEvent { get { return triggeringEvent; } }
+        public Event TriggeringEvent { get { return triggeringEvent; } }
 
         /// <summary>
         /// 监听的事件ID
@@ -80,7 +80,7 @@ namespace DigitalWorld.Logic
         #endregion
 
         #region Event
-        public void DispatchEvent(IEvent ev)
+        public void DispatchEvent(Event ev)
         {
             if (this.State != EState.Idle)
                 return;

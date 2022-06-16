@@ -1,9 +1,11 @@
-﻿namespace DigitalWorld.Logic
+﻿using DigitalWorld.Game;
+
+namespace DigitalWorld.Logic
 {
     /// <summary>
-    /// 事件接口
+    /// 事件
     /// </summary>
-    public interface IEvent
+    public struct Event
     {
         /// <summary>
         /// 事件ID
@@ -11,8 +13,8 @@
         public int Id { get; }
 
         /// <summary>
-        /// 触发者的单位ID
+        /// 触发者
         /// </summary>
-        public uint TriggerUnitUid { get; set; }
+        public UnitHandle Trigger { get; set; }
     }
 }

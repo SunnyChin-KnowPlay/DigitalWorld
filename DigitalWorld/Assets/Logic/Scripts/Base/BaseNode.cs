@@ -67,7 +67,12 @@ namespace DigitalWorld.Logic
             }
         }
 
-        
+        public virtual string Key
+        {
+            get { return key; }
+            set { key = value; }
+        }
+        protected string key;
         #endregion
 
         #region Pool
@@ -78,7 +83,8 @@ namespace DigitalWorld.Logic
             this.enabled = false;
             this.index = 0;
             this.parent = null;
-          
+            this.key = null;
+
             if (null == this.children)
                 this.children = new List<BaseNode>();
         }
@@ -167,6 +173,7 @@ namespace DigitalWorld.Logic
 
             this.Encode(this.uid);
             this.Encode(this.enabled);
+            this.Encode(this.key);
         }
 
         protected override void OnEncode(XmlElement element)
@@ -175,6 +182,7 @@ namespace DigitalWorld.Logic
 
             this.Encode(this.uid, "uid");
             this.Encode(this.enabled, "enabled");
+            this.Encode(this.key, "key");
         }
 
         protected override void OnDecode(byte[] buffer, int pos)
@@ -183,6 +191,7 @@ namespace DigitalWorld.Logic
 
             this.Decode(ref this.uid);
             this.Decode(ref this.enabled);
+            this.Decode(ref this.key);
         }
 
         protected override void OnDecode(XmlElement element)
@@ -191,11 +200,12 @@ namespace DigitalWorld.Logic
 
             this.Decode(ref this.uid, "uid");
             this.Decode(ref this.enabled, "enabled");
+            this.Decode(ref this.key, "key");
         }
         #endregion
 
         #region Logic
-       
+
         #endregion
     }
 }
