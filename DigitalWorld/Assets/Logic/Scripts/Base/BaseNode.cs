@@ -92,7 +92,7 @@ namespace DigitalWorld.Logic
         public override void OnRecycle()
         {
             this.DetachChildren();
-            this.parent = null;
+            this.SetParent(null);
 
             this.OnRecycle();
         }

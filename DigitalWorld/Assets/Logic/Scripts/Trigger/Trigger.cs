@@ -17,8 +17,19 @@ namespace DigitalWorld.Logic
         /// </summary>
         public int ListenEventId { get; set; }
 
-        private readonly List<BaseAction> actions = new List<BaseAction>();
-        private readonly List<BaseCondition> conditions = new List<BaseCondition>();
+        protected List<BaseCondition> conditions = new List<BaseCondition>();
+        protected List<BaseAction> succeedActions = new List<BaseAction>();
+        protected List<BaseAction> failedActions = new List<BaseAction>();
+        protected List<BaseAction> enterActions = new List<BaseAction>();
+        protected List<BaseAction> exitActions = new List<BaseAction>();
+        /// <summary>
+        /// 多重处理的触发器副本队列
+        /// </summary>
+        protected List<Trigger> multiples = new List<Trigger>();
+        public List<Trigger> Multiples { get { return multiples; } }
+
+        protected static List<BaseCondition> processConditions = new List<BaseCondition>();
+        protected static List<BaseAction> processActions = new List<BaseAction>();
 
         private ECheckLogic checkLogic;
         public ECheckLogic CheckLogic
@@ -53,29 +64,24 @@ namespace DigitalWorld.Logic
         {
             base.DetachChildren();
 
-            this.actions.Clear();
             this.conditions.Clear();
+            this.succeedActions.Clear();
+            this.failedActions.Clear();
+            this.enterActions.Clear();
+            this.exitActions.Clear();
+
+            this.multiples.Clear();
 
         }
 
         protected override void AddChild(BaseNode node)
         {
             base.AddChild(node);
-
-            if (node is BaseAction ba)
-                this.actions.Add(ba);
-            if (node is BaseCondition bc)
-                this.conditions.Add(bc);
         }
 
         protected override void RemoveChild(BaseNode node)
         {
             base.RemoveChild(node);
-
-            if (node is BaseAction ba)
-                this.actions.Remove(ba);
-            if (node is BaseCondition bc)
-                this.conditions.Remove(bc);
         }
         #endregion
 
@@ -123,15 +129,12 @@ namespace DigitalWorld.Logic
         #endregion
 
         #region Logic
-        protected void Invoke(float delta)
+        protected virtual void InvokeActions(List<BaseAction> actions)
         {
-            for (int i = 0; i < this.actions.Count; ++i)
+            for (int i = 0; i < actions.Count; i++)
             {
-                BaseAction ba = this.actions[i];
-                if (null != ba)
-                {
-                    ba.Invoke(delta);
-                }
+                if (!actions[i].Enabled) continue;
+                actions[i].Invoke();
             }
         }
 
@@ -139,21 +142,23 @@ namespace DigitalWorld.Logic
         {
             base.OnUpdate(delta);
 
-            switch (this.State)
+            if (State == EState.Running)
             {
-                case EState.Running:
+                bool ret = this.Check();
+                if (ret)
                 {
-                    bool ret = this.Check();
-                    if (ret)
-                    {
-                        Invoke(delta);
-                    }
-                    else
-                    {
-                        this.State = EState.End;
-                    }
-                    break;
+                    InvokeActions(this.succeedActions);
                 }
+                else
+                {
+                    InvokeActions(this.failedActions);
+                }
+            }
+
+            if (this.State == EState.End)
+            {
+                this.OnExit();
+                this.State = EState.Idle;
             }
         }
 
@@ -165,25 +170,25 @@ namespace DigitalWorld.Logic
             {
                 case EState.Running:
                 {
-                    this.Enter();
+                    this.OnEnter();
                     break;
                 }
                 case EState.End:
                 {
-                    this.Exit();
+                    this.OnExit();
                     break;
                 }
             }
         }
 
-        protected void Enter()
+        protected virtual void OnEnter()
         {
-
+            InvokeActions(this.enterActions);
         }
 
-        protected void Exit()
+        protected virtual void OnExit()
         {
-
+            InvokeActions(this.exitActions);
         }
         #endregion
     }

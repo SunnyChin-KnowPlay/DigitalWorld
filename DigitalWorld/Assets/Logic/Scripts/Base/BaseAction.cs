@@ -13,12 +13,12 @@
         #endregion
 
         #region Logic
-        public void Invoke(float delta)
+        public void Invoke()
         {
-            this.OnInvoke(delta);
+            this.OnInvoke();
         }
 
-        protected abstract void OnInvoke(float delta);
+        protected abstract void OnInvoke();
         #endregion
     }
 }
