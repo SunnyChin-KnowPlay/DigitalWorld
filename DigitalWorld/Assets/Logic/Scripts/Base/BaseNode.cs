@@ -92,6 +92,16 @@ namespace DigitalWorld.Logic
             this.OnRecycle();
         }
 
+        public abstract object Clone();
+
+        public virtual T CloneTo<T>(T obj) where T : BaseNode
+        {
+            obj._enabled = this._enabled;
+            obj._key = this._key;
+            
+
+            return obj;
+        }
         #endregion
 
         #region Relation

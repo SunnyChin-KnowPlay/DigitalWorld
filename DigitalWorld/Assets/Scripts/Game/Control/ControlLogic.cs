@@ -13,6 +13,7 @@ namespace DigitalWorld.Game
             get { return unit; }
         }
         protected ControlUnit unit = null;
+
         protected UnitHandle unitHandle = UnitHandle.Null;
 
         public virtual UnitData Info

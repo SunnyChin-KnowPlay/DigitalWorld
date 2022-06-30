@@ -116,12 +116,12 @@ namespace DigitalWorld.Game
 
         private ControlUnit CreateCharacter(string path)
         {
-            UnityEngine.Object target = AssetManager.LoadAsset<UnityEngine.Object>(path);
+            Object target = AssetManager.LoadAsset<Object>(path);
             GameObject gameObject = null;
 
             if (null != target)
             {
-                gameObject = (GameObject)UnityEngine.GameObject.Instantiate(target) as GameObject;
+                gameObject = (GameObject)Instantiate(target);
                 if (null != gameObject)
                 {
                     gameObject.name = target.name;

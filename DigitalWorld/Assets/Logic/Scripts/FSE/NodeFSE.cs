@@ -32,7 +32,6 @@
         }
         private EState _state;
 
-        
         /// <summary>
         /// 运行的时间
         /// </summary>

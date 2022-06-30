@@ -22,11 +22,6 @@ namespace DigitalWorld.Logic
         protected List<BaseAction> failedActions = new List<BaseAction>();
         protected List<BaseAction> enterActions = new List<BaseAction>();
         protected List<BaseAction> exitActions = new List<BaseAction>();
-        /// <summary>
-        /// 多重处理的触发器副本队列
-        /// </summary>
-        protected List<Trigger> multiples = new List<Trigger>();
-        public List<Trigger> Multiples { get { return multiples; } }
 
         protected static List<BaseCondition> processConditions = new List<BaseCondition>();
         protected static List<BaseAction> processActions = new List<BaseAction>();
@@ -57,6 +52,48 @@ namespace DigitalWorld.Logic
             this.ListenEventId = 0;
 
         }
+
+        public override T CloneTo<T>(T obj)
+        {
+            Trigger t = base.CloneTo(obj) as Trigger;
+            if (null != t)
+            {
+                t.ListenEventId = this.ListenEventId;
+                t.checkLogic = this.checkLogic;
+
+                t.conditions.Clear();
+                t.succeedActions.Clear();
+                t.failedActions.Clear();
+                t.enterActions.Clear();
+                t.exitActions.Clear();
+
+                for (int i = 0; i < this.conditions.Count; ++i)
+                {
+                    t.conditions.Add((BaseCondition)this.conditions[i].Clone());
+                }
+
+                for (int i = 0; i < this.succeedActions.Count; ++i)
+                {
+                    t.succeedActions.Add((BaseAction)this.succeedActions[i].Clone());
+                }
+
+                for (int i = 0; i < this.failedActions.Count; ++i)
+                {
+                    t.failedActions.Add((BaseAction)this.failedActions[i].Clone());
+                }
+
+                for (int i = 0; i < this.enterActions.Count; ++i)
+                {
+                    t.enterActions.Add((BaseAction)this.enterActions[i].Clone());
+                }
+
+                for (int i = 0; i < this.exitActions.Count; ++i)
+                {
+                    t.exitActions.Add((BaseAction)this.exitActions[i].Clone());
+                }
+            }
+            return base.CloneTo(obj);
+        }
         #endregion
 
         #region Relation
@@ -69,18 +106,6 @@ namespace DigitalWorld.Logic
             this.failedActions.Clear();
             this.enterActions.Clear();
             this.exitActions.Clear();
-
-            this.multiples.Clear();
-        }
-
-        protected override void AddChild(BaseNode node)
-        {
-            base.AddChild(node);
-        }
-
-        protected override void RemoveChild(BaseNode node)
-        {
-            base.RemoveChild(node);
         }
         #endregion
 
