@@ -9,40 +9,47 @@
         public enum EState
         {
             Idle = 0,
+            /// <summary>
+            /// 运行中
+            /// </summary>
             Running,
-            End
+            /// <summary>
+            /// 结束中
+            /// </summary>
+            Ending,
         }
 
-        private EState state;
         /// <summary>
         /// 运行状态
         /// </summary>
         public EState State
         {
-            get { return state; }
+            get { return _state; }
             set
             {
                 ToState(value);
             }
         }
+        private EState _state;
 
-        private float runningTime = 0;
+        
         /// <summary>
         /// 运行的时间
         /// </summary>
         public float RunningTime
         {
-            get { return runningTime; }
+            get { return _runningTime; }
         }
+        private float _runningTime = 0;
 
         /// <summary>
         /// 已激活的持续时间
         /// </summary>
         public float EnabledDurationTime
         {
-            get { return enabledDurationTime; }
+            get { return _enabledDurationTime; }
         }
-        private float enabledDurationTime = 0;
+        private float _enabledDurationTime = 0;
         #endregion
 
         #region Pool
@@ -50,61 +57,72 @@
         {
             base.OnAllocate();
 
-            this.state = EState.Idle;
-            this.runningTime = 0;
-            this.enabledDurationTime = 0;
+            this._state = EState.Idle;
+            this._runningTime = 0;
+            this._enabledDurationTime = 0;
         }
         #endregion
 
         #region Logic
         private void ToState(EState state)
         {
-            if (this.state != state)
+            if (this._state != state)
             {
-                EState lastState = this.state;
-                this.state = state;
+                EState lastState = this._state;
+                this._state = state;
                 OnStateChanged(lastState);
-                if (this.state == EState.End)
-                {
-                    this.state = EState.Idle;
-                }
             }
         }
 
         protected virtual void OnStateChanged(EState lastState)
         {
-            switch (this.state)
+            switch (this.State)
             {
                 case EState.Idle:
                 {
-                    runningTime = 0;
+                    if (lastState == EState.Ending)
+                    {
+                        this.OnExit();
+                    }
+                    this._runningTime = 0;
+                    break;
+                }
+                case EState.Running:
+                {
+                    this.OnEnter();
+                    this._runningTime = 0;
                     break;
                 }
             }
         }
 
-        public void Start()
-        {
-            this.State = EState.Running;
-        }
-
-        public void Stop()
-        {
-            this.State = EState.Idle;
-        }
-
         public virtual void Update(float delta)
         {
-            enabledDurationTime += delta;
-            if (this.state == EState.Running)
+            _enabledDurationTime += delta;
+            if (this._state == EState.Running)
             {
                 OnUpdate(delta);
+            }
+
+            if (this._state == EState.Ending)
+            {
+                this.State = EState.Idle;
             }
         }
 
         protected virtual void OnUpdate(float delta)
         {
-            this.runningTime += delta;
+            this._runningTime += delta;
+        }
+
+        protected virtual void OnEnter()
+        {
+
+        }
+
+        protected virtual void OnExit()
+        {
+
         }
         #endregion
     }

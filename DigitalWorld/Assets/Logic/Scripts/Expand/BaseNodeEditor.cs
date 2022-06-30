@@ -5,9 +5,9 @@
 
         public virtual void SetDirty()
         {
-            if (null != parent)
+            if (null != _parent)
             {
-                parent.SetDirty();
+                _parent.SetDirty();
             }
         }
     }

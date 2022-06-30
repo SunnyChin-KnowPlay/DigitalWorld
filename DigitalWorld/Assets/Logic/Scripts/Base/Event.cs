@@ -5,16 +5,27 @@ namespace DigitalWorld.Logic
     /// <summary>
     /// 事件
     /// </summary>
-    public struct Event
+    public partial struct Event
     {
         /// <summary>
         /// 事件ID
         /// </summary>
-        public int Id { get; }
+        public int Id
+        {
+            get; private set;
+        }
 
         /// <summary>
         /// 触发者
         /// </summary>
-        public UnitHandle Trigger { get; set; }
+        public UnitHandle Triggering { get; private set; }
+
+        public static Event Create(int id, UnitHandle triggering)
+        {
+            Event ev = new Event();
+            ev.Id = id;
+            ev.Triggering = triggering;
+            return ev;
+        }
     }
 }

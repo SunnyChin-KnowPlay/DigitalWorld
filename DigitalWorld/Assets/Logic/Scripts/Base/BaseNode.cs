@@ -12,52 +12,51 @@ namespace DigitalWorld.Logic
     public abstract partial class BaseNode : ByteBuffer
     {
         #region Params
-        /// <summary>
-        /// 节点唯一ID
-        /// </summary>
-        protected Guid uid;
-
-        /// <summary>
-        /// 节点唯一ID
-        /// </summary>
-        public Guid Uid { get { return uid; } }
+      
 
         /// <summary>
         /// 索引号
         /// </summary>
-        protected int index = 0;
         public int Index
         {
-            get { return index; }
+            get { return _index; }
             set
             {
-                if (index == value)
+                if (_index == value)
                     return;
 
-                index = value;
+                _index = value;
                 SetDirty();
             }
         }
+        protected int _index = 0;
 
-        protected BaseNode parent;
+        public int MaxIndex
+        {
+            get { return _maxIndex; }
+            set { _maxIndex = value; }
+        }
+        protected int _maxIndex = 0;
 
-        public BaseNode Parent => parent;
+        public BaseNode Parent => _parent;
+        protected BaseNode _parent;
 
-        protected List<BaseNode> children = new List<BaseNode>();
+       
         /// <summary>
         /// 所有的子节点
         /// </summary>
-        public List<BaseNode> Children => children;
+        public List<BaseNode> Children => _children;
+        protected List<BaseNode> _children = new List<BaseNode>();
 
         /// <summary>
         /// 是否激活
         /// </summary>
         public bool Enabled
         {
-            get { return enabled; }
-            set { enabled = value; }
+            get { return _enabled; }
+            set { _enabled = value; }
         }
-        private bool enabled = false;
+        private bool _enabled = false;
 
         public virtual string Name
         {
@@ -69,24 +68,20 @@ namespace DigitalWorld.Logic
 
         public virtual string Key
         {
-            get { return key; }
-            set { key = value; }
+            get { return _key; }
+            set { _key = value; }
         }
-        protected string key;
+        protected string _key;
         #endregion
 
         #region Pool
         public override void OnAllocate()
         {
             this.OnAllocate();
-            this.uid = Guid.Empty;
-            this.enabled = false;
-            this.index = 0;
-            this.parent = null;
-            this.key = null;
-
-            if (null == this.children)
-                this.children = new List<BaseNode>();
+            this._enabled = false;
+            this._index = 0;
+            this._parent = null;
+            this._key = null;
         }
 
         public override void OnRecycle()
@@ -97,67 +92,53 @@ namespace DigitalWorld.Logic
             this.OnRecycle();
         }
 
-        public void NewUID()
-        {
-            this.uid = Guid.NewGuid();
-        }
         #endregion
 
         #region Relation
         protected virtual void AddChild(BaseNode node)
         {
-            this.children.Add(node);
+            this._children.Add(node);
         }
 
         protected virtual void RemoveChild(BaseNode node)
         {
-            this.children.Remove(node);
+            this._children.Remove(node);
         }
 
         public virtual void SetParent(BaseNode parent)
         {
-            if (this.parent == parent)
+            if (this._parent == parent)
             {
                 return;
             }
 
-            if (null != this.parent)
+            if (null != this._parent)
             {
-                this.parent.RemoveChild(this);
+                this._parent.RemoveChild(this);
             }
 
-            this.parent = parent;
+            this._parent = parent;
 
-            if (null != this.parent)
+            if (null != this._parent)
             {
-                this.parent.AddChild(this);
+                this._parent.AddChild(this);
             }
         }
 
         public virtual void DetachChildren()
         {
-            if (null != this.children && this.children.Count > 0)
+            if (null != this._children && this._children.Count > 0)
             {
-                for (int i = this.children.Count - 1; i >= 0; --i)
+                for (int i = this._children.Count - 1; i >= 0; --i)
                 {
-                    BaseNode child = this.children[i];
+                    BaseNode child = this._children[i];
                     if (null != child)
                     {
                         child.Recycle();
                     }
                 }
-                this.children.Clear();
+                this._children.Clear();
             }
-        }
-
-        public BaseNode Find(Guid uid)
-        {
-            for (int i = 0; i < this.children.Count; ++i)
-            {
-                if (this.children[i].Uid == uid)
-                    return this.children[i];
-            }
-            return null;
         }
 
         public virtual void ResetChildrenIndex()
@@ -171,36 +152,32 @@ namespace DigitalWorld.Logic
         {
             base.OnEncode(buffer, pos);
 
-            this.Encode(this.uid);
-            this.Encode(this.enabled);
-            this.Encode(this.key);
+            this.Encode(this._enabled);
+            this.Encode(this._key);
         }
 
         protected override void OnEncode(XmlElement element)
         {
             base.OnEncode(element);
 
-            this.Encode(this.uid, "uid");
-            this.Encode(this.enabled, "enabled");
-            this.Encode(this.key, "key");
+            this.Encode(this._enabled, "enabled");
+            this.Encode(this._key, "key");
         }
 
         protected override void OnDecode(byte[] buffer, int pos)
         {
             base.OnDecode(buffer, pos);
 
-            this.Decode(ref this.uid);
-            this.Decode(ref this.enabled);
-            this.Decode(ref this.key);
+            this.Decode(ref this._enabled);
+            this.Decode(ref this._key);
         }
 
         protected override void OnDecode(XmlElement element)
         {
             base.OnDecode(element);
 
-            this.Decode(ref this.uid, "uid");
-            this.Decode(ref this.enabled, "enabled");
-            this.Decode(ref this.key, "key");
+            this.Decode(ref this._enabled, "enabled");
+            this.Decode(ref this._key, "key");
         }
         #endregion
 

@@ -71,7 +71,6 @@ namespace DigitalWorld.Logic
             this.exitActions.Clear();
 
             this.multiples.Clear();
-
         }
 
         protected override void AddChild(BaseNode node)
@@ -94,7 +93,7 @@ namespace DigitalWorld.Logic
             if (ev.Id == this.ListenEventId)
             {
                 this.triggeringEvent = ev;
-                this.Start();
+                this.State = EState.Running;
             }
         }
 
@@ -124,8 +123,6 @@ namespace DigitalWorld.Logic
 
             return ret;
         }
-
-
         #endregion
 
         #region Logic
@@ -142,52 +139,26 @@ namespace DigitalWorld.Logic
         {
             base.OnUpdate(delta);
 
-            if (State == EState.Running)
+            bool ret = this.Check();
+            if (ret)
             {
-                bool ret = this.Check();
-                if (ret)
-                {
-                    InvokeActions(this.succeedActions);
-                }
-                else
-                {
-                    InvokeActions(this.failedActions);
-                }
+                InvokeActions(this.succeedActions);
             }
-
-            if (this.State == EState.End)
+            else
             {
-                this.OnExit();
-                this.State = EState.Idle;
+                InvokeActions(this.failedActions);
             }
         }
 
-        protected override void OnStateChanged(EState laststate)
+        protected override void OnEnter()
         {
-            base.OnStateChanged(laststate);
-
-            switch (this.State)
-            {
-                case EState.Running:
-                {
-                    this.OnEnter();
-                    break;
-                }
-                case EState.End:
-                {
-                    this.OnExit();
-                    break;
-                }
-            }
-        }
-
-        protected virtual void OnEnter()
-        {
+            base.OnEnter();
             InvokeActions(this.enterActions);
         }
 
-        protected virtual void OnExit()
+        protected override void OnExit()
         {
+            base.OnExit();
             InvokeActions(this.exitActions);
         }
         #endregion
