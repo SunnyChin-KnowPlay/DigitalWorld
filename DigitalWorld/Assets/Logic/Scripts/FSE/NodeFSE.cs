@@ -60,6 +60,23 @@
             this._runningTime = 0;
             this._enabledDurationTime = 0;
         }
+
+        public override object Clone()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override T CloneTo<T>(T obj)
+        {
+            NodeFSE node = base.CloneTo(obj) as NodeFSE;
+            if (null != node)
+            {
+                node._state = this._state;
+                node._runningTime = this._runningTime;
+                node._enabledDurationTime = this._enabledDurationTime;
+            }
+            return obj;
+        }
         #endregion
 
         #region Logic
@@ -88,8 +105,9 @@
                 }
                 case EState.Running:
                 {
-                    this.OnEnter();
                     this._runningTime = 0;
+                    this.OnEnter();
+                   
                     break;
                 }
             }
