@@ -9,7 +9,7 @@ namespace DigitalWorld.Logic
     /// <summary>
     /// 逻辑根节点
     /// </summary>
-    public abstract partial class BaseNode : ByteBuffer
+    public abstract partial class NodeBase : ByteBuffer
     {
         #region Params
       
@@ -38,15 +38,15 @@ namespace DigitalWorld.Logic
         }
         protected int _maxIndex = 0;
 
-        public BaseNode Parent => _parent;
-        protected BaseNode _parent;
+        public NodeBase Parent => _parent;
+        protected NodeBase _parent;
 
        
         /// <summary>
         /// 所有的子节点
         /// </summary>
-        public List<BaseNode> Children => _children;
-        protected List<BaseNode> _children = new List<BaseNode>();
+        public List<NodeBase> Children => _children;
+        protected List<NodeBase> _children = new List<NodeBase>();
 
         /// <summary>
         /// 是否激活
@@ -94,7 +94,7 @@ namespace DigitalWorld.Logic
 
         public abstract object Clone();
 
-        public virtual T CloneTo<T>(T obj) where T : BaseNode
+        public virtual T CloneTo<T>(T obj) where T : NodeBase
         {
             obj._enabled = this._enabled;
             obj._key = this._key;
@@ -105,17 +105,17 @@ namespace DigitalWorld.Logic
         #endregion
 
         #region Relation
-        protected virtual void AddChild(BaseNode node)
+        protected virtual void AddChild(NodeBase node)
         {
             this._children.Add(node);
         }
 
-        protected virtual void RemoveChild(BaseNode node)
+        protected virtual void RemoveChild(NodeBase node)
         {
             this._children.Remove(node);
         }
 
-        public virtual void SetParent(BaseNode parent)
+        public virtual void SetParent(NodeBase parent)
         {
             if (this._parent == parent)
             {
@@ -141,7 +141,7 @@ namespace DigitalWorld.Logic
             {
                 for (int i = this._children.Count - 1; i >= 0; --i)
                 {
-                    BaseNode child = this._children[i];
+                    NodeBase child = this._children[i];
                     if (null != child)
                     {
                         child.Recycle();

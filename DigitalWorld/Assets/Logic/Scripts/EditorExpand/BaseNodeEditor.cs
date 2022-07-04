@@ -1,6 +1,6 @@
 ﻿namespace DigitalWorld.Logic
 {
-    public partial class BaseNode
+    public partial class NodeBase
     {
 
         public virtual void SetDirty()

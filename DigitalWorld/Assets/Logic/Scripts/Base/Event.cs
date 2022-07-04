@@ -22,9 +22,11 @@ namespace DigitalWorld.Logic
 
         public static Event Create(int id, UnitHandle triggering)
         {
-            Event ev = new Event();
-            ev.Id = id;
-            ev.Triggering = triggering;
+            Event ev = new Event
+            {
+                Id = id,
+                Triggering = triggering
+            };
             return ev;
         }
     }

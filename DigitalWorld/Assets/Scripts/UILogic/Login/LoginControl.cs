@@ -120,7 +120,7 @@ namespace DigitalWorld.UI.Logic
             AckLogin ack = protocol as AckLogin;
             if (null != ack)
             {
-                int x = 1;
+              
             }
         }
         #endregion

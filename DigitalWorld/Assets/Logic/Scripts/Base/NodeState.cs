@@ -1,6 +1,6 @@
 ﻿namespace DigitalWorld.Logic
 {
-    public partial class NodeFSE : BaseNode
+    public partial class NodeState : NodeBase
     {
         #region Params
         /// <summary>
@@ -68,7 +68,7 @@
 
         public override T CloneTo<T>(T obj)
         {
-            NodeFSE node = base.CloneTo(obj) as NodeFSE;
+            NodeState node = base.CloneTo(obj) as NodeState;
             if (null != node)
             {
                 node._state = this._state;
@@ -106,8 +106,11 @@
                 case EState.Running:
                 {
                     this._runningTime = 0;
-                    this.OnEnter();
-                   
+                    if (lastState == EState.Idle)
+                    {
+                        this.OnEnter();
+                    }
+
                     break;
                 }
             }
