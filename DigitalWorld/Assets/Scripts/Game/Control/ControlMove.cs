@@ -94,7 +94,6 @@ namespace DigitalWorld.Game
             base.Setup(unit, data);
 
             this.animContrl = this.unit.Animator;
-            StartCoroutine(StartEnum());
         }
 
         /// <summary>

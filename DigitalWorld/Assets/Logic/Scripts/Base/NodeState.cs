@@ -110,7 +110,6 @@
                     {
                         this.OnEnter();
                     }
-
                     break;
                 }
             }

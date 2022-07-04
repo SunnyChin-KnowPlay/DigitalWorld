@@ -12,8 +12,6 @@ namespace DigitalWorld.Logic
     public abstract partial class NodeBase : ByteBuffer
     {
         #region Params
-      
-
         /// <summary>
         /// 索引号
         /// </summary>
