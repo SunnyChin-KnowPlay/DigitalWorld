@@ -20,12 +20,18 @@ namespace DigitalWorld.Logic
         /// </summary>
         public UnitHandle Triggering { get; private set; }
 
-        public static Event Create(int id, UnitHandle triggering)
+        /// <summary>
+        /// 目标
+        /// </summary>
+        public UnitHandle Target { get; private set; }
+
+        public static Event Create(int id, UnitHandle triggering, UnitHandle target = default)
         {
             Event ev = new Event
             {
                 Id = id,
-                Triggering = triggering
+                Triggering = triggering,
+                Target = target,
             };
             return ev;
         }

@@ -1,4 +1,6 @@
-﻿namespace DigitalWorld.Logic
+﻿using System.Xml;
+
+namespace DigitalWorld.Logic
 {
     public partial class NodeState : NodeBase
     {
@@ -39,16 +41,16 @@
         {
             get { return _runningTime; }
         }
-        private float _runningTime = 0;
+        protected float _runningTime = 0;
 
         /// <summary>
-        /// 已激活的持续时间
+        /// 总运行时长
         /// </summary>
-        public float EnabledDurationTime
+        public float TotalTime
         {
-            get { return _enabledDurationTime; }
+            get { return _totalTime; }
         }
-        private float _enabledDurationTime = 0;
+        private float _totalTime = 0;
         #endregion
 
         #region Pool
@@ -58,7 +60,7 @@
 
             this._state = EState.Idle;
             this._runningTime = 0;
-            this._enabledDurationTime = 0;
+            this._totalTime = 0;
         }
 
         public override object Clone()
@@ -71,15 +73,20 @@
             NodeState node = base.CloneTo(obj) as NodeState;
             if (null != node)
             {
-                node._state = this._state;
-                node._runningTime = this._runningTime;
-                node._enabledDurationTime = this._enabledDurationTime;
+                node._totalTime = this._totalTime;
             }
             return obj;
         }
         #endregion
 
         #region Logic
+        /// <summary>
+        /// 转换状态
+        /// 状态不一致时才有转换必要
+        /// 先把新的状态记录下来
+        /// 然后调用OnStateChanged传入旧状态
+        /// </summary>
+        /// <param name="state">新状态</param>
         private void ToState(EState state)
         {
             if (this._state != state)
@@ -115,12 +122,25 @@
             }
         }
 
-        public virtual void Update(float delta)
+
+        /// <summary>
+        /// 仅当激活时
+        /// 才会进入迭代回调
+        /// </summary>
+        /// <param name="delta"></param>
+        protected override void OnUpdate(float delta)
         {
-            _enabledDurationTime += delta;
+            base.OnUpdate(delta);
+
+      
             if (this._state == EState.Running)
             {
-                OnUpdate(delta);
+                OnRunning(delta);
+
+                if (this._runningTime >= this._totalTime)
+                {
+                    this.State = EState.Ending;
+                }
             }
 
             if (this._state == EState.Ending)
@@ -129,9 +149,13 @@
             }
         }
 
-        protected virtual void OnUpdate(float delta)
+        /// <summary>
+        /// 常规循环
+        /// </summary>
+        /// <param name="delta"></param>
+        protected virtual void OnRunning(float delta)
         {
-            this._runningTime += delta;
+            this._runningTime = System.MathF.Min(this._runningTime + delta, this._totalTime);
         }
 
         protected virtual void OnEnter()
@@ -142,6 +166,36 @@
         protected virtual void OnExit()
         {
 
+        }
+        #endregion
+
+        #region Proto
+        protected override void OnEncode(byte[] buffer, int pos)
+        {
+            base.OnEncode(buffer, pos);
+
+            this.Encode(this._totalTime);
+        }
+
+        protected override void OnEncode(XmlElement element)
+        {
+            base.OnEncode(element);
+
+            this.Encode(this._totalTime, "totalTime");
+        }
+
+        protected override void OnDecode(byte[] buffer, int pos)
+        {
+            base.OnDecode(buffer, pos);
+
+            this.Decode(ref this._totalTime);
+        }
+
+        protected override void OnDecode(XmlElement element)
+        {
+            base.OnDecode(element);
+
+            this.Decode(ref this._totalTime, "totalTime");
         }
         #endregion
     }

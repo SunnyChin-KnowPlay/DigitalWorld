@@ -36,10 +36,10 @@ namespace DigitalWorld.Logic
         }
         protected int _maxIndex = 0;
 
-        public NodeBase Parent => _parent;
+        public NodeBase Parent { get => _parent; set => _parent = value; }
         protected NodeBase _parent;
 
-       
+
         /// <summary>
         /// 所有的子节点
         /// </summary>
@@ -70,6 +70,15 @@ namespace DigitalWorld.Logic
             set { _key = value; }
         }
         protected string _key;
+
+        /// <summary>
+        /// 已激活的持续时间
+        /// </summary>
+        public float EnabledDurationTime
+        {
+            get { return _enabledDurationTime; }
+        }
+        protected float _enabledDurationTime = 0;
         #endregion
 
         #region Pool
@@ -80,6 +89,7 @@ namespace DigitalWorld.Logic
             this._index = 0;
             this._parent = null;
             this._key = null;
+            this._enabledDurationTime = 0;
         }
 
         public override void OnRecycle()
@@ -96,7 +106,7 @@ namespace DigitalWorld.Logic
         {
             obj._enabled = this._enabled;
             obj._key = this._key;
-            
+
 
             return obj;
         }
@@ -186,11 +196,66 @@ namespace DigitalWorld.Logic
 
             this.Decode(ref this._enabled, "enabled");
             this.Decode(ref this._key, "key");
+
+            _children.Clear();
+            XmlElement childrenEle = element["children"];
+            if (null != childrenEle)
+            {
+                foreach (var node in childrenEle.ChildNodes)
+                {
+                    XmlElement childEle = node as XmlElement;
+                    System.Type type = System.Type.GetType(childEle.GetAttribute("class"));
+
+                    NodeBase child = System.Activator.CreateInstance(type) as NodeBase;
+                    if (null != child)
+                    {
+                        child.Parent = this;
+                        child.Decode(childEle);
+                        _children.Add(child);
+                    }
+
+                }
+            }
         }
         #endregion
 
         #region Logic
+        /// <summary>
+        /// 迭代
+        /// </summary>
+        /// <param name="delta"></param>
+        public void Update(float delta)
+        {
+            //当未激活时 不执行任何逻辑
+            if (!this.Enabled)
+                return;
 
+            _enabledDurationTime += delta;
+
+            OnUpdate(delta);
+        }
+
+        /// <summary>
+        /// 仅当激活时
+        /// 才会进入迭代回调
+        /// </summary>
+        /// <param name="delta"></param>
+        protected virtual void OnUpdate(float delta)
+        {
+            UpdateChildren(delta);
+        }
+
+        protected void UpdateChildren(float delta)
+        {
+            for (int i = 0; i < this._children.Count; ++i)
+            {
+                NodeBase child = this._children[i];
+                if (child.Enabled)
+                {
+                    child.Update(delta);
+                }
+            }
+        }
         #endregion
     }
 }
