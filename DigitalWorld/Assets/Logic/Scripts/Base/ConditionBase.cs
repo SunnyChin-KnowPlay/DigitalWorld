@@ -3,9 +3,11 @@
     public abstract partial class ConditionBase : NodeBase
     {
         #region Logic
-        public virtual bool Check(Event ev)
+        protected override void OnUpdate(float delta)
         {
-            return true;
+            base.OnUpdate(delta);
+
+
         }
         #endregion
     }

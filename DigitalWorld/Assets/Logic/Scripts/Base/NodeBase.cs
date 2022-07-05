@@ -39,6 +39,27 @@ namespace DigitalWorld.Logic
         public NodeBase Parent => _parent;
         protected NodeBase _parent;
 
+        /// <summary>
+        /// 获取根节点，如果自己就是根节点则返回自己
+        /// </summary>
+        public NodeBase Root
+        {
+            get
+            {
+                return GetRoot(this);
+            }
+        }
+
+        /// <summary>
+        /// 自己是否为根节点
+        /// </summary>
+        public bool IsRoot
+        {
+            get
+            {
+                return this._parent == null;
+            }
+        }
 
         /// <summary>
         /// 所有的子节点
@@ -87,7 +108,7 @@ namespace DigitalWorld.Logic
         #region Pool
         public override void OnAllocate()
         {
-            this.OnAllocate();
+            base.OnAllocate();
             this._enabled = false;
             this._index = 0;
             this._parent = null;
@@ -100,7 +121,7 @@ namespace DigitalWorld.Logic
             this.DetachChildren();
             this.SetParent(null);
 
-            this.OnRecycle();
+            base.OnRecycle();
         }
 
         public abstract object Clone();
@@ -113,8 +134,7 @@ namespace DigitalWorld.Logic
             obj._children.Clear();
             for (int i = 0; i < this._children.Count; ++i)
             {
-                NodeBase node = this._children[i].Clone() as NodeBase;
-                if (null != node)
+                if (this._children[i].Clone() is NodeBase node)
                 {
                     node.SetParent(obj);
                 }
@@ -155,6 +175,10 @@ namespace DigitalWorld.Logic
             }
         }
 
+        /// <summary>
+        /// 将所有的子节点都脱离关系
+        /// 并且回收所有的子节点
+        /// </summary>
         public virtual void DetachChildren()
         {
             if (null != this._children && this._children.Count > 0)
@@ -174,6 +198,47 @@ namespace DigitalWorld.Logic
         public virtual void ResetChildrenIndex()
         {
 
+        }
+
+        /// <summary>
+        /// 获取自己同级的邻居队列
+        /// </summary>
+        /// <param name="list">队列的引用</param>
+        /// <returns>true:成功</returns>
+        protected bool GetNeighbours(ref List<NodeBase> list)
+        {
+            NodeBase parent = this._parent;
+            if (null == parent)
+                return false;
+
+            List<NodeBase> children = parent.Children;
+
+            if (null == list)
+                list = new List<NodeBase>(children.Count - 1);
+
+            for (int i = 0; i < children.Count; ++i)
+            {
+                if (children[i] != this)
+                {
+                    list.Add(children[i]);
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 通过递归获取对应的根节点
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        protected static NodeBase GetRoot(NodeBase node)
+        {
+            if (null != node.Parent)
+            {
+                return GetRoot(node.Parent);
+            }
+
+            return node;
         }
         #endregion
 

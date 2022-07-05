@@ -130,9 +130,6 @@ namespace DigitalWorld.Logic
         /// <param name="delta"></param>
         protected override void OnUpdate(float delta)
         {
-            base.OnUpdate(delta);
-
-      
             if (this._state == EState.Running)
             {
                 OnRunning(delta);
@@ -155,6 +152,8 @@ namespace DigitalWorld.Logic
         /// <param name="delta"></param>
         protected virtual void OnRunning(float delta)
         {
+            this.UpdateChildren(delta);
+
             this._runningTime = System.MathF.Min(this._runningTime + delta, this._totalTime);
         }
 
