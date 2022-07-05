@@ -36,7 +36,7 @@ namespace DigitalWorld.Logic
         }
         protected int _maxIndex = 0;
 
-        public NodeBase Parent { get => _parent; set => _parent = value; }
+        public NodeBase Parent => _parent;
         protected NodeBase _parent;
 
 
@@ -56,7 +56,10 @@ namespace DigitalWorld.Logic
         }
         private bool _enabled = false;
 
-        public virtual string Name
+        /// <summary>
+        /// 类型名
+        /// </summary>
+        public virtual string TypeName
         {
             get
             {
@@ -107,6 +110,15 @@ namespace DigitalWorld.Logic
             obj._enabled = this._enabled;
             obj._key = this._key;
 
+            obj._children.Clear();
+            for (int i = 0; i < this._children.Count; ++i)
+            {
+                NodeBase node = this._children[i].Clone() as NodeBase;
+                if (null != node)
+                {
+                    node.SetParent(obj);
+                }
+            }
 
             return obj;
         }
@@ -178,8 +190,20 @@ namespace DigitalWorld.Logic
         {
             base.OnEncode(element);
 
-            this.Encode(this._enabled, "enabled");
-            this.Encode(this._key, "key");
+            XmlDocument doc = element.OwnerDocument;
+
+            this.Encode(this._enabled, "_enabled");
+            this.Encode(this._key, "_key");
+            this.Encode(this.TypeName, "_typeName");
+
+            XmlElement childrenEle = doc.CreateElement("_children");
+            for (int i = 0; i < _children.Count; ++i)
+            {
+                XmlElement childEle = doc.CreateElement("child");
+                _children[i].Encode(childEle);
+                childrenEle.AppendChild(childEle);
+            }
+            element.AppendChild(childrenEle);
         }
 
         protected override void OnDecode(byte[] buffer, int pos)
@@ -194,26 +218,23 @@ namespace DigitalWorld.Logic
         {
             base.OnDecode(element);
 
-            this.Decode(ref this._enabled, "enabled");
-            this.Decode(ref this._key, "key");
+            this.Decode(ref this._enabled, "_enabled");
+            this.Decode(ref this._key, "_key");
 
             _children.Clear();
-            XmlElement childrenEle = element["children"];
+            XmlElement childrenEle = element["_children"];
             if (null != childrenEle)
             {
                 foreach (var node in childrenEle.ChildNodes)
                 {
                     XmlElement childEle = node as XmlElement;
-                    System.Type type = System.Type.GetType(childEle.GetAttribute("class"));
+                    System.Type type = System.Type.GetType(childEle.GetAttribute("_typeName"));
 
-                    NodeBase child = System.Activator.CreateInstance(type) as NodeBase;
-                    if (null != child)
+                    if (System.Activator.CreateInstance(type) is NodeBase child)
                     {
-                        child.Parent = this;
                         child.Decode(childEle);
-                        _children.Add(child);
+                        child.SetParent(this);
                     }
-
                 }
             }
         }
