@@ -342,6 +342,16 @@ namespace DigitalWorld.Logic
                 }
             }
         }
+
+        /// <summary>
+        /// 检测要求条件
+        /// </summary>
+        /// <returns>true:可以执行</returns>
+        public virtual bool CheckRequirement()
+        {
+
+            return true;
+        }
         #endregion
     }
 }
