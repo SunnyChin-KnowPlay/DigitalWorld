@@ -204,6 +204,8 @@ namespace DigitalWorld.Logic
             {
                 _children[i].MaxIndex = this._children.Count;
                 _children[i].Index = i;
+
+                _children[i].ResetChildrenIndex();
             }
         }
 

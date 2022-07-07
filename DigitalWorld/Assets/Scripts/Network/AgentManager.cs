@@ -41,7 +41,7 @@ namespace DigitalWorld.Net
         protected Dictionary<ushort, OnProcessProtocolHandle> protocolHandleDict = new Dictionary<ushort, OnProcessProtocolHandle>();
         #endregion
 
-
+        #region Mono
         protected override void Awake()
         {
             base.Awake();
@@ -112,6 +112,7 @@ namespace DigitalWorld.Net
                 }
             }
         }
+        #endregion
 
         #region Listen
         public virtual void AddProtocolListener(ushort protocolID, OnProcessProtocolHandle handle)

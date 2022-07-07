@@ -110,6 +110,7 @@ namespace DreamEngine
         }
         #endregion
 
+        #region Mono
         protected virtual void Awake()
         {
             if (null != instance && instance.gameObject != this.gameObject)
@@ -138,6 +139,7 @@ namespace DreamEngine
                 instance = null;
             }
         }
+        #endregion
     }
 
 }
