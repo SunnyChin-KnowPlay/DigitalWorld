@@ -195,9 +195,16 @@ namespace DigitalWorld.Logic
             }
         }
 
+        /// <summary>
+        /// 重排整个子节点的索引号
+        /// </summary>
         public virtual void ResetChildrenIndex()
         {
-
+            for (int i = 0; i < this._children.Count; ++i)
+            {
+                _children[i].MaxIndex = this._children.Count;
+                _children[i].Index = i;
+            }
         }
 
         /// <summary>
@@ -239,6 +246,28 @@ namespace DigitalWorld.Logic
             }
 
             return node;
+        }
+
+        public NodeBase GetChild(int index)
+        {
+            if (this._children.Count < 1 || this._children.Count >= index)
+                throw new ArgumentOutOfRangeException();
+            return this._children[index];
+        }
+
+        /// <summary>
+        /// 通过键来获取对应的子节点
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public NodeBase FindChild(string key)
+        {
+            for (int i = 0; i < this._children.Count; ++i)
+            {
+                if (this._children[i].Key == key)
+                    return this._children[i];
+            }
+            return null;
         }
         #endregion
 
@@ -331,7 +360,7 @@ namespace DigitalWorld.Logic
             UpdateChildren(delta);
         }
 
-        protected void UpdateChildren(float delta)
+        protected virtual void UpdateChildren(float delta)
         {
             for (int i = 0; i < this._children.Count; ++i)
             {

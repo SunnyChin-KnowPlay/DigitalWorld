@@ -6,8 +6,21 @@ using System.Threading.Tasks;
 
 namespace DigitalWorld.Logic
 {
-    public partial class ActionBase : NodeState
+    public partial class ActionBase : Effect
     {
+        #region Logic
+        protected override void OnUpdate(float delta)
+        {
+            if (this.State == EState.Idle)
+            {
+                if (this.GetRequirement())
+                {
+                    this.State = EState.Running;
+                }
+            }
 
+            base.OnUpdate(delta);
+        }
+        #endregion
     }
 }

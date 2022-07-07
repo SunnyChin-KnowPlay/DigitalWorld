@@ -1,13 +1,15 @@
 ﻿namespace DigitalWorld.Logic
 {
-    public abstract partial class ConditionBase : NodeBase
+    public abstract partial class ConditionBase : Effect
     {
+        #region Params
+    
+        #endregion
+
         #region Logic
-        protected override void OnUpdate(float delta)
+        public override bool CheckRequirement()
         {
-            base.OnUpdate(delta);
-
-
+            return base.CheckRequirement();
         }
         #endregion
     }
