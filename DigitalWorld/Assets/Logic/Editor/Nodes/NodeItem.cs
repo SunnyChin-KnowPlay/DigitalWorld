@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace DigitalWorld.Logic.Editor
 {
-    public abstract class ItemNode : NodeBase
+    internal abstract class NodeItem : NodeBase
     {
         private Vector2 offset = Vector2.zero;
 
-        public delegate void OnCallbackModifyItem(EItemType type, ItemNode ba);
+        public delegate void OnCallbackModifyItem(EItemType type, NodeItem ba);
 
         protected string desc = "";
         public string Desc
@@ -177,7 +177,7 @@ namespace DigitalWorld.Logic.Editor
 
         public override T CloneTo<T>(T obj)
         {
-            ItemNode v = base.CloneTo(obj) as ItemNode;
+            NodeItem v = base.CloneTo(obj) as NodeItem;
             if (null != v)
             {
                 v.desc = this.desc;

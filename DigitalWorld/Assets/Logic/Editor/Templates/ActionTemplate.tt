@@ -1,0 +1,250 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ parameter name="className" type="System.String"#>
+<#@ parameter name="baseTypes" type="System.String[]"#>
+<#@ parameter name="types" type="System.String[]"#>
+<#@ parameter name="varNames" type="System.String[]"#>
+<#@ parameter name="descripts" type="System.String[]"#>
+<#@ parameter name="varWriteXmls" type="System.String[]"#>
+<#@ parameter name="varLoadXmls" type="System.String[]"#>
+<#@ parameter name="id" type="System.Int32"#>
+<#@ parameter name="desc" type="System.String"#>
+<#@ parameter name="usingNamespaces" type="System.String[]"#>
+<#@ parameter name="serializeFuncs" type="System.String[]"#>
+<#@ parameter name="deserializeFuncs" type="System.String[]"#>
+<#@ parameter name="defaultValues" type="System.String[]"#>
+<#
+	for (int i = 0; i < usingNamespaces.Length; ++i)
+	{
+#>
+using <#= usingNamespaces[i] #>;
+<#
+	}
+#>
+using System.Collections.Generic;
+#if UNITY_EDITOR
+using System.Xml;
+#endif
+
+namespace DigitalWorld.Logic
+{
+	/// <summary>
+    /// <#= desc #>
+    /// </summary>
+	public partial class Action<#= className #> : BaseAction
+	{
+#region Common
+		public override int Id
+		{
+			get
+			{
+				return <#= id #>;
+			}
+		}
+<#
+		for (int i = 0; i < types.Length; ++i)
+		{
+#>
+		/// <summary>
+        /// <#= descripts[i] #>
+        /// </summary> 
+		public <#= types[i] #> <#= varNames[i] #> = default(<#= types[i] #>);
+<#
+		}
+#>
+
+		public override void OnAllocate()
+        {
+			base.OnAllocate();
+<#
+			for (int i = 0; i < types.Length; ++i)
+			{
+#><#
+			if (baseTypes[i] == "property")
+			{
+#>
+			<#= varNames[i] #> = default(Property<<#= types[i] #>>);
+<# } else { #>
+			<#= varNames[i] #> = default(<#= types[i] #>);
+<#
+			} 
+#><#
+			}
+#>
+        }
+
+		protected override void OnRecycle()
+        {
+            base.OnRecycle();
+<#
+			for (int i = 0; i < types.Length; ++i)
+			{
+#><#
+			if (baseTypes[i] == "property")
+			{
+#>
+			if (null != <#= varNames[i] #>)
+			{
+				<#= varNames[i] #>.Recycle();
+				<#= varNames[i] #> = null;
+			}	
+<# } else { #>
+			<#= varNames[i] #> = default(<#= types[i] #>);
+<#
+			}
+#> <#
+			}
+#>
+        }
+
+		public override object Clone()
+        {
+			Action<#= className #> v = null;
+			if (Application.isPlaying)
+            {
+				v = ObjectPool<Action<#= className #>>.Instance.Allocate();
+            }
+			else
+			{
+				v = new Action<#= className #>();
+			}
+			
+			if (null != v)
+			{
+				this.CloneTo(v);
+			}
+
+            return v;
+        }
+
+		public override T CloneTo<T>(T obj)
+        {
+            Action<#= className #> v = base.CloneTo(obj) as Action<#= className #>;
+            if (null != v)
+            {
+<#
+				for (int i = 0; i < types.Length; ++i)
+				{
+#><#
+				if (baseTypes[i] == "property")
+				{
+#>
+				if (null != this.<#= varNames[i] #>)
+					v.<#= varNames[i] #> = (Property<<#= types[i] #>>)this.<#= varNames[i] #>.Clone();
+<# } else { #>
+				v.<#= varNames[i] #> = this.<#= varNames[i] #>;
+<#
+				}
+#><#
+				}
+#>
+            }
+            return obj;
+        }
+#endregion
+
+#region Editor
+#if UNITY_EDITOR
+        private static Dictionary<string, string> descs = new Dictionary<string, string>();
+
+        private static Dictionary<string, string> Descs
+        {
+            get
+            {
+                if (null == descs)
+                    descs = new Dictionary<string, string>();
+
+                if (descs.Count < 1)
+                {
+<#
+		            for (int i = 0; i < varNames.Length; ++i)
+		            {
+#>
+                    descs.Add("<#= varNames[i] #>", "<#= descripts[i] #>");
+<#
+		            }
+#>
+                }
+
+                return descs;
+            }
+        }
+
+        public override string Desc
+        {
+            get
+            {
+                return "<#= desc #>";
+            }
+        }
+
+        protected override string GetFieldDesc(string fieldName)
+        {
+            Dictionary<string, string> descs = Descs;
+            string v = string.Empty;
+            descs.TryGetValue(fieldName, out v);
+            return v;
+        }
+#endif
+#endregion
+
+#region Serializion
+		public override void OnEncode(byte[] buffer, int pos)
+        {
+            base.OnEncode(buffer, pos);
+<#
+			for (int i = 0; i < types.Length; ++i)
+			{
+#>
+			<#= serializeFuncs[i] #>(this.<#= varNames[i] #>);
+<#
+			}
+#>          
+        }
+
+        public override void OnDecode(byte[] buffer, int pos)
+        {
+            base.OnDecode(buffer, pos);
+<#
+			for (int i = 0; i < types.Length; ++i)
+			{
+#>
+			<#= deserializeFuncs[i] #>(ref this.<#= varNames[i] #>);
+<#
+			}
+#>
+        }
+		
+#if UNITY_EDITOR
+        public override void OnDecode(XmlElement node)
+        {
+            base.OnDecode(node);
+<#
+			for (int i = 0; i < types.Length; ++i)
+			{
+#>
+			if (node.HasAttribute("<#= varNames[i] #>"))
+				<#= varNames[i] #> = <#= varLoadXmls[i] #>;
+<#
+			}
+#>
+        }
+
+        public override void OnEncode(XmlElement node)
+        {
+			base.OnEncode(node);
+<#
+			for (int i = 0; i < types.Length; ++i)
+			{
+#>
+			node.SetAttribute("<#= varNames[i] #>", <#= varWriteXmls[i] #>);
+<#
+			}
+#>
+        }
+
+
+#endif
+#endregion
+	}
+}

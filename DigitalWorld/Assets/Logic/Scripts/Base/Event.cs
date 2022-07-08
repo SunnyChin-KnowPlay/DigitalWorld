@@ -1,4 +1,8 @@
 ﻿using DigitalWorld.Game;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+using UnityEngine;
 
 namespace DigitalWorld.Logic
 {
@@ -7,6 +11,7 @@ namespace DigitalWorld.Logic
     /// </summary>
     public partial struct Event
     {
+        #region Params
         /// <summary>
         /// 事件ID
         /// </summary>
@@ -24,7 +29,9 @@ namespace DigitalWorld.Logic
         /// 目标
         /// </summary>
         public UnitHandle Target { get; private set; }
+        #endregion
 
+        #region Construction
         public static Event Create(int id, UnitHandle triggering, UnitHandle target = default)
         {
             Event ev = new Event
@@ -35,5 +42,26 @@ namespace DigitalWorld.Logic
             };
             return ev;
         }
+        #endregion
+
+        #region GUI
+#if UNITY_EDITOR
+        public void OnGUIStatus()
+        {
+            UnitHandle handle = this.Triggering;
+            if (handle)
+            {
+                string v = string.Format("触发者ID:<color=#32D22FFF>{0}</color>", handle.Unit.Uid);
+                EditorGUILayout.LabelField(v);
+               
+                if (GUILayout.Button(new GUIContent("选择目标"), GUILayout.MaxHeight(18)))
+                {
+                    if (null != handle.Unit.gameObject)
+                        Selection.activeGameObject = handle.Unit.gameObject;
+                }
+            }
+        }
+#endif
+        #endregion
     }
 }

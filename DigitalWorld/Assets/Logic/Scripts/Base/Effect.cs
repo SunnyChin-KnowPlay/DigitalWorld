@@ -7,9 +7,18 @@ using System.Xml;
 
 namespace DigitalWorld.Logic
 {
-    public partial class Effect : NodeState
+    public abstract partial class Effect : NodeState
     {
         #region Params
+        /// <summary>
+        /// 效果的配置ID
+        /// </summary>
+        public abstract int Id
+        {
+            get;
+        }
+
+
         public Behaviour Behaviour
         {
             get

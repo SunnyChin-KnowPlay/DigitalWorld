@@ -2,7 +2,7 @@
 
 namespace DigitalWorld.Logic
 {
-    public partial class NodeState : NodeBase
+    public abstract partial class NodeState : NodeBase
     {
         #region Params
         /// <summary>

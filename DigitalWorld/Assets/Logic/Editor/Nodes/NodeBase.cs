@@ -2,10 +2,12 @@ using System.Xml;
 
 namespace DigitalWorld.Logic.Editor
 {
-    public abstract class NodeBase : ISerialization
+    internal abstract class NodeBase : ISerialization
     {
+        #region Event
         public delegate void OnDirtyChangedHandle(bool dirty);
         public event OnDirtyChangedHandle OnDirtyChanged;
+        #endregion
 
         #region Params
         public virtual bool IsDirty

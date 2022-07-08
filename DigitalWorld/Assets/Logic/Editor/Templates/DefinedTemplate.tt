@@ -1,0 +1,116 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ parameter name="eventNames" type="System.String[]"#>
+<#@ parameter name="eventValues" type="System.String[]"#>
+<#@ parameter name="eventDescs" type="System.String[]"#>
+<#@ parameter name="conditionNames" type="System.String[]"#>
+<#@ parameter name="conditionValues" type="System.String[]"#>
+<#@ parameter name="conditionDescs" type="System.String[]"#>
+<#@ parameter name="actionNames" type="System.String[]"#>
+<#@ parameter name="actionValues" type="System.String[]"#>
+<#@ parameter name="actionDescs" type="System.String[]"#>
+namespace DigitalWorld.Logic
+{
+	public enum EEvent : int
+	{
+		Update = 0,
+<#
+		for (int i = 0; i < eventNames.Length; ++i)
+		{
+#>
+		/// <summary>
+        /// <#= eventDescs[i] #>
+        /// </summary>
+		<#= eventNames[i] #> = <#= eventValues[i] #>,
+<#
+		}
+#>
+	}
+
+	public enum ECondition : int
+	{
+<#
+		for (int i = 0; i < conditionNames.Length; ++i)
+		{
+#>
+		/// <summary>
+        /// <#= conditionDescs[i] #>
+        /// </summary>
+		<#= conditionNames[i] #> = <#= conditionValues[i] #>,
+<#
+		}
+#>
+	}
+
+	public enum EAction : int
+	{
+<#
+		for (int i = 0; i < actionNames.Length; ++i)
+		{
+#>
+		/// <summary>
+        /// <#= actionDescs[i] #>
+        /// </summary>
+		<#= actionNames[i] #> = <#= actionValues[i] #>,
+<#
+		}
+#>
+	}
+
+	 public static class Defined
+	 {
+        public static string GetEventDesc(EEvent e)
+        {
+			switch (e)
+            {
+<#
+				for (int i = 0; i < eventNames.Length; ++i)
+				{
+#>
+				case EventEnum.<#= eventNames[i] #>:
+					return "<#= eventDescs[i] #>";
+<#
+				}
+#>
+				default:
+					return null;
+			}
+        }
+
+		public static string GetActionDesc(EAction e)
+        {
+			switch (e)
+            {
+<#
+				for (int i = 0; i < actionNames.Length; ++i)
+				{
+#>
+				case ActionEnum.<#= actionNames[i] #>:
+					return "<#= actionDescs[i] #>";
+<#
+				}
+#>
+				default:
+					return null;
+			}
+        }
+
+		public static string GetConditionDesc(ECondition e)
+        {
+			switch (e)
+            {
+<#
+				for (int i = 0; i < conditionNames.Length; ++i)
+				{
+#>
+				case ConditionEnum.<#= conditionNames[i] #>:
+					return "<#= conditionDescs[i] #>";
+<#
+				}
+#>
+				default:
+					return null;
+			}
+        }
+    }
+}

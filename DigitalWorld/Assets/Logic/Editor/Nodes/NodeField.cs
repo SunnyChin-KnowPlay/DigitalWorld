@@ -6,16 +6,16 @@ using System;
 
 namespace DigitalWorld.Logic.Editor
 {
-
-
-    public class NodeField : NodeBase
+    internal class NodeField : NodeBase
     {
+        #region Params
         /*
          *  <field name="unitKey" baseClassT="" classT="int" desc="单位key">0</field>
          */
         public string baseClassT;
         public string classT;
         public string desc;
+        #endregion
 
         #region Save & Load
         public override void Decode(XmlElement node)
