@@ -32,6 +32,7 @@ namespace DigitalWorld.Logic
         private static bool autoRefresh = false;
         public static Dictionary<string, int> KeyDict = new Dictionary<string, int>();
 
+        public readonly static string[] usingNamespaces = new string[2] { "DigitalWorld.Game", "UnityEngine" };
         /// <summary>
         /// 逻辑命名空间
         /// </summary>
@@ -98,6 +99,31 @@ namespace DigitalWorld.Logic
         {
             string p = Application.dataPath.Replace("/Assets", "");
             return p;
+        }
+
+        public static void DeleteAllFiles(string path)
+        {
+            var files = System.IO.Directory.GetFiles(path);
+            for (int i = 0; i < files.Length; ++i)
+            {
+                System.IO.File.Delete(files[i]);
+            }
+
+            var folders = Directory.GetDirectories(path);
+            for (int i = 0; i < folders.Length; ++i)
+            {
+                DeleteAllFiles(folders[i]);
+            }
+        }
+
+        public static void SaveDataToFile(string data, string filePath, FileMode mode = FileMode.Create)
+        {
+            FileStream stream = File.Open(filePath, mode);
+            StreamWriter writer = new StreamWriter(stream);
+            writer.Write(data);
+            writer.Flush();
+            writer.Close();
+            stream.Close();
         }
 #endif
 

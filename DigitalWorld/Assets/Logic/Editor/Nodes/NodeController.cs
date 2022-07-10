@@ -1,4 +1,5 @@
-﻿using Dream.Core;
+﻿using Assets.Logic.Editor.Templates;
+using Dream.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -28,6 +29,488 @@ namespace DigitalWorld.Logic.Editor
         #endregion
 
         #region Common
+        public void GenerateNodes()
+        {
+            ClearAllCodeFiles();
+
+            var text = Utility.LoadTemplateConfig("Events");
+            XmlDocument eventDoc = new XmlDocument();
+            eventDoc.LoadXml(text.text);
+
+            text = Utility.LoadTemplateConfig("Conditions");
+            XmlDocument condDoc = new XmlDocument();
+            condDoc.LoadXml(text.text);
+
+            text = Utility.LoadTemplateConfig("Actions");
+            XmlDocument actionDoc = new XmlDocument();
+            actionDoc.LoadXml(text.text);
+
+            text = Utility.LoadTemplateConfig("Properties");
+            XmlDocument propertyDoc = new XmlDocument();
+            propertyDoc.LoadXml(text.text);
+
+
+            //GenerateEvents(eventDoc);
+            GenerateConditions(condDoc);
+            GenerateActions(actionDoc);
+            
+            GenerateEnums(eventDoc, condDoc, actionDoc, propertyDoc);
+            GenerateHelper(eventDoc, condDoc, actionDoc, propertyDoc);
+
+            if (Utility.AutoRefresh)
+                AssetDatabase.Refresh();
+        }
+
+        //private static void GenerateEvents(XmlDocument xmlDocument)
+        //{
+        //    XmlElement root = xmlDocument["data"];
+
+        //    List<string> names = new List<string>();
+        //    List<string> types = new List<string>();
+        //    List<string> descs = new List<string>();
+        //    List<string> values = new List<string>();
+
+
+        //    string fileName = null;
+
+        //    EventTemplate tmp = null;
+        //    foreach (var node in root.ChildNodes)
+        //    {
+        //        XmlElement element = (XmlElement)node;
+        //        tmp = new EventTemplate();
+        //        tmp.Session = new Dictionary<string, object>();
+
+        //        tmp.Session["id"] = int.Parse(element.GetAttribute("id"));
+        //        tmp.Session["className"] = element.GetAttribute("name");
+        //        tmp.Session["desc"] = element.GetAttribute("desc");
+        //        tmp.Session["processMode"] = element.GetAttribute("processMode");
+
+        //        names.Clear();
+        //        types.Clear();
+        //        descs.Clear();
+        //        values.Clear();
+
+        //        foreach (var a in element.ChildNodes)
+        //        {
+        //            XmlElement attr = (XmlElement)a;
+        //            names.Add(attr.GetAttribute("name"));
+        //            types.Add(attr.GetAttribute("classT"));
+        //            descs.Add(attr.GetAttribute("desc"));
+        //            values.Add(string.Format("default({0})", attr.GetAttribute("classT")));
+        //        }
+
+        //        tmp.Session["types"] = types.ToArray();
+        //        tmp.Session["varNames"] = names.ToArray();
+        //        tmp.Session["descripts"] = descs.ToArray();
+        //        tmp.Session["defaultValues"] = values.ToArray();
+        //        tmp.Session["usingNamespaces"] = Utility.usingNamespaces;
+
+        //        tmp.Initialize();
+        //        string data = tmp.TransformText();
+
+        //        fileName = "Event" + element.GetAttribute("name") + ".cs";
+
+        //        string targetPath = System.IO.Path.Combine(Utility.CodesPath, fileName);
+        //        Utility.SaveDataToFile(data, targetPath);
+        //    }
+
+
+        //}
+
+        private static string GetWriteXmlText(string baseType, string type, string name)
+        {
+            System.Type bt = Utility.GetBaseType(baseType);
+            if (bt == typeof(Enum))
+            {
+                return string.Format("{0}.ToString()", name);
+            }
+            else if (bt == typeof(ValueType))
+            {
+                System.Type tp = Utility.GetValueType(type);
+                if (tp == typeof(int))
+                {
+                    return string.Format("{0}.ToString()", name);
+                }
+                else if (tp == typeof(uint))
+                {
+                    return string.Format("{0}.ToString()", name);
+                }
+                else if (tp == typeof(string))
+                {
+                    return name;
+                }
+                else if (tp == typeof(float))
+                {
+                    return string.Format("{0}.ToString()", name);
+                }
+                else if (tp == typeof(bool))
+                {
+                    return string.Format("{0}.ToString()", name);
+                }
+                else if (tp == typeof(Color))
+                {
+                    return String.Format("{0}.ToString()", name);
+                }
+            }
+
+            return string.Empty;
+        }
+
+        private static void GenerateEnums(XmlDocument ev, XmlDocument con, XmlDocument act, XmlDocument pro)
+        {
+            DefinedTemplate tmp = null;
+            tmp = new DefinedTemplate();
+            tmp.Session = new Dictionary<string, object>();
+
+            List<string> names = new List<string>();
+            List<string> values = new List<string>();
+            List<string> descs = new List<string>();
+
+            XmlElement e = null;
+
+            XmlElement root = ev["data"];
+            foreach (var node in root.ChildNodes)
+            {
+                e = (XmlElement)node;
+                names.Add(e.GetAttribute("name"));
+                values.Add(e.GetAttribute("id"));
+                descs.Add(e.GetAttribute("desc"));
+            }
+            tmp.Session["eventNames"] = names.ToArray();
+            tmp.Session["eventValues"] = values.ToArray();
+            tmp.Session["eventDescs"] = descs.ToArray();
+
+            names.Clear();
+            values.Clear();
+            descs.Clear();
+
+            root = con["data"];
+            foreach (var node in root.ChildNodes)
+            {
+                e = (XmlElement)node;
+                names.Add(e.GetAttribute("name"));
+                values.Add(e.GetAttribute("id"));
+                descs.Add(e.GetAttribute("desc"));
+            }
+            tmp.Session["conditionNames"] = names.ToArray();
+            tmp.Session["conditionValues"] = values.ToArray();
+            tmp.Session["conditionDescs"] = descs.ToArray();
+
+            names.Clear();
+            values.Clear();
+            descs.Clear();
+
+            root = act["data"];
+            foreach (var node in root.ChildNodes)
+            {
+                e = (XmlElement)node;
+                names.Add(e.GetAttribute("name"));
+                values.Add(e.GetAttribute("id"));
+                descs.Add(e.GetAttribute("desc"));
+            }
+            tmp.Session["actionNames"] = names.ToArray();
+            tmp.Session["actionValues"] = values.ToArray();
+            tmp.Session["actionDescs"] = descs.ToArray();
+
+            names.Clear();
+            values.Clear();
+            descs.Clear();
+
+            root = pro["data"];
+            foreach (var node in root.ChildNodes)
+            {
+                e = (XmlElement)node;
+                names.Add(e.GetAttribute("name"));
+                values.Add(e.GetAttribute("id"));
+                descs.Add(e.GetAttribute("desc"));
+            }
+            tmp.Session["propertyNames"] = names.ToArray();
+            tmp.Session["propertyValues"] = values.ToArray();
+            tmp.Session["propertyDescs"] = descs.ToArray();
+
+            tmp.Initialize();
+            string data = tmp.TransformText();
+
+            string fileName = "Defined.cs";
+            string targetPath = System.IO.Path.Combine(Utility.CodesPath, fileName);
+            Utility.SaveDataToFile(data, targetPath);
+        }
+
+        private static void GenerateHelper(XmlDocument ev, XmlDocument con, XmlDocument act, XmlDocument pro)
+        {
+            LogicHelperTemplate tmp = null;
+            tmp = new LogicHelperTemplate();
+            tmp.Session = new Dictionary<string, object>();
+
+            string name = "LevelHelper";
+            tmp.Session["className"] = name;
+
+            List<string> names = new List<string>();
+            List<string> ids = new List<string>();
+
+            XmlElement e = null;
+
+            XmlElement root = ev["data"];
+            foreach (var node in root.ChildNodes)
+            {
+                e = (XmlElement)node;
+                names.Add(e.GetAttribute("name"));
+                ids.Add(e.GetAttribute("id"));
+
+            }
+            tmp.Session["eventNames"] = names.ToArray();
+            tmp.Session["eventIds"] = ids.ToArray();
+
+            names.Clear();
+            ids.Clear();
+
+            root = con["data"];
+            foreach (var node in root.ChildNodes)
+            {
+                e = (XmlElement)node;
+                names.Add(e.GetAttribute("name"));
+                ids.Add(e.GetAttribute("id"));
+
+            }
+            tmp.Session["conditionNames"] = names.ToArray();
+            tmp.Session["conditionEnums"] = ids.ToArray();
+
+            names.Clear();
+            ids.Clear();
+
+            root = act["data"];
+            foreach (var node in root.ChildNodes)
+            {
+                e = (XmlElement)node;
+                names.Add(e.GetAttribute("name"));
+                ids.Add(e.GetAttribute("id"));
+
+            }
+            tmp.Session["actionNames"] = names.ToArray();
+            tmp.Session["actionEnums"] = ids.ToArray();
+
+            names.Clear();
+            ids.Clear();
+
+            root = pro["data"];
+            foreach (var node in root.ChildNodes)
+            {
+                e = (XmlElement)node;
+                names.Add(e.GetAttribute("name"));
+                ids.Add(e.GetAttribute("id"));
+
+            }
+            tmp.Session["propertyNames"] = names.ToArray();
+            tmp.Session["propertyEnums"] = ids.ToArray();
+
+            tmp.Initialize();
+            string data = tmp.TransformText();
+
+            string fileName = string.Format("{0}.cs", name, ".cs");
+            string targetPath = System.IO.Path.Combine(Utility.CodesPath, fileName);
+            Utility.SaveDataToFile(data, targetPath);
+        }
+
+        private static void GenerateConditions(XmlDocument xmlDocument)
+        {
+
+            XmlElement root = xmlDocument["data"];
+
+            List<string> names = new List<string>();
+            List<string> baseTypes = new List<string>();
+            List<string> types = new List<string>();
+            List<string> descs = new List<string>();
+            List<string> values = new List<string>();
+            List<string> varWriteXmls = new List<string>();
+            List<string> varLoadXmls = new List<string>();
+            List<string> serializeFuncs = new List<string>();
+            List<string> deserializeFuncs = new List<string>();
+
+            string fileName = null;
+
+            ConditionTemplate tmp = null;
+
+            foreach (var node in root.ChildNodes)
+            {
+                names.Clear();
+                baseTypes.Clear();
+                types.Clear();
+                descs.Clear();
+                values.Clear();
+                varWriteXmls.Clear();
+                varLoadXmls.Clear();
+                serializeFuncs.Clear();
+                deserializeFuncs.Clear();
+
+                XmlElement element = (XmlElement)node;
+
+                fileName = "Condition" + element.GetAttribute("name") + ".cs";
+
+                foreach (var a in element.ChildNodes)
+                {
+                    XmlElement attr = (XmlElement)a;
+                    names.Add(attr.GetAttribute("name"));
+                    baseTypes.Add(attr.GetAttribute("baseClassT"));
+                    types.Add(attr.GetAttribute("classT"));
+                    descs.Add(attr.GetAttribute("desc"));
+                    values.Add(string.Format("default({0})", attr.GetAttribute("classT")));
+                    varWriteXmls.Add(GetWriteXmlText(attr.GetAttribute("baseClassT"), attr.GetAttribute("classT"), attr.GetAttribute("name")));
+                    varLoadXmls.Add(GetLoadXmlText("node", attr.GetAttribute("baseClassT"), attr.GetAttribute("classT"), attr.GetAttribute("name")));
+                    serializeFuncs.Add(attr.GetAttribute("baseClassT") == "enum" ? "EncodeEnum" : "Encode");
+                    deserializeFuncs.Add(attr.GetAttribute("baseClassT") == "enum" ? "DecodeEnum" : "Decode");
+                }
+
+                tmp = new ConditionTemplate();
+                tmp.Session = new Dictionary<string, object>();
+
+                tmp.Session["id"] = int.Parse(element.GetAttribute("id"));
+                tmp.Session["className"] = element.GetAttribute("name");
+                tmp.Session["desc"] = element.GetAttribute("desc");
+
+                tmp.Session["baseTypes"] = baseTypes.ToArray();
+                tmp.Session["types"] = types.ToArray();
+                tmp.Session["varNames"] = names.ToArray();
+                tmp.Session["descripts"] = descs.ToArray();
+                tmp.Session["defaultValues"] = values.ToArray();
+                tmp.Session["varWriteXmls"] = varWriteXmls.ToArray();
+                tmp.Session["varLoadXmls"] = varLoadXmls.ToArray();
+                tmp.Session["usingNamespaces"] = Utility.usingNamespaces;
+                tmp.Session["serializeFuncs"] = serializeFuncs.ToArray();
+                tmp.Session["deserializeFuncs"] = deserializeFuncs.ToArray();
+
+                tmp.Initialize();
+                string data = tmp.TransformText();
+
+                string targetPath = System.IO.Path.Combine(Utility.CodesPath, fileName);
+                Utility.SaveDataToFile(data, targetPath);
+            }
+        }
+
+        private static void GenerateActions(XmlDocument xmlDocument)
+        {
+
+            XmlElement root = xmlDocument["data"];
+
+            List<string> names = new List<string>();
+            List<string> baseTypes = new List<string>();
+            List<string> types = new List<string>();
+            List<string> descs = new List<string>();
+            List<string> values = new List<string>();
+            List<string> varWriteXmls = new List<string>();
+            List<string> varLoadXmls = new List<string>();
+            List<string> serializeFuncs = new List<string>();
+            List<string> deserializeFuncs = new List<string>();
+
+            string fileName = null;
+
+            ActionTemplate tmp = null;
+
+            foreach (var node in root.ChildNodes)
+            {
+                XmlElement element = (XmlElement)node;
+
+                names.Clear();
+                types.Clear();
+                baseTypes.Clear();
+                descs.Clear();
+                values.Clear();
+                varWriteXmls.Clear();
+                varLoadXmls.Clear();
+                serializeFuncs.Clear();
+                deserializeFuncs.Clear();
+
+                foreach (var a in element.ChildNodes)
+                {
+                    XmlElement attr = (XmlElement)a;
+                    names.Add(attr.GetAttribute("name"));
+                    types.Add(attr.GetAttribute("classT"));
+                    baseTypes.Add(attr.GetAttribute("baseClassT"));
+                    descs.Add(attr.GetAttribute("desc"));
+                    values.Add(string.Format("default({0})", attr.GetAttribute("classT")));
+                    varWriteXmls.Add(GetWriteXmlText(attr.GetAttribute("baseClassT"), attr.GetAttribute("classT"), attr.GetAttribute("name")));
+                    varLoadXmls.Add(GetLoadXmlText("node", attr.GetAttribute("baseClassT"), attr.GetAttribute("classT"), attr.GetAttribute("name")));
+                    serializeFuncs.Add(attr.GetAttribute("baseClassT") == "enum" ? "EncodeEnum" : "Encode");
+                    deserializeFuncs.Add(attr.GetAttribute("baseClassT") == "enum" ? "DecodeEnum" : "Decode");
+                }
+                fileName = "Action" + element.GetAttribute("name") + ".cs";
+
+                #region Action - Logic
+                tmp = new ActionTemplate();
+                tmp.Session = new Dictionary<string, object>();
+
+                tmp.Session["id"] = int.Parse(element.GetAttribute("id"));
+                tmp.Session["className"] = element.GetAttribute("name");
+                tmp.Session["desc"] = element.GetAttribute("desc");
+
+                tmp.Session["baseTypes"] = baseTypes.ToArray();
+                tmp.Session["types"] = types.ToArray();
+                tmp.Session["varNames"] = names.ToArray();
+                tmp.Session["descripts"] = descs.ToArray();
+                tmp.Session["defaultValues"] = values.ToArray();
+                tmp.Session["varWriteXmls"] = varWriteXmls.ToArray();
+                tmp.Session["varLoadXmls"] = varLoadXmls.ToArray();
+                tmp.Session["usingNamespaces"] = Utility.usingNamespaces;
+                tmp.Session["serializeFuncs"] = serializeFuncs.ToArray();
+                tmp.Session["deserializeFuncs"] = deserializeFuncs.ToArray();
+
+                tmp.Initialize();
+                string data = tmp.TransformText();
+
+                string targetPath = System.IO.Path.Combine(Utility.CodesPath, fileName);
+                Utility.SaveDataToFile(data, targetPath);
+                #endregion
+            }
+        }
+
+        private static string GetLoadXmlText(string xmlNodeName, string baseType, string type, string name)
+        {
+            System.Type bt = Utility.GetBaseType(baseType);
+            if (bt == typeof(Enum))
+            {
+                return string.Format("({0})System.Enum.Parse(typeof({0}), {1})", type, GetGetAttributeString(xmlNodeName, name));
+            }
+            else if (bt == typeof(ValueType))
+            {
+                System.Type tp = Utility.GetValueType(type);
+                if (tp == typeof(int))
+                {
+                    return string.Format("int.Parse({0})", GetGetAttributeString(xmlNodeName, name));
+                }
+                else if (tp == typeof(uint))
+                {
+                    return string.Format("uint.Parse({0})", GetGetAttributeString(xmlNodeName, name));
+                }
+                else if (tp == typeof(string))
+                {
+                    return GetGetAttributeString(xmlNodeName, name);
+                }
+                else if (tp == typeof(float))
+                {
+                    return string.Format("float.Parse({0})", GetGetAttributeString(xmlNodeName, name));
+                }
+                else if (tp == typeof(bool))
+                {
+                    return string.Format("bool.Parse({0})", GetGetAttributeString(xmlNodeName, name));
+                }
+                else if (tp == typeof(Color))
+                {
+                    return String.Format("Utility.ParseColor({0})", GetGetAttributeString(xmlNodeName, name));
+                }
+            }
+
+            return string.Empty;
+        }
+
+        private static string GetGetAttributeString(string node, string name)
+        {
+            return string.Format("{0}.GetAttribute(\"{1}\")", node, name);
+        }
+
+        private static void ClearAllCodeFiles()
+        {
+            Utility.DeleteAllFiles(Utility.CodesPath);
+        }
+
         public void SetDirty()
         {
             dirty = true;
@@ -323,7 +806,6 @@ namespace DigitalWorld.Logic.Editor
             return false;
         }
 
-       
         public static string GetTitleWithType(EItemType item)
         {
             switch (item)
@@ -347,9 +829,9 @@ namespace DigitalWorld.Logic.Editor
                 this.dirty = true;
         }
 
-        
+
         #endregion
 
-       
+
     }
 }
