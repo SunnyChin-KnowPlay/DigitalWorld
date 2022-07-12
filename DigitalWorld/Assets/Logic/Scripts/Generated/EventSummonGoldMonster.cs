@@ -1,9 +1,3 @@
-﻿<#@ template language="C#" #>
-<#@ assembly name="System.Core" #>
-<#@ import namespace="System.Linq" #>
-<#@ import namespace="System.Text" #>
-<#@ import namespace="System.Collections.Generic" #>
-<#@ parameter name="eventName" type="System.String"#>
 using DigitalWorld.Game;
 using UnityEngine;
 
@@ -17,13 +11,13 @@ namespace DigitalWorld.Logic
         #region Construction
 
 		/// <summary>
-        /// Create<#= eventName #>
+        /// CreateSummonGoldMonster
         /// </summary> 
-		public static Event Create<#= eventName #>(UnitHandle triggering, UnitHandle target = default)
+		public static Event CreateSummonGoldMonster(UnitHandle triggering, UnitHandle target = default)
         {
             Event ev = new Event
             {
-                Id = (int)EEvent.<#= eventName #>,
+                Id = (int)EEvent.SummonGoldMonster,
                 Triggering = triggering,
                 Target = target,
             };

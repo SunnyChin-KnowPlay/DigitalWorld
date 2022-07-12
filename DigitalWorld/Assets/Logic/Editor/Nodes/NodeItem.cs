@@ -24,7 +24,7 @@ namespace DigitalWorld.Logic.Editor
             get { return fields; }
         }
 
-        protected bool editingFields = false;
+        protected bool editingFields = true;
         public bool EditingFields
         {
             get { return editingFields; }

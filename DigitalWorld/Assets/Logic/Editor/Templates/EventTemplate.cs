@@ -30,64 +30,46 @@ namespace Assets.Logic.Editor.Templates
         {
             this.Write("using DigitalWorld.Game;\r\nusing UnityEngine;\r\n\r\nnamespace DigitalWorld.Logic\r\n{\r\n" +
                     "    /// <summary>\r\n    /// 事件\r\n    /// </summary>\r\n    public partial struct Eve" +
-                    "nt\r\n    {\r\n        #region Construction\r\n");
+                    "nt\r\n    {\r\n        #region Construction\r\n\r\n\t\t/// <summary>\r\n        /// Create");
             
-            #line 18 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
-
-		for (int i = 0; i < eventNames.Length; ++i)
-		{
-
-            
-            #line default
-            #line hidden
-            this.Write("\t\t/// <summary>\r\n        /// Create");
-            
-            #line 23 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(eventNames[i]));
+            #line 20 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(eventName));
             
             #line default
             #line hidden
             this.Write("\r\n        /// </summary> \r\n\t\tpublic static Event Create");
             
-            #line 25 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(eventNames[i]));
+            #line 22 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(eventName));
             
             #line default
             #line hidden
             this.Write("(UnitHandle triggering, UnitHandle target = default)\r\n        {\r\n            Even" +
                     "t ev = new Event\r\n            {\r\n                Id = (int)EEvent.");
             
-            #line 29 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(eventNames[i]));
+            #line 26 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(eventName));
             
             #line default
             #line hidden
             this.Write(",\r\n                Triggering = triggering,\r\n                Target = target,\r\n  " +
-                    "          };\r\n            return ev;\r\n        }\r\n");
-            
-            #line 35 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
-
-		}
-
-            
-            #line default
-            #line hidden
-            this.Write("        #endregion\r\n    }\r\n}\r\n");
+                    "          };\r\n            return ev;\r\n        }\r\n\r\n        #endregion\r\n    }\r\n}\r" +
+                    "\n");
             return this.GenerationEnvironment.ToString();
         }
         
         #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
 
-private string[] _eventNamesField;
+private string _eventNameField;
 
 /// <summary>
-/// Access the eventNames parameter of the template.
+/// Access the eventName parameter of the template.
 /// </summary>
-private string[] eventNames
+private string eventName
 {
     get
     {
-        return this._eventNamesField;
+        return this._eventNameField;
     }
 }
 
@@ -99,18 +81,18 @@ public virtual void Initialize()
 {
     if ((this.Errors.HasErrors == false))
     {
-bool eventNamesValueAcquired = false;
-if (this.Session.ContainsKey("eventNames"))
+bool eventNameValueAcquired = false;
+if (this.Session.ContainsKey("eventName"))
 {
-    this._eventNamesField = ((string[])(this.Session["eventNames"]));
-    eventNamesValueAcquired = true;
+    this._eventNameField = ((string)(this.Session["eventName"]));
+    eventNameValueAcquired = true;
 }
-if ((eventNamesValueAcquired == false))
+if ((eventNameValueAcquired == false))
 {
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("eventNames");
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("eventName");
     if ((data != null))
     {
-        this._eventNamesField = ((string[])(data));
+        this._eventNameField = ((string)(data));
     }
 }
 

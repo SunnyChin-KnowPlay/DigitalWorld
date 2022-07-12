@@ -59,7 +59,7 @@ namespace DigitalWorld.Logic.Editor
                 editing = value;
             }
         }
-        protected bool editing;
+        protected bool editing = true;
         #endregion
 
         #region Dirty

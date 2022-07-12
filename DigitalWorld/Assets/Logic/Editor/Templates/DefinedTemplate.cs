@@ -156,7 +156,7 @@ namespace Assets.Logic.Editor.Templates
             
             #line default
             #line hidden
-            this.Write("\t\t\t\tcase EventEnum.");
+            this.Write("\t\t\t\tcase EEvent.");
             
             #line 70 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(eventNames[i]));
@@ -190,7 +190,7 @@ namespace Assets.Logic.Editor.Templates
             
             #line default
             #line hidden
-            this.Write("\t\t\t\tcase ActionEnum.");
+            this.Write("\t\t\t\tcase EAction.");
             
             #line 88 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(actionNames[i]));
@@ -224,7 +224,7 @@ namespace Assets.Logic.Editor.Templates
             
             #line default
             #line hidden
-            this.Write("\t\t\t\tcase ConditionEnum.");
+            this.Write("\t\t\t\tcase ECondition.");
             
             #line 106 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(conditionNames[i]));

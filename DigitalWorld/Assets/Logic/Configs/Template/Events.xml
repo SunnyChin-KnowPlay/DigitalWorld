@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<data>
+  <event id="1" name="GameInit" desc="游戏初始化" processMode="Single" />
+  <event id="2" name="GameStart" desc="游戏启动" processMode="Single" />
+  <event id="3" name="GameEnd" desc="游戏结束" processMode="Single" />
+  <event id="4" name="CharacterActivate" desc="角色激活" processMode="Multiple" />
+  <event id="5" name="SummonGoldMonster" desc="召唤金币怪" processMode="Multiple" />
+  <event id="6" name="SummonEnergyMonster" desc="召唤能量怪" processMode="Multiple" />
+  <event id="7" name="SummonStoneMonster" desc="召唤石头怪" processMode="Multiple" />
+  <event id="8" name="SummonDragonMonster" desc="召唤龙" processMode="Multiple" />
+</data>

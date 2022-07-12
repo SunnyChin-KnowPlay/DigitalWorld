@@ -45,77 +45,18 @@ namespace DigitalWorld.Logic.Editor
             XmlDocument actionDoc = new XmlDocument();
             actionDoc.LoadXml(text.text);
 
-            text = Utility.LoadTemplateConfig("Properties");
-            XmlDocument propertyDoc = new XmlDocument();
-            propertyDoc.LoadXml(text.text);
+         
 
-
-            //GenerateEvents(eventDoc);
+            GenerateEvent(eventDoc);
             GenerateConditions(condDoc);
             GenerateActions(actionDoc);
             
-            GenerateEnums(eventDoc, condDoc, actionDoc, propertyDoc);
-            GenerateHelper(eventDoc, condDoc, actionDoc, propertyDoc);
+            GenerateEnums(eventDoc, condDoc, actionDoc);
+            GenerateHelper(eventDoc, condDoc, actionDoc);
 
             if (Utility.AutoRefresh)
                 AssetDatabase.Refresh();
         }
-
-        //private static void GenerateEvents(XmlDocument xmlDocument)
-        //{
-        //    XmlElement root = xmlDocument["data"];
-
-        //    List<string> names = new List<string>();
-        //    List<string> types = new List<string>();
-        //    List<string> descs = new List<string>();
-        //    List<string> values = new List<string>();
-
-
-        //    string fileName = null;
-
-        //    EventTemplate tmp = null;
-        //    foreach (var node in root.ChildNodes)
-        //    {
-        //        XmlElement element = (XmlElement)node;
-        //        tmp = new EventTemplate();
-        //        tmp.Session = new Dictionary<string, object>();
-
-        //        tmp.Session["id"] = int.Parse(element.GetAttribute("id"));
-        //        tmp.Session["className"] = element.GetAttribute("name");
-        //        tmp.Session["desc"] = element.GetAttribute("desc");
-        //        tmp.Session["processMode"] = element.GetAttribute("processMode");
-
-        //        names.Clear();
-        //        types.Clear();
-        //        descs.Clear();
-        //        values.Clear();
-
-        //        foreach (var a in element.ChildNodes)
-        //        {
-        //            XmlElement attr = (XmlElement)a;
-        //            names.Add(attr.GetAttribute("name"));
-        //            types.Add(attr.GetAttribute("classT"));
-        //            descs.Add(attr.GetAttribute("desc"));
-        //            values.Add(string.Format("default({0})", attr.GetAttribute("classT")));
-        //        }
-
-        //        tmp.Session["types"] = types.ToArray();
-        //        tmp.Session["varNames"] = names.ToArray();
-        //        tmp.Session["descripts"] = descs.ToArray();
-        //        tmp.Session["defaultValues"] = values.ToArray();
-        //        tmp.Session["usingNamespaces"] = Utility.usingNamespaces;
-
-        //        tmp.Initialize();
-        //        string data = tmp.TransformText();
-
-        //        fileName = "Event" + element.GetAttribute("name") + ".cs";
-
-        //        string targetPath = System.IO.Path.Combine(Utility.CodesPath, fileName);
-        //        Utility.SaveDataToFile(data, targetPath);
-        //    }
-
-
-        //}
 
         private static string GetWriteXmlText(string baseType, string type, string name)
         {
@@ -156,19 +97,19 @@ namespace DigitalWorld.Logic.Editor
             return string.Empty;
         }
 
-        private static void GenerateEnums(XmlDocument ev, XmlDocument con, XmlDocument act, XmlDocument pro)
+        private static void GenerateEnums(XmlDocument ev, XmlDocument con, XmlDocument act)
         {
-            DefinedTemplate tmp = null;
-            tmp = new DefinedTemplate();
-            tmp.Session = new Dictionary<string, object>();
+            DefinedTemplate tmp = new DefinedTemplate
+            {
+                Session = new Dictionary<string, object>()
+            };
 
             List<string> names = new List<string>();
             List<string> values = new List<string>();
             List<string> descs = new List<string>();
-
-            XmlElement e = null;
-
             XmlElement root = ev["data"];
+
+            XmlElement e;
             foreach (var node in root.ChildNodes)
             {
                 e = (XmlElement)node;
@@ -212,31 +153,16 @@ namespace DigitalWorld.Logic.Editor
             tmp.Session["actionValues"] = values.ToArray();
             tmp.Session["actionDescs"] = descs.ToArray();
 
-            names.Clear();
-            values.Clear();
-            descs.Clear();
-
-            root = pro["data"];
-            foreach (var node in root.ChildNodes)
-            {
-                e = (XmlElement)node;
-                names.Add(e.GetAttribute("name"));
-                values.Add(e.GetAttribute("id"));
-                descs.Add(e.GetAttribute("desc"));
-            }
-            tmp.Session["propertyNames"] = names.ToArray();
-            tmp.Session["propertyValues"] = values.ToArray();
-            tmp.Session["propertyDescs"] = descs.ToArray();
 
             tmp.Initialize();
             string data = tmp.TransformText();
 
             string fileName = "Defined.cs";
-            string targetPath = System.IO.Path.Combine(Utility.CodesPath, fileName);
+            string targetPath = Path.Combine(Utility.CodesPath, fileName);
             Utility.SaveDataToFile(data, targetPath);
         }
 
-        private static void GenerateHelper(XmlDocument ev, XmlDocument con, XmlDocument act, XmlDocument pro)
+        private static void GenerateHelper(XmlDocument ev, XmlDocument con, XmlDocument act)
         {
             LogicHelperTemplate tmp = null;
             tmp = new LogicHelperTemplate();
@@ -289,19 +215,7 @@ namespace DigitalWorld.Logic.Editor
             tmp.Session["actionNames"] = names.ToArray();
             tmp.Session["actionEnums"] = ids.ToArray();
 
-            names.Clear();
-            ids.Clear();
-
-            root = pro["data"];
-            foreach (var node in root.ChildNodes)
-            {
-                e = (XmlElement)node;
-                names.Add(e.GetAttribute("name"));
-                ids.Add(e.GetAttribute("id"));
-
-            }
-            tmp.Session["propertyNames"] = names.ToArray();
-            tmp.Session["propertyEnums"] = ids.ToArray();
+           
 
             tmp.Initialize();
             string data = tmp.TransformText();
@@ -309,6 +223,33 @@ namespace DigitalWorld.Logic.Editor
             string fileName = string.Format("{0}.cs", name, ".cs");
             string targetPath = System.IO.Path.Combine(Utility.CodesPath, fileName);
             Utility.SaveDataToFile(data, targetPath);
+        }
+        
+        private static void GenerateEvent(XmlDocument xmlDocument)
+        {
+            XmlElement root = xmlDocument["data"];
+
+            string fileName = null;
+
+            EventTemplate tmp = null;
+            foreach (var node in root.ChildNodes)
+            {
+                XmlElement element = (XmlElement)node;
+                tmp = new EventTemplate();
+                tmp.Session = new Dictionary<string, object>();
+
+                tmp.Session["eventName"] = element.GetAttribute("name");
+
+                tmp.Initialize();
+                string data = tmp.TransformText();
+
+                fileName = "Event" + element.GetAttribute("name") + ".cs";
+
+                string targetPath = System.IO.Path.Combine(Utility.CodesPath, fileName);
+                Utility.SaveDataToFile(data, targetPath);
+            }
+
+
         }
 
         private static void GenerateConditions(XmlDocument xmlDocument)
