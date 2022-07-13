@@ -75,7 +75,7 @@ namespace DigitalWorld.Logic
             get { return _enabled; }
             set { _enabled = value; }
         }
-        private bool _enabled = false;
+        protected bool _enabled = false;
 
         /// <summary>
         /// 类型名
