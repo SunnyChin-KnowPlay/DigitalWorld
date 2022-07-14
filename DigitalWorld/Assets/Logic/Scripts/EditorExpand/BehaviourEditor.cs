@@ -8,22 +8,22 @@ namespace DigitalWorld.Logic
     public partial class Behaviour
     {
         #region Params
-        
+
         #endregion
 
 #if UNITY_EDITOR
         #region GUI
         public override void OnGUI()
         {
-            //base.OnGUI();
+            base.OnGUI();
 
-            //GUIStyle style = new GUIStyle("Tooltip");
+            GUIStyle style = new GUIStyle("Tooltip");
 
-            //EditorGUILayout.BeginVertical(style);
+            EditorGUILayout.BeginVertical(style);
 
-            //EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.BeginHorizontal();
 
-            //isEditing = EditorGUILayout.Toggle("Behaviour", isEditing);
+            _isEditing = EditorGUILayout.Toggle("Behaviour", _isEditing);
 
 
             //this.OnGUIIndex();
@@ -34,44 +34,54 @@ namespace DigitalWorld.Logic
             //this.OnGUISwitchMenus();
             //this.OnGUIStatusTitle();
 
-            //GUILayout.FlexibleSpace();
+            EditorGUILayout.EndHorizontal();
 
-            //EditorGUILayout.EndHorizontal();
+            if (_isEditing)
+            {
+                string srcDesc = this._description;
+                this._description = EditorGUILayout.TextArea(this._description, GUILayout.MinHeight(20));
+                if (srcDesc != _description)
+                {
+                    this.SetDirty();
+                }
 
-            //if (isEditing)
+                EditorGUILayout.BeginVertical(style);
+                OnGUIEffects();
+                EditorGUILayout.EndVertical();
+
+            }
+
+            EditorGUILayout.EndVertical();
+        }
+
+        protected virtual void OnGUIEffects()
+        {
+            for (int i = 0; i < this._children.Count; ++i)
+            {
+                Effect effect = this._children[i] as Effect;
+                if (null != effect)
+                {
+                    effect.OnGUI();
+                }
+            }
+        }
+        #endregion
+
+        #region Common
+        public virtual void Save()
+        {
+            //if (!string.IsNullOrEmpty(sPath))
             //{
-            //    string srcDesc = this.desc;
-            //    this.desc = EditorGUILayout.TextArea(this.desc, GUILayout.MinHeight(20));
-            //    if (srcDesc != desc)
-            //    {
-            //        this.SetDirty();
-            //    }
+            //    bool ret = this.CheckCanSave();
+            //    if (!ret)
+            //        return;
 
-             
-            //    OnGUIEvent();
+            //    Write();
 
-            //    EditorGUILayout.BeginVertical(style);
-            //    OnGUIEnterActions();
-            //    EditorGUILayout.EndVertical();
-
-            //    EditorGUILayout.BeginVertical(style);
-            //    OnGUIConditions();
-            //    EditorGUILayout.EndVertical();
-
-            //    EditorGUILayout.BeginVertical(style);
-            //    OnGUIActions();
-            //    EditorGUILayout.EndVertical();
-
-            //    EditorGUILayout.BeginVertical(style);
-            //    OnGUIFailedActions();
-            //    EditorGUILayout.EndVertical();
-
-            //    EditorGUILayout.BeginVertical(style);
-            //    OnGUIExitActions();
-            //    EditorGUILayout.EndVertical();
+            //    this.ResetDirty();
+            //    //if (Utility.AutoRefresh)
+            //    //    AssetDatabase.Refresh();
             //}
-
-            //EditorGUILayout.EndVertical();
         }
         #endregion
 #endif
