@@ -13,6 +13,11 @@ namespace DigitalWorld.Logic
 
 #if UNITY_EDITOR
         #region GUI
+        protected override void OnGUIBody()
+        {
+            base.OnGUIBody();
+        }
+
         public override void OnGUI()
         {
             base.OnGUI();
