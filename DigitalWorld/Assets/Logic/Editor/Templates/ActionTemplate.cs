@@ -10,12 +10,12 @@
 namespace Assets.Logic.Editor.Templates
 {
     using System;
-    
+
     /// <summary>
     /// Class to produce the template output
     /// </summary>
-    
-    #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
     public partial class ActionTemplate : ActionTemplateBase
     {
@@ -25,375 +25,381 @@ namespace Assets.Logic.Editor.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            
-            #line 16 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 
-	for (int i = 0; i < usingNamespaces.Length; ++i)
-	{
+#line 16 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 
-            
-            #line default
-            #line hidden
-            this.Write("using ");
-            
-            #line 20 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(usingNamespaces[i]));
-            
-            #line default
-            #line hidden
-            this.Write(";\r\n");
-            
-            #line 21 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+            for (int i = 0; i < usingNamespaces.Length; ++i)
+            {
 
-	}
 
-            
-            #line default
-            #line hidden
+#line default
+#line hidden
+                this.Write("using ");
+
+#line 20 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(usingNamespaces[i]));
+
+#line default
+#line hidden
+                this.Write(";\r\n");
+
+#line 21 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+
+            }
+
+
+#line default
+#line hidden
             this.Write("using System.Collections.Generic;\r\n#if UNITY_EDITOR\r\nusing System.Xml;\r\n#endif\r\n\r" +
                     "\nnamespace DigitalWorld.Logic\r\n{\r\n\t/// <summary>\r\n    /// ");
-            
-            #line 32 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+
+#line 32 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(desc));
-            
-            #line default
-            #line hidden
+
+#line default
+#line hidden
             this.Write("\r\n    /// </summary>\r\n\tpublic partial class Action");
-            
-            #line 34 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+
+#line 34 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
-            
-            #line default
-            #line hidden
+
+#line default
+#line hidden
             this.Write(" : BaseAction\r\n\t{\r\n#region Common\r\n\t\tpublic override int Id\r\n\t\t{\r\n\t\t\tget\r\n\t\t\t{\r\n\t" +
                     "\t\t\treturn ");
-            
-            #line 41 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+
+#line 41 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(id));
-            
-            #line default
-            #line hidden
+
+#line default
+#line hidden
             this.Write(";\r\n\t\t\t}\r\n\t\t}\r\n");
-            
-            #line 44 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 
-		for (int i = 0; i < types.Length; ++i)
-		{
+#line 44 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 
-            
-            #line default
-            #line hidden
-            this.Write("\t\t/// <summary>\r\n        /// ");
-            
-            #line 49 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(descripts[i]));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n        /// </summary> \r\n\t\tpublic ");
-            
-            #line 51 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(types[i]));
-            
-            #line default
-            #line hidden
-            this.Write(" ");
-            
-            #line 51 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(" = default(");
-            
-            #line 51 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(types[i]));
-            
-            #line default
-            #line hidden
-            this.Write(");\r\n");
-            
-            #line 52 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+            for (int i = 0; i < types.Length; ++i)
+            {
 
-		}
 
-            
-            #line default
-            #line hidden
+#line default
+#line hidden
+                this.Write("\t\t/// <summary>\r\n        /// ");
+
+#line 49 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(descripts[i]));
+
+#line default
+#line hidden
+                this.Write("\r\n        /// </summary> \r\n\t\tpublic ");
+
+#line 51 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(types[i]));
+
+#line default
+#line hidden
+                this.Write(" ");
+
+#line 51 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
+
+#line default
+#line hidden
+                this.Write(" = default(");
+
+#line 51 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(types[i]));
+
+#line default
+#line hidden
+                this.Write(");\r\n");
+
+#line 52 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+
+            }
+
+
+#line default
+#line hidden
             this.Write("\r\n\t\tpublic override void OnAllocate()\r\n        {\r\n\t\t\tbase.OnAllocate();\r\n");
-            
-            #line 59 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 
-			for (int i = 0; i < types.Length; ++i)
-			{
+#line 59 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 
-            
-            #line default
-            #line hidden
-            
-            #line 62 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+            for (int i = 0; i < types.Length; ++i)
+            {
 
-			if (baseTypes[i] == "property")
-			{
 
-            
-            #line default
-            #line hidden
-            this.Write("\t\t\t");
-            
-            #line 66 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(" = default(Property<");
-            
-            #line 66 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(types[i]));
-            
-            #line default
-            #line hidden
-            this.Write(">);\r\n");
-            
-            #line 67 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
- } else { 
-            
-            #line default
-            #line hidden
-            this.Write("\t\t\t");
-            
-            #line 68 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(" = default(");
-            
-            #line 68 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(types[i]));
-            
-            #line default
-            #line hidden
-            this.Write(");\r\n");
-            
-            #line 69 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+#line default
+#line hidden
 
-			} 
+#line 62 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 
-            
-            #line default
-            #line hidden
-            
-            #line 71 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                if (baseTypes[i] == "property")
+                {
 
-			}
 
-            
-            #line default
-            #line hidden
+#line default
+#line hidden
+                    this.Write("\t\t\t");
+
+#line 66 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                    this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
+
+#line default
+#line hidden
+                    this.Write(" = default(Property<");
+
+#line 66 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                    this.Write(this.ToStringHelper.ToStringWithCulture(types[i]));
+
+#line default
+#line hidden
+                    this.Write(">);\r\n");
+
+#line 67 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                }
+                else
+                {
+
+#line default
+#line hidden
+                    this.Write("\t\t\t");
+
+#line 68 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                    this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
+
+#line default
+#line hidden
+                    this.Write(" = default(");
+
+#line 68 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                    this.Write(this.ToStringHelper.ToStringWithCulture(types[i]));
+
+#line default
+#line hidden
+                    this.Write(");\r\n");
+
+#line 69 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+
+                }
+
+
+#line default
+#line hidden
+
+#line 71 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+
+            }
+
+
+#line default
+#line hidden
             this.Write("        }\r\n\r\n\t\tprotected override void OnRecycle()\r\n        {\r\n            base.O" +
                     "nRecycle();\r\n");
-            
-            #line 79 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 
-			for (int i = 0; i < types.Length; ++i)
-			{
+#line 79 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 
-            
-            #line default
-            #line hidden
-            
-            #line 82 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+            for (int i = 0; i < types.Length; ++i)
+            {
 
-			if (baseTypes[i] == "property")
-			{
 
-            
-            #line default
-            #line hidden
-            this.Write("\t\t\tif (null != ");
-            
-            #line 86 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(")\r\n\t\t\t{\r\n\t\t\t\t");
-            
-            #line 88 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(".Recycle();\r\n\t\t\t\t");
-            
-            #line 89 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(" = null;\r\n\t\t\t}\t\r\n");
-            
-            #line 91 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
- } else { 
-            
-            #line default
-            #line hidden
-            this.Write("\t\t\t");
-            
-            #line 92 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(" = default(");
-            
-            #line 92 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(types[i]));
-            
-            #line default
-            #line hidden
-            this.Write(");\r\n");
-            
-            #line 93 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+#line default
+#line hidden
 
-			}
+#line 82 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 
-            
-            #line default
-            #line hidden
-            this.Write(" ");
-            
-            #line 95 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                if (baseTypes[i] == "property")
+                {
 
-			}
 
-            
-            #line default
-            #line hidden
+#line default
+#line hidden
+                    this.Write("\t\t\tif (null != ");
+
+#line 86 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                    this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
+
+#line default
+#line hidden
+                    this.Write(")\r\n\t\t\t{\r\n\t\t\t\t");
+
+#line 88 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                    this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
+
+#line default
+#line hidden
+                    this.Write(".Recycle();\r\n\t\t\t\t");
+
+#line 89 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                    this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
+
+#line default
+#line hidden
+                    this.Write(" = null;\r\n\t\t\t}\t\r\n");
+
+#line 91 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                }
+                else
+                {
+
+#line default
+#line hidden
+                    this.Write("\t\t\t");
+
+#line 92 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                    this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
+
+#line default
+#line hidden
+                    this.Write(" = default(");
+
+#line 92 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                    this.Write(this.ToStringHelper.ToStringWithCulture(types[i]));
+
+#line default
+#line hidden
+                    this.Write(");\r\n");
+
+#line 93 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+
+                }
+
+
+#line default
+#line hidden
+                this.Write(" ");
+
+#line 95 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+
+            }
+
+
+#line default
+#line hidden
             this.Write("        }\r\n\r\n\t\tpublic override object Clone()\r\n        {\r\n\t\t\tAction");
-            
-            #line 102 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+
+#line 102 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
-            
-            #line default
-            #line hidden
+
+#line default
+#line hidden
             this.Write(" v = null;\r\n\t\t\tif (Application.isPlaying)\r\n            {\r\n\t\t\t\tv = ObjectPool<Acti" +
                     "on");
-            
-            #line 105 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+
+#line 105 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
-            
-            #line default
-            #line hidden
+
+#line default
+#line hidden
             this.Write(">.Instance.Allocate();\r\n            }\r\n\t\t\telse\r\n\t\t\t{\r\n\t\t\t\tv = new Action");
-            
-            #line 109 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+
+#line 109 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
-            
-            #line default
-            #line hidden
+
+#line default
+#line hidden
             this.Write("();\r\n\t\t\t}\r\n\t\t\t\r\n\t\t\tif (null != v)\r\n\t\t\t{\r\n\t\t\t\tthis.CloneTo(v);\r\n\t\t\t}\r\n\r\n          " +
                     "  return v;\r\n        }\r\n\r\n\t\tpublic override T CloneTo<T>(T obj)\r\n        {\r\n    " +
                     "        Action");
-            
-            #line 122 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+
+#line 122 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
-            
-            #line default
-            #line hidden
+
+#line default
+#line hidden
             this.Write(" v = base.CloneTo(obj) as Action");
-            
-            #line 122 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+
+#line 122 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
-            
-            #line default
-            #line hidden
+
+#line default
+#line hidden
             this.Write(";\r\n            if (null != v)\r\n            {\r\n");
-            
-            #line 125 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 
-				for (int i = 0; i < types.Length; ++i)
-				{
+#line 125 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 
-            
-            #line default
-            #line hidden
-            
-            #line 128 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+            for (int i = 0; i < types.Length; ++i)
+            {
 
-				if (baseTypes[i] == "property")
-				{
 
-            
-            #line default
-            #line hidden
-            this.Write("\t\t\t\tif (null != this.");
-            
-            #line 132 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(")\r\n\t\t\t\t\tv.");
-            
-            #line 133 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(" = (Property<");
-            
-            #line 133 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(types[i]));
-            
-            #line default
-            #line hidden
-            this.Write(">)this.");
-            
-            #line 133 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(".Clone();\r\n");
-            
-            #line 134 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
- } else { 
-            
-            #line default
-            #line hidden
-            this.Write("\t\t\t\tv.");
-            
-            #line 135 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(" = this.");
-            
-            #line 135 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(";\r\n");
-            
-            #line 136 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+#line default
+#line hidden
 
-				}
+#line 128 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 
-            
-            #line default
-            #line hidden
-            
-            #line 138 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                if (baseTypes[i] == "property")
+                {
 
-				}
 
-            
-            #line default
-            #line hidden
+#line default
+#line hidden
+                    this.Write("\t\t\t\tif (null != this.");
+
+#line 132 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                    this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
+
+#line default
+#line hidden
+                    this.Write(")\r\n\t\t\t\t\tv.");
+
+#line 133 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                    this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
+
+#line default
+#line hidden
+                    this.Write(" = (Property<");
+
+#line 133 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                    this.Write(this.ToStringHelper.ToStringWithCulture(types[i]));
+
+#line default
+#line hidden
+                    this.Write(">)this.");
+
+#line 133 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                    this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
+
+#line default
+#line hidden
+                    this.Write(".Clone();\r\n");
+
+#line 134 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                }
+                else
+                {
+
+#line default
+#line hidden
+                    this.Write("\t\t\t\tv.");
+
+#line 135 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                    this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
+
+#line default
+#line hidden
+                    this.Write(" = this.");
+
+#line 135 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                    this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
+
+#line default
+#line hidden
+                    this.Write(";\r\n");
+
+#line 136 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+
+                }
+
+
+#line default
+#line hidden
+
+#line 138 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+
+            }
+
+
+#line default
+#line hidden
             this.Write(@"            }
             return obj;
         }
@@ -413,47 +419,47 @@ namespace Assets.Logic.Editor.Templates
                 if (descs.Count < 1)
                 {
 ");
-            
-            #line 159 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 
-		            for (int i = 0; i < varNames.Length; ++i)
-		            {
+#line 159 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 
-            
-            #line default
-            #line hidden
-            this.Write("                    descs.Add(\"");
-            
-            #line 163 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write("\", \"");
-            
-            #line 163 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(descripts[i]));
-            
-            #line default
-            #line hidden
-            this.Write("\");\r\n");
-            
-            #line 164 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+            for (int i = 0; i < varNames.Length; ++i)
+            {
 
-		            }
 
-            
-            #line default
-            #line hidden
+#line default
+#line hidden
+                this.Write("                    descs.Add(\"");
+
+#line 163 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
+
+#line default
+#line hidden
+                this.Write("\", \"");
+
+#line 163 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(descripts[i]));
+
+#line default
+#line hidden
+                this.Write("\");\r\n");
+
+#line 164 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+
+            }
+
+
+#line default
+#line hidden
             this.Write("                }\r\n\r\n                return descs;\r\n            }\r\n        }\r\n\r\n " +
                     "       public override string Desc\r\n        {\r\n            get\r\n            {\r\n " +
                     "               return \"");
-            
-            #line 177 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+
+#line 177 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(desc));
-            
-            #line default
-            #line hidden
+
+#line default
+#line hidden
             this.Write(@""";
             }
         }
@@ -473,525 +479,525 @@ namespace Assets.Logic.Editor.Templates
         {
             base.OnEncode(buffer, pos);
 ");
-            
-            #line 195 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 
-			for (int i = 0; i < types.Length; ++i)
-			{
+#line 195 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 
-            
-            #line default
-            #line hidden
-            this.Write("\t\t\t");
-            
-            #line 199 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(serializeFuncs[i]));
-            
-            #line default
-            #line hidden
-            this.Write("(this.");
-            
-            #line 199 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(");\r\n");
-            
-            #line 200 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+            for (int i = 0; i < types.Length; ++i)
+            {
 
-			}
 
-            
-            #line default
-            #line hidden
+#line default
+#line hidden
+                this.Write("\t\t\t");
+
+#line 199 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(serializeFuncs[i]));
+
+#line default
+#line hidden
+                this.Write("(this.");
+
+#line 199 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
+
+#line default
+#line hidden
+                this.Write(");\r\n");
+
+#line 200 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+
+            }
+
+
+#line default
+#line hidden
             this.Write("          \r\n        }\r\n\r\n        public override void OnDecode(byte[] buffer, int" +
                     " pos)\r\n        {\r\n            base.OnDecode(buffer, pos);\r\n");
-            
-            #line 208 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 
-			for (int i = 0; i < types.Length; ++i)
-			{
+#line 208 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 
-            
-            #line default
-            #line hidden
-            this.Write("\t\t\t");
-            
-            #line 212 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(deserializeFuncs[i]));
-            
-            #line default
-            #line hidden
-            this.Write("(ref this.");
-            
-            #line 212 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(");\r\n");
-            
-            #line 213 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+            for (int i = 0; i < types.Length; ++i)
+            {
 
-			}
 
-            
-            #line default
-            #line hidden
+#line default
+#line hidden
+                this.Write("\t\t\t");
+
+#line 212 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(deserializeFuncs[i]));
+
+#line default
+#line hidden
+                this.Write("(ref this.");
+
+#line 212 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
+
+#line default
+#line hidden
+                this.Write(");\r\n");
+
+#line 213 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+
+            }
+
+
+#line default
+#line hidden
             this.Write("        }\r\n\t\t\r\n#if UNITY_EDITOR\r\n        public override void OnDecode(XmlElement" +
                     " node)\r\n        {\r\n            base.OnDecode(node);\r\n");
-            
-            #line 222 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 
-			for (int i = 0; i < types.Length; ++i)
-			{
+#line 222 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 
-            
-            #line default
-            #line hidden
-            this.Write("\t\t\tif (node.HasAttribute(\"");
-            
-            #line 226 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write("\"))\r\n\t\t\t\t");
-            
-            #line 227 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(" = ");
-            
-            #line 227 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varLoadXmls[i]));
-            
-            #line default
-            #line hidden
-            this.Write(";\r\n");
-            
-            #line 228 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+            for (int i = 0; i < types.Length; ++i)
+            {
 
-			}
 
-            
-            #line default
-            #line hidden
+#line default
+#line hidden
+                this.Write("\t\t\tif (node.HasAttribute(\"");
+
+#line 226 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
+
+#line default
+#line hidden
+                this.Write("\"))\r\n\t\t\t\t");
+
+#line 227 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
+
+#line default
+#line hidden
+                this.Write(" = ");
+
+#line 227 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(varLoadXmls[i]));
+
+#line default
+#line hidden
+                this.Write(";\r\n");
+
+#line 228 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+
+            }
+
+
+#line default
+#line hidden
             this.Write("        }\r\n\r\n        public override void OnEncode(XmlElement node)\r\n        {\r\n\t" +
                     "\t\tbase.OnEncode(node);\r\n");
-            
-            #line 236 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 
-			for (int i = 0; i < types.Length; ++i)
-			{
+#line 236 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 
-            
-            #line default
-            #line hidden
-            this.Write("\t\t\tnode.SetAttribute(\"");
-            
-            #line 240 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write("\", ");
-            
-            #line 240 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varWriteXmls[i]));
-            
-            #line default
-            #line hidden
-            this.Write(");\r\n");
-            
-            #line 241 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+            for (int i = 0; i < types.Length; ++i)
+            {
 
-			}
 
-            
-            #line default
-            #line hidden
+#line default
+#line hidden
+                this.Write("\t\t\tnode.SetAttribute(\"");
+
+#line 240 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
+
+#line default
+#line hidden
+                this.Write("\", ");
+
+#line 240 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(varWriteXmls[i]));
+
+#line default
+#line hidden
+                this.Write(");\r\n");
+
+#line 241 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+
+            }
+
+
+#line default
+#line hidden
             this.Write("        }\r\n\r\n\r\n#endif\r\n#endregion\r\n\t}\r\n}\r\n");
             return this.GenerationEnvironment.ToString();
         }
-        
-        #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 
-private string _classNameField;
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 
-/// <summary>
-/// Access the className parameter of the template.
-/// </summary>
-private string className
-{
-    get
-    {
-        return this._classNameField;
+        private string _classNameField;
+
+        /// <summary>
+        /// Access the className parameter of the template.
+        /// </summary>
+        private string className
+        {
+            get
+            {
+                return this._classNameField;
+            }
+        }
+
+        private string[] _baseTypesField;
+
+        /// <summary>
+        /// Access the baseTypes parameter of the template.
+        /// </summary>
+        private string[] baseTypes
+        {
+            get
+            {
+                return this._baseTypesField;
+            }
+        }
+
+        private string[] _typesField;
+
+        /// <summary>
+        /// Access the types parameter of the template.
+        /// </summary>
+        private string[] types
+        {
+            get
+            {
+                return this._typesField;
+            }
+        }
+
+        private string[] _varNamesField;
+
+        /// <summary>
+        /// Access the varNames parameter of the template.
+        /// </summary>
+        private string[] varNames
+        {
+            get
+            {
+                return this._varNamesField;
+            }
+        }
+
+        private string[] _descriptsField;
+
+        /// <summary>
+        /// Access the descripts parameter of the template.
+        /// </summary>
+        private string[] descripts
+        {
+            get
+            {
+                return this._descriptsField;
+            }
+        }
+
+        private string[] _varWriteXmlsField;
+
+        /// <summary>
+        /// Access the varWriteXmls parameter of the template.
+        /// </summary>
+        private string[] varWriteXmls
+        {
+            get
+            {
+                return this._varWriteXmlsField;
+            }
+        }
+
+        private string[] _varLoadXmlsField;
+
+        /// <summary>
+        /// Access the varLoadXmls parameter of the template.
+        /// </summary>
+        private string[] varLoadXmls
+        {
+            get
+            {
+                return this._varLoadXmlsField;
+            }
+        }
+
+        private int _idField;
+
+        /// <summary>
+        /// Access the id parameter of the template.
+        /// </summary>
+        private int id
+        {
+            get
+            {
+                return this._idField;
+            }
+        }
+
+        private string _descField;
+
+        /// <summary>
+        /// Access the desc parameter of the template.
+        /// </summary>
+        private string desc
+        {
+            get
+            {
+                return this._descField;
+            }
+        }
+
+        private string[] _usingNamespacesField;
+
+        /// <summary>
+        /// Access the usingNamespaces parameter of the template.
+        /// </summary>
+        private string[] usingNamespaces
+        {
+            get
+            {
+                return this._usingNamespacesField;
+            }
+        }
+
+        private string[] _serializeFuncsField;
+
+        /// <summary>
+        /// Access the serializeFuncs parameter of the template.
+        /// </summary>
+        private string[] serializeFuncs
+        {
+            get
+            {
+                return this._serializeFuncsField;
+            }
+        }
+
+        private string[] _deserializeFuncsField;
+
+        /// <summary>
+        /// Access the deserializeFuncs parameter of the template.
+        /// </summary>
+        private string[] deserializeFuncs
+        {
+            get
+            {
+                return this._deserializeFuncsField;
+            }
+        }
+
+        private string[] _defaultValuesField;
+
+        /// <summary>
+        /// Access the defaultValues parameter of the template.
+        /// </summary>
+        private string[] defaultValues
+        {
+            get
+            {
+                return this._defaultValuesField;
+            }
+        }
+
+
+        /// <summary>
+        /// Initialize the template
+        /// </summary>
+        public virtual void Initialize()
+        {
+            if ((this.Errors.HasErrors == false))
+            {
+                bool classNameValueAcquired = false;
+                if (this.Session.ContainsKey("className"))
+                {
+                    this._classNameField = ((string)(this.Session["className"]));
+                    classNameValueAcquired = true;
+                }
+                if ((classNameValueAcquired == false))
+                {
+                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("className");
+                    if ((data != null))
+                    {
+                        this._classNameField = ((string)(data));
+                    }
+                }
+                bool baseTypesValueAcquired = false;
+                if (this.Session.ContainsKey("baseTypes"))
+                {
+                    this._baseTypesField = ((string[])(this.Session["baseTypes"]));
+                    baseTypesValueAcquired = true;
+                }
+                if ((baseTypesValueAcquired == false))
+                {
+                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("baseTypes");
+                    if ((data != null))
+                    {
+                        this._baseTypesField = ((string[])(data));
+                    }
+                }
+                bool typesValueAcquired = false;
+                if (this.Session.ContainsKey("types"))
+                {
+                    this._typesField = ((string[])(this.Session["types"]));
+                    typesValueAcquired = true;
+                }
+                if ((typesValueAcquired == false))
+                {
+                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("types");
+                    if ((data != null))
+                    {
+                        this._typesField = ((string[])(data));
+                    }
+                }
+                bool varNamesValueAcquired = false;
+                if (this.Session.ContainsKey("varNames"))
+                {
+                    this._varNamesField = ((string[])(this.Session["varNames"]));
+                    varNamesValueAcquired = true;
+                }
+                if ((varNamesValueAcquired == false))
+                {
+                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("varNames");
+                    if ((data != null))
+                    {
+                        this._varNamesField = ((string[])(data));
+                    }
+                }
+                bool descriptsValueAcquired = false;
+                if (this.Session.ContainsKey("descripts"))
+                {
+                    this._descriptsField = ((string[])(this.Session["descripts"]));
+                    descriptsValueAcquired = true;
+                }
+                if ((descriptsValueAcquired == false))
+                {
+                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("descripts");
+                    if ((data != null))
+                    {
+                        this._descriptsField = ((string[])(data));
+                    }
+                }
+                bool varWriteXmlsValueAcquired = false;
+                if (this.Session.ContainsKey("varWriteXmls"))
+                {
+                    this._varWriteXmlsField = ((string[])(this.Session["varWriteXmls"]));
+                    varWriteXmlsValueAcquired = true;
+                }
+                if ((varWriteXmlsValueAcquired == false))
+                {
+                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("varWriteXmls");
+                    if ((data != null))
+                    {
+                        this._varWriteXmlsField = ((string[])(data));
+                    }
+                }
+                bool varLoadXmlsValueAcquired = false;
+                if (this.Session.ContainsKey("varLoadXmls"))
+                {
+                    this._varLoadXmlsField = ((string[])(this.Session["varLoadXmls"]));
+                    varLoadXmlsValueAcquired = true;
+                }
+                if ((varLoadXmlsValueAcquired == false))
+                {
+                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("varLoadXmls");
+                    if ((data != null))
+                    {
+                        this._varLoadXmlsField = ((string[])(data));
+                    }
+                }
+                bool idValueAcquired = false;
+                if (this.Session.ContainsKey("id"))
+                {
+                    this._idField = ((int)(this.Session["id"]));
+                    idValueAcquired = true;
+                }
+                if ((idValueAcquired == false))
+                {
+                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("id");
+                    if ((data != null))
+                    {
+                        this._idField = ((int)(data));
+                    }
+                }
+                bool descValueAcquired = false;
+                if (this.Session.ContainsKey("desc"))
+                {
+                    this._descField = ((string)(this.Session["desc"]));
+                    descValueAcquired = true;
+                }
+                if ((descValueAcquired == false))
+                {
+                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("desc");
+                    if ((data != null))
+                    {
+                        this._descField = ((string)(data));
+                    }
+                }
+                bool usingNamespacesValueAcquired = false;
+                if (this.Session.ContainsKey("usingNamespaces"))
+                {
+                    this._usingNamespacesField = ((string[])(this.Session["usingNamespaces"]));
+                    usingNamespacesValueAcquired = true;
+                }
+                if ((usingNamespacesValueAcquired == false))
+                {
+                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("usingNamespaces");
+                    if ((data != null))
+                    {
+                        this._usingNamespacesField = ((string[])(data));
+                    }
+                }
+                bool serializeFuncsValueAcquired = false;
+                if (this.Session.ContainsKey("serializeFuncs"))
+                {
+                    this._serializeFuncsField = ((string[])(this.Session["serializeFuncs"]));
+                    serializeFuncsValueAcquired = true;
+                }
+                if ((serializeFuncsValueAcquired == false))
+                {
+                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("serializeFuncs");
+                    if ((data != null))
+                    {
+                        this._serializeFuncsField = ((string[])(data));
+                    }
+                }
+                bool deserializeFuncsValueAcquired = false;
+                if (this.Session.ContainsKey("deserializeFuncs"))
+                {
+                    this._deserializeFuncsField = ((string[])(this.Session["deserializeFuncs"]));
+                    deserializeFuncsValueAcquired = true;
+                }
+                if ((deserializeFuncsValueAcquired == false))
+                {
+                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("deserializeFuncs");
+                    if ((data != null))
+                    {
+                        this._deserializeFuncsField = ((string[])(data));
+                    }
+                }
+                bool defaultValuesValueAcquired = false;
+                if (this.Session.ContainsKey("defaultValues"))
+                {
+                    this._defaultValuesField = ((string[])(this.Session["defaultValues"]));
+                    defaultValuesValueAcquired = true;
+                }
+                if ((defaultValuesValueAcquired == false))
+                {
+                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("defaultValues");
+                    if ((data != null))
+                    {
+                        this._defaultValuesField = ((string[])(data));
+                    }
+                }
+
+
+            }
+        }
+
+
+
+#line default
+#line hidden
     }
-}
 
-private string[] _baseTypesField;
-
-/// <summary>
-/// Access the baseTypes parameter of the template.
-/// </summary>
-private string[] baseTypes
-{
-    get
-    {
-        return this._baseTypesField;
-    }
-}
-
-private string[] _typesField;
-
-/// <summary>
-/// Access the types parameter of the template.
-/// </summary>
-private string[] types
-{
-    get
-    {
-        return this._typesField;
-    }
-}
-
-private string[] _varNamesField;
-
-/// <summary>
-/// Access the varNames parameter of the template.
-/// </summary>
-private string[] varNames
-{
-    get
-    {
-        return this._varNamesField;
-    }
-}
-
-private string[] _descriptsField;
-
-/// <summary>
-/// Access the descripts parameter of the template.
-/// </summary>
-private string[] descripts
-{
-    get
-    {
-        return this._descriptsField;
-    }
-}
-
-private string[] _varWriteXmlsField;
-
-/// <summary>
-/// Access the varWriteXmls parameter of the template.
-/// </summary>
-private string[] varWriteXmls
-{
-    get
-    {
-        return this._varWriteXmlsField;
-    }
-}
-
-private string[] _varLoadXmlsField;
-
-/// <summary>
-/// Access the varLoadXmls parameter of the template.
-/// </summary>
-private string[] varLoadXmls
-{
-    get
-    {
-        return this._varLoadXmlsField;
-    }
-}
-
-private int _idField;
-
-/// <summary>
-/// Access the id parameter of the template.
-/// </summary>
-private int id
-{
-    get
-    {
-        return this._idField;
-    }
-}
-
-private string _descField;
-
-/// <summary>
-/// Access the desc parameter of the template.
-/// </summary>
-private string desc
-{
-    get
-    {
-        return this._descField;
-    }
-}
-
-private string[] _usingNamespacesField;
-
-/// <summary>
-/// Access the usingNamespaces parameter of the template.
-/// </summary>
-private string[] usingNamespaces
-{
-    get
-    {
-        return this._usingNamespacesField;
-    }
-}
-
-private string[] _serializeFuncsField;
-
-/// <summary>
-/// Access the serializeFuncs parameter of the template.
-/// </summary>
-private string[] serializeFuncs
-{
-    get
-    {
-        return this._serializeFuncsField;
-    }
-}
-
-private string[] _deserializeFuncsField;
-
-/// <summary>
-/// Access the deserializeFuncs parameter of the template.
-/// </summary>
-private string[] deserializeFuncs
-{
-    get
-    {
-        return this._deserializeFuncsField;
-    }
-}
-
-private string[] _defaultValuesField;
-
-/// <summary>
-/// Access the defaultValues parameter of the template.
-/// </summary>
-private string[] defaultValues
-{
-    get
-    {
-        return this._defaultValuesField;
-    }
-}
-
-
-/// <summary>
-/// Initialize the template
-/// </summary>
-public virtual void Initialize()
-{
-    if ((this.Errors.HasErrors == false))
-    {
-bool classNameValueAcquired = false;
-if (this.Session.ContainsKey("className"))
-{
-    this._classNameField = ((string)(this.Session["className"]));
-    classNameValueAcquired = true;
-}
-if ((classNameValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("className");
-    if ((data != null))
-    {
-        this._classNameField = ((string)(data));
-    }
-}
-bool baseTypesValueAcquired = false;
-if (this.Session.ContainsKey("baseTypes"))
-{
-    this._baseTypesField = ((string[])(this.Session["baseTypes"]));
-    baseTypesValueAcquired = true;
-}
-if ((baseTypesValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("baseTypes");
-    if ((data != null))
-    {
-        this._baseTypesField = ((string[])(data));
-    }
-}
-bool typesValueAcquired = false;
-if (this.Session.ContainsKey("types"))
-{
-    this._typesField = ((string[])(this.Session["types"]));
-    typesValueAcquired = true;
-}
-if ((typesValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("types");
-    if ((data != null))
-    {
-        this._typesField = ((string[])(data));
-    }
-}
-bool varNamesValueAcquired = false;
-if (this.Session.ContainsKey("varNames"))
-{
-    this._varNamesField = ((string[])(this.Session["varNames"]));
-    varNamesValueAcquired = true;
-}
-if ((varNamesValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("varNames");
-    if ((data != null))
-    {
-        this._varNamesField = ((string[])(data));
-    }
-}
-bool descriptsValueAcquired = false;
-if (this.Session.ContainsKey("descripts"))
-{
-    this._descriptsField = ((string[])(this.Session["descripts"]));
-    descriptsValueAcquired = true;
-}
-if ((descriptsValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("descripts");
-    if ((data != null))
-    {
-        this._descriptsField = ((string[])(data));
-    }
-}
-bool varWriteXmlsValueAcquired = false;
-if (this.Session.ContainsKey("varWriteXmls"))
-{
-    this._varWriteXmlsField = ((string[])(this.Session["varWriteXmls"]));
-    varWriteXmlsValueAcquired = true;
-}
-if ((varWriteXmlsValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("varWriteXmls");
-    if ((data != null))
-    {
-        this._varWriteXmlsField = ((string[])(data));
-    }
-}
-bool varLoadXmlsValueAcquired = false;
-if (this.Session.ContainsKey("varLoadXmls"))
-{
-    this._varLoadXmlsField = ((string[])(this.Session["varLoadXmls"]));
-    varLoadXmlsValueAcquired = true;
-}
-if ((varLoadXmlsValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("varLoadXmls");
-    if ((data != null))
-    {
-        this._varLoadXmlsField = ((string[])(data));
-    }
-}
-bool idValueAcquired = false;
-if (this.Session.ContainsKey("id"))
-{
-    this._idField = ((int)(this.Session["id"]));
-    idValueAcquired = true;
-}
-if ((idValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("id");
-    if ((data != null))
-    {
-        this._idField = ((int)(data));
-    }
-}
-bool descValueAcquired = false;
-if (this.Session.ContainsKey("desc"))
-{
-    this._descField = ((string)(this.Session["desc"]));
-    descValueAcquired = true;
-}
-if ((descValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("desc");
-    if ((data != null))
-    {
-        this._descField = ((string)(data));
-    }
-}
-bool usingNamespacesValueAcquired = false;
-if (this.Session.ContainsKey("usingNamespaces"))
-{
-    this._usingNamespacesField = ((string[])(this.Session["usingNamespaces"]));
-    usingNamespacesValueAcquired = true;
-}
-if ((usingNamespacesValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("usingNamespaces");
-    if ((data != null))
-    {
-        this._usingNamespacesField = ((string[])(data));
-    }
-}
-bool serializeFuncsValueAcquired = false;
-if (this.Session.ContainsKey("serializeFuncs"))
-{
-    this._serializeFuncsField = ((string[])(this.Session["serializeFuncs"]));
-    serializeFuncsValueAcquired = true;
-}
-if ((serializeFuncsValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("serializeFuncs");
-    if ((data != null))
-    {
-        this._serializeFuncsField = ((string[])(data));
-    }
-}
-bool deserializeFuncsValueAcquired = false;
-if (this.Session.ContainsKey("deserializeFuncs"))
-{
-    this._deserializeFuncsField = ((string[])(this.Session["deserializeFuncs"]));
-    deserializeFuncsValueAcquired = true;
-}
-if ((deserializeFuncsValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("deserializeFuncs");
-    if ((data != null))
-    {
-        this._deserializeFuncsField = ((string[])(data));
-    }
-}
-bool defaultValuesValueAcquired = false;
-if (this.Session.ContainsKey("defaultValues"))
-{
-    this._defaultValuesField = ((string[])(this.Session["defaultValues"]));
-    defaultValuesValueAcquired = true;
-}
-if ((defaultValuesValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("defaultValues");
-    if ((data != null))
-    {
-        this._defaultValuesField = ((string[])(data));
-    }
-}
-
-
-    }
-}
-
-
-        
-        #line default
-        #line hidden
-    }
-    
-    #line default
-    #line hidden
+#line default
+#line hidden
     #region Base class
     /// <summary>
     /// Base class for this transformation
@@ -1091,7 +1097,7 @@ if ((defaultValuesValueAcquired == false))
             }
             // If we're starting off, or if the previous text ended with a newline,
             // we have to append the current indent first.
-            if (((this.GenerationEnvironment.Length == 0) 
+            if (((this.GenerationEnvironment.Length == 0)
                         || this.endsWithNewline))
             {
                 this.GenerationEnvironment.Append(this.currentIndentField);
@@ -1209,7 +1215,7 @@ if ((defaultValuesValueAcquired == false))
         /// </summary>
         public class ToStringInstanceHelper
         {
-            private System.IFormatProvider formatProviderField  = global::System.Globalization.CultureInfo.InvariantCulture;
+            private System.IFormatProvider formatProviderField = global::System.Globalization.CultureInfo.InvariantCulture;
             /// <summary>
             /// Gets or sets format provider to be used by ToStringWithCulture method.
             /// </summary>
@@ -1217,13 +1223,13 @@ if ((defaultValuesValueAcquired == false))
             {
                 get
                 {
-                    return this.formatProviderField ;
+                    return this.formatProviderField;
                 }
                 set
                 {
                     if ((value != null))
                     {
-                        this.formatProviderField  = value;
+                        this.formatProviderField = value;
                     }
                 }
             }

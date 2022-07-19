@@ -9,16 +9,24 @@ namespace DigitalWorld.Logic.Editor
 {
     public class LogicEditorWindow : EditorWindow
     {
-        [MenuItem("Logic/生成代码", priority = 12)]
-        private static void GenerateNodes()
-        {
-            NodeController.instance.GenerateNodes();
-        }
+       
 
-        [MenuItem("Logic/节点编辑器", priority = 13)]
+        [MenuItem("Logic/Editor/Nodes", priority = 1)]
         private static void ShowItems()
         {
-            EditorWindow.GetWindow<LogicItemsEditorWindow>("节点编辑器").Show();
+            EditorWindow.GetWindow<LogicItemsEditorWindow>("Nodes Editor").Show();
+        }
+
+        [MenuItem("Logic/Editor/Behaviours", priority = 2)]
+        private static void ShowBehaviours()
+        {
+            EditorWindow.GetWindow<LogicBehaviourEditorWindow>("Behaviours Editor").Show();
+        }
+
+        [MenuItem("Logic/Generater/Codes", priority = 32)]
+        private static void GenerateNodesCode()
+        {
+            NodeController.instance.GenerateNodesCode();
         }
     }
 }

@@ -29,45 +29,45 @@ namespace DigitalWorld.Logic.Editor
         #endregion
 
         #region Common
-        public void GenerateNodes()
+        public void GenerateNodesCode()
         {
             ClearAllCodeFiles();
 
-            var text = Utility.LoadTemplateConfig("Events");
+            var text = DigitalWorld.Logic.Utility.LoadTemplateConfig("Events");
             XmlDocument eventDoc = new XmlDocument();
             eventDoc.LoadXml(text.text);
 
-            text = Utility.LoadTemplateConfig("Conditions");
+            text = DigitalWorld.Logic.Utility.LoadTemplateConfig("Conditions");
             XmlDocument condDoc = new XmlDocument();
             condDoc.LoadXml(text.text);
 
-            text = Utility.LoadTemplateConfig("Actions");
+            text = DigitalWorld.Logic.Utility.LoadTemplateConfig("Actions");
             XmlDocument actionDoc = new XmlDocument();
             actionDoc.LoadXml(text.text);
 
-         
+
 
             GenerateEvent(eventDoc);
             GenerateConditions(condDoc);
             GenerateActions(actionDoc);
-            
+
             GenerateEnums(eventDoc, condDoc, actionDoc);
             GenerateHelper(eventDoc, condDoc, actionDoc);
 
-            if (Utility.AutoRefresh)
+            if (DigitalWorld.Logic.Utility.AutoRefresh)
                 AssetDatabase.Refresh();
         }
 
         private static string GetWriteXmlText(string baseType, string type, string name)
         {
-            System.Type bt = Utility.GetBaseType(baseType);
+            System.Type bt = DigitalWorld.Logic.Utility.GetBaseType(baseType);
             if (bt == typeof(Enum))
             {
                 return string.Format("{0}.ToString()", name);
             }
             else if (bt == typeof(ValueType))
             {
-                System.Type tp = Utility.GetValueType(type);
+                System.Type tp = DigitalWorld.Logic.Utility.GetValueType(type);
                 if (tp == typeof(int))
                 {
                     return string.Format("{0}.ToString()", name);
@@ -158,8 +158,8 @@ namespace DigitalWorld.Logic.Editor
             string data = tmp.TransformText();
 
             string fileName = "Defined.cs";
-            string targetPath = Path.Combine(Utility.CodesPath, fileName);
-            Utility.SaveDataToFile(data, targetPath);
+            string targetPath = Path.Combine(DigitalWorld.Logic.Utility.CodesPath, fileName);
+            DigitalWorld.Logic.Utility.SaveDataToFile(data, targetPath);
         }
 
         private static void GenerateHelper(XmlDocument ev, XmlDocument con, XmlDocument act)
@@ -215,16 +215,16 @@ namespace DigitalWorld.Logic.Editor
             tmp.Session["actionNames"] = names.ToArray();
             tmp.Session["actionEnums"] = ids.ToArray();
 
-           
+
 
             tmp.Initialize();
             string data = tmp.TransformText();
 
             string fileName = string.Format("{0}.cs", name, ".cs");
-            string targetPath = System.IO.Path.Combine(Utility.CodesPath, fileName);
-            Utility.SaveDataToFile(data, targetPath);
+            string targetPath = System.IO.Path.Combine(DigitalWorld.Logic.Utility.CodesPath, fileName);
+            DigitalWorld.Logic.Utility.SaveDataToFile(data, targetPath);
         }
-        
+
         private static void GenerateEvent(XmlDocument xmlDocument)
         {
             XmlElement root = xmlDocument["data"];
@@ -245,16 +245,13 @@ namespace DigitalWorld.Logic.Editor
 
                 fileName = "Event" + element.GetAttribute("name") + ".cs";
 
-                string targetPath = System.IO.Path.Combine(Utility.CodesPath, fileName);
-                Utility.SaveDataToFile(data, targetPath);
+                string targetPath = System.IO.Path.Combine(DigitalWorld.Logic.Utility.CodesPath, fileName);
+                DigitalWorld.Logic.Utility.SaveDataToFile(data, targetPath);
             }
-
-
         }
 
         private static void GenerateConditions(XmlDocument xmlDocument)
         {
-
             XmlElement root = xmlDocument["data"];
 
             List<string> names = new List<string>();
@@ -315,15 +312,15 @@ namespace DigitalWorld.Logic.Editor
                 tmp.Session["defaultValues"] = values.ToArray();
                 tmp.Session["varWriteXmls"] = varWriteXmls.ToArray();
                 tmp.Session["varLoadXmls"] = varLoadXmls.ToArray();
-                tmp.Session["usingNamespaces"] = Utility.usingNamespaces;
+                tmp.Session["usingNamespaces"] = DigitalWorld.Logic.Utility.usingNamespaces;
                 tmp.Session["serializeFuncs"] = serializeFuncs.ToArray();
                 tmp.Session["deserializeFuncs"] = deserializeFuncs.ToArray();
 
                 tmp.Initialize();
                 string data = tmp.TransformText();
 
-                string targetPath = System.IO.Path.Combine(Utility.CodesPath, fileName);
-                Utility.SaveDataToFile(data, targetPath);
+                string targetPath = System.IO.Path.Combine(DigitalWorld.Logic.Utility.CodesPath, fileName);
+                DigitalWorld.Logic.Utility.SaveDataToFile(data, targetPath);
             }
         }
 
@@ -390,29 +387,29 @@ namespace DigitalWorld.Logic.Editor
                 tmp.Session["defaultValues"] = values.ToArray();
                 tmp.Session["varWriteXmls"] = varWriteXmls.ToArray();
                 tmp.Session["varLoadXmls"] = varLoadXmls.ToArray();
-                tmp.Session["usingNamespaces"] = Utility.usingNamespaces;
+                tmp.Session["usingNamespaces"] = DigitalWorld.Logic.Utility.usingNamespaces;
                 tmp.Session["serializeFuncs"] = serializeFuncs.ToArray();
                 tmp.Session["deserializeFuncs"] = deserializeFuncs.ToArray();
 
                 tmp.Initialize();
                 string data = tmp.TransformText();
 
-                string targetPath = System.IO.Path.Combine(Utility.CodesPath, fileName);
-                Utility.SaveDataToFile(data, targetPath);
+                string targetPath = System.IO.Path.Combine(DigitalWorld.Logic.Utility.CodesPath, fileName);
+                DigitalWorld.Logic.Utility.SaveDataToFile(data, targetPath);
                 #endregion
             }
         }
 
         private static string GetLoadXmlText(string xmlNodeName, string baseType, string type, string name)
         {
-            System.Type bt = Utility.GetBaseType(baseType);
+            System.Type bt = DigitalWorld.Logic.Utility.GetBaseType(baseType);
             if (bt == typeof(Enum))
             {
                 return string.Format("({0})System.Enum.Parse(typeof({0}), {1})", type, GetGetAttributeString(xmlNodeName, name));
             }
             else if (bt == typeof(ValueType))
             {
-                System.Type tp = Utility.GetValueType(type);
+                System.Type tp = DigitalWorld.Logic.Utility.GetValueType(type);
                 if (tp == typeof(int))
                 {
                     return string.Format("int.Parse({0})", GetGetAttributeString(xmlNodeName, name));
@@ -449,7 +446,7 @@ namespace DigitalWorld.Logic.Editor
 
         private static void ClearAllCodeFiles()
         {
-            Utility.DeleteAllFiles(Utility.CodesPath);
+            DigitalWorld.Logic.Utility.DeleteAllFiles(DigitalWorld.Logic.Utility.CodesPath);
         }
 
         public void SetDirty()
@@ -505,7 +502,7 @@ namespace DigitalWorld.Logic.Editor
             {
                 SaveAllItems();
 
-                if (Utility.AutoRefresh)
+                if (DigitalWorld.Logic.Utility.AutoRefresh)
                 {
                     AssetDatabase.Refresh();
                 }
@@ -522,7 +519,7 @@ namespace DigitalWorld.Logic.Editor
                 string name = GetItemFileName(type);
                 if (!string.IsNullOrEmpty(name))
                 {
-                    var text = Utility.LoadTemplateConfig(name);
+                    var text = DigitalWorld.Logic.Utility.LoadTemplateConfig(name);
                     LoadItems(type, this.GetItems(type), text);
                 }
             }
@@ -632,9 +629,9 @@ namespace DigitalWorld.Logic.Editor
 
         private string GetFilePath(EItemType item)
         {
-            string filePath = Path.Combine(Utility.TemplateConfigsPath, this.GetItemFileName(item));
+            string filePath = Path.Combine(DigitalWorld.Logic.Utility.TemplateConfigsPath, this.GetItemFileName(item));
             filePath += ".xml";
-            string fullPath = Path.Combine(Utility.GetProjectDataPath(), filePath);
+            string fullPath = Path.Combine(DigitalWorld.Logic.Utility.GetProjectDataPath(), filePath);
 
             return fullPath;
         }

@@ -7,6 +7,7 @@ namespace DigitalWorld.Logic.Editor
 {
     public class LogicItemsEditorWindow : EditorWindow
     {
+        #region Params
         private Vector2 scrollPos = Vector2.zero;
 
         private string filter = string.Empty;
@@ -18,6 +19,7 @@ namespace DigitalWorld.Logic.Editor
                 return NodeController.instance;
             }
         }
+        #endregion
 
         #region GUI
         public void OnGUI()
@@ -56,8 +58,6 @@ namespace DigitalWorld.Logic.Editor
                     if (!c.Editing)
                         filter = string.Empty;
                     c.StartEdit();
-
-
                 }
             }
             EditorGUILayout.EndHorizontal();

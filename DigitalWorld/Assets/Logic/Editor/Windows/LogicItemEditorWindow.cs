@@ -130,7 +130,7 @@ namespace DigitalWorld.Logic.Editor
             }
 
             this.currentNode.SetDirty();
-            EditorWindow.GetWindow<LogicItemsEditorWindow>("节点编辑器").Repaint();
+            EditorWindow.GetWindow<LogicItemsEditorWindow>().Repaint();
 
             //ItemController.instance.SortItems(this.type);
 

@@ -10,12 +10,12 @@
 namespace Assets.Logic.Editor.Templates
 {
     using System;
-    
+
     /// <summary>
     /// Class to produce the template output
     /// </summary>
-    
-    #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
     public partial class ConditionTemplate : ConditionTemplateBase
     {
@@ -25,301 +25,285 @@ namespace Assets.Logic.Editor.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("\n");
-            this.Write("\n");
-            this.Write("\n");
-            this.Write("\n");
-            this.Write("\n");
-            this.Write("\n");
-            this.Write("\n");
-            this.Write("\n");
-            this.Write("\n");
-            this.Write("\n");
-            this.Write("\n");
-            this.Write("\n");
-            this.Write("\n");
-            this.Write("\n");
-            this.Write("\n");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
-	for (int i = 0; i < usingNamespaces.Length; ++i)
-	{
+            for (int i = 0; i < usingNamespaces.Length; ++i)
+            {
 
-            
-            #line default
-            #line hidden
-            this.Write("\nusing ");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(usingNamespaces[i]));
-            
-            #line default
-            #line hidden
-            this.Write(";\n");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
-	}
+#line default
+#line hidden
+                this.Write("\nusing ");
 
-            
-            #line default
-            #line hidden
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(usingNamespaces[i]));
+
+#line default
+#line hidden
+                this.Write(";\n");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+
+            }
+
+
+#line default
+#line hidden
             this.Write("\nusing System.Collections.Generic;\n#if UNITY_EDITOR\nusing System.Xml;\n#endif\n\nnam" +
                     "espace DigitalWorld.Logic\n{\n\t/// <summary>\n    /// ");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(desc));
-            
-            #line default
-            #line hidden
+
+#line default
+#line hidden
             this.Write("\n    /// </summary>\n\tpublic partial class Condition");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
-            
-            #line default
-            #line hidden
+
+#line default
+#line hidden
             this.Write(" : BaseCondition\n\t{\n\t\t#region Common\n\t\tpublic override int Id\n\t\t{\n\t\t\tget\n\t\t\t{\n\t\t\t" +
                     "\treturn ");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(id));
-            
-            #line default
-            #line hidden
+
+#line default
+#line hidden
             this.Write(";\n\t\t\t}\n\t\t}\n");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
-		for (int i = 0; i < types.Length; ++i)
-		{
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
-            
-            #line default
-            #line hidden
-            this.Write("\n\t\t/// <summary>\n        /// ");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(descripts[i]));
-            
-            #line default
-            #line hidden
-            this.Write("\n        /// </summary>\n\t\tpublic ");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(types[i]));
-            
-            #line default
-            #line hidden
-            this.Write(" ");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(" = default(");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(types[i]));
-            
-            #line default
-            #line hidden
-            this.Write(");\n");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            for (int i = 0; i < types.Length; ++i)
+            {
 
-		}
 
-            
-            #line default
-            #line hidden
+#line default
+#line hidden
+                this.Write("\n\t\t/// <summary>\n        /// ");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(descripts[i]));
+
+#line default
+#line hidden
+                this.Write("\n        /// </summary>\n\t\tpublic ");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(types[i]));
+
+#line default
+#line hidden
+                this.Write(" ");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
+
+#line default
+#line hidden
+                this.Write(" = default(");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(types[i]));
+
+#line default
+#line hidden
+                this.Write(");\n");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+
+            }
+
+
+#line default
+#line hidden
             this.Write("\n\t\tprivate enum EValueIndex\n\t\t{\n");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
-		for (int i = 0; i < types.Length; ++i)
-		{
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
-            
-            #line default
-            #line hidden
-            this.Write("\t\t\t");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(" = ");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(i));
-            
-            #line default
-            #line hidden
-            this.Write(", \n");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            for (int i = 0; i < types.Length; ++i)
+            {
 
-		}
 
-            
-            #line default
-            #line hidden
+#line default
+#line hidden
+                this.Write("\t\t\t");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
+
+#line default
+#line hidden
+                this.Write(" = ");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(i));
+
+#line default
+#line hidden
+                this.Write(", \n");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+
+            }
+
+
+#line default
+#line hidden
             this.Write("\n\t\t}\n\n\t\tpublic Condition");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
-            
-            #line default
-            #line hidden
+
+#line default
+#line hidden
             this.Write("()\n\t\t{\n\t\t\toperators = new ECheckOperator[");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(types.Length));
-            
-            #line default
-            #line hidden
+
+#line default
+#line hidden
             this.Write("];\n\t\t}\n\t\t\n\t\tpublic override void OnAllocate()\n        {\n\t\t\tbase.OnAllocate();\n");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
-			for (int i = 0; i < types.Length; ++i)
-			{
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
-            
-            #line default
-            #line hidden
-            this.Write("\n\t\t\t");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(" = default(");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(types[i]));
-            
-            #line default
-            #line hidden
-            this.Write(");\n");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            for (int i = 0; i < types.Length; ++i)
+            {
 
-			}
 
-            
-            #line default
-            #line hidden
+#line default
+#line hidden
+                this.Write("\n\t\t\t");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
+
+#line default
+#line hidden
+                this.Write(" = default(");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(types[i]));
+
+#line default
+#line hidden
+                this.Write(");\n");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+
+            }
+
+
+#line default
+#line hidden
             this.Write("\t\t\t\n        }\n\n\t\tprotected override void OnRecycle()\n        {\n            base.O" +
                     "nRecycle();\n");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
-			for (int i = 0; i < types.Length; ++i)
-			{
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
-            
-            #line default
-            #line hidden
-            this.Write("\n\t\t\t");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(" = default(");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(types[i]));
-            
-            #line default
-            #line hidden
-            this.Write(");\n");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            for (int i = 0; i < types.Length; ++i)
+            {
 
-			}
 
-            
-            #line default
-            #line hidden
+#line default
+#line hidden
+                this.Write("\n\t\t\t");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
+
+#line default
+#line hidden
+                this.Write(" = default(");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(types[i]));
+
+#line default
+#line hidden
+                this.Write(");\n");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+
+            }
+
+
+#line default
+#line hidden
             this.Write("\n        }\n\n\t\tpublic override object Clone()\n        {\n            Condition");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
-            
-            #line default
-            #line hidden
+
+#line default
+#line hidden
             this.Write(" v = null;\n\t\t\tif (Application.isPlaying)\n            {\n\t\t\t\tv = ObjectPool<Conditi" +
                     "on");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
-            
-            #line default
-            #line hidden
+
+#line default
+#line hidden
             this.Write(">.Instance.Allocate();\n            }\n\t\t\telse\n\t\t\t{\n\t\t\t\tv = new Condition");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
-            
-            #line default
-            #line hidden
+
+#line default
+#line hidden
             this.Write("();\n\t\t\t}\n\t\t\t\n\t\t\tif (null != v)\n\t\t\t{\n\t\t\t\tthis.CloneTo(v);\n\t\t\t}\n\t\t\t\n            ret" +
                     "urn v;\n        }\n\n\t\tpublic override T CloneTo<T>(T obj)\n        {\n            Co" +
                     "ndition");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
-            
-            #line default
-            #line hidden
+
+#line default
+#line hidden
             this.Write(" v = base.CloneTo(obj) as Condition");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
-            
-            #line default
-            #line hidden
+
+#line default
+#line hidden
             this.Write(";\n            if (null != v)\n            {\n");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
-				for (int i = 0; i < types.Length; ++i)
-				{
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
-            
-            #line default
-            #line hidden
-            this.Write("\n\t\t\t\tv.");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(" = this.");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(";\n");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            for (int i = 0; i < types.Length; ++i)
+            {
 
-				}
 
-            
-            #line default
-            #line hidden
+#line default
+#line hidden
+                this.Write("\n\t\t\t\tv.");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
+
+#line default
+#line hidden
+                this.Write(" = this.");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
+
+#line default
+#line hidden
+                this.Write(";\n");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+
+            }
+
+
+#line default
+#line hidden
             this.Write(@"
             }
             return obj;
@@ -345,47 +329,47 @@ namespace Assets.Logic.Editor.Templates
                 if (descs.Count < 1)
                 {
 ");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
-		            for (int i = 0; i < varNames.Length; ++i)
-		            {
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
-            
-            #line default
-            #line hidden
-            this.Write("\n                    descs.Add(\"");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write("\", \"");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(descripts[i]));
-            
-            #line default
-            #line hidden
-            this.Write("\");\n");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            for (int i = 0; i < varNames.Length; ++i)
+            {
 
-		            }
 
-            
-            #line default
-            #line hidden
+#line default
+#line hidden
+                this.Write("\n                    descs.Add(\"");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
+
+#line default
+#line hidden
+                this.Write("\", \"");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(descripts[i]));
+
+#line default
+#line hidden
+                this.Write("\");\n");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+
+            }
+
+
+#line default
+#line hidden
             this.Write("\n                }\n\n                return descs;\n            }\n        }\n\n      " +
                     "  public override string Desc\n        {\n            get\n            {\n          " +
                     "      return \"");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(desc));
-            
-            #line default
-            #line hidden
+
+#line default
+#line hidden
             this.Write(@""";
             }
         }
@@ -427,525 +411,525 @@ namespace Assets.Logic.Editor.Templates
         {
             base.OnEncode(buffer, pos);
 ");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
-			for (int i = 0; i < types.Length; ++i)
-			{
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
-            
-            #line default
-            #line hidden
-            this.Write("\n\t\t\t");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(serializeFuncs[i]));
-            
-            #line default
-            #line hidden
-            this.Write("(this.");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(");\n");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            for (int i = 0; i < types.Length; ++i)
+            {
 
-			}
 
-            
-            #line default
-            #line hidden
+#line default
+#line hidden
+                this.Write("\n\t\t\t");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(serializeFuncs[i]));
+
+#line default
+#line hidden
+                this.Write("(this.");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
+
+#line default
+#line hidden
+                this.Write(");\n");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+
+            }
+
+
+#line default
+#line hidden
             this.Write("          \n        }\n\n        public override void OnDecode(byte[] buffer, int po" +
                     "s)\n        {\n            base.OnDecode(buffer, pos);\n");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
-			for (int i = 0; i < types.Length; ++i)
-			{
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
-            
-            #line default
-            #line hidden
-            this.Write("\n\t\t\t");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(deserializeFuncs[i]));
-            
-            #line default
-            #line hidden
-            this.Write("(ref this.");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(");\n");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            for (int i = 0; i < types.Length; ++i)
+            {
 
-			}
 
-            
-            #line default
-            #line hidden
+#line default
+#line hidden
+                this.Write("\n\t\t\t");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(deserializeFuncs[i]));
+
+#line default
+#line hidden
+                this.Write("(ref this.");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
+
+#line default
+#line hidden
+                this.Write(");\n");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+
+            }
+
+
+#line default
+#line hidden
             this.Write("\n        }\n\n#if UNITY_EDITOR\n        public override void OnDecode(XmlElement nod" +
                     "e)\n        {\n            base.OnDecode(node);\n");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
-			for (int i = 0; i < types.Length; ++i)
-			{
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
-            
-            #line default
-            #line hidden
-            this.Write("\n\t\t\tif (node.HasAttribute(\"");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write("\"))\n\t\t\t\t");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(" = ");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varLoadXmls[i]));
-            
-            #line default
-            #line hidden
-            this.Write(";\n");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            for (int i = 0; i < types.Length; ++i)
+            {
 
-			}
 
-            
-            #line default
-            #line hidden
+#line default
+#line hidden
+                this.Write("\n\t\t\tif (node.HasAttribute(\"");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
+
+#line default
+#line hidden
+                this.Write("\"))\n\t\t\t\t");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
+
+#line default
+#line hidden
+                this.Write(" = ");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(varLoadXmls[i]));
+
+#line default
+#line hidden
+                this.Write(";\n");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+
+            }
+
+
+#line default
+#line hidden
             this.Write("\n        }\n\n        public override void OnEncode(XmlElement node)\n        {\n\t\t\tb" +
                     "ase.OnEncode(node);\n");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
-			for (int i = 0; i < types.Length; ++i)
-			{
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
-            
-            #line default
-            #line hidden
-            this.Write("\n\t\t\tnode.SetAttribute(\"");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write("\", ");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(varWriteXmls[i]));
-            
-            #line default
-            #line hidden
-            this.Write(");\n");
-            
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            for (int i = 0; i < types.Length; ++i)
+            {
 
-			}
 
-            
-            #line default
-            #line hidden
+#line default
+#line hidden
+                this.Write("\n\t\t\tnode.SetAttribute(\"");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
+
+#line default
+#line hidden
+                this.Write("\", ");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(varWriteXmls[i]));
+
+#line default
+#line hidden
+                this.Write(");\n");
+
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+
+            }
+
+
+#line default
+#line hidden
             this.Write("\n        }\n#endif\n\t\t#endregion\n\t}\n}\n");
             return this.GenerationEnvironment.ToString();
         }
-        
-        #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
-private string _classNameField;
+#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
-/// <summary>
-/// Access the className parameter of the template.
-/// </summary>
-private string className
-{
-    get
-    {
-        return this._classNameField;
+        private string _classNameField;
+
+        /// <summary>
+        /// Access the className parameter of the template.
+        /// </summary>
+        private string className
+        {
+            get
+            {
+                return this._classNameField;
+            }
+        }
+
+        private string[] _baseTypesField;
+
+        /// <summary>
+        /// Access the baseTypes parameter of the template.
+        /// </summary>
+        private string[] baseTypes
+        {
+            get
+            {
+                return this._baseTypesField;
+            }
+        }
+
+        private string[] _typesField;
+
+        /// <summary>
+        /// Access the types parameter of the template.
+        /// </summary>
+        private string[] types
+        {
+            get
+            {
+                return this._typesField;
+            }
+        }
+
+        private string[] _varNamesField;
+
+        /// <summary>
+        /// Access the varNames parameter of the template.
+        /// </summary>
+        private string[] varNames
+        {
+            get
+            {
+                return this._varNamesField;
+            }
+        }
+
+        private string[] _descriptsField;
+
+        /// <summary>
+        /// Access the descripts parameter of the template.
+        /// </summary>
+        private string[] descripts
+        {
+            get
+            {
+                return this._descriptsField;
+            }
+        }
+
+        private string[] _defaultValuesField;
+
+        /// <summary>
+        /// Access the defaultValues parameter of the template.
+        /// </summary>
+        private string[] defaultValues
+        {
+            get
+            {
+                return this._defaultValuesField;
+            }
+        }
+
+        private string[] _varWriteXmlsField;
+
+        /// <summary>
+        /// Access the varWriteXmls parameter of the template.
+        /// </summary>
+        private string[] varWriteXmls
+        {
+            get
+            {
+                return this._varWriteXmlsField;
+            }
+        }
+
+        private string[] _varLoadXmlsField;
+
+        /// <summary>
+        /// Access the varLoadXmls parameter of the template.
+        /// </summary>
+        private string[] varLoadXmls
+        {
+            get
+            {
+                return this._varLoadXmlsField;
+            }
+        }
+
+        private int _idField;
+
+        /// <summary>
+        /// Access the id parameter of the template.
+        /// </summary>
+        private int id
+        {
+            get
+            {
+                return this._idField;
+            }
+        }
+
+        private string _descField;
+
+        /// <summary>
+        /// Access the desc parameter of the template.
+        /// </summary>
+        private string desc
+        {
+            get
+            {
+                return this._descField;
+            }
+        }
+
+        private string[] _usingNamespacesField;
+
+        /// <summary>
+        /// Access the usingNamespaces parameter of the template.
+        /// </summary>
+        private string[] usingNamespaces
+        {
+            get
+            {
+                return this._usingNamespacesField;
+            }
+        }
+
+        private string[] _serializeFuncsField;
+
+        /// <summary>
+        /// Access the serializeFuncs parameter of the template.
+        /// </summary>
+        private string[] serializeFuncs
+        {
+            get
+            {
+                return this._serializeFuncsField;
+            }
+        }
+
+        private string[] _deserializeFuncsField;
+
+        /// <summary>
+        /// Access the deserializeFuncs parameter of the template.
+        /// </summary>
+        private string[] deserializeFuncs
+        {
+            get
+            {
+                return this._deserializeFuncsField;
+            }
+        }
+
+
+        /// <summary>
+        /// Initialize the template
+        /// </summary>
+        public virtual void Initialize()
+        {
+            if ((this.Errors.HasErrors == false))
+            {
+                bool classNameValueAcquired = false;
+                if (this.Session.ContainsKey("className"))
+                {
+                    this._classNameField = ((string)(this.Session["className"]));
+                    classNameValueAcquired = true;
+                }
+                if ((classNameValueAcquired == false))
+                {
+                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("className");
+                    if ((data != null))
+                    {
+                        this._classNameField = ((string)(data));
+                    }
+                }
+                bool baseTypesValueAcquired = false;
+                if (this.Session.ContainsKey("baseTypes"))
+                {
+                    this._baseTypesField = ((string[])(this.Session["baseTypes"]));
+                    baseTypesValueAcquired = true;
+                }
+                if ((baseTypesValueAcquired == false))
+                {
+                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("baseTypes");
+                    if ((data != null))
+                    {
+                        this._baseTypesField = ((string[])(data));
+                    }
+                }
+                bool typesValueAcquired = false;
+                if (this.Session.ContainsKey("types"))
+                {
+                    this._typesField = ((string[])(this.Session["types"]));
+                    typesValueAcquired = true;
+                }
+                if ((typesValueAcquired == false))
+                {
+                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("types");
+                    if ((data != null))
+                    {
+                        this._typesField = ((string[])(data));
+                    }
+                }
+                bool varNamesValueAcquired = false;
+                if (this.Session.ContainsKey("varNames"))
+                {
+                    this._varNamesField = ((string[])(this.Session["varNames"]));
+                    varNamesValueAcquired = true;
+                }
+                if ((varNamesValueAcquired == false))
+                {
+                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("varNames");
+                    if ((data != null))
+                    {
+                        this._varNamesField = ((string[])(data));
+                    }
+                }
+                bool descriptsValueAcquired = false;
+                if (this.Session.ContainsKey("descripts"))
+                {
+                    this._descriptsField = ((string[])(this.Session["descripts"]));
+                    descriptsValueAcquired = true;
+                }
+                if ((descriptsValueAcquired == false))
+                {
+                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("descripts");
+                    if ((data != null))
+                    {
+                        this._descriptsField = ((string[])(data));
+                    }
+                }
+                bool defaultValuesValueAcquired = false;
+                if (this.Session.ContainsKey("defaultValues"))
+                {
+                    this._defaultValuesField = ((string[])(this.Session["defaultValues"]));
+                    defaultValuesValueAcquired = true;
+                }
+                if ((defaultValuesValueAcquired == false))
+                {
+                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("defaultValues");
+                    if ((data != null))
+                    {
+                        this._defaultValuesField = ((string[])(data));
+                    }
+                }
+                bool varWriteXmlsValueAcquired = false;
+                if (this.Session.ContainsKey("varWriteXmls"))
+                {
+                    this._varWriteXmlsField = ((string[])(this.Session["varWriteXmls"]));
+                    varWriteXmlsValueAcquired = true;
+                }
+                if ((varWriteXmlsValueAcquired == false))
+                {
+                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("varWriteXmls");
+                    if ((data != null))
+                    {
+                        this._varWriteXmlsField = ((string[])(data));
+                    }
+                }
+                bool varLoadXmlsValueAcquired = false;
+                if (this.Session.ContainsKey("varLoadXmls"))
+                {
+                    this._varLoadXmlsField = ((string[])(this.Session["varLoadXmls"]));
+                    varLoadXmlsValueAcquired = true;
+                }
+                if ((varLoadXmlsValueAcquired == false))
+                {
+                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("varLoadXmls");
+                    if ((data != null))
+                    {
+                        this._varLoadXmlsField = ((string[])(data));
+                    }
+                }
+                bool idValueAcquired = false;
+                if (this.Session.ContainsKey("id"))
+                {
+                    this._idField = ((int)(this.Session["id"]));
+                    idValueAcquired = true;
+                }
+                if ((idValueAcquired == false))
+                {
+                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("id");
+                    if ((data != null))
+                    {
+                        this._idField = ((int)(data));
+                    }
+                }
+                bool descValueAcquired = false;
+                if (this.Session.ContainsKey("desc"))
+                {
+                    this._descField = ((string)(this.Session["desc"]));
+                    descValueAcquired = true;
+                }
+                if ((descValueAcquired == false))
+                {
+                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("desc");
+                    if ((data != null))
+                    {
+                        this._descField = ((string)(data));
+                    }
+                }
+                bool usingNamespacesValueAcquired = false;
+                if (this.Session.ContainsKey("usingNamespaces"))
+                {
+                    this._usingNamespacesField = ((string[])(this.Session["usingNamespaces"]));
+                    usingNamespacesValueAcquired = true;
+                }
+                if ((usingNamespacesValueAcquired == false))
+                {
+                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("usingNamespaces");
+                    if ((data != null))
+                    {
+                        this._usingNamespacesField = ((string[])(data));
+                    }
+                }
+                bool serializeFuncsValueAcquired = false;
+                if (this.Session.ContainsKey("serializeFuncs"))
+                {
+                    this._serializeFuncsField = ((string[])(this.Session["serializeFuncs"]));
+                    serializeFuncsValueAcquired = true;
+                }
+                if ((serializeFuncsValueAcquired == false))
+                {
+                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("serializeFuncs");
+                    if ((data != null))
+                    {
+                        this._serializeFuncsField = ((string[])(data));
+                    }
+                }
+                bool deserializeFuncsValueAcquired = false;
+                if (this.Session.ContainsKey("deserializeFuncs"))
+                {
+                    this._deserializeFuncsField = ((string[])(this.Session["deserializeFuncs"]));
+                    deserializeFuncsValueAcquired = true;
+                }
+                if ((deserializeFuncsValueAcquired == false))
+                {
+                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("deserializeFuncs");
+                    if ((data != null))
+                    {
+                        this._deserializeFuncsField = ((string[])(data));
+                    }
+                }
+
+
+            }
+        }
+
+
+
+#line default
+#line hidden
     }
-}
 
-private string[] _baseTypesField;
-
-/// <summary>
-/// Access the baseTypes parameter of the template.
-/// </summary>
-private string[] baseTypes
-{
-    get
-    {
-        return this._baseTypesField;
-    }
-}
-
-private string[] _typesField;
-
-/// <summary>
-/// Access the types parameter of the template.
-/// </summary>
-private string[] types
-{
-    get
-    {
-        return this._typesField;
-    }
-}
-
-private string[] _varNamesField;
-
-/// <summary>
-/// Access the varNames parameter of the template.
-/// </summary>
-private string[] varNames
-{
-    get
-    {
-        return this._varNamesField;
-    }
-}
-
-private string[] _descriptsField;
-
-/// <summary>
-/// Access the descripts parameter of the template.
-/// </summary>
-private string[] descripts
-{
-    get
-    {
-        return this._descriptsField;
-    }
-}
-
-private string[] _defaultValuesField;
-
-/// <summary>
-/// Access the defaultValues parameter of the template.
-/// </summary>
-private string[] defaultValues
-{
-    get
-    {
-        return this._defaultValuesField;
-    }
-}
-
-private string[] _varWriteXmlsField;
-
-/// <summary>
-/// Access the varWriteXmls parameter of the template.
-/// </summary>
-private string[] varWriteXmls
-{
-    get
-    {
-        return this._varWriteXmlsField;
-    }
-}
-
-private string[] _varLoadXmlsField;
-
-/// <summary>
-/// Access the varLoadXmls parameter of the template.
-/// </summary>
-private string[] varLoadXmls
-{
-    get
-    {
-        return this._varLoadXmlsField;
-    }
-}
-
-private int _idField;
-
-/// <summary>
-/// Access the id parameter of the template.
-/// </summary>
-private int id
-{
-    get
-    {
-        return this._idField;
-    }
-}
-
-private string _descField;
-
-/// <summary>
-/// Access the desc parameter of the template.
-/// </summary>
-private string desc
-{
-    get
-    {
-        return this._descField;
-    }
-}
-
-private string[] _usingNamespacesField;
-
-/// <summary>
-/// Access the usingNamespaces parameter of the template.
-/// </summary>
-private string[] usingNamespaces
-{
-    get
-    {
-        return this._usingNamespacesField;
-    }
-}
-
-private string[] _serializeFuncsField;
-
-/// <summary>
-/// Access the serializeFuncs parameter of the template.
-/// </summary>
-private string[] serializeFuncs
-{
-    get
-    {
-        return this._serializeFuncsField;
-    }
-}
-
-private string[] _deserializeFuncsField;
-
-/// <summary>
-/// Access the deserializeFuncs parameter of the template.
-/// </summary>
-private string[] deserializeFuncs
-{
-    get
-    {
-        return this._deserializeFuncsField;
-    }
-}
-
-
-/// <summary>
-/// Initialize the template
-/// </summary>
-public virtual void Initialize()
-{
-    if ((this.Errors.HasErrors == false))
-    {
-bool classNameValueAcquired = false;
-if (this.Session.ContainsKey("className"))
-{
-    this._classNameField = ((string)(this.Session["className"]));
-    classNameValueAcquired = true;
-}
-if ((classNameValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("className");
-    if ((data != null))
-    {
-        this._classNameField = ((string)(data));
-    }
-}
-bool baseTypesValueAcquired = false;
-if (this.Session.ContainsKey("baseTypes"))
-{
-    this._baseTypesField = ((string[])(this.Session["baseTypes"]));
-    baseTypesValueAcquired = true;
-}
-if ((baseTypesValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("baseTypes");
-    if ((data != null))
-    {
-        this._baseTypesField = ((string[])(data));
-    }
-}
-bool typesValueAcquired = false;
-if (this.Session.ContainsKey("types"))
-{
-    this._typesField = ((string[])(this.Session["types"]));
-    typesValueAcquired = true;
-}
-if ((typesValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("types");
-    if ((data != null))
-    {
-        this._typesField = ((string[])(data));
-    }
-}
-bool varNamesValueAcquired = false;
-if (this.Session.ContainsKey("varNames"))
-{
-    this._varNamesField = ((string[])(this.Session["varNames"]));
-    varNamesValueAcquired = true;
-}
-if ((varNamesValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("varNames");
-    if ((data != null))
-    {
-        this._varNamesField = ((string[])(data));
-    }
-}
-bool descriptsValueAcquired = false;
-if (this.Session.ContainsKey("descripts"))
-{
-    this._descriptsField = ((string[])(this.Session["descripts"]));
-    descriptsValueAcquired = true;
-}
-if ((descriptsValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("descripts");
-    if ((data != null))
-    {
-        this._descriptsField = ((string[])(data));
-    }
-}
-bool defaultValuesValueAcquired = false;
-if (this.Session.ContainsKey("defaultValues"))
-{
-    this._defaultValuesField = ((string[])(this.Session["defaultValues"]));
-    defaultValuesValueAcquired = true;
-}
-if ((defaultValuesValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("defaultValues");
-    if ((data != null))
-    {
-        this._defaultValuesField = ((string[])(data));
-    }
-}
-bool varWriteXmlsValueAcquired = false;
-if (this.Session.ContainsKey("varWriteXmls"))
-{
-    this._varWriteXmlsField = ((string[])(this.Session["varWriteXmls"]));
-    varWriteXmlsValueAcquired = true;
-}
-if ((varWriteXmlsValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("varWriteXmls");
-    if ((data != null))
-    {
-        this._varWriteXmlsField = ((string[])(data));
-    }
-}
-bool varLoadXmlsValueAcquired = false;
-if (this.Session.ContainsKey("varLoadXmls"))
-{
-    this._varLoadXmlsField = ((string[])(this.Session["varLoadXmls"]));
-    varLoadXmlsValueAcquired = true;
-}
-if ((varLoadXmlsValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("varLoadXmls");
-    if ((data != null))
-    {
-        this._varLoadXmlsField = ((string[])(data));
-    }
-}
-bool idValueAcquired = false;
-if (this.Session.ContainsKey("id"))
-{
-    this._idField = ((int)(this.Session["id"]));
-    idValueAcquired = true;
-}
-if ((idValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("id");
-    if ((data != null))
-    {
-        this._idField = ((int)(data));
-    }
-}
-bool descValueAcquired = false;
-if (this.Session.ContainsKey("desc"))
-{
-    this._descField = ((string)(this.Session["desc"]));
-    descValueAcquired = true;
-}
-if ((descValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("desc");
-    if ((data != null))
-    {
-        this._descField = ((string)(data));
-    }
-}
-bool usingNamespacesValueAcquired = false;
-if (this.Session.ContainsKey("usingNamespaces"))
-{
-    this._usingNamespacesField = ((string[])(this.Session["usingNamespaces"]));
-    usingNamespacesValueAcquired = true;
-}
-if ((usingNamespacesValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("usingNamespaces");
-    if ((data != null))
-    {
-        this._usingNamespacesField = ((string[])(data));
-    }
-}
-bool serializeFuncsValueAcquired = false;
-if (this.Session.ContainsKey("serializeFuncs"))
-{
-    this._serializeFuncsField = ((string[])(this.Session["serializeFuncs"]));
-    serializeFuncsValueAcquired = true;
-}
-if ((serializeFuncsValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("serializeFuncs");
-    if ((data != null))
-    {
-        this._serializeFuncsField = ((string[])(data));
-    }
-}
-bool deserializeFuncsValueAcquired = false;
-if (this.Session.ContainsKey("deserializeFuncs"))
-{
-    this._deserializeFuncsField = ((string[])(this.Session["deserializeFuncs"]));
-    deserializeFuncsValueAcquired = true;
-}
-if ((deserializeFuncsValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("deserializeFuncs");
-    if ((data != null))
-    {
-        this._deserializeFuncsField = ((string[])(data));
-    }
-}
-
-
-    }
-}
-
-
-        
-        #line default
-        #line hidden
-    }
-    
-    #line default
-    #line hidden
+#line default
+#line hidden
     #region Base class
     /// <summary>
     /// Base class for this transformation
@@ -1045,7 +1029,7 @@ if ((deserializeFuncsValueAcquired == false))
             }
             // If we're starting off, or if the previous text ended with a newline,
             // we have to append the current indent first.
-            if (((this.GenerationEnvironment.Length == 0) 
+            if (((this.GenerationEnvironment.Length == 0)
                         || this.endsWithNewline))
             {
                 this.GenerationEnvironment.Append(this.currentIndentField);
@@ -1163,7 +1147,7 @@ if ((deserializeFuncsValueAcquired == false))
         /// </summary>
         public class ToStringInstanceHelper
         {
-            private System.IFormatProvider formatProviderField  = global::System.Globalization.CultureInfo.InvariantCulture;
+            private System.IFormatProvider formatProviderField = global::System.Globalization.CultureInfo.InvariantCulture;
             /// <summary>
             /// Gets or sets format provider to be used by ToStringWithCulture method.
             /// </summary>
@@ -1171,13 +1155,13 @@ if ((deserializeFuncsValueAcquired == false))
             {
                 get
                 {
-                    return this.formatProviderField ;
+                    return this.formatProviderField;
                 }
                 set
                 {
                     if ((value != null))
                     {
-                        this.formatProviderField  = value;
+                        this.formatProviderField = value;
                     }
                 }
             }
