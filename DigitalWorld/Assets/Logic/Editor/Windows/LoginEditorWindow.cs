@@ -9,8 +9,8 @@ namespace DigitalWorld.Logic.Editor
 {
     public class LogicEditorWindow : EditorWindow
     {
-       
 
+        [MenuItem("Logic/Editor", priority = 1)]
         [MenuItem("Logic/Editor/Nodes", priority = 1)]
         private static void ShowItems()
         {
@@ -23,7 +23,8 @@ namespace DigitalWorld.Logic.Editor
             EditorWindow.GetWindow<LogicBehaviourEditorWindow>("Behaviours Editor").Show();
         }
 
-        [MenuItem("Logic/Generater/Codes", priority = 32)]
+        [MenuItem("Logic/Generater", priority = 20)]
+        [MenuItem("Logic/Generater/Codes", priority = 1)]
         private static void GenerateNodesCode()
         {
             NodeController.instance.GenerateNodesCode();
