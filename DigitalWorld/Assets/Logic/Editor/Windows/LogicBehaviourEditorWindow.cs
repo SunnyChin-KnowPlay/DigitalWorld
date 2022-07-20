@@ -46,16 +46,11 @@ namespace DigitalWorld.Logic.Editor
                 return;
             }
 
+            LogicBehaviourCreateWindow.ShowWindow(selectFolderPath);
 
-            string fileName = "test.xml";
-            string fullPath = System.IO.Path.Combine(selectFolderPath, fileName);
 
-            TextAsset ta = new TextAsset();
-
-            AssetDatabase.CreateAsset(ta, fullPath);
+           
         }
         #endregion
-
-
     }
 }
