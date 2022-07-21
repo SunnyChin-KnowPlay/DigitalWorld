@@ -88,12 +88,12 @@ namespace DigitalWorld.Logic
             }
         }
 
-        public virtual string Key
+        public virtual string Name
         {
-            get { return _key; }
-            set { _key = value; }
+            get { return _name; }
+            set { _name = value; }
         }
-        protected string _key;
+        protected string _name;
 
         /// <summary>
         /// 已激活的持续时间
@@ -112,7 +112,7 @@ namespace DigitalWorld.Logic
             this._enabled = false;
             this._index = 0;
             this._parent = null;
-            this._key = null;
+            this._name = null;
             this._enabledDurationTime = 0;
         }
 
@@ -129,7 +129,7 @@ namespace DigitalWorld.Logic
         public virtual T CloneTo<T>(T obj) where T : NodeBase
         {
             obj._enabled = this._enabled;
-            obj._key = this._key;
+            obj._name = this._name;
 
             obj._children.Clear();
             for (int i = 0; i < this._children.Count; ++i)
@@ -260,13 +260,13 @@ namespace DigitalWorld.Logic
         /// <summary>
         /// 通过键来获取对应的子节点
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="name">子节点名</param>
         /// <returns></returns>
-        public NodeBase FindChild(string key)
+        public NodeBase FindChild(string name)
         {
             for (int i = 0; i < this._children.Count; ++i)
             {
-                if (this._children[i].Key == key)
+                if (this._children[i]._name == name)
                     return this._children[i];
             }
             return null;
@@ -279,7 +279,7 @@ namespace DigitalWorld.Logic
             base.OnEncode(buffer, pos);
 
             this.Encode(this._enabled);
-            this.Encode(this._key);
+            this.Encode(this._name);
         }
 
         protected override void OnEncode(XmlElement element)
@@ -289,7 +289,7 @@ namespace DigitalWorld.Logic
             XmlDocument doc = element.OwnerDocument;
 
             this.Encode(this._enabled, "_enabled");
-            this.Encode(this._key, "_key");
+            this.Encode(this._name, "_key");
             this.Encode(this.TypeName, "_typeName");
 
             XmlElement childrenEle = doc.CreateElement("_children");
@@ -307,7 +307,7 @@ namespace DigitalWorld.Logic
             base.OnDecode(buffer, pos);
 
             this.Decode(ref this._enabled);
-            this.Decode(ref this._key);
+            this.Decode(ref this._name);
         }
 
         protected override void OnDecode(XmlElement element)
@@ -315,7 +315,7 @@ namespace DigitalWorld.Logic
             base.OnDecode(element);
 
             this.Decode(ref this._enabled, "_enabled");
-            this.Decode(ref this._key, "_key");
+            this.Decode(ref this._name, "_key");
 
             _children.Clear();
             XmlElement childrenEle = element["_children"];

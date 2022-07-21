@@ -6,7 +6,7 @@ namespace DigitalWorld.Logic.Editor
     /// <summary>
     /// 创建行为
     /// </summary>
-    internal class LogicBehaviourCreateWindow : ScriptableWizard
+    internal class LogicBehaviourCreateWizard : ScriptableWizard
     {
         #region Params
         /// <summary>
@@ -21,9 +21,9 @@ namespace DigitalWorld.Logic.Editor
         #endregion
 
         #region Window
-        public static LogicBehaviourCreateWindow ShowWindow(string path)
+        public static LogicBehaviourCreateWizard DisplayWizard(string path)
         {
-            LogicBehaviourCreateWindow window = EditorWindow.GetWindow<LogicBehaviourCreateWindow>(false, "Create Behaviour");
+            LogicBehaviourCreateWizard window = ScriptableWizard.DisplayWizard<LogicBehaviourCreateWizard>("Create Behaviour");
             if (null != window)
             {
                 window.Show(path);

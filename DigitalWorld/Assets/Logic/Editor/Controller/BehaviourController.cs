@@ -33,7 +33,7 @@ namespace DigitalWorld.Logic.Editor
 
             if (null != currentBehaviour)
             {
-                string switchTips = string.Format(switchLevelTips[UnityEngine.Random.Range(0, switchLevelTips.Length)], currentBehaviour.Key);
+                string switchTips = string.Format(switchLevelTips[UnityEngine.Random.Range(0, switchLevelTips.Length)], currentBehaviour.Name);
                 int ret = EditorUtility.DisplayDialogComplex("警告", switchTips, "保存并切换", "切换", "取消");
 
                 if (ret == 2)

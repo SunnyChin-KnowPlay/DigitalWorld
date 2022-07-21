@@ -46,10 +46,7 @@ namespace DigitalWorld.Logic.Editor
                 return;
             }
 
-            LogicBehaviourCreateWindow.ShowWindow(selectFolderPath);
-
-
-           
+            LogicBehaviourCreateWizard.DisplayWizard(selectFolderPath);
         }
         #endregion
     }

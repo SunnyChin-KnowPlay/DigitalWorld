@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Xml;
 
 namespace DigitalWorld.Logic
 {
@@ -12,19 +9,18 @@ namespace DigitalWorld.Logic
     public partial class Behaviour : NodeState
     {
         #region Params
+
+
         /// <summary>
         /// 要求词典 所有的子节点都可以向其注入结果以供查询
         /// </summary>
         protected Dictionary<int, bool> requirements = new Dictionary<int, bool>();
-
         #endregion
 
         #region Pool
         public override void OnAllocate()
         {
             base.OnAllocate();
-
-
         }
 
         public override void OnRecycle()
@@ -78,8 +74,19 @@ namespace DigitalWorld.Logic
                 }
             }
         }
+        #endregion
 
-       
+        #region Proto
+        protected override void OnEncode(XmlElement element)
+        {
+            base.OnEncode(element);
+
+        }
+
+        protected override void OnDecode(XmlElement element)
+        {
+            base.OnDecode(element);
+        }
         #endregion
     }
 }
