@@ -36,7 +36,6 @@ namespace DigitalWorld.Logic.Editor
         #endregion
 
         #region Menus
-        [MenuItem("Assets/Create/Logic", priority = 40)]
         [MenuItem("Assets/Create/Logic/Behaviour", priority = 1)]
         private static void CreateBehaviour()
         {

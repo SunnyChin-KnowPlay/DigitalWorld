@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.Xml;
+using UnityEditor;
 using UnityEngine;
 
 namespace DigitalWorld.Logic.Editor
@@ -42,21 +43,18 @@ namespace DigitalWorld.Logic.Editor
         #region OnGUI
         private void OnWizardCreate()
         {
-            string fullPath = System.IO.Path.Combine(this.targetFolderPath, this.behaviourName);
-            fullPath += ".asset";
+            string fullPath = targetFolderPath;
 
-            if (System.IO.File.Exists(fullPath))
-            {
-                // 如果已经存在 则先报错忽视
-                UnityEngine.Debug.LogError("File is Exits:" + fullPath);
-                return;
-            }
+            string relativeFilePath = fullPath.Substring(DigitalWorld.Logic.Utility.ConfigsPath.Length + 1);
 
-            //string fileName = "test.xml";
-            //string fullPath = System.IO.Path.Combine(selectFolderPath, fileName);
+            Behaviour behaviour = new Behaviour();
+            behaviour.Name = this.behaviourName;
+            behaviour.RelativeFilePath = relativeFilePath;
 
-            TextAsset ta = new TextAsset();
-            AssetDatabase.CreateAsset(ta, fullPath);
+            behaviour.Save();
+
+            // 现在写到创建了，明天继续写读取后编辑随后保存的功能
+            // 需要写Selection监听选择并编辑的功能
         }
         #endregion
     }

@@ -289,7 +289,7 @@ namespace DigitalWorld.Logic
             XmlDocument doc = element.OwnerDocument;
 
             this.Encode(this._enabled, "_enabled");
-            this.Encode(this._name, "_key");
+            this.Encode(this._name, "_name");
             this.Encode(this.TypeName, "_typeName");
 
             XmlElement childrenEle = doc.CreateElement("_children");
@@ -315,7 +315,7 @@ namespace DigitalWorld.Logic
             base.OnDecode(element);
 
             this.Decode(ref this._enabled, "_enabled");
-            this.Decode(ref this._name, "_key");
+            this.Decode(ref this._name, "_name");
 
             _children.Clear();
             XmlElement childrenEle = element["_children"];
