@@ -20,7 +20,7 @@ namespace DigitalWorld.Logic.Editor
         [MenuItem("Logic/Editor/Behaviours", priority = 2)]
         private static void ShowBehaviours()
         {
-            EditorWindow.GetWindow<LogicBehaviourEditorWindow>("Behaviours Editor").Show();
+            EditorWindow.GetWindow<LogicBehavioursEditorWindow>("Behaviours Editor").Show();
         }
 
         [MenuItem("Logic/Generater", priority = 20)]

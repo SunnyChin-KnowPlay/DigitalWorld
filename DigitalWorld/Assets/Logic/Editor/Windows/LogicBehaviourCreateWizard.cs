@@ -52,9 +52,6 @@ namespace DigitalWorld.Logic.Editor
             behaviour.RelativeFilePath = relativeFilePath;
 
             behaviour.Save();
-
-            // 现在写到创建了，明天继续写读取后编辑随后保存的功能
-            // 需要写Selection监听选择并编辑的功能
         }
         #endregion
     }

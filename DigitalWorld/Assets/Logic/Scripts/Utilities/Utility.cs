@@ -22,12 +22,20 @@ namespace DigitalWorld.Logic
     public static class Utility
     {
         #region Params
+        private const string ConfigsRelativePath = "Configs";
+        private const string BehavioursRelativePath = "Behaviours";
+
+
         private const string LogicAssetPath = "Assets/Logic";
 
-        public const string ConfigsPath = LogicAssetPath + "/" + "Configs";
+        public const string ConfigsPath = LogicAssetPath + "/" + ConfigsRelativePath;
         public const string TemplateConfigsPath = ConfigsPath + "/" + "Template";
         public const string GenreatedConfigsPath = ConfigsPath + "/" + "Generated";
         public const string CodesPath = LogicAssetPath + "/" + "Scripts/Generated";
+
+        internal const string LogicExportPath = "Assets/Res/Logic";
+
+        public const string LogicExportBehaviourPath = LogicExportPath + "/" + BehavioursRelativePath;
 
         private static bool autoRefresh = false;
         public static Dictionary<string, int> KeyDict = new Dictionary<string, int>();

@@ -1,4 +1,5 @@
 ﻿#if UNITY_EDITOR
+using System.IO;
 using System.Xml;
 using UnityEditor;
 using UnityEngine;
@@ -102,6 +103,22 @@ namespace DigitalWorld.Logic
             return true;
         }
 
+        private void SaveStream()
+        {
+            int size = this.CalculateSize();
+            byte[] data = new byte[size];
+            this.Encode(data, 0);
+
+            string text = System.Text.Encoding.UTF8.GetString(data, 0, size);
+
+            string fullPath = System.IO.Path.Combine(RelativeFilePath, this.Name);
+            fullPath += ".asset";
+            fullPath = System.IO.Path.Combine(Utility.ConfigsPath, fullPath);
+
+            TextAsset ta = new TextAsset(text);
+            AssetDatabase.CreateAsset(ta, fullPath);
+        }
+
         private void SaveXml()
         {
             XmlDocument xmlDocument = new XmlDocument();
@@ -118,7 +135,7 @@ namespace DigitalWorld.Logic
             string fullPath = System.IO.Path.Combine(RelativeFilePath, this.Name);
             fullPath += ".asset";
             fullPath = System.IO.Path.Combine(Utility.ConfigsPath, fullPath);
-            
+
 
             TextAsset ta = new TextAsset(xmlDocument.InnerXml);
             AssetDatabase.CreateAsset(ta, fullPath);
