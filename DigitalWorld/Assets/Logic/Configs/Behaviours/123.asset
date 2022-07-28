@@ -1,0 +1,12 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!49 &4900000
+TextAsset:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 123
+  m_Script: <?xml version="1.0" encoding="UTF-8"?><behaviour _enabled="False" _name="123"
+    _typeName="DigitalWorld.Logic.Behaviour" totalTime="0" _description="afff"><_children
+    /></behaviour>

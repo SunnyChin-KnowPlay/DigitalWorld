@@ -49,9 +49,23 @@ namespace DigitalWorld.Logic.Editor
 
             Behaviour behaviour = new Behaviour();
             behaviour.Name = this.behaviourName;
-            behaviour.RelativeFilePath = relativeFilePath;
+            behaviour.RelativeFolderPath = relativeFilePath;
 
             behaviour.Save();
+        }
+        #endregion
+
+        #region Menus
+        [MenuItem("Assets/Logic/Create/Behaviour", priority = 1)]
+        private static void CreateBehaviour()
+        {
+            string selectFolderPath = Utility.GetSelectionFolderPath();
+            if (string.IsNullOrEmpty(selectFolderPath))
+            {
+                return;
+            }
+
+            LogicBehaviourCreateWizard.DisplayWizard(selectFolderPath);
         }
         #endregion
     }

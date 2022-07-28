@@ -10,17 +10,22 @@ namespace DigitalWorld.Logic
     {
         #region Params
 
-
         /// <summary>
         /// 要求词典 所有的子节点都可以向其注入结果以供查询
         /// </summary>
         protected Dictionary<int, bool> requirements = new Dictionary<int, bool>();
+        /// <summary>
+        /// 描述信息
+        /// </summary>
+        public string _description = string.Empty;
         #endregion
 
         #region Pool
         public override void OnAllocate()
         {
             base.OnAllocate();
+
+            this._description = string.Empty;
         }
 
         public override void OnRecycle()
@@ -80,12 +85,20 @@ namespace DigitalWorld.Logic
         protected override void OnEncode(XmlElement element)
         {
             base.OnEncode(element);
-
+            this.Encode(_description, "_description");
         }
 
         protected override void OnDecode(XmlElement element)
         {
             base.OnDecode(element);
+            this.Decode(ref _description, "_description");
+        }
+
+        protected override void OnCalculateSize()
+        {
+            base.OnCalculateSize();
+
+            this.CalculateSize(_description);
         }
         #endregion
     }

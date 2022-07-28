@@ -196,6 +196,13 @@ namespace DigitalWorld.Logic
 
             this.Decode(ref this._totalTime, "totalTime");
         }
+
+        protected override void OnCalculateSize()
+        {
+            base.OnCalculateSize();
+
+            this.CalculateSize(this._totalTime);
+        }
         #endregion
     }
 }

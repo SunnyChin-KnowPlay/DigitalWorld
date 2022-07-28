@@ -274,6 +274,14 @@ namespace DigitalWorld.Logic
         #endregion
 
         #region Proto
+        protected override void OnCalculateSize()
+        {
+            base.OnCalculateSize();
+
+            this.CalculateSize(this._enabled);
+            this.CalculateSize(this._name);
+        }
+
         protected override void OnEncode(byte[] buffer, int pos)
         {
             base.OnEncode(buffer, pos);

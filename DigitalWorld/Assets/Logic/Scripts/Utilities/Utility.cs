@@ -32,6 +32,7 @@ namespace DigitalWorld.Logic
         public const string TemplateConfigsPath = ConfigsPath + "/" + "Template";
         public const string GenreatedConfigsPath = ConfigsPath + "/" + "Generated";
         public const string CodesPath = LogicAssetPath + "/" + "Scripts/Generated";
+        public const string BehaviourPath = ConfigsPath + "/" + BehavioursRelativePath;
 
         internal const string LogicExportPath = "Assets/Res/Logic";
 
@@ -52,27 +53,7 @@ namespace DigitalWorld.Logic
 
         #region Common
 #if UNITY_EDITOR
-        public static bool AutoRefresh
-        {
-            get
-            {
-                bool v = EditorPrefs.HasKey(AutoRefreshKey);
-                if (!v)
-                    EditorPrefs.SetBool(AutoRefreshKey, true);
-
-                autoRefresh = UnityEditor.EditorPrefs.GetBool(AutoRefreshKey);
-                return autoRefresh;
-            }
-            set
-            {
-                if (autoRefresh == value)
-                    return;
-
-                autoRefresh = value;
-                EditorPrefs.SetBool(AutoRefreshKey, autoRefresh);
-            }
-        }
-
+        
         public static TextAsset LoadTemplateConfig(string path)
         {
             if (string.IsNullOrEmpty(path))

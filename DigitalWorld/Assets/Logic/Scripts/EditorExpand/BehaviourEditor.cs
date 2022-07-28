@@ -14,54 +14,43 @@ namespace DigitalWorld.Logic
         /// <summary>
         /// 文件的相对路径 基于logic的相对和基于配置流的相对一致
         /// </summary>
-        public string RelativeFilePath { get => relativeFilePath; set => relativeFilePath = value; }
-        private string relativeFilePath;
+        public string RelativeFolderPath
+        {
+            get => relativeFolderPath;
+            set
+            {
+                string path = value.Replace('\\', '/');
+                relativeFolderPath = path;
+            }
+        }
+        public string RelativeAssetFilePath
+        {
+            get
+            {
+                string path = System.IO.Path.Combine(RelativeFolderPath, _name);
+                path += ".asset";
+                return path.Replace('\\', '/');
+            }
+        }
+        private string relativeFolderPath;
         #endregion
 
         #region GUI
         protected override void OnGUIBody()
         {
             base.OnGUIBody();
-        }
-
-        public override void OnGUI()
-        {
-            base.OnGUI();
 
             GUIStyle style = new GUIStyle("Tooltip");
 
-            EditorGUILayout.BeginVertical(style);
-
-            EditorGUILayout.BeginHorizontal();
-
-            _isEditing = EditorGUILayout.Toggle("Behaviour", _isEditing);
-
-
-            //this.OnGUIIndex();
-            //this.OnGUITitleMenu();
-
-            //this.OnGUIUid();
-            //this.OnGUIRefense();
-            //this.OnGUISwitchMenus();
-            //this.OnGUIStatusTitle();
-
-            EditorGUILayout.EndHorizontal();
-
-            if (_isEditing)
+            string srcDesc = this._description;
+            this._description = EditorGUILayout.TextArea(this._description, GUILayout.MinHeight(20));
+            if (srcDesc != _description)
             {
-                string srcDesc = this._description;
-                this._description = EditorGUILayout.TextArea(this._description, GUILayout.MinHeight(20));
-                if (srcDesc != _description)
-                {
-                    this.SetDirty();
-                }
-
-                EditorGUILayout.BeginVertical(style);
-                OnGUIEffects();
-                EditorGUILayout.EndVertical();
-
+                this.SetDirty();
             }
 
+            EditorGUILayout.BeginVertical(style);
+            OnGUIEffects();
             EditorGUILayout.EndVertical();
         }
 
@@ -111,9 +100,9 @@ namespace DigitalWorld.Logic
 
             string text = System.Text.Encoding.UTF8.GetString(data, 0, size);
 
-            string fullPath = System.IO.Path.Combine(RelativeFilePath, this.Name);
+            string fullPath = System.IO.Path.Combine(RelativeFolderPath, this.Name);
             fullPath += ".asset";
-            fullPath = System.IO.Path.Combine(Utility.ConfigsPath, fullPath);
+            fullPath = System.IO.Path.Combine(Utility.LogicExportPath, fullPath);
 
             TextAsset ta = new TextAsset(text);
             AssetDatabase.CreateAsset(ta, fullPath);
@@ -132,7 +121,7 @@ namespace DigitalWorld.Logic
 
             this.Encode(root);
 
-            string fullPath = System.IO.Path.Combine(RelativeFilePath, this.Name);
+            string fullPath = System.IO.Path.Combine(RelativeFolderPath, this.Name);
             fullPath += ".asset";
             fullPath = System.IO.Path.Combine(Utility.ConfigsPath, fullPath);
 
@@ -140,24 +129,21 @@ namespace DigitalWorld.Logic
             TextAsset ta = new TextAsset(xmlDocument.InnerXml);
             AssetDatabase.CreateAsset(ta, fullPath);
 
-
-
-
         }
 
         public virtual void Save()
         {
-            if (!string.IsNullOrEmpty(relativeFilePath))
+            if (!string.IsNullOrEmpty(RelativeFolderPath))
             {
                 bool ret = this.CheckCanSave();
                 if (!ret)
                     return;
 
                 SaveXml();
+                SaveStream();
 
                 this.ResetDirty();
-                //if (Utility.AutoRefresh)
-                //    AssetDatabase.Refresh();
+                AssetDatabase.Refresh();
             }
         }
         #endregion

@@ -54,8 +54,7 @@ namespace DigitalWorld.Logic.Editor
             GenerateEnums(eventDoc, condDoc, actionDoc);
             GenerateHelper(eventDoc, condDoc, actionDoc);
 
-            if (DigitalWorld.Logic.Utility.AutoRefresh)
-                AssetDatabase.Refresh();
+            AssetDatabase.Refresh();
         }
 
         private static string GetWriteXmlText(string baseType, string type, string name)
@@ -502,10 +501,7 @@ namespace DigitalWorld.Logic.Editor
             {
                 SaveAllItems();
 
-                if (DigitalWorld.Logic.Utility.AutoRefresh)
-                {
-                    AssetDatabase.Refresh();
-                }
+                AssetDatabase.Refresh();
 
                 this.StopEdit();
             }

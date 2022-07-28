@@ -38,11 +38,6 @@ namespace DigitalWorld.Logic
         /// </summary>
         public bool IsEditing => _isEditing;
         protected bool _isEditing = true;
-
-        /// <summary>
-        /// 描述信息
-        /// </summary>
-        public string _description = string.Empty;
         #endregion
 
         #region Common
@@ -69,7 +64,7 @@ namespace DigitalWorld.Logic
         public virtual void OnGUITitle()
         {
             bool old = _isEditing;
-            this._isEditing = EditorGUILayout.Toggle(TypeName, old, GUILayout.Width(25));
+            this._isEditing = EditorGUILayout.Toggle(old, GUILayout.Width(25));
             if (old != _isEditing)
             {
                 if (this.Parent != null)
