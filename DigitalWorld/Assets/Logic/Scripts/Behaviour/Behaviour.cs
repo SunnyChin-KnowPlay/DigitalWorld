@@ -9,7 +9,15 @@ namespace DigitalWorld.Logic
     public partial class Behaviour : NodeState
     {
         #region Params
+        public override int Id
+        {
+            get => 0;
+        }
 
+        /// <summary>
+        /// 节点类型
+        /// </summary>
+        public override ENodeType NodeType => ENodeType.Behaviour;
         /// <summary>
         /// 要求词典 所有的子节点都可以向其注入结果以供查询
         /// </summary>

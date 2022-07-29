@@ -7,6 +7,10 @@ namespace DigitalWorld.Logic
         #region Params
         public override int Id => throw new NotImplementedException();
 
+        public override ENodeType NodeType => ENodeType.Condition;
+        /// <summary>
+        /// 与字段数量一致 每个字段的操作符
+        /// </summary>
         protected ECheckOperator[] operators = null;
         #endregion
 

@@ -10,6 +10,8 @@ namespace DigitalWorld.Logic
     {
         #region Params
         public override int Id => throw new NotImplementedException();
+
+        public override ENodeType NodeType => ENodeType.Action;
         #endregion
 
         #region Logic

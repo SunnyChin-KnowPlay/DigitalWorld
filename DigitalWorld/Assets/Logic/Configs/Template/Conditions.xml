@@ -1,4 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <data>
-  
+  <condition id="1" name="RunningTime" desc="运行时间">
+    <field name="duration" baseClassT="" classT="float" desc="时长" />
+  </condition>
 </data>

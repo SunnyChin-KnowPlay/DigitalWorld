@@ -189,7 +189,7 @@ namespace DigitalWorld.Logic
 #endregion
 
 #region Serializion
-		public override void OnEncode(byte[] buffer, int pos)
+		protected override void OnEncode(byte[] buffer, int pos)
         {
             base.OnEncode(buffer, pos);
 <#
@@ -202,7 +202,7 @@ namespace DigitalWorld.Logic
 #>          
         }
 
-        public override void OnDecode(byte[] buffer, int pos)
+        protected override void OnDecode(byte[] buffer, int pos)
         {
             base.OnDecode(buffer, pos);
 <#
@@ -216,7 +216,7 @@ namespace DigitalWorld.Logic
         }
 		
 #if UNITY_EDITOR
-        public override void OnDecode(XmlElement node)
+        protected override void OnDecode(XmlElement node)
         {
             base.OnDecode(node);
 <#
@@ -230,7 +230,7 @@ namespace DigitalWorld.Logic
 #>
         }
 
-        public override void OnEncode(XmlElement node)
+        protected override void OnEncode(XmlElement node)
         {
 			base.OnEncode(node);
 <#

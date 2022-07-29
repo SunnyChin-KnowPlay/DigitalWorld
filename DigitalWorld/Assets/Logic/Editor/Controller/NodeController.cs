@@ -167,7 +167,7 @@ namespace DigitalWorld.Logic.Editor
             tmp = new LogicHelperTemplate();
             tmp.Session = new Dictionary<string, object>();
 
-            string name = "LevelHelper";
+            string name = "LogicHelper";
             tmp.Session["className"] = name;
 
             List<string> names = new List<string>();
@@ -258,8 +258,7 @@ namespace DigitalWorld.Logic.Editor
             List<string> types = new List<string>();
             List<string> descs = new List<string>();
             List<string> values = new List<string>();
-            List<string> varWriteXmls = new List<string>();
-            List<string> varLoadXmls = new List<string>();
+          
             List<string> serializeFuncs = new List<string>();
             List<string> deserializeFuncs = new List<string>();
 
@@ -274,8 +273,6 @@ namespace DigitalWorld.Logic.Editor
                 types.Clear();
                 descs.Clear();
                 values.Clear();
-                varWriteXmls.Clear();
-                varLoadXmls.Clear();
                 serializeFuncs.Clear();
                 deserializeFuncs.Clear();
 
@@ -291,8 +288,6 @@ namespace DigitalWorld.Logic.Editor
                     types.Add(attr.GetAttribute("classT"));
                     descs.Add(attr.GetAttribute("desc"));
                     values.Add(string.Format("default({0})", attr.GetAttribute("classT")));
-                    varWriteXmls.Add(GetWriteXmlText(attr.GetAttribute("baseClassT"), attr.GetAttribute("classT"), attr.GetAttribute("name")));
-                    varLoadXmls.Add(GetLoadXmlText("node", attr.GetAttribute("baseClassT"), attr.GetAttribute("classT"), attr.GetAttribute("name")));
                     serializeFuncs.Add(attr.GetAttribute("baseClassT") == "enum" ? "EncodeEnum" : "Encode");
                     deserializeFuncs.Add(attr.GetAttribute("baseClassT") == "enum" ? "DecodeEnum" : "Decode");
                 }
@@ -309,8 +304,6 @@ namespace DigitalWorld.Logic.Editor
                 tmp.Session["varNames"] = names.ToArray();
                 tmp.Session["descripts"] = descs.ToArray();
                 tmp.Session["defaultValues"] = values.ToArray();
-                tmp.Session["varWriteXmls"] = varWriteXmls.ToArray();
-                tmp.Session["varLoadXmls"] = varLoadXmls.ToArray();
                 tmp.Session["usingNamespaces"] = DigitalWorld.Logic.Utility.usingNamespaces;
                 tmp.Session["serializeFuncs"] = serializeFuncs.ToArray();
                 tmp.Session["deserializeFuncs"] = deserializeFuncs.ToArray();
@@ -333,8 +326,6 @@ namespace DigitalWorld.Logic.Editor
             List<string> types = new List<string>();
             List<string> descs = new List<string>();
             List<string> values = new List<string>();
-            List<string> varWriteXmls = new List<string>();
-            List<string> varLoadXmls = new List<string>();
             List<string> serializeFuncs = new List<string>();
             List<string> deserializeFuncs = new List<string>();
 
@@ -351,8 +342,6 @@ namespace DigitalWorld.Logic.Editor
                 baseTypes.Clear();
                 descs.Clear();
                 values.Clear();
-                varWriteXmls.Clear();
-                varLoadXmls.Clear();
                 serializeFuncs.Clear();
                 deserializeFuncs.Clear();
 
@@ -364,14 +353,11 @@ namespace DigitalWorld.Logic.Editor
                     baseTypes.Add(attr.GetAttribute("baseClassT"));
                     descs.Add(attr.GetAttribute("desc"));
                     values.Add(string.Format("default({0})", attr.GetAttribute("classT")));
-                    varWriteXmls.Add(GetWriteXmlText(attr.GetAttribute("baseClassT"), attr.GetAttribute("classT"), attr.GetAttribute("name")));
-                    varLoadXmls.Add(GetLoadXmlText("node", attr.GetAttribute("baseClassT"), attr.GetAttribute("classT"), attr.GetAttribute("name")));
                     serializeFuncs.Add(attr.GetAttribute("baseClassT") == "enum" ? "EncodeEnum" : "Encode");
                     deserializeFuncs.Add(attr.GetAttribute("baseClassT") == "enum" ? "DecodeEnum" : "Decode");
                 }
                 fileName = "Action" + element.GetAttribute("name") + ".cs";
 
-                #region Action - Logic
                 tmp = new ActionTemplate();
                 tmp.Session = new Dictionary<string, object>();
 
@@ -384,8 +370,6 @@ namespace DigitalWorld.Logic.Editor
                 tmp.Session["varNames"] = names.ToArray();
                 tmp.Session["descripts"] = descs.ToArray();
                 tmp.Session["defaultValues"] = values.ToArray();
-                tmp.Session["varWriteXmls"] = varWriteXmls.ToArray();
-                tmp.Session["varLoadXmls"] = varLoadXmls.ToArray();
                 tmp.Session["usingNamespaces"] = DigitalWorld.Logic.Utility.usingNamespaces;
                 tmp.Session["serializeFuncs"] = serializeFuncs.ToArray();
                 tmp.Session["deserializeFuncs"] = deserializeFuncs.ToArray();
@@ -395,7 +379,6 @@ namespace DigitalWorld.Logic.Editor
 
                 string targetPath = System.IO.Path.Combine(DigitalWorld.Logic.Utility.CodesPath, fileName);
                 DigitalWorld.Logic.Utility.SaveDataToFile(data, targetPath);
-                #endregion
             }
         }
 

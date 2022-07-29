@@ -13,12 +13,12 @@ namespace Assets.Logic.Editor.Templates
     using System.Text;
     using System.Collections.Generic;
     using System;
-
+    
     /// <summary>
     /// Class to produce the template output
     /// </summary>
-
-#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
+    
+    #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
     public partial class EventTemplate : EventTemplateBase
     {
@@ -31,83 +31,83 @@ namespace Assets.Logic.Editor.Templates
             this.Write("using DigitalWorld.Game;\r\nusing UnityEngine;\r\n\r\nnamespace DigitalWorld.Logic\r\n{\r\n" +
                     "    /// <summary>\r\n    /// 事件\r\n    /// </summary>\r\n    public partial struct Eve" +
                     "nt\r\n    {\r\n        #region Construction\r\n\r\n\t\t/// <summary>\r\n        /// Create");
-
-#line 20 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
+            
+            #line 20 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(eventName));
-
-#line default
-#line hidden
+            
+            #line default
+            #line hidden
             this.Write("\r\n        /// </summary> \r\n\t\tpublic static Event Create");
-
-#line 22 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
+            
+            #line 22 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(eventName));
-
-#line default
-#line hidden
+            
+            #line default
+            #line hidden
             this.Write("(UnitHandle triggering, UnitHandle target = default)\r\n        {\r\n            Even" +
                     "t ev = new Event\r\n            {\r\n                Id = (int)EEvent.");
-
-#line 26 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
+            
+            #line 26 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(eventName));
-
-#line default
-#line hidden
+            
+            #line default
+            #line hidden
             this.Write(",\r\n                Triggering = triggering,\r\n                Target = target,\r\n  " +
                     "          };\r\n            return ev;\r\n        }\r\n\r\n        #endregion\r\n    }\r\n}\r" +
                     "\n");
             return this.GenerationEnvironment.ToString();
         }
+        
+        #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
 
-#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
+private string _eventNameField;
 
-        private string _eventNameField;
-
-        /// <summary>
-        /// Access the eventName parameter of the template.
-        /// </summary>
-        private string eventName
-        {
-            get
-            {
-                return this._eventNameField;
-            }
-        }
-
-
-        /// <summary>
-        /// Initialize the template
-        /// </summary>
-        public virtual void Initialize()
-        {
-            if ((this.Errors.HasErrors == false))
-            {
-                bool eventNameValueAcquired = false;
-                if (this.Session.ContainsKey("eventName"))
-                {
-                    this._eventNameField = ((string)(this.Session["eventName"]));
-                    eventNameValueAcquired = true;
-                }
-                if ((eventNameValueAcquired == false))
-                {
-                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("eventName");
-                    if ((data != null))
-                    {
-                        this._eventNameField = ((string)(data));
-                    }
-                }
-
-
-            }
-        }
-
-
-
-#line default
-#line hidden
+/// <summary>
+/// Access the eventName parameter of the template.
+/// </summary>
+private string eventName
+{
+    get
+    {
+        return this._eventNameField;
     }
+}
 
-#line default
-#line hidden
+
+/// <summary>
+/// Initialize the template
+/// </summary>
+public virtual void Initialize()
+{
+    if ((this.Errors.HasErrors == false))
+    {
+bool eventNameValueAcquired = false;
+if (this.Session.ContainsKey("eventName"))
+{
+    this._eventNameField = ((string)(this.Session["eventName"]));
+    eventNameValueAcquired = true;
+}
+if ((eventNameValueAcquired == false))
+{
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("eventName");
+    if ((data != null))
+    {
+        this._eventNameField = ((string)(data));
+    }
+}
+
+
+    }
+}
+
+
+        
+        #line default
+        #line hidden
+    }
+    
+    #line default
+    #line hidden
     #region Base class
     /// <summary>
     /// Base class for this transformation
@@ -207,7 +207,7 @@ namespace Assets.Logic.Editor.Templates
             }
             // If we're starting off, or if the previous text ended with a newline,
             // we have to append the current indent first.
-            if (((this.GenerationEnvironment.Length == 0)
+            if (((this.GenerationEnvironment.Length == 0) 
                         || this.endsWithNewline))
             {
                 this.GenerationEnvironment.Append(this.currentIndentField);
@@ -325,7 +325,7 @@ namespace Assets.Logic.Editor.Templates
         /// </summary>
         public class ToStringInstanceHelper
         {
-            private System.IFormatProvider formatProviderField = global::System.Globalization.CultureInfo.InvariantCulture;
+            private System.IFormatProvider formatProviderField  = global::System.Globalization.CultureInfo.InvariantCulture;
             /// <summary>
             /// Gets or sets format provider to be used by ToStringWithCulture method.
             /// </summary>
@@ -333,13 +333,13 @@ namespace Assets.Logic.Editor.Templates
             {
                 get
                 {
-                    return this.formatProviderField;
+                    return this.formatProviderField ;
                 }
                 set
                 {
                     if ((value != null))
                     {
-                        this.formatProviderField = value;
+                        this.formatProviderField  = value;
                     }
                 }
             }

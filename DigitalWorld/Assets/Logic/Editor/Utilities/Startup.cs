@@ -13,8 +13,7 @@ namespace DigitalWorld.Logic.Editor
         static Startup()
         {
             _ = NodeController.instance;
-            _ = BehaviourController.instance;
-
+           
             Selection.selectionChanged += OnSelectionChanged;
         }
 

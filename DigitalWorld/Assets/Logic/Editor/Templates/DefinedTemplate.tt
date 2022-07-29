@@ -13,7 +13,6 @@ namespace DigitalWorld.Logic
 {
 	public enum EEvent : int
 	{
-		Update = 0,
 <#
 		for (int i = 0; i < eventNames.Length; ++i)
 		{

@@ -38,6 +38,17 @@ namespace DigitalWorld.Logic
         /// </summary>
         public bool IsEditing => _isEditing;
         protected bool _isEditing = true;
+
+        /// <summary>
+        /// 描述信息
+        /// </summary>
+        public virtual string Desc
+        {
+            get
+            {
+                return string.Empty;
+            }
+        }
         #endregion
 
         #region Common
@@ -48,6 +59,11 @@ namespace DigitalWorld.Logic
             {
                 OnDirtyChanged.Invoke(_dirty);
             }
+        }
+
+        protected virtual string GetFieldDesc(string fieldName)
+        {
+            return string.Empty;
         }
         #endregion
 

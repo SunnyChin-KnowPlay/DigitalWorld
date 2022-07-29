@@ -1,13 +1,11 @@
-﻿<#@ template language="C#" #>
-<#@ assembly name="System.Core" #>
+﻿<#@ template language="C#"#>
+<#@ assembly name="System.Core"#>
 <#@ parameter name="className" type="System.String"#>
 <#@ parameter name="baseTypes" type="System.String[]"#>
 <#@ parameter name="types" type="System.String[]"#>
 <#@ parameter name="varNames" type="System.String[]"#>
 <#@ parameter name="descripts" type="System.String[]"#>
 <#@ parameter name="defaultValues" type="System.String[]"#>
-<#@ parameter name="varWriteXmls" type="System.String[]"#>
-<#@ parameter name="varLoadXmls" type="System.String[]"#>
 <#@ parameter name="id" type="System.Int32"#>
 <#@ parameter name="desc" type="System.String"#>
 <#@ parameter name="usingNamespaces" type="System.String[]"#>
@@ -31,7 +29,7 @@ namespace DigitalWorld.Logic
 	/// <summary>
     /// <#= desc #>
     /// </summary>
-	public partial class Condition<#= className #> : BaseCondition
+	public partial class Condition<#= className #> : ConditionBase
 	{
 		#region Common
 		public override int Id
@@ -81,7 +79,7 @@ namespace DigitalWorld.Logic
 #>			
         }
 
-		protected override void OnRecycle()
+		public override void OnRecycle()
         {
             base.OnRecycle();
 <#
@@ -99,7 +97,7 @@ namespace DigitalWorld.Logic
             Condition<#= className #> v = null;
 			if (Application.isPlaying)
             {
-				v = ObjectPool<Condition<#= className #>>.Instance.Allocate();
+				v = Dream.Core.ObjectPool<Condition<#= className #>>.Instance.Allocate();
             }
 			else
 			{
@@ -205,7 +203,7 @@ namespace DigitalWorld.Logic
 		#endregion
 
 		#region Serialization
-		public override void OnEncode(byte[] buffer, int pos)
+		protected override void OnEncode(byte[] buffer, int pos)
         {
             base.OnEncode(buffer, pos);
 <#
@@ -218,7 +216,7 @@ namespace DigitalWorld.Logic
 #>          
         }
 
-        public override void OnDecode(byte[] buffer, int pos)
+        protected override void OnDecode(byte[] buffer, int pos)
         {
             base.OnDecode(buffer, pos);
 <#
@@ -232,28 +230,27 @@ namespace DigitalWorld.Logic
         }
 
 #if UNITY_EDITOR
-        public override void OnDecode(XmlElement node)
+        protected override void OnDecode(XmlElement node)
         {
             base.OnDecode(node);
 <#
 			for (int i = 0; i < types.Length; ++i)
 			{
 #>
-			if (node.HasAttribute("<#= varNames[i] #>"))
-				<#= varNames[i] #> = <#= varLoadXmls[i] #>;
+			<#= deserializeFuncs[i] #>(ref this.<#= varNames[i] #>, "<#= varNames[i] #>");
 <#
 			}
 #>
         }
 
-        public override void OnEncode(XmlElement node)
+        protected override void OnEncode(XmlElement node)
         {
 			base.OnEncode(node);
 <#
 			for (int i = 0; i < types.Length; ++i)
 			{
 #>
-			node.SetAttribute("<#= varNames[i] #>", <#= varWriteXmls[i] #>);
+			<#= serializeFuncs[i] #>(this.<#= varNames[i] #>, "<#= varNames[i] #>");
 <#
 			}
 #>

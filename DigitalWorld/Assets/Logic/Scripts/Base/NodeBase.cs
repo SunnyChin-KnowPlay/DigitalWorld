@@ -9,7 +9,7 @@ namespace DigitalWorld.Logic
     /// <summary>
     /// 逻辑根节点
     /// </summary>
-    public abstract partial class NodeBase : ByteBuffer
+    public abstract partial class NodeBase : ByteBuffer, INode
     {
         #region Params
         /// <summary>
@@ -87,6 +87,17 @@ namespace DigitalWorld.Logic
                 return this.GetType().ToString();
             }
         }
+
+        /// <summary>
+        /// 节点类型
+        /// </summary>
+        public abstract ENodeType NodeType { get; }
+
+        /// <summary>
+        /// 效果的配置ID
+        /// </summary>
+        public abstract int Id { get; }
+
 
         public virtual string Name
         {
@@ -296,10 +307,10 @@ namespace DigitalWorld.Logic
 
             XmlDocument doc = element.OwnerDocument;
 
+            this.Encode(this.TypeName, "_typeName");
             this.Encode(this._enabled, "_enabled");
             this.Encode(this._name, "_name");
-            this.Encode(this.TypeName, "_typeName");
-
+           
             XmlElement childrenEle = doc.CreateElement("_children");
             for (int i = 0; i < _children.Count; ++i)
             {
@@ -351,10 +362,6 @@ namespace DigitalWorld.Logic
         /// <param name="delta"></param>
         public void Update(float delta)
         {
-            //当未激活时 不执行任何逻辑
-            if (!this.Enabled)
-                return;
-
             _enabledDurationTime += delta;
 
             OnUpdate(delta);

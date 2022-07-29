@@ -1,12 +1,12 @@
 ﻿namespace DigitalWorld.Logic
 {
-    public enum ECheckLogic
+    public enum ECheckLogic : int
     {
         And = 0,
         Or = 1,
     }
 
-    public enum ECheckOperator
+    public enum ECheckOperator : int
     {
         /// <summary>
         /// 相等
@@ -34,5 +34,27 @@
         LessThanOrEquipTo = 5,
     }
 
-    
+    public enum ENodeType : int
+    {
+        /// <summary>
+        /// 空 没有的
+        /// </summary>
+        None = 0,
+        /// <summary>
+        /// 行动
+        /// </summary>
+        Action = 1 << 0,
+        /// <summary>
+        /// 条件
+        /// </summary>
+        Condition = 1 << 1,
+        /// <summary>
+        /// 触发器
+        /// </summary>
+        Trigger = 1 << 2,
+        /// <summary>
+        /// 行为
+        /// </summary>
+        Behaviour = 1 << 3,
+    }
 }

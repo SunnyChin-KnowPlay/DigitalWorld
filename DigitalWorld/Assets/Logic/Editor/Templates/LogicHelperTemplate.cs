@@ -13,12 +13,12 @@ namespace Assets.Logic.Editor.Templates
     using System.Text;
     using System.Collections.Generic;
     using System;
-
+    
     /// <summary>
     /// Class to produce the template output
     /// </summary>
-
-#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+    
+    #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
     public partial class LogicHelperTemplate : LogicHelperTemplateBase
     {
@@ -29,352 +29,384 @@ namespace Assets.Logic.Editor.Templates
         public virtual string TransformText()
         {
             this.Write("namespace DigitalWorld.Logic\r\n{\r\n    public sealed partial class ");
-
-#line 17 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+            
+            #line 17 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
-
-#line default
-#line hidden
-            this.Write("\r\n    {\r\n        public ActionBase GetAction(int id)\r\n        {\r\n            swit" +
-                    "ch (id)\r\n            {\r\n");
-
-#line 23 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
-
-            for (int i = 0; i < actionEnums.Length; ++i)
+            
+            #line default
+            #line hidden
+            this.Write(@"
+    {
+        /// <summary>
+        /// 通过节点类型和ID来获取对应的节点对象
+        /// </summary>
+        /// <param name=""nodeType""></param>
+        /// <param name=""id""></param>
+        /// <returns></returns>
+        public NodeBase GetNode(ENodeType nodeType, int id)
+        {
+            switch (nodeType)
             {
-
-
-#line default
-#line hidden
-                this.Write("\t\t\t\tcase ");
-
-#line 27 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
-                this.Write(this.ToStringHelper.ToStringWithCulture(actionEnums[i]));
-
-#line default
-#line hidden
-                this.Write(":\r\n\t\t\t\t\treturn GetAction<Action");
-
-#line 28 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
-                this.Write(this.ToStringHelper.ToStringWithCulture(actionNames[i]));
-
-#line default
-#line hidden
-                this.Write(">(id);\r\n");
-
-#line 29 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
-
+                case ENodeType.Condition:
+                {
+                    return GetCondition(id);
+                }
+                case ENodeType.Action:
+                {
+                    return GetAction(id);
+                }
+                case ENodeType.Behaviour:
+                {
+                    return GetNode<Behaviour>();
+                }
+                default:
+                    return null;
             }
+        }
 
+        public ActionBase GetAction(int id)
+        {
+            switch (id)
+            {
+");
+            
+            #line 50 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
 
-#line default
-#line hidden
+				for (int i = 0; i < actionEnums.Length; ++i)
+				{
+
+            
+            #line default
+            #line hidden
+            this.Write("\t\t\t\tcase ");
+            
+            #line 54 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(actionEnums[i]));
+            
+            #line default
+            #line hidden
+            this.Write(":\r\n\t\t\t\t\treturn GetNode<Action");
+            
+            #line 55 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(actionNames[i]));
+            
+            #line default
+            #line hidden
+            this.Write(">();\r\n");
+            
+            #line 56 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+
+				}
+
+            
+            #line default
+            #line hidden
             this.Write("              \r\n            }\r\n            return null;\r\n        }\r\n\r\n        pub" +
                     "lic ConditionBase GetCondition(int id)\r\n        {\r\n            switch (id)\r\n    " +
                     "        {\r\n");
+            
+            #line 67 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
 
-#line 40 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+				for (int i = 0; i < conditionEnums.Length; ++i)
+				{
 
-            for (int i = 0; i < conditionEnums.Length; ++i)
-            {
+            
+            #line default
+            #line hidden
+            this.Write("\t\t\t\tcase ");
+            
+            #line 71 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(conditionEnums[i]));
+            
+            #line default
+            #line hidden
+            this.Write(":\r\n\t\t\t\t\treturn GetNode<Condition");
+            
+            #line 72 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(conditionNames[i]));
+            
+            #line default
+            #line hidden
+            this.Write(">();\r\n");
+            
+            #line 73 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
 
+				}
 
-#line default
-#line hidden
-                this.Write("\t\t\t\tcase ");
-
-#line 44 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
-                this.Write(this.ToStringHelper.ToStringWithCulture(conditionEnums[i]));
-
-#line default
-#line hidden
-                this.Write(":\r\n\t\t\t\t\treturn GetCondition<Condition");
-
-#line 45 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
-                this.Write(this.ToStringHelper.ToStringWithCulture(conditionNames[i]));
-
-#line default
-#line hidden
-                this.Write(">(id);\r\n");
-
-#line 46 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
-
-            }
-
-
-#line default
-#line hidden
+            
+            #line default
+            #line hidden
             this.Write("              \r\n            }\r\n            return null;\r\n        }\r\n\r\n\t\t\r\n    }\r\n" +
                     "}\r\n");
             return this.GenerationEnvironment.ToString();
         }
+        
+        #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
 
-#line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+private string _classNameField;
 
-        private string _classNameField;
-
-        /// <summary>
-        /// Access the className parameter of the template.
-        /// </summary>
-        private string className
-        {
-            get
-            {
-                return this._classNameField;
-            }
-        }
-
-        private string[] _actionEnumsField;
-
-        /// <summary>
-        /// Access the actionEnums parameter of the template.
-        /// </summary>
-        private string[] actionEnums
-        {
-            get
-            {
-                return this._actionEnumsField;
-            }
-        }
-
-        private string[] _actionNamesField;
-
-        /// <summary>
-        /// Access the actionNames parameter of the template.
-        /// </summary>
-        private string[] actionNames
-        {
-            get
-            {
-                return this._actionNamesField;
-            }
-        }
-
-        private string[] _conditionEnumsField;
-
-        /// <summary>
-        /// Access the conditionEnums parameter of the template.
-        /// </summary>
-        private string[] conditionEnums
-        {
-            get
-            {
-                return this._conditionEnumsField;
-            }
-        }
-
-        private string[] _conditionNamesField;
-
-        /// <summary>
-        /// Access the conditionNames parameter of the template.
-        /// </summary>
-        private string[] conditionNames
-        {
-            get
-            {
-                return this._conditionNamesField;
-            }
-        }
-
-        private string[] _propertyEnumsField;
-
-        /// <summary>
-        /// Access the propertyEnums parameter of the template.
-        /// </summary>
-        private string[] propertyEnums
-        {
-            get
-            {
-                return this._propertyEnumsField;
-            }
-        }
-
-        private string[] _propertyNamesField;
-
-        /// <summary>
-        /// Access the propertyNames parameter of the template.
-        /// </summary>
-        private string[] propertyNames
-        {
-            get
-            {
-                return this._propertyNamesField;
-            }
-        }
-
-        private string[] _eventIdsField;
-
-        /// <summary>
-        /// Access the eventIds parameter of the template.
-        /// </summary>
-        private string[] eventIds
-        {
-            get
-            {
-                return this._eventIdsField;
-            }
-        }
-
-        private string[] _eventNamesField;
-
-        /// <summary>
-        /// Access the eventNames parameter of the template.
-        /// </summary>
-        private string[] eventNames
-        {
-            get
-            {
-                return this._eventNamesField;
-            }
-        }
-
-
-        /// <summary>
-        /// Initialize the template
-        /// </summary>
-        public virtual void Initialize()
-        {
-            if ((this.Errors.HasErrors == false))
-            {
-                bool classNameValueAcquired = false;
-                if (this.Session.ContainsKey("className"))
-                {
-                    this._classNameField = ((string)(this.Session["className"]));
-                    classNameValueAcquired = true;
-                }
-                if ((classNameValueAcquired == false))
-                {
-                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("className");
-                    if ((data != null))
-                    {
-                        this._classNameField = ((string)(data));
-                    }
-                }
-                bool actionEnumsValueAcquired = false;
-                if (this.Session.ContainsKey("actionEnums"))
-                {
-                    this._actionEnumsField = ((string[])(this.Session["actionEnums"]));
-                    actionEnumsValueAcquired = true;
-                }
-                if ((actionEnumsValueAcquired == false))
-                {
-                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("actionEnums");
-                    if ((data != null))
-                    {
-                        this._actionEnumsField = ((string[])(data));
-                    }
-                }
-                bool actionNamesValueAcquired = false;
-                if (this.Session.ContainsKey("actionNames"))
-                {
-                    this._actionNamesField = ((string[])(this.Session["actionNames"]));
-                    actionNamesValueAcquired = true;
-                }
-                if ((actionNamesValueAcquired == false))
-                {
-                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("actionNames");
-                    if ((data != null))
-                    {
-                        this._actionNamesField = ((string[])(data));
-                    }
-                }
-                bool conditionEnumsValueAcquired = false;
-                if (this.Session.ContainsKey("conditionEnums"))
-                {
-                    this._conditionEnumsField = ((string[])(this.Session["conditionEnums"]));
-                    conditionEnumsValueAcquired = true;
-                }
-                if ((conditionEnumsValueAcquired == false))
-                {
-                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("conditionEnums");
-                    if ((data != null))
-                    {
-                        this._conditionEnumsField = ((string[])(data));
-                    }
-                }
-                bool conditionNamesValueAcquired = false;
-                if (this.Session.ContainsKey("conditionNames"))
-                {
-                    this._conditionNamesField = ((string[])(this.Session["conditionNames"]));
-                    conditionNamesValueAcquired = true;
-                }
-                if ((conditionNamesValueAcquired == false))
-                {
-                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("conditionNames");
-                    if ((data != null))
-                    {
-                        this._conditionNamesField = ((string[])(data));
-                    }
-                }
-                bool propertyEnumsValueAcquired = false;
-                if (this.Session.ContainsKey("propertyEnums"))
-                {
-                    this._propertyEnumsField = ((string[])(this.Session["propertyEnums"]));
-                    propertyEnumsValueAcquired = true;
-                }
-                if ((propertyEnumsValueAcquired == false))
-                {
-                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("propertyEnums");
-                    if ((data != null))
-                    {
-                        this._propertyEnumsField = ((string[])(data));
-                    }
-                }
-                bool propertyNamesValueAcquired = false;
-                if (this.Session.ContainsKey("propertyNames"))
-                {
-                    this._propertyNamesField = ((string[])(this.Session["propertyNames"]));
-                    propertyNamesValueAcquired = true;
-                }
-                if ((propertyNamesValueAcquired == false))
-                {
-                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("propertyNames");
-                    if ((data != null))
-                    {
-                        this._propertyNamesField = ((string[])(data));
-                    }
-                }
-                bool eventIdsValueAcquired = false;
-                if (this.Session.ContainsKey("eventIds"))
-                {
-                    this._eventIdsField = ((string[])(this.Session["eventIds"]));
-                    eventIdsValueAcquired = true;
-                }
-                if ((eventIdsValueAcquired == false))
-                {
-                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("eventIds");
-                    if ((data != null))
-                    {
-                        this._eventIdsField = ((string[])(data));
-                    }
-                }
-                bool eventNamesValueAcquired = false;
-                if (this.Session.ContainsKey("eventNames"))
-                {
-                    this._eventNamesField = ((string[])(this.Session["eventNames"]));
-                    eventNamesValueAcquired = true;
-                }
-                if ((eventNamesValueAcquired == false))
-                {
-                    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("eventNames");
-                    if ((data != null))
-                    {
-                        this._eventNamesField = ((string[])(data));
-                    }
-                }
-
-
-            }
-        }
-
-
-
-#line default
-#line hidden
+/// <summary>
+/// Access the className parameter of the template.
+/// </summary>
+private string className
+{
+    get
+    {
+        return this._classNameField;
     }
+}
 
-#line default
-#line hidden
+private string[] _actionEnumsField;
+
+/// <summary>
+/// Access the actionEnums parameter of the template.
+/// </summary>
+private string[] actionEnums
+{
+    get
+    {
+        return this._actionEnumsField;
+    }
+}
+
+private string[] _actionNamesField;
+
+/// <summary>
+/// Access the actionNames parameter of the template.
+/// </summary>
+private string[] actionNames
+{
+    get
+    {
+        return this._actionNamesField;
+    }
+}
+
+private string[] _conditionEnumsField;
+
+/// <summary>
+/// Access the conditionEnums parameter of the template.
+/// </summary>
+private string[] conditionEnums
+{
+    get
+    {
+        return this._conditionEnumsField;
+    }
+}
+
+private string[] _conditionNamesField;
+
+/// <summary>
+/// Access the conditionNames parameter of the template.
+/// </summary>
+private string[] conditionNames
+{
+    get
+    {
+        return this._conditionNamesField;
+    }
+}
+
+private string[] _propertyEnumsField;
+
+/// <summary>
+/// Access the propertyEnums parameter of the template.
+/// </summary>
+private string[] propertyEnums
+{
+    get
+    {
+        return this._propertyEnumsField;
+    }
+}
+
+private string[] _propertyNamesField;
+
+/// <summary>
+/// Access the propertyNames parameter of the template.
+/// </summary>
+private string[] propertyNames
+{
+    get
+    {
+        return this._propertyNamesField;
+    }
+}
+
+private string[] _eventIdsField;
+
+/// <summary>
+/// Access the eventIds parameter of the template.
+/// </summary>
+private string[] eventIds
+{
+    get
+    {
+        return this._eventIdsField;
+    }
+}
+
+private string[] _eventNamesField;
+
+/// <summary>
+/// Access the eventNames parameter of the template.
+/// </summary>
+private string[] eventNames
+{
+    get
+    {
+        return this._eventNamesField;
+    }
+}
+
+
+/// <summary>
+/// Initialize the template
+/// </summary>
+public virtual void Initialize()
+{
+    if ((this.Errors.HasErrors == false))
+    {
+bool classNameValueAcquired = false;
+if (this.Session.ContainsKey("className"))
+{
+    this._classNameField = ((string)(this.Session["className"]));
+    classNameValueAcquired = true;
+}
+if ((classNameValueAcquired == false))
+{
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("className");
+    if ((data != null))
+    {
+        this._classNameField = ((string)(data));
+    }
+}
+bool actionEnumsValueAcquired = false;
+if (this.Session.ContainsKey("actionEnums"))
+{
+    this._actionEnumsField = ((string[])(this.Session["actionEnums"]));
+    actionEnumsValueAcquired = true;
+}
+if ((actionEnumsValueAcquired == false))
+{
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("actionEnums");
+    if ((data != null))
+    {
+        this._actionEnumsField = ((string[])(data));
+    }
+}
+bool actionNamesValueAcquired = false;
+if (this.Session.ContainsKey("actionNames"))
+{
+    this._actionNamesField = ((string[])(this.Session["actionNames"]));
+    actionNamesValueAcquired = true;
+}
+if ((actionNamesValueAcquired == false))
+{
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("actionNames");
+    if ((data != null))
+    {
+        this._actionNamesField = ((string[])(data));
+    }
+}
+bool conditionEnumsValueAcquired = false;
+if (this.Session.ContainsKey("conditionEnums"))
+{
+    this._conditionEnumsField = ((string[])(this.Session["conditionEnums"]));
+    conditionEnumsValueAcquired = true;
+}
+if ((conditionEnumsValueAcquired == false))
+{
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("conditionEnums");
+    if ((data != null))
+    {
+        this._conditionEnumsField = ((string[])(data));
+    }
+}
+bool conditionNamesValueAcquired = false;
+if (this.Session.ContainsKey("conditionNames"))
+{
+    this._conditionNamesField = ((string[])(this.Session["conditionNames"]));
+    conditionNamesValueAcquired = true;
+}
+if ((conditionNamesValueAcquired == false))
+{
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("conditionNames");
+    if ((data != null))
+    {
+        this._conditionNamesField = ((string[])(data));
+    }
+}
+bool propertyEnumsValueAcquired = false;
+if (this.Session.ContainsKey("propertyEnums"))
+{
+    this._propertyEnumsField = ((string[])(this.Session["propertyEnums"]));
+    propertyEnumsValueAcquired = true;
+}
+if ((propertyEnumsValueAcquired == false))
+{
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("propertyEnums");
+    if ((data != null))
+    {
+        this._propertyEnumsField = ((string[])(data));
+    }
+}
+bool propertyNamesValueAcquired = false;
+if (this.Session.ContainsKey("propertyNames"))
+{
+    this._propertyNamesField = ((string[])(this.Session["propertyNames"]));
+    propertyNamesValueAcquired = true;
+}
+if ((propertyNamesValueAcquired == false))
+{
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("propertyNames");
+    if ((data != null))
+    {
+        this._propertyNamesField = ((string[])(data));
+    }
+}
+bool eventIdsValueAcquired = false;
+if (this.Session.ContainsKey("eventIds"))
+{
+    this._eventIdsField = ((string[])(this.Session["eventIds"]));
+    eventIdsValueAcquired = true;
+}
+if ((eventIdsValueAcquired == false))
+{
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("eventIds");
+    if ((data != null))
+    {
+        this._eventIdsField = ((string[])(data));
+    }
+}
+bool eventNamesValueAcquired = false;
+if (this.Session.ContainsKey("eventNames"))
+{
+    this._eventNamesField = ((string[])(this.Session["eventNames"]));
+    eventNamesValueAcquired = true;
+}
+if ((eventNamesValueAcquired == false))
+{
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("eventNames");
+    if ((data != null))
+    {
+        this._eventNamesField = ((string[])(data));
+    }
+}
+
+
+    }
+}
+
+
+        
+        #line default
+        #line hidden
+    }
+    
+    #line default
+    #line hidden
     #region Base class
     /// <summary>
     /// Base class for this transformation
@@ -474,7 +506,7 @@ namespace Assets.Logic.Editor.Templates
             }
             // If we're starting off, or if the previous text ended with a newline,
             // we have to append the current indent first.
-            if (((this.GenerationEnvironment.Length == 0)
+            if (((this.GenerationEnvironment.Length == 0) 
                         || this.endsWithNewline))
             {
                 this.GenerationEnvironment.Append(this.currentIndentField);
@@ -592,7 +624,7 @@ namespace Assets.Logic.Editor.Templates
         /// </summary>
         public class ToStringInstanceHelper
         {
-            private System.IFormatProvider formatProviderField = global::System.Globalization.CultureInfo.InvariantCulture;
+            private System.IFormatProvider formatProviderField  = global::System.Globalization.CultureInfo.InvariantCulture;
             /// <summary>
             /// Gets or sets format provider to be used by ToStringWithCulture method.
             /// </summary>
@@ -600,13 +632,13 @@ namespace Assets.Logic.Editor.Templates
             {
                 get
                 {
-                    return this.formatProviderField;
+                    return this.formatProviderField ;
                 }
                 set
                 {
                     if ((value != null))
                     {
-                        this.formatProviderField = value;
+                        this.formatProviderField  = value;
                     }
                 }
             }
