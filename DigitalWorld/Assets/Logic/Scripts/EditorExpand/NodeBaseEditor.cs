@@ -36,7 +36,7 @@ namespace DigitalWorld.Logic
         /// <summary>
         /// 是否正在编辑中
         /// </summary>
-        public bool IsEditing => _isEditing;
+        internal virtual bool IsEditing { get => _isEditing; set => _isEditing = value; }
         protected bool _isEditing = true;
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace DigitalWorld.Logic
         public virtual void OnGUI()
         {
             OnGUITitle();
-            if (this._isEditing)
+            if (this.IsEditing)
             {
                 OnGUIBody();
             }
@@ -79,16 +79,41 @@ namespace DigitalWorld.Logic
 
         public virtual void OnGUITitle()
         {
-            bool old = _isEditing;
-            this._isEditing = EditorGUILayout.Toggle(old, GUILayout.Width(25));
-            if (old != _isEditing)
+            GUIStyle style = new GUIStyle("Tooltip");
+            EditorGUILayout.BeginHorizontal(style);
+
+            bool old = _enabled;
+            this._enabled = EditorGUILayout.Toggle(old, GUILayout.Width(25));
+            if (old != _enabled)
             {
                 if (this.Parent != null)
                     this.Parent.SetDirty();
             }
 
-            this.OnGUIType();
+            this.OnGUIName();
             this.OnGUIIndex();
+
+            EditorGUILayout.EndHorizontal();
+        }
+
+        protected virtual void OnGUIDescription()
+        {
+            string srcDesc = this._description;
+            this._description = EditorGUILayout.TextArea(this._description, GUILayout.MinHeight(20));
+            if (srcDesc != _description)
+            {
+                this.SetDirty();
+            }
+        }
+
+        protected virtual void OnGUIName()
+        {
+            string old = _name;
+            _name = EditorGUILayout.TextField(_name, GUILayout.MaxWidth(160));
+            if (old != _name)
+            {
+                this.SetDirty();
+            }
         }
 
         protected virtual void OnGUIType()
@@ -103,7 +128,25 @@ namespace DigitalWorld.Logic
 
         protected virtual void OnGUIBody()
         {
+            OnGUIChildren();
+        }
 
+        protected virtual void OnGUIChildren()
+        {
+            if (this._children.Count > 0)
+            {
+                GUIStyle style = new GUIStyle("Tooltip");
+                EditorGUILayout.BeginVertical(style);
+                for (int i = 0; i < this._children.Count; ++i)
+                {
+                    NodeBase node = this._children[i];
+                    if (null != node)
+                    {
+                        node.OnGUI();
+                    }
+                }
+                EditorGUILayout.EndVertical();
+            }
         }
         #endregion
 #endif

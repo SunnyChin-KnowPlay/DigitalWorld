@@ -23,14 +23,18 @@ namespace DigitalWorld.Logic.Editor
             if (null != obj)
             {
                 string path = AssetDatabase.GetAssetPath(Selection.activeInstanceID);
-                if (!string.IsNullOrEmpty(path)) // 先看一下路径是否存在
+                if (!string.IsNullOrEmpty(path)) // 先看一下路径是否存在 
                 {
-                    // 这里区别处理一下 看到底是behaviour还是trigger之类的
-
-                    if (path.Contains(Logic.Utility.BehaviourPath))
+                    // 然后看一下是否为文件
+                    if (System.IO.File.Exists(path))
                     {
-                        // 这里说明是行为
-                        OnSelectedBehaviour(path);
+                        // 这里区别处理一下 看到底是behaviour还是trigger之类的
+
+                        if (path.Contains(Logic.Utility.BehaviourPath))
+                        {
+                            // 这里说明是行为
+                            OnSelectedBehaviour(path);
+                        }
                     }
                 }
             }
@@ -38,7 +42,7 @@ namespace DigitalWorld.Logic.Editor
 
         private static void OnSelectedBehaviour(string path)
         {
-            string relativePath = path.Substring(DigitalWorld.Logic.Utility.ConfigsPath.Length + 1); 
+            string relativePath = path.Substring(DigitalWorld.Logic.Utility.ConfigsPath.Length + 1);
             if (string.IsNullOrEmpty(relativePath))
                 return;
 

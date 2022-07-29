@@ -14,18 +14,7 @@ namespace DigitalWorld.Logic
             base.OnGUI();
         }
 
-        public override void OnGUITitle()
-        {
-            bool old = _isEditing;
-            this._isEditing = EditorGUILayout.Toggle(old, GUILayout.Width(25));
-            if (old != _isEditing)
-            {
-                if (this.Parent != null)
-                    this.Parent.SetDirty();
-            }
-
-            this.OnGUIType();
-        }
+        
         #endregion
 #endif
     }

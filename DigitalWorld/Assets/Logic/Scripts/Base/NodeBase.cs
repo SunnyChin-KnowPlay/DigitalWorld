@@ -114,6 +114,12 @@ namespace DigitalWorld.Logic
             get { return _enabledDurationTime; }
         }
         protected float _enabledDurationTime = 0;
+
+        /// <summary>
+        /// 描述信息
+        /// </summary>
+        public string Description { get => _description; set => _description = value; }
+        protected string _description = string.Empty;
         #endregion
 
         #region Pool
@@ -125,6 +131,7 @@ namespace DigitalWorld.Logic
             this._parent = null;
             this._name = null;
             this._enabledDurationTime = 0;
+            this._description = string.Empty;
         }
 
         public override void OnRecycle()
@@ -291,6 +298,7 @@ namespace DigitalWorld.Logic
 
             this.CalculateSize(this._enabled);
             this.CalculateSize(this._name);
+            this.CalculateSize(this._description);
         }
 
         protected override void OnEncode(byte[] buffer, int pos)
@@ -310,7 +318,8 @@ namespace DigitalWorld.Logic
             this.Encode(this.TypeName, "_typeName");
             this.Encode(this._enabled, "_enabled");
             this.Encode(this._name, "_name");
-           
+			this.Encode(this._description, "_description");
+
             XmlElement childrenEle = doc.CreateElement("_children");
             for (int i = 0; i < _children.Count; ++i)
             {
@@ -335,6 +344,7 @@ namespace DigitalWorld.Logic
 
             this.Decode(ref this._enabled, "_enabled");
             this.Decode(ref this._name, "_name");
+            this.Decode(ref this._description, "_description");
 
             _children.Clear();
             XmlElement childrenEle = element["_children"];

@@ -33,38 +33,66 @@ namespace DigitalWorld.Logic
             }
         }
         private string relativeFolderPath;
+
+        internal override bool IsEditing => true;
         #endregion
 
         #region GUI
+        public override void OnGUITitle()
+        {
+            GUIStyle style = new GUIStyle("Tooltip");
+            EditorGUILayout.BeginHorizontal(style);
+
+            bool old = _enabled;
+            this._enabled = EditorGUILayout.Toggle(old, GUILayout.Width(25));
+            if (old != _enabled)
+            {
+                if (this.Parent != null)
+                    this.Parent.SetDirty();
+            }
+
+            this.OnGUIName();
+            GUILayout.FlexibleSpace();
+
+            OnGUITopMenus();
+
+            EditorGUILayout.EndHorizontal();
+        }
+
+        /// <summary>
+        /// 顶部操作菜单
+        /// </summary>
+        private void OnGUITopMenus()
+        {
+            if (GUILayout.Button("OpenAll"))
+            {
+                for (int i = 0; i < this._children.Count; ++i)
+                {
+                    this._children[i].IsEditing = true;
+                }
+            }
+
+            if (GUILayout.Button("CloseAll"))
+            {
+                for (int i = 0; i < this._children.Count; ++i)
+                {
+                    this._children[i].IsEditing = false;
+                }
+            }
+        }
+
         protected override void OnGUIBody()
         {
             base.OnGUIBody();
 
-            GUIStyle style = new GUIStyle("Tooltip");
 
-            string srcDesc = this._description;
-            this._description = EditorGUILayout.TextArea(this._description, GUILayout.MinHeight(20));
-            if (srcDesc != _description)
-            {
-                this.SetDirty();
-            }
 
-            EditorGUILayout.BeginVertical(style);
-            OnGUIEffects();
-            EditorGUILayout.EndVertical();
+
+
+
         }
 
-        protected virtual void OnGUIEffects()
-        {
-            for (int i = 0; i < this._children.Count; ++i)
-            {
-                Effect effect = this._children[i] as Effect;
-                if (null != effect)
-                {
-                    effect.OnGUI();
-                }
-            }
-        }
+
         #endregion
 
         #region Common
