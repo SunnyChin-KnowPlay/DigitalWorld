@@ -66,46 +66,46 @@ namespace Assets.Logic.Editor.Templates
 
         public ActionBase GetAction(int id)
         {
-            switch (id)
+            return id switch
             {
 ");
             
             #line 50 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
 
-				for (int i = 0; i < actionEnums.Length; ++i)
-				{
+                for (int i = 0; i < actionEnums.Length; ++i)
+                {
 
             
             #line default
             #line hidden
-            this.Write("\t\t\t\tcase ");
+            this.Write("                ");
             
             #line 54 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(actionEnums[i]));
             
             #line default
             #line hidden
-            this.Write(":\r\n\t\t\t\t\treturn GetNode<Action");
+            this.Write(" => GetNode<Action");
             
-            #line 55 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+            #line 54 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(actionNames[i]));
             
             #line default
             #line hidden
-            this.Write(">();\r\n");
+            this.Write(">(),\r\n");
             
-            #line 56 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+            #line 55 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
 
-				}
+                }
 
             
             #line default
             #line hidden
-            this.Write("              \r\n            }\r\n            return null;\r\n        }\r\n\r\n        pub" +
-                    "lic ConditionBase GetCondition(int id)\r\n        {\r\n            switch (id)\r\n    " +
-                    "        {\r\n");
+            this.Write("                \r\n                _ => null,\r\n            };\r\n        }\r\n\r\n      " +
+                    "  public ConditionBase GetCondition(int id)\r\n        {\r\n            return id sw" +
+                    "itch\r\n            {\r\n");
             
-            #line 67 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+            #line 66 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
 
 				for (int i = 0; i < conditionEnums.Length; ++i)
 				{
@@ -113,31 +113,30 @@ namespace Assets.Logic.Editor.Templates
             
             #line default
             #line hidden
-            this.Write("\t\t\t\tcase ");
+            this.Write("                ");
             
-            #line 71 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+            #line 70 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(conditionEnums[i]));
             
             #line default
             #line hidden
-            this.Write(":\r\n\t\t\t\t\treturn GetNode<Condition");
+            this.Write(" => GetNode<Condition");
             
-            #line 72 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+            #line 70 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(conditionNames[i]));
             
             #line default
             #line hidden
-            this.Write(">();\r\n");
+            this.Write(">(),\r\n");
             
-            #line 73 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+            #line 71 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
 
 				}
 
             
             #line default
             #line hidden
-            this.Write("              \r\n            }\r\n            return null;\r\n        }\r\n\r\n\t\t\r\n    }\r\n" +
-                    "}\r\n");
+            this.Write("    \r\n                _ => null,\r\n            };\r\n        }\r\n\r\n\t\t\r\n    }\r\n}\r\n");
             return this.GenerationEnvironment.ToString();
         }
         

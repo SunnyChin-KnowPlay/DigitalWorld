@@ -45,36 +45,34 @@ namespace DigitalWorld.Logic
 
         public ActionBase GetAction(int id)
         {
-            switch (id)
+            return id switch
             {
 <#
-				for (int i = 0; i < actionEnums.Length; ++i)
-				{
+                for (int i = 0; i < actionEnums.Length; ++i)
+                {
 #>
-				case <#= actionEnums[i] #>:
-					return GetNode<Action<#= actionNames[i] #>>();
+                <#= actionEnums[i] #> => GetNode<Action<#= actionNames[i] #>>(),
 <#
-				}
-#>              
-            }
-            return null;
+                }
+#>                
+                _ => null,
+            };
         }
 
         public ConditionBase GetCondition(int id)
         {
-            switch (id)
+            return id switch
             {
 <#
 				for (int i = 0; i < conditionEnums.Length; ++i)
 				{
 #>
-				case <#= conditionEnums[i] #>:
-					return GetNode<Condition<#= conditionNames[i] #>>();
+                <#= conditionEnums[i] #> => GetNode<Condition<#= conditionNames[i] #>>(),
 <#
 				}
-#>              
-            }
-            return null;
+#>    
+                _ => null,
+            };
         }
 
 		

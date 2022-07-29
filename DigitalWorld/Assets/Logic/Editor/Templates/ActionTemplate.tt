@@ -5,8 +5,6 @@
 <#@ parameter name="types" type="System.String[]"#>
 <#@ parameter name="varNames" type="System.String[]"#>
 <#@ parameter name="descripts" type="System.String[]"#>
-<#@ parameter name="varWriteXmls" type="System.String[]"#>
-<#@ parameter name="varLoadXmls" type="System.String[]"#>
 <#@ parameter name="id" type="System.Int32"#>
 <#@ parameter name="desc" type="System.String"#>
 <#@ parameter name="usingNamespaces" type="System.String[]"#>
@@ -31,7 +29,7 @@ namespace DigitalWorld.Logic
 	/// <summary>
     /// <#= desc #>
     /// </summary>
-	public partial class Action<#= className #> : BaseAction
+	public partial class Action<#= className #> : ActionBase
 	{
 #region Common
 		public override int Id
@@ -73,7 +71,7 @@ namespace DigitalWorld.Logic
 #>
         }
 
-		protected override void OnRecycle()
+		public override void OnRecycle()
         {
             base.OnRecycle();
 <#
@@ -102,7 +100,7 @@ namespace DigitalWorld.Logic
 			Action<#= className #> v = null;
 			if (Application.isPlaying)
             {
-				v = ObjectPool<Action<#= className #>>.Instance.Allocate();
+				v = Dream.Core.ObjectPool<Action<#= className #>>.Instance.Allocate();
             }
 			else
 			{
@@ -223,8 +221,7 @@ namespace DigitalWorld.Logic
 			for (int i = 0; i < types.Length; ++i)
 			{
 #>
-			if (node.HasAttribute("<#= varNames[i] #>"))
-				<#= varNames[i] #> = <#= varLoadXmls[i] #>;
+			<#= deserializeFuncs[i] #>(ref this.<#= varNames[i] #>, "<#= varNames[i] #>");
 <#
 			}
 #>
@@ -237,7 +234,7 @@ namespace DigitalWorld.Logic
 			for (int i = 0; i < types.Length; ++i)
 			{
 #>
-			node.SetAttribute("<#= varNames[i] #>", <#= varWriteXmls[i] #>);
+			<#= serializeFuncs[i] #>(this.<#= varNames[i] #>, "<#= varNames[i] #>");
 <#
 			}
 #>

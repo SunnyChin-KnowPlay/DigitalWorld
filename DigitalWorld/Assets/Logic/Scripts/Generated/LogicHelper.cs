@@ -31,22 +31,23 @@ namespace DigitalWorld.Logic
 
         public ActionBase GetAction(int id)
         {
-            switch (id)
+            return id switch
             {
-              
-            }
-            return null;
+                1 => GetNode<ActionCreateCharacter>(),
+                2 => GetNode<ActionKillCharacter>(),
+                
+                _ => null,
+            };
         }
 
         public ConditionBase GetCondition(int id)
         {
-            switch (id)
+            return id switch
             {
-				case 1:
-					return GetNode<ConditionRunningTime>();
-              
-            }
-            return null;
+                1 => GetNode<ConditionRunningTime>(),
+    
+                _ => null,
+            };
         }
 
 		

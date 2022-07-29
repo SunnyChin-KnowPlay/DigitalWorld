@@ -30,6 +30,14 @@ namespace DigitalWorld.Logic
 
 	public enum EAction : int
 	{
+		/// <summary>
+        /// 创建角色
+        /// </summary>
+		CreateCharacter = 1,
+		/// <summary>
+        /// 
+        /// </summary>
+		KillCharacter = 2,
 	}
 
 	 public static class Defined
@@ -55,6 +63,10 @@ namespace DigitalWorld.Logic
         {
 			switch (e)
             {
+				case EAction.CreateCharacter:
+					return "创建角色";
+				case EAction.KillCharacter:
+					return "";
 				default:
 					return null;
 			}
