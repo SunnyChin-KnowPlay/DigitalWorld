@@ -32,9 +32,9 @@ namespace DigitalWorld.Table
         }
 
 #region Encode
-        protected override void OnEncode(byte[] buffer, int pos)
+        protected override void OnEncode()
         {
-            base.OnEncode(buffer, pos);
+            base.OnEncode();
 
             this.Encode(this._id);
             this.Encode(this._name);
@@ -50,9 +50,9 @@ namespace DigitalWorld.Table
         #endregion
 
 #region Decode
-        protected override void OnDecode(byte[] buffer, int pos)
+        protected override void OnDecode()
         {
-            base.OnDecode(buffer, pos);
+            base.OnDecode();
 
             this.Decode(ref this._id);
             this.Decode(ref this._name);

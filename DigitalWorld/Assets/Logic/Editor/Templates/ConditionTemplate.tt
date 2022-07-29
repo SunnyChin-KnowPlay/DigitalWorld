@@ -203,9 +203,9 @@ namespace DigitalWorld.Logic
 		#endregion
 
 		#region Serialization
-		protected override void OnEncode(byte[] buffer, int pos)
+		protected override void OnEncode()
         {
-            base.OnEncode(buffer, pos);
+            base.OnEncode();
 <#
 			for (int i = 0; i < types.Length; ++i)
 			{
@@ -216,9 +216,9 @@ namespace DigitalWorld.Logic
 #>          
         }
 
-        protected override void OnDecode(byte[] buffer, int pos)
+        protected override void OnDecode()
         {
-            base.OnDecode(buffer, pos);
+            base.OnDecode();
 <#
 			for (int i = 0; i < types.Length; ++i)
 			{

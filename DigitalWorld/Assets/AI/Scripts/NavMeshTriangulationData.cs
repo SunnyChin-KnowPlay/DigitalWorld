@@ -55,18 +55,18 @@ public class NavMeshTriangulationData : ByteBuffer
         this.Decode(ref this.areas, "areas");
     }
 
-    protected override void OnEncode(byte[] buffer, int pos)
+    protected override void OnEncode()
     {
-        base.OnEncode(buffer, pos);
+        base.OnEncode();
 
         this.Encode(this.vertices);
         this.Encode(this.indices);
         this.Encode(this.areas);
     }
 
-    protected override void OnDecode(byte[] buffer, int pos)
+    protected override void OnDecode()
     {
-        base.OnDecode(buffer, pos);
+        base.OnDecode();
 
         this.Decode(ref this.vertices);
         this.Decode(ref this.indices);

@@ -169,9 +169,9 @@ namespace DigitalWorld.Logic
         #endregion
 
         #region Proto
-        protected override void OnEncode(byte[] buffer, int pos)
+        protected override void OnEncode()
         {
-            base.OnEncode(buffer, pos);
+            base.OnEncode();
 
             this.Encode(this._totalTime);
         }
@@ -183,9 +183,9 @@ namespace DigitalWorld.Logic
             this.Encode(this._totalTime, "totalTime");
         }
 
-        protected override void OnDecode(byte[] buffer, int pos)
+        protected override void OnDecode()
         {
-            base.OnDecode(buffer, pos);
+            base.OnDecode();
 
             this.Decode(ref this._totalTime);
         }

@@ -85,9 +85,9 @@ namespace DigitalWorld.Proto.Game
         }
 
 #region Encode
-        protected override void OnEncode(byte[] buffer, int pos)
+        protected override void OnEncode()
         {
-            base.OnEncode(buffer, pos);
+            base.OnEncode();
 
             this.Encode(this._mapId);
             this.Encode(this._level);
@@ -103,9 +103,9 @@ namespace DigitalWorld.Proto.Game
 #endregion
 
 #region Decode
-        protected override void OnDecode(byte[] buffer, int pos)
+        protected override void OnDecode()
         {
-            base.OnDecode(buffer, pos);
+            base.OnDecode();
 
             this.Decode(ref this._mapId);
             this.Decode(ref this._level);

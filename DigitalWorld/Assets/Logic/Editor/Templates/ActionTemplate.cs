@@ -469,9 +469,9 @@ namespace Assets.Logic.Editor.Templates
 #endregion
 
 #region Serializion
-		protected override void OnEncode(byte[] buffer, int pos)
+		protected override void OnEncode()
         {
-            base.OnEncode(buffer, pos);
+            base.OnEncode();
 ");
             
             #line 193 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
@@ -505,8 +505,8 @@ namespace Assets.Logic.Editor.Templates
             
             #line default
             #line hidden
-            this.Write("          \r\n        }\r\n\r\n        protected override void OnDecode(byte[] buffer, " +
-                    "int pos)\r\n        {\r\n            base.OnDecode(buffer, pos);\r\n");
+            this.Write("          \r\n        }\r\n\r\n        protected override void OnDecode()\r\n        {\r\n " +
+                    "           base.OnDecode();\r\n");
             
             #line 206 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 

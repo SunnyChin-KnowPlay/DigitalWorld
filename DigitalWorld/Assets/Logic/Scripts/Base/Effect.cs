@@ -98,9 +98,9 @@ namespace DigitalWorld.Logic
         #endregion
 
         #region Serialization
-        protected override void OnDecode(byte[] buffer, int pos)
+        protected override void OnDecode()
         {
-            base.OnDecode(buffer, pos);
+            base.OnDecode();
         }
 
         protected override void OnDecode(XmlElement element)
@@ -120,9 +120,9 @@ namespace DigitalWorld.Logic
             }
         }
 
-        protected override void OnEncode(byte[] buffer, int pos)
+        protected override void OnEncode()
         {
-            base.OnEncode(buffer, pos);
+            base.OnEncode();
         }
 
         protected override void OnEncode(XmlElement element)

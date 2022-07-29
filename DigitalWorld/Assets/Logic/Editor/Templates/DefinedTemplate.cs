@@ -145,8 +145,8 @@ namespace Assets.Logic.Editor.Templates
             
             #line default
             #line hidden
-            this.Write("\t}\r\n\r\n\t public static class Defined\r\n\t {\r\n        public static string GetEventDe" +
-                    "sc(EEvent e)\r\n        {\r\n\t\t\tswitch (e)\r\n            {\r\n");
+            this.Write("\t}\r\n\r\n\tpublic static class Defined\r\n\t{\r\n        public static string GetEventDesc" +
+                    "(EEvent e)\r\n        {\r\n\t\t\tswitch (e)\r\n            {\r\n");
             
             #line 65 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
 

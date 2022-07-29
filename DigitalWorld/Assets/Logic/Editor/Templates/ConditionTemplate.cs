@@ -25,21 +25,8 @@ namespace Assets.Logic.Editor.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("\n");
-            this.Write("\n");
-            this.Write("\n");
-            this.Write("\n");
-            this.Write("\n");
-            this.Write("\n");
-            this.Write("\n");
-            this.Write("\n");
-            this.Write("\n");
-            this.Write("\n");
-            this.Write("\n");
-            this.Write("\n");
-            this.Write("\n");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 14 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
 	for (int i = 0; i < usingNamespaces.Length; ++i)
 	{
@@ -47,48 +34,48 @@ namespace Assets.Logic.Editor.Templates
             
             #line default
             #line hidden
-            this.Write("\nusing ");
+            this.Write("using ");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 18 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(usingNamespaces[i]));
             
             #line default
             #line hidden
-            this.Write(";\n");
+            this.Write(";\r\n");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 19 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
 	}
 
             
             #line default
             #line hidden
-            this.Write("\nusing System.Collections.Generic;\n#if UNITY_EDITOR\nusing System.Xml;\n#endif\n\nnam" +
-                    "espace DigitalWorld.Logic\n{\n\t/// <summary>\n    /// ");
+            this.Write("using System.Collections.Generic;\r\n#if UNITY_EDITOR\r\nusing System.Xml;\r\n#endif\r\n\r" +
+                    "\nnamespace DigitalWorld.Logic\r\n{\r\n\t/// <summary>\r\n    /// ");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 30 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(desc));
             
             #line default
             #line hidden
-            this.Write("\n    /// </summary>\n\tpublic partial class Condition");
+            this.Write("\r\n    /// </summary>\r\n\tpublic partial class Condition");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 32 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
             #line hidden
-            this.Write(" : ConditionBase\n\t{\n\t\t#region Common\n\t\tpublic override int Id\n\t\t{\n\t\t\tget\n\t\t\t{\n\t\t\t" +
-                    "\treturn ");
+            this.Write(" : ConditionBase\r\n\t{\r\n\t\t#region Common\r\n\t\tpublic override int Id\r\n\t\t{\r\n\t\t\tget\r\n\t\t" +
+                    "\t{\r\n\t\t\t\treturn ");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 39 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(id));
             
             #line default
             #line hidden
-            this.Write(";\n\t\t\t}\n\t\t}\n");
+            this.Write(";\r\n\t\t\t}\r\n\t\t}\r\n");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 42 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
 		for (int i = 0; i < types.Length; ++i)
 		{
@@ -96,46 +83,46 @@ namespace Assets.Logic.Editor.Templates
             
             #line default
             #line hidden
-            this.Write("\n\t\t/// <summary>\n        /// ");
+            this.Write("\t\t/// <summary>\r\n        /// ");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 47 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(descripts[i]));
             
             #line default
             #line hidden
-            this.Write("\n        /// </summary>\n\t\tpublic ");
+            this.Write("\r\n        /// </summary>\r\n\t\tpublic ");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 49 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(types[i]));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 49 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
             
             #line default
             #line hidden
             this.Write(" = default(");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 49 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(types[i]));
             
             #line default
             #line hidden
-            this.Write(");\n");
+            this.Write(");\r\n");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 50 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
 		}
 
             
             #line default
             #line hidden
-            this.Write("\n\t\tprivate enum EValueIndex\n\t\t{\n");
+            this.Write("\t\tprivate enum EValueIndex\r\n\t\t{\r\n");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 55 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
 		for (int i = 0; i < types.Length; ++i)
 		{
@@ -145,44 +132,45 @@ namespace Assets.Logic.Editor.Templates
             #line hidden
             this.Write("\t\t\t");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 58 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
             
             #line default
             #line hidden
             this.Write(" = ");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 58 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(i));
             
             #line default
             #line hidden
-            this.Write(", \n");
+            this.Write(", \r\n");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 59 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
 		}
 
             
             #line default
             #line hidden
-            this.Write("\n\t\t}\n\n\t\tpublic Condition");
+            this.Write("\t\t}\r\n\r\n\t\tpublic Condition");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 64 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
             #line hidden
-            this.Write("()\n\t\t{\n\t\t\toperators = new ECheckOperator[");
+            this.Write("()\r\n\t\t{\r\n\t\t\toperators = new ECheckOperator[");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 66 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(types.Length));
             
             #line default
             #line hidden
-            this.Write("];\n\t\t}\n\t\t\n\t\tpublic override void OnAllocate()\n        {\n\t\t\tbase.OnAllocate();\n");
+            this.Write("];\r\n\t\t}\r\n\t\t\r\n\t\tpublic override void OnAllocate()\r\n        {\r\n\t\t\tbase.OnAllocate()" +
+                    ";\r\n");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 72 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
 			for (int i = 0; i < types.Length; ++i)
 			{
@@ -190,33 +178,33 @@ namespace Assets.Logic.Editor.Templates
             
             #line default
             #line hidden
-            this.Write("\n\t\t\t");
+            this.Write("\t\t\t");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 76 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
             
             #line default
             #line hidden
             this.Write(" = default(");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 76 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(types[i]));
             
             #line default
             #line hidden
-            this.Write(");\n");
+            this.Write(");\r\n");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 77 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
 			}
 
             
             #line default
             #line hidden
-            this.Write("\t\t\t\n        }\n\n\t\tpublic override void OnRecycle()\n        {\n            base.OnRe" +
-                    "cycle();\n");
+            this.Write("\t\t\t\r\n        }\r\n\r\n\t\tpublic override void OnRecycle()\r\n        {\r\n            base" +
+                    ".OnRecycle();\r\n");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 85 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
 			for (int i = 0; i < types.Length; ++i)
 			{
@@ -224,70 +212,70 @@ namespace Assets.Logic.Editor.Templates
             
             #line default
             #line hidden
-            this.Write("\n\t\t\t");
+            this.Write("\t\t\t");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 89 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
             
             #line default
             #line hidden
             this.Write(" = default(");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 89 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(types[i]));
             
             #line default
             #line hidden
-            this.Write(");\n");
+            this.Write(");\r\n");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 90 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
 			}
 
             
             #line default
             #line hidden
-            this.Write("\n        }\n\n\t\tpublic override object Clone()\n        {\n            Condition");
+            this.Write("        }\r\n\r\n\t\tpublic override object Clone()\r\n        {\r\n            Condition");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 97 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
             #line hidden
-            this.Write(" v = null;\n\t\t\tif (Application.isPlaying)\n            {\n\t\t\t\tv = Dream.Core.ObjectP" +
-                    "ool<Condition");
+            this.Write(" v = null;\r\n\t\t\tif (Application.isPlaying)\r\n            {\r\n\t\t\t\tv = Dream.Core.Obje" +
+                    "ctPool<Condition");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 100 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
             #line hidden
-            this.Write(">.Instance.Allocate();\n            }\n\t\t\telse\n\t\t\t{\n\t\t\t\tv = new Condition");
+            this.Write(">.Instance.Allocate();\r\n            }\r\n\t\t\telse\r\n\t\t\t{\r\n\t\t\t\tv = new Condition");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 104 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
             #line hidden
-            this.Write("();\n\t\t\t}\n\t\t\t\n\t\t\tif (null != v)\n\t\t\t{\n\t\t\t\tthis.CloneTo(v);\n\t\t\t}\n\t\t\t\n            ret" +
-                    "urn v;\n        }\n\n\t\tpublic override T CloneTo<T>(T obj)\n        {\n            Co" +
-                    "ndition");
+            this.Write("();\r\n\t\t\t}\r\n\t\t\t\r\n\t\t\tif (null != v)\r\n\t\t\t{\r\n\t\t\t\tthis.CloneTo(v);\r\n\t\t\t}\r\n\t\t\t\r\n       " +
+                    "     return v;\r\n        }\r\n\r\n\t\tpublic override T CloneTo<T>(T obj)\r\n        {\r\n " +
+                    "           Condition");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 117 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
             #line hidden
             this.Write(" v = base.CloneTo(obj) as Condition");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 117 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
             #line hidden
-            this.Write(";\n            if (null != v)\n            {\n");
+            this.Write(";\r\n            if (null != v)\r\n            {\r\n");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 120 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
 				for (int i = 0; i < types.Length; ++i)
 				{
@@ -295,31 +283,30 @@ namespace Assets.Logic.Editor.Templates
             
             #line default
             #line hidden
-            this.Write("\n\t\t\t\tv.");
+            this.Write("\t\t\t\tv.");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 124 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
             
             #line default
             #line hidden
             this.Write(" = this.");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 124 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
             
             #line default
             #line hidden
-            this.Write(";\n");
+            this.Write(";\r\n");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 125 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
 				}
 
             
             #line default
             #line hidden
-            this.Write(@"
-            }
+            this.Write(@"            }
             return obj;
         }
 
@@ -344,7 +331,7 @@ namespace Assets.Logic.Editor.Templates
                 {
 ");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 151 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
 		            for (int i = 0; i < varNames.Length; ++i)
 		            {
@@ -352,34 +339,34 @@ namespace Assets.Logic.Editor.Templates
             
             #line default
             #line hidden
-            this.Write("\n                    descs.Add(\"");
+            this.Write("                    descs.Add(\"");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 155 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
             
             #line default
             #line hidden
             this.Write("\", \"");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 155 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(descripts[i]));
             
             #line default
             #line hidden
-            this.Write("\");\n");
+            this.Write("\");\r\n");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 156 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
 		            }
 
             
             #line default
             #line hidden
-            this.Write("\n                }\n\n                return descs;\n            }\n        }\n\n      " +
-                    "  public override string Desc\n        {\n            get\n            {\n          " +
-                    "      return \"");
+            this.Write("                }\r\n\r\n                return descs;\r\n            }\r\n        }\r\n\r\n " +
+                    "       public override string Desc\r\n        {\r\n            get\r\n            {\r\n " +
+                    "               return \"");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 169 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(desc));
             
             #line default
@@ -421,12 +408,12 @@ namespace Assets.Logic.Editor.Templates
 		#endregion
 
 		#region Serialization
-		protected override void OnEncode(byte[] buffer, int pos)
+		protected override void OnEncode()
         {
-            base.OnEncode(buffer, pos);
+            base.OnEncode();
 ");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 209 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
 			for (int i = 0; i < types.Length; ++i)
 			{
@@ -434,33 +421,33 @@ namespace Assets.Logic.Editor.Templates
             
             #line default
             #line hidden
-            this.Write("\n\t\t\t");
+            this.Write("\t\t\t");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 213 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(serializeFuncs[i]));
             
             #line default
             #line hidden
             this.Write("(this.");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 213 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
             
             #line default
             #line hidden
-            this.Write(");\n");
+            this.Write(");\r\n");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 214 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
 			}
 
             
             #line default
             #line hidden
-            this.Write("          \n        }\n\n        protected override void OnDecode(byte[] buffer, int" +
-                    " pos)\n        {\n            base.OnDecode(buffer, pos);\n");
+            this.Write("          \r\n        }\r\n\r\n        protected override void OnDecode()\r\n        {\r\n " +
+                    "           base.OnDecode();\r\n");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 222 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
 			for (int i = 0; i < types.Length; ++i)
 			{
@@ -468,33 +455,33 @@ namespace Assets.Logic.Editor.Templates
             
             #line default
             #line hidden
-            this.Write("\n\t\t\t");
+            this.Write("\t\t\t");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 226 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(deserializeFuncs[i]));
             
             #line default
             #line hidden
             this.Write("(ref this.");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 226 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
             
             #line default
             #line hidden
-            this.Write(");\n");
+            this.Write(");\r\n");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 227 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
 			}
 
             
             #line default
             #line hidden
-            this.Write("\n        }\n\n#if UNITY_EDITOR\n        protected override void OnDecode(XmlElement " +
-                    "node)\n        {\n            base.OnDecode(node);\n");
+            this.Write("        }\r\n\r\n#if UNITY_EDITOR\r\n        protected override void OnDecode(XmlElemen" +
+                    "t node)\r\n        {\r\n            base.OnDecode(node);\r\n");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 236 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
 			for (int i = 0; i < types.Length; ++i)
 			{
@@ -502,40 +489,40 @@ namespace Assets.Logic.Editor.Templates
             
             #line default
             #line hidden
-            this.Write("\n\t\t\t");
+            this.Write("\t\t\t");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 240 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(deserializeFuncs[i]));
             
             #line default
             #line hidden
             this.Write("(ref this.");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 240 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
             
             #line default
             #line hidden
             this.Write(", \"");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 240 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
             
             #line default
             #line hidden
-            this.Write("\");\n");
+            this.Write("\");\r\n");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 241 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
 			}
 
             
             #line default
             #line hidden
-            this.Write("\n        }\n\n        protected override void OnEncode(XmlElement node)\n        {\n\t" +
-                    "\t\tbase.OnEncode(node);\n");
+            this.Write("        }\r\n\r\n        protected override void OnEncode(XmlElement node)\r\n        {" +
+                    "\r\n\t\t\tbase.OnEncode(node);\r\n");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 249 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
 			for (int i = 0; i < types.Length; ++i)
 			{
@@ -543,37 +530,37 @@ namespace Assets.Logic.Editor.Templates
             
             #line default
             #line hidden
-            this.Write("\n\t\t\t");
+            this.Write("\t\t\t");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 253 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(serializeFuncs[i]));
             
             #line default
             #line hidden
             this.Write("(this.");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 253 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
             
             #line default
             #line hidden
             this.Write(", \"");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 253 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
             
             #line default
             #line hidden
-            this.Write("\");\n");
+            this.Write("\");\r\n");
             
-            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
+            #line 254 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ConditionTemplate.tt"
 
 			}
 
             
             #line default
             #line hidden
-            this.Write("\n        }\n#endif\n\t\t#endregion\n\t}\n}\n");
+            this.Write("        }\r\n#endif\r\n\t\t#endregion\r\n\t}\r\n}\r\n");
             return this.GenerationEnvironment.ToString();
         }
         

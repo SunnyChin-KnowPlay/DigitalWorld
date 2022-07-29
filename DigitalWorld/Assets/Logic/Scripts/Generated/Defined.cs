@@ -40,8 +40,8 @@ namespace DigitalWorld.Logic
 		KillCharacter = 2,
 	}
 
-	 public static class Defined
-	 {
+	public static class Defined
+	{
         public static string GetEventDesc(EEvent e)
         {
 			switch (e)

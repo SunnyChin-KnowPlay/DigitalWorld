@@ -56,8 +56,8 @@ namespace DigitalWorld.Logic
 #>
 	}
 
-	 public static class Defined
-	 {
+	public static class Defined
+	{
         public static string GetEventDesc(EEvent e)
         {
 			switch (e)

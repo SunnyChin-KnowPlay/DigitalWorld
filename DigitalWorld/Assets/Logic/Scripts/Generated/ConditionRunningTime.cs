@@ -1,21 +1,5 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 using DigitalWorld.Game;
-
 using UnityEngine;
-
 using System.Collections.Generic;
 #if UNITY_EDITOR
 using System.Xml;
@@ -36,16 +20,13 @@ namespace DigitalWorld.Logic
 				return 1;
 			}
 		}
-
 		/// <summary>
         /// 时长
         /// </summary>
 		public float duration = default(float);
-
 		private enum EValueIndex
 		{
 			duration = 0, 
-
 		}
 
 		public ConditionRunningTime()
@@ -56,7 +37,6 @@ namespace DigitalWorld.Logic
 		public override void OnAllocate()
         {
 			base.OnAllocate();
-
 			duration = default(float);
 			
         }
@@ -64,9 +44,7 @@ namespace DigitalWorld.Logic
 		public override void OnRecycle()
         {
             base.OnRecycle();
-
 			duration = default(float);
-
         }
 
 		public override object Clone()
@@ -94,9 +72,7 @@ namespace DigitalWorld.Logic
             ConditionRunningTime v = base.CloneTo(obj) as ConditionRunningTime;
             if (null != v)
             {
-
 				v.duration = this.duration;
-
             }
             return obj;
         }
@@ -120,9 +96,7 @@ namespace DigitalWorld.Logic
 
                 if (descs.Count < 1)
                 {
-
                     descs.Add("duration", "时长");
-
                 }
 
                 return descs;
@@ -170,37 +144,30 @@ namespace DigitalWorld.Logic
 		#endregion
 
 		#region Serialization
-		protected override void OnEncode(byte[] buffer, int pos)
+		protected override void OnEncode()
         {
-            base.OnEncode(buffer, pos);
-
+            base.OnEncode();
 			Encode(this.duration);
           
         }
 
-        protected override void OnDecode(byte[] buffer, int pos)
+        protected override void OnDecode()
         {
-            base.OnDecode(buffer, pos);
-
+            base.OnDecode();
 			Decode(ref this.duration);
-
         }
 
 #if UNITY_EDITOR
         protected override void OnDecode(XmlElement node)
         {
             base.OnDecode(node);
-
 			Decode(ref this.duration, "duration");
-
         }
 
         protected override void OnEncode(XmlElement node)
         {
 			base.OnEncode(node);
-
 			Encode(this.duration, "duration");
-
         }
 #endif
 		#endregion

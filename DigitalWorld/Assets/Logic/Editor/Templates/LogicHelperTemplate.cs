@@ -28,7 +28,7 @@ namespace Assets.Logic.Editor.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("namespace DigitalWorld.Logic\r\n{\r\n    public sealed partial class ");
+            this.Write("namespace DigitalWorld.Logic\r\n{\r\n    public static partial class ");
             
             #line 17 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
@@ -43,7 +43,7 @@ namespace Assets.Logic.Editor.Templates
         /// <param name=""nodeType""></param>
         /// <param name=""id""></param>
         /// <returns></returns>
-        public NodeBase GetNode(ENodeType nodeType, int id)
+        public static NodeBase GetNode(ENodeType nodeType, int id)
         {
             switch (nodeType)
             {
@@ -64,7 +64,7 @@ namespace Assets.Logic.Editor.Templates
             }
         }
 
-        public ActionBase GetAction(int id)
+        public static ActionBase GetAction(int id)
         {
             return id switch
             {
@@ -102,8 +102,8 @@ namespace Assets.Logic.Editor.Templates
             #line default
             #line hidden
             this.Write("                \r\n                _ => null,\r\n            };\r\n        }\r\n\r\n      " +
-                    "  public ConditionBase GetCondition(int id)\r\n        {\r\n            return id sw" +
-                    "itch\r\n            {\r\n");
+                    "  public static ConditionBase GetCondition(int id)\r\n        {\r\n            retur" +
+                    "n id switch\r\n            {\r\n");
             
             #line 66 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
 

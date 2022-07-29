@@ -107,16 +107,16 @@ namespace DigitalWorld.Logic
 #endregion
 
 #region Serializion
-		protected override void OnEncode(byte[] buffer, int pos)
+		protected override void OnEncode()
         {
-            base.OnEncode(buffer, pos);
+            base.OnEncode();
 			Encode(this.name);
           
         }
 
-        protected override void OnDecode(byte[] buffer, int pos)
+        protected override void OnDecode()
         {
-            base.OnDecode(buffer, pos);
+            base.OnDecode();
 			Decode(ref this.name);
         }
 		

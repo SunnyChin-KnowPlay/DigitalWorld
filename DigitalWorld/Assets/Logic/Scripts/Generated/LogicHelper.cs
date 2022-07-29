@@ -1,6 +1,6 @@
 namespace DigitalWorld.Logic
 {
-    public sealed partial class LogicHelper
+    public static partial class LogicHelper
     {
         /// <summary>
         /// 通过节点类型和ID来获取对应的节点对象
@@ -8,7 +8,7 @@ namespace DigitalWorld.Logic
         /// <param name="nodeType"></param>
         /// <param name="id"></param>
         /// <returns></returns>
-        public NodeBase GetNode(ENodeType nodeType, int id)
+        public static NodeBase GetNode(ENodeType nodeType, int id)
         {
             switch (nodeType)
             {
@@ -29,7 +29,7 @@ namespace DigitalWorld.Logic
             }
         }
 
-        public ActionBase GetAction(int id)
+        public static ActionBase GetAction(int id)
         {
             return id switch
             {
@@ -40,7 +40,7 @@ namespace DigitalWorld.Logic
             };
         }
 
-        public ConditionBase GetCondition(int id)
+        public static ConditionBase GetCondition(int id)
         {
             return id switch
             {

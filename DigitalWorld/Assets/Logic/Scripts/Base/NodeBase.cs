@@ -296,17 +296,58 @@ namespace DigitalWorld.Logic
         {
             base.OnCalculateSize();
 
+            this.CalculateSizeEnum(this.NodeType);
+            this.CalculateSize(this.Id);
             this.CalculateSize(this._enabled);
             this.CalculateSize(this._name);
             this.CalculateSize(this._description);
+            this.CalculateSize(this._children);
         }
 
-        protected override void OnEncode(byte[] buffer, int pos)
+        protected override void OnEncode()
         {
-            base.OnEncode(buffer, pos);
+            base.OnEncode();
 
+            this.EncodeEnum(this.NodeType);
+            this.Encode(this.Id);
             this.Encode(this._enabled);
             this.Encode(this._name);
+            this.Encode(this._description);
+            this.Encode(this._children);
+        }
+
+        protected override void OnDecode()
+        {
+            base.OnDecode();
+
+            ENodeType nodeType = ENodeType.None;
+            this.DecodeEnum(ref nodeType);
+            int id = 0;
+            this.Decode(ref id);
+            this.Decode(ref this._enabled);
+            this.Decode(ref this._name);
+            this.Decode(ref this._description);
+
+            // 先清空子节点队列
+            DetachChildren();
+
+            int childrenCount = 0;
+            this.Decode(ref childrenCount);
+            this._children = new List<NodeBase>(childrenCount);
+            for (int i = 0; i < childrenCount; ++i)
+            {
+                if (ParseType(_buffer, _pos, out ENodeType childNodeType, out int childId))
+                {
+                    NodeBase child = LogicHelper.GetNode(childNodeType, childId);
+                    if (null != child)
+                    {
+                        child.Decode(_buffer, _pos);
+                        _pos = child.Position;
+
+                        child.SetParent(this);
+                    }
+                }
+            }
         }
 
         protected override void OnEncode(XmlElement element)
@@ -318,7 +359,7 @@ namespace DigitalWorld.Logic
             this.Encode(this.TypeName, "_typeName");
             this.Encode(this._enabled, "_enabled");
             this.Encode(this._name, "_name");
-			this.Encode(this._description, "_description");
+            this.Encode(this._description, "_description");
 
             XmlElement childrenEle = doc.CreateElement("_children");
             for (int i = 0; i < _children.Count; ++i)
@@ -328,14 +369,6 @@ namespace DigitalWorld.Logic
                 childrenEle.AppendChild(childEle);
             }
             element.AppendChild(childrenEle);
-        }
-
-        protected override void OnDecode(byte[] buffer, int pos)
-        {
-            base.OnDecode(buffer, pos);
-
-            this.Decode(ref this._enabled);
-            this.Decode(ref this._name);
         }
 
         protected override void OnDecode(XmlElement element)
@@ -353,15 +386,47 @@ namespace DigitalWorld.Logic
                 foreach (var node in childrenEle.ChildNodes)
                 {
                     XmlElement childEle = node as XmlElement;
-                    System.Type type = System.Type.GetType(childEle.GetAttribute("_typeName"));
 
-                    if (System.Activator.CreateInstance(type) is NodeBase child)
+                    System.Type type = null;
+                    bool ret = ParseType(childEle, out type);
+                    if (ret)
                     {
-                        child.Decode(childEle);
-                        child.SetParent(this);
+                        if (System.Activator.CreateInstance(type) is NodeBase child)
+                        {
+                            child.Decode(childEle);
+                            child.SetParent(this);
+                        }
                     }
                 }
             }
+        }
+
+        public static bool ParseType(XmlElement element, out Type type)
+        {
+            type = null;
+
+            if (element == null)
+                return false;
+
+            if (!element.HasAttribute("_typeName"))
+                return false;
+
+            string typeName = element.GetAttribute("_typeName");
+            type = Type.GetType(typeName);
+            return true;
+        }
+
+        public static bool ParseType(byte[] buffer, int pos, out ENodeType nodeType, out int id)
+        {
+            nodeType = ENodeType.None;
+            id = 0;
+
+            if (null == buffer)
+                return false;
+
+            DecodeEnum(buffer, ref pos, ref nodeType);
+            Decode(buffer, ref pos, ref id);
+            return true;
         }
         #endregion
 

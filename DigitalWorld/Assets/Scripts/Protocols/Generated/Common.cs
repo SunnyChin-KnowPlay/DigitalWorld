@@ -106,9 +106,9 @@ namespace DigitalWorld.Proto.Common
         }
 
 #region Encode
-        protected override void OnEncode(byte[] buffer, int pos)
+        protected override void OnEncode()
         {
-            base.OnEncode(buffer, pos);
+            base.OnEncode();
 
             this.Encode(this._account);
             this.Encode(this._password);
@@ -124,9 +124,9 @@ namespace DigitalWorld.Proto.Common
 #endregion
 
 #region Decode
-        protected override void OnDecode(byte[] buffer, int pos)
+        protected override void OnDecode()
         {
-            base.OnDecode(buffer, pos);
+            base.OnDecode();
 
             this.Decode(ref this._account);
             this.Decode(ref this._password);
@@ -206,9 +206,9 @@ namespace DigitalWorld.Proto.Common
         }
 
 #region Encode
-        protected override void OnEncode(byte[] buffer, int pos)
+        protected override void OnEncode()
         {
-            base.OnEncode(buffer, pos);
+            base.OnEncode();
 
             this.Encode(this._userId);
             this.Encode(this._token);
@@ -226,9 +226,9 @@ namespace DigitalWorld.Proto.Common
 #endregion
 
 #region Decode
-        protected override void OnDecode(byte[] buffer, int pos)
+        protected override void OnDecode()
         {
-            base.OnDecode(buffer, pos);
+            base.OnDecode();
 
             this.Decode(ref this._userId);
             this.Decode(ref this._token);
@@ -305,9 +305,9 @@ namespace DigitalWorld.Proto.Common
         }
 
 #region Encode
-        protected override void OnEncode(byte[] buffer, int pos)
+        protected override void OnEncode()
         {
-            base.OnEncode(buffer, pos);
+            base.OnEncode();
 
             this.EncodeEnum(this._code);
             this.Encode(this._text);
@@ -323,9 +323,9 @@ namespace DigitalWorld.Proto.Common
 #endregion
 
 #region Decode
-        protected override void OnDecode(byte[] buffer, int pos)
+        protected override void OnDecode()
         {
-            base.OnDecode(buffer, pos);
+            base.OnDecode();
 
             this.DecodeEnum(ref this._code);
             this.Decode(ref this._text);
@@ -399,9 +399,9 @@ namespace DigitalWorld.Proto.Common
         }
 
 #region Encode
-        protected override void OnEncode(byte[] buffer, int pos)
+        protected override void OnEncode()
         {
-            base.OnEncode(buffer, pos);
+            base.OnEncode();
 
             this.Encode(this._ip);
             this.Encode(this._port);
@@ -417,9 +417,9 @@ namespace DigitalWorld.Proto.Common
 #endregion
 
 #region Decode
-        protected override void OnDecode(byte[] buffer, int pos)
+        protected override void OnDecode()
         {
-            base.OnDecode(buffer, pos);
+            base.OnDecode();
 
             this.Decode(ref this._ip);
             this.Decode(ref this._port);
@@ -493,9 +493,9 @@ namespace DigitalWorld.Proto.Common
         }
 
 #region Encode
-        protected override void OnEncode(byte[] buffer, int pos)
+        protected override void OnEncode()
         {
-            base.OnEncode(buffer, pos);
+            base.OnEncode();
 
             this.Encode(this._ip);
             this.Encode(this._port);
@@ -511,9 +511,9 @@ namespace DigitalWorld.Proto.Common
 #endregion
 
 #region Decode
-        protected override void OnDecode(byte[] buffer, int pos)
+        protected override void OnDecode()
         {
-            base.OnDecode(buffer, pos);
+            base.OnDecode();
 
             this.Decode(ref this._ip);
             this.Decode(ref this._port);
@@ -587,9 +587,9 @@ namespace DigitalWorld.Proto.Common
         }
 
 #region Encode
-        protected override void OnEncode(byte[] buffer, int pos)
+        protected override void OnEncode()
         {
-            base.OnEncode(buffer, pos);
+            base.OnEncode();
 
             this.Encode(this._token);
             this.EncodeEnum(this._result);
@@ -605,9 +605,9 @@ namespace DigitalWorld.Proto.Common
 #endregion
 
 #region Decode
-        protected override void OnDecode(byte[] buffer, int pos)
+        protected override void OnDecode()
         {
-            base.OnDecode(buffer, pos);
+            base.OnDecode();
 
             this.Decode(ref this._token);
             this.DecodeEnum(ref this._result);
