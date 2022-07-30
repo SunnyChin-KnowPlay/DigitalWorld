@@ -13,5 +13,11 @@
         /// 是否激活的
         /// </summary>
         bool Enabled { get; set; }
+
+#if UNITY_EDITOR
+        #region GUI
+        void OnGUIDetails();
+        #endregion
+#endif
     }
 }

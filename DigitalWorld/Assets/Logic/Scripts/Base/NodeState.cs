@@ -180,7 +180,7 @@ namespace DigitalWorld.Logic
         {
             base.OnEncode(element);
 
-            this.Encode(this._totalTime, "totalTime");
+            this.Encode(this._totalTime, "_totalTime");
         }
 
         protected override void OnDecode()
@@ -194,7 +194,7 @@ namespace DigitalWorld.Logic
         {
             base.OnDecode(element);
 
-            this.Decode(ref this._totalTime, "totalTime");
+            this.Decode(ref this._totalTime, "_totalTime");
         }
 
         protected override void OnCalculateSize()

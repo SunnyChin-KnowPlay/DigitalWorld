@@ -401,6 +401,7 @@ namespace DigitalWorld.Logic
             }
         }
 
+
         public static bool ParseType(XmlElement element, out Type type)
         {
             type = null;

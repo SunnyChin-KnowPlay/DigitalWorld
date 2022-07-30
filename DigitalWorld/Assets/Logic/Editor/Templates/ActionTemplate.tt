@@ -11,6 +11,7 @@
 <#@ parameter name="serializeFuncs" type="System.String[]"#>
 <#@ parameter name="deserializeFuncs" type="System.String[]"#>
 <#@ parameter name="defaultValues" type="System.String[]"#>
+<#@ parameter name="calculateFuncs" type="System.String[]"#>
 <#
 	for (int i = 0; i < usingNamespaces.Length; ++i)
 	{
@@ -187,6 +188,19 @@ namespace DigitalWorld.Logic
 #endregion
 
 #region Serializion
+		protected override void OnCalculateSize()
+        {
+            base.OnCalculateSize();
+<#
+			for (int i = 0; i < types.Length; ++i)
+			{
+#>
+			<#= calculateFuncs[i] #>(this.<#= varNames[i] #>);
+<#
+			}
+#>  
+        }
+
 		protected override void OnEncode()
         {
             base.OnEncode();

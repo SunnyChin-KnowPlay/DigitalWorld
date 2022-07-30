@@ -258,9 +258,10 @@ namespace DigitalWorld.Logic.Editor
             List<string> types = new List<string>();
             List<string> descs = new List<string>();
             List<string> values = new List<string>();
-          
+
             List<string> serializeFuncs = new List<string>();
             List<string> deserializeFuncs = new List<string>();
+            List<string> calculateFuncs = new List<string>();
 
             string fileName = null;
 
@@ -275,6 +276,7 @@ namespace DigitalWorld.Logic.Editor
                 values.Clear();
                 serializeFuncs.Clear();
                 deserializeFuncs.Clear();
+                calculateFuncs.Clear();
 
                 XmlElement element = (XmlElement)node;
 
@@ -290,6 +292,7 @@ namespace DigitalWorld.Logic.Editor
                     values.Add(string.Format("default({0})", attr.GetAttribute("classT")));
                     serializeFuncs.Add(attr.GetAttribute("baseClassT") == "enum" ? "EncodeEnum" : "Encode");
                     deserializeFuncs.Add(attr.GetAttribute("baseClassT") == "enum" ? "DecodeEnum" : "Decode");
+                    calculateFuncs.Add(attr.GetAttribute("baseClassT") == "enum" ? "CalculateSizeEnum" : "CalculateSize");
                 }
 
                 tmp = new ConditionTemplate();
@@ -307,6 +310,7 @@ namespace DigitalWorld.Logic.Editor
                 tmp.Session["usingNamespaces"] = DigitalWorld.Logic.Utility.usingNamespaces;
                 tmp.Session["serializeFuncs"] = serializeFuncs.ToArray();
                 tmp.Session["deserializeFuncs"] = deserializeFuncs.ToArray();
+                tmp.Session["calculateFuncs"] = calculateFuncs.ToArray();
 
                 tmp.Initialize();
                 string data = tmp.TransformText();
@@ -328,6 +332,7 @@ namespace DigitalWorld.Logic.Editor
             List<string> values = new List<string>();
             List<string> serializeFuncs = new List<string>();
             List<string> deserializeFuncs = new List<string>();
+            List<string> calculateFuncs = new List<string>();
 
             string fileName = null;
 
@@ -344,6 +349,7 @@ namespace DigitalWorld.Logic.Editor
                 values.Clear();
                 serializeFuncs.Clear();
                 deserializeFuncs.Clear();
+                calculateFuncs.Clear();
 
                 foreach (var a in element.ChildNodes)
                 {
@@ -355,6 +361,7 @@ namespace DigitalWorld.Logic.Editor
                     values.Add(string.Format("default({0})", attr.GetAttribute("classT")));
                     serializeFuncs.Add(attr.GetAttribute("baseClassT") == "enum" ? "EncodeEnum" : "Encode");
                     deserializeFuncs.Add(attr.GetAttribute("baseClassT") == "enum" ? "DecodeEnum" : "Decode");
+                    calculateFuncs.Add(attr.GetAttribute("baseClassT") == "enum" ? "CalculateSizeEnum" : "CalculateSize");
                 }
                 fileName = "Action" + element.GetAttribute("name") + ".cs";
 
@@ -373,6 +380,7 @@ namespace DigitalWorld.Logic.Editor
                 tmp.Session["usingNamespaces"] = DigitalWorld.Logic.Utility.usingNamespaces;
                 tmp.Session["serializeFuncs"] = serializeFuncs.ToArray();
                 tmp.Session["deserializeFuncs"] = deserializeFuncs.ToArray();
+                tmp.Session["calculateFuncs"] = calculateFuncs.ToArray();
 
                 tmp.Initialize();
                 string data = tmp.TransformText();
@@ -563,7 +571,6 @@ namespace DigitalWorld.Logic.Editor
                 item.Decode(element);
                 list.Add(item.Id, item);
             }
-
         }
 
         public void WriteItems(EItemType type, Dictionary<int, NodeItem> dict)

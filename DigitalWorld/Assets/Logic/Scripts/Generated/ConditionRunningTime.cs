@@ -144,6 +144,13 @@ namespace DigitalWorld.Logic
 		#endregion
 
 		#region Serialization
+		protected override void OnCalculateSize()
+        {
+            base.OnCalculateSize();
+			CalculateSize(this.duration);
+  
+        }
+
 		protected override void OnEncode()
         {
             base.OnEncode();

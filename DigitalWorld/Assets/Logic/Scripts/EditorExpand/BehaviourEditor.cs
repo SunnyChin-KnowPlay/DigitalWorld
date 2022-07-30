@@ -64,6 +64,11 @@ namespace DigitalWorld.Logic
         /// </summary>
         private void OnGUITopMenus()
         {
+            if (GUILayout.Button("Create Action"))
+            {
+                OnClickCreateAction();
+            }
+
             if (GUILayout.Button("OpenAll"))
             {
                 for (int i = 0; i < this._children.Count; ++i)
@@ -92,7 +97,10 @@ namespace DigitalWorld.Logic
 
         }
 
-
+        private void OnClickCreateAction()
+        {
+            LogicHelper.ApplyAddNode(ENodeType.Action, this);
+        }
         #endregion
 
         #region Common

@@ -5,6 +5,7 @@ namespace DigitalWorld.Table
 {
     public class Utility
     {
+        #region Params
         public const string outputCodeKey = "Table.OutputCode";
         public const string defaultOutPutCodePath = "Tables/Scripts/Generated";
 
@@ -53,5 +54,6 @@ namespace DigitalWorld.Table
         {
             get { return Utilities.Utility.GetString(outputCodeKey, Path.Combine(Application.dataPath, defaultOutPutCodePath)); }
         }
+        #endregion
     }
 }

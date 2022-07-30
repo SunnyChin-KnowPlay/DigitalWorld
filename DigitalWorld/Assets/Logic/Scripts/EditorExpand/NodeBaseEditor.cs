@@ -18,10 +18,22 @@ namespace DigitalWorld.Logic
             {
                 _parent.SetDirty();
             }
+
+            if (!this._dirty)
+            {
+                this._dirty = true;
+                if (null != OnDirtyChanged)
+                {
+                    OnDirtyChanged(this._dirty);
+                }
+            }
         }
 
 
 #if UNITY_EDITOR
+        #region Event
+        #endregion
+
         #region Params
         /// <summary>
         /// 是否为脏
@@ -52,12 +64,24 @@ namespace DigitalWorld.Logic
         #endregion
 
         #region Common
+        /// <summary>
+        /// 重置脏是由上至下的
+        /// 如果重置了 则自己的所有子节点也一并重置 因为都保存了
+        /// </summary>
         public virtual void ResetDirty()
         {
-            _dirty = false;
-            if (null != OnDirtyChanged)
+            for (int i = 0; i < _children.Count; i++)
             {
-                OnDirtyChanged.Invoke(_dirty);
+                _children[i].ResetDirty();
+            }
+
+            if (_dirty)
+            {
+                _dirty = false;
+                if (null != OnDirtyChanged)
+                {
+                    OnDirtyChanged.Invoke(_dirty);
+                }
             }
         }
 
@@ -68,6 +92,11 @@ namespace DigitalWorld.Logic
         #endregion
 
         #region GUI
+        public virtual void OnGUIDetails()
+        {
+
+        }
+
         public virtual void OnGUI()
         {
             OnGUITitle();
@@ -86,8 +115,7 @@ namespace DigitalWorld.Logic
             this._enabled = EditorGUILayout.Toggle(old, GUILayout.Width(25));
             if (old != _enabled)
             {
-                if (this.Parent != null)
-                    this.Parent.SetDirty();
+                this.SetDirty();
             }
 
             this.OnGUIName();

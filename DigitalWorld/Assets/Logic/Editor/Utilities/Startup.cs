@@ -13,10 +13,30 @@ namespace DigitalWorld.Logic.Editor
         static Startup()
         {
             _ = NodeController.instance;
-           
-            Selection.selectionChanged += OnSelectionChanged;
+
+            Listen();
         }
 
+        ~Startup()
+        {
+            Unlisten();
+        }
+
+        private static void Listen()
+        {
+            Selection.selectionChanged += OnSelectionChanged;
+
+            Logic.LogicHelper.OnAddNode += OnAddNode;
+        }
+
+        private static void Unlisten()
+        {
+            Selection.selectionChanged -= OnSelectionChanged;
+
+            Logic.LogicHelper.OnAddNode -= OnAddNode;
+        }
+
+        #region Listen
         private static void OnSelectionChanged()
         {
             UnityEngine.Object obj = Selection.activeObject;
@@ -73,5 +93,15 @@ namespace DigitalWorld.Logic.Editor
                 window.Show(behaviour);
             }
         }
+
+        private static void OnAddNode(ENodeType nodeType, Logic.NodeBase parent)
+        {
+            LogicActionEditorWindow logicActionEditorWindow = LogicActionEditorWindow.GetWindow() as LogicActionEditorWindow;
+            if (null != logicActionEditorWindow)
+            {
+                logicActionEditorWindow.Show(parent);
+            }
+        }
+        #endregion
     }
 }
