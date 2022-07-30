@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace DigitalWorld.Logic.Editor
 {
-    using static DigitalWorld.Logic.NodeBase;
     internal abstract class LogicEffectEditorWindow : EditorWindow
     {
         protected enum EShowMode
@@ -30,7 +29,7 @@ namespace DigitalWorld.Logic.Editor
         /// 当前选择的节点
         /// </summary>
         protected Logic.NodeBase currentNode = null;
-      
+
         protected List<int> typeIndexs = new List<int>();
         protected List<string> typeNames = new List<string>();
 
@@ -71,7 +70,7 @@ namespace DigitalWorld.Logic.Editor
         {
             GUIStyle style = new GUIStyle("Tooltip");
             EditorGUILayout.BeginHorizontal(style);
-            EditorGUILayout.LabelField("筛选器");
+            EditorGUILayout.LabelField("Filter");
 
             GUILayout.FlexibleSpace();
 
@@ -90,12 +89,12 @@ namespace DigitalWorld.Logic.Editor
             EditorGUILayout.BeginHorizontal(style);
             GUILayout.FlexibleSpace();
 
-            if (GUILayout.Button("确定"))
+            if (GUILayout.Button("Save"))
             {
                 this.OnClickSave();
             }
 
-            if (GUILayout.Button("取消"))
+            if (GUILayout.Button("Cancel"))
             {
                 this.OnClickCancel();
             }
@@ -122,18 +121,17 @@ namespace DigitalWorld.Logic.Editor
         {
             if (null == this.currentNode)
                 return;
-
             if (this.currentMode == EShowMode.Add)
             {
                 this.currentNode.SetParent(this.parent);
             }
             else
             {
-                if (this.currentNode!= initialNode)
+                if (this.currentNode != initialNode)
                 {
                     int index = initialNode.Index;
                     initialNode.SetParent(null);
-                    currentNode.SetParent(this.parent);
+                    currentNode.SetParent(this.parent, index);
                 }
             }
 

@@ -79,6 +79,10 @@ namespace DigitalWorld.Logic
                     this.SetRequirement(child.Index, child.CheckRequirement());
                     child.Update(delta);
                 }
+                else
+                {
+                    this.SetRequirement(child.Index, true);
+                }
             }
         }
         #endregion
@@ -98,7 +102,7 @@ namespace DigitalWorld.Logic
         {
             base.OnCalculateSize();
 
-            
+
         }
         #endregion
     }

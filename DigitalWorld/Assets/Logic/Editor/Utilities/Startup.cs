@@ -27,6 +27,7 @@ namespace DigitalWorld.Logic.Editor
             Selection.selectionChanged += OnSelectionChanged;
 
             Logic.LogicHelper.OnAddNode += OnAddNode;
+            Logic.LogicHelper.OnEditNode += OnEditNode;
         }
 
         private static void Unlisten()
@@ -34,6 +35,7 @@ namespace DigitalWorld.Logic.Editor
             Selection.selectionChanged -= OnSelectionChanged;
 
             Logic.LogicHelper.OnAddNode -= OnAddNode;
+            Logic.LogicHelper.OnEditNode -= OnEditNode;
         }
 
         #region Listen
@@ -42,7 +44,7 @@ namespace DigitalWorld.Logic.Editor
             UnityEngine.Object obj = Selection.activeObject;
             if (null != obj)
             {
-                string path = AssetDatabase.GetAssetPath(Selection.activeInstanceID);
+                string path = AssetDatabase.GetAssetPath(Selection.activeObject);
                 if (!string.IsNullOrEmpty(path)) // 先看一下路径是否存在 
                 {
                     // 然后看一下是否为文件
@@ -96,10 +98,47 @@ namespace DigitalWorld.Logic.Editor
 
         private static void OnAddNode(ENodeType nodeType, Logic.NodeBase parent)
         {
-            LogicActionEditorWindow logicActionEditorWindow = LogicActionEditorWindow.GetWindow() as LogicActionEditorWindow;
-            if (null != logicActionEditorWindow)
+            LogicEffectEditorWindow window = null;
+            switch (nodeType)
             {
-                logicActionEditorWindow.Show(parent);
+                case ENodeType.Action:
+                {
+                    window = LogicActionEditorWindow.GetWindow() as LogicEffectEditorWindow;
+                    break;
+                }
+                case ENodeType.Condition:
+                {
+                    window = LogicConditionEditorWindow.GetWindow() as LogicEffectEditorWindow;
+                    break;
+                }
+            }
+
+            if (null != window)
+            {
+                window.Show(parent);
+            }
+        }
+
+        private static void OnEditNode(ENodeType nodeType, Logic.NodeBase parent, Logic.NodeBase initialNode)
+        {
+            LogicEffectEditorWindow window = null;
+            switch (nodeType)
+            {
+                case ENodeType.Action:
+                {
+                    window = LogicActionEditorWindow.GetWindow() as LogicEffectEditorWindow;
+                    break;
+                }
+                case ENodeType.Condition:
+                {
+                    window = LogicConditionEditorWindow.GetWindow() as LogicEffectEditorWindow;
+                    break;
+                }
+            }
+
+            if (null != window)
+            {
+                window.Show(parent, initialNode);
             }
         }
         #endregion

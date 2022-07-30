@@ -75,7 +75,7 @@ namespace DigitalWorld.Logic
             get { return _enabled; }
             set { _enabled = value; }
         }
-        protected bool _enabled = false;
+        protected bool _enabled = true;
 
         /// <summary>
         /// 类型名
@@ -85,6 +85,21 @@ namespace DigitalWorld.Logic
             get
             {
                 return this.GetType().ToString();
+            }
+        }
+
+        /// <summary>
+        /// 抛去命名空间 自我的类型名
+        /// </summary>
+        public string SelfTypeName
+        {
+            get
+            {
+                string typeName = TypeName;
+                if (string.IsNullOrEmpty(typeName))
+                    return typeName;
+
+                return typeName.Substring(typeName.LastIndexOf('.') + 1);
             }
         }
 
@@ -126,7 +141,7 @@ namespace DigitalWorld.Logic
         public override void OnAllocate()
         {
             base.OnAllocate();
-            this._enabled = false;
+            this._enabled = true;
             this._index = 0;
             this._parent = null;
             this._name = null;
@@ -166,6 +181,15 @@ namespace DigitalWorld.Logic
         protected virtual void AddChild(NodeBase node)
         {
             this._children.Add(node);
+
+            this.ResetChildrenIndex();
+        }
+
+        protected virtual void InsertChild(int index, NodeBase node)
+        {
+            this._children.Insert(index, node);
+
+            this.ResetChildrenIndex();
         }
 
         protected virtual void RemoveChild(NodeBase node)
@@ -173,7 +197,7 @@ namespace DigitalWorld.Logic
             this._children.Remove(node);
         }
 
-        public virtual void SetParent(NodeBase parent)
+        public virtual void SetParent(NodeBase parent, int index = -1)
         {
             if (this._parent == parent)
             {
@@ -189,7 +213,37 @@ namespace DigitalWorld.Logic
 
             if (null != this._parent)
             {
-                this._parent.AddChild(this);
+                if (string.IsNullOrEmpty(this._name))
+                {
+                    this.SetDefaultName();
+                }
+
+                if (index >= 0)
+                {
+                    this._parent.InsertChild(index, this);
+                }
+                else
+                {
+                    this._parent.AddChild(this);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 设置父节点后，如果名字为空，则设置默认名字
+        /// 默认递归到999 如果999仍然找不到 则不设置名字了
+        /// </summary>
+        private void SetDefaultName()
+        {
+            for (int i = 0; i < 999; ++i)
+            {
+                string name = string.Format("{0}_{1}", this.SelfTypeName, i);
+                NodeBase node = _parent.FindChild(name);
+                if (null == node) // 找不到 则说明名字可以用
+                {
+                    this._name = name;
+                    break;
+                }
             }
         }
 
@@ -226,6 +280,7 @@ namespace DigitalWorld.Logic
                 _children[i].ResetChildrenIndex();
             }
         }
+
 
         /// <summary>
         /// 获取自己同级的邻居队列

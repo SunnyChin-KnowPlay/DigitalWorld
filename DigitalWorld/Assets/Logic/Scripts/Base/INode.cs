@@ -16,7 +16,7 @@
 
 #if UNITY_EDITOR
         #region GUI
-        void OnGUIDetails();
+        void OnGUIExtEditing();
         #endregion
 #endif
     }

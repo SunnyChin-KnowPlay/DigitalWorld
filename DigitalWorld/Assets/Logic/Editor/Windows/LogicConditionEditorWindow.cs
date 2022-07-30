@@ -4,41 +4,38 @@ using UnityEngine;
 
 namespace DigitalWorld.Logic.Editor
 {
-    internal class LogicActionEditorWindow : LogicEffectEditorWindow
+    internal class LogicConditionEditorWindow : LogicEffectEditorWindow
     {
 
         #region Params
 
-        private EAction selectAction = 0;
+        private ECondition selectCondition = 0;
 
-        private List<EAction> typeEnums = new List<EAction>();
+        private readonly List<ECondition> typeEnums = new List<ECondition>();
 
-        private static readonly List<EAction> enumList = new List<EAction>();
+        private static readonly List<ECondition> enumList = new List<ECondition>();
 
         #endregion
 
         #region Common
-        private int OnSortAction(EAction l, EAction r)
+        private int OnSortCondition(ECondition l, ECondition r)
         {
             return string.Compare(l.ToString(), r.ToString());
         }
 
         protected override string GetTitle(EShowMode mode)
         {
-            switch (mode)
+            return mode switch
             {
-                case EShowMode.Add:
-                    return "Creating Action";
-                case EShowMode.Edit:
-                    return "Editing Action";
-                default:
-                    return "";
-            }
+                EShowMode.Add => "Creating Condition",
+                EShowMode.Edit => "Editing Condition",
+                _ => "",
+            };
         }
 
         public static EditorWindow GetWindow()
         {
-            LogicActionEditorWindow window = EditorWindow.GetWindow<LogicActionEditorWindow>();
+            LogicConditionEditorWindow window = EditorWindow.GetWindow<LogicConditionEditorWindow>();
             return window;
         }
         #endregion
@@ -48,14 +45,14 @@ namespace DigitalWorld.Logic.Editor
         {
             base.Show(parent);
 
-            this.selectAction = 0;
+            this.selectCondition = 0;
         }
 
         public override void Show(Logic.NodeBase parent, Logic.NodeBase node)
         {
             base.Show(parent, node);
 
-            selectAction = (EAction)node.Id;
+            selectCondition = (ECondition)node.Id;
         }
 
         protected override void OnGUIBody()
@@ -68,20 +65,20 @@ namespace DigitalWorld.Logic.Editor
             int index = 0;
 
             enumList.Clear();
-            foreach (EAction i in System.Enum.GetValues(typeof(EAction)))
+            foreach (ECondition i in System.Enum.GetValues(typeof(ECondition)))
             {
                 enumList.Add(i);
             }
-            enumList.Sort(OnSortAction);
+            enumList.Sort(OnSortCondition);
 
 
-            foreach (EAction i in enumList)
+            foreach (ECondition i in enumList)
             {
-                if (i == selectAction)
+                if (i == selectCondition)
                 {
                     typeEnums.Add(i);
                     typeIndexs.Add(index);
-                    typeNames.Add(string.Format("{0} - {1}", i, Defined.GetActionDesc(i)));
+                    typeNames.Add(string.Format("{0} - {1}", i, Defined.GetConditionDesc(i)));
                     currentIndex = index;
                     ++index;
                 }
@@ -91,11 +88,11 @@ namespace DigitalWorld.Logic.Editor
                     {
                         string fil = filter.ToLower();
 
-                        if (i.ToString().ToLower().Contains(fil) || Defined.GetActionDesc(i).ToLower().Contains(fil))
+                        if (i.ToString().ToLower().Contains(fil) || Defined.GetConditionDesc(i).ToLower().Contains(fil))
                         {
                             typeEnums.Add(i);
                             typeIndexs.Add(index);
-                            typeNames.Add(string.Format("{0} - {1}", i, Defined.GetActionDesc(i)));
+                            typeNames.Add(string.Format("{0} - {1}", i, Defined.GetConditionDesc(i)));
                             ++index;
                         }
                     }
@@ -103,26 +100,26 @@ namespace DigitalWorld.Logic.Editor
                     {
                         typeEnums.Add(i);
                         typeIndexs.Add(index);
-                        typeNames.Add(string.Format("{0} - {1}", i, Defined.GetActionDesc(i)));
+                        typeNames.Add(string.Format("{0} - {1}", i, Defined.GetConditionDesc(i)));
                         ++index;
                     }
                 }
             }
 
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Action Type");
+            EditorGUILayout.LabelField("Condition Type");
 
-            EAction old = this.selectAction;
+            ECondition old = this.selectCondition;
             int oldIndex = currentIndex;
             currentIndex = EditorGUILayout.IntPopup(currentIndex, typeNames.ToArray(), typeIndexs.ToArray());
             EditorGUILayout.EndHorizontal();
 
             if (null == currentNode || oldIndex != currentIndex)
             {
-                selectAction = typeEnums[currentIndex];
-                if (selectAction != 0)
+                selectCondition = typeEnums[currentIndex];
+                if (selectCondition != 0)
                 {
-                    currentNode = Logic.Utility.CreateNewAction(selectAction);
+                    currentNode = Logic.Utility.CreateNewCondition(selectCondition);
                 }
                 else
                 {

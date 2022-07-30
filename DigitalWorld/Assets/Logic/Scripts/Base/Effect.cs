@@ -110,6 +110,12 @@ namespace DigitalWorld.Logic
             XmlElement requirementsEle = element["_requirements"];
             if (null != requirementsEle)
             {
+                if (requirementsEle.HasAttribute("_checkLogic"))
+                {
+                    string checkLogicStr = requirementsEle.GetAttribute("_checkLogic");
+                    Enum.TryParse(checkLogicStr, true, out _checkLogic);
+                }
+
                 foreach (object node in requirementsEle.ChildNodes)
                 {
                     XmlElement requirementEle = node as XmlElement;

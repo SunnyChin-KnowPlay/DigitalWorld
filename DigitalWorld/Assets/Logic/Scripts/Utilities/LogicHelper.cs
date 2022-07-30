@@ -22,6 +22,14 @@ namespace DigitalWorld.Logic
                 OnAddNode.Invoke(nodeType, parent);
             }
         }
+
+        public static void ApplyEditNode(ENodeType nodeType, NodeBase parent, NodeBase initialNode)
+        {
+            if (null != OnEditNode)
+            {
+                OnEditNode.Invoke(nodeType, parent, initialNode);
+            }
+        }
         #endregion
 
         #region Get

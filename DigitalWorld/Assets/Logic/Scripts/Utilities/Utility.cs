@@ -27,7 +27,6 @@ namespace DigitalWorld.Logic
 
 
         private const string LogicAssetPath = "Assets/Logic";
-
         public const string ConfigsPath = LogicAssetPath + "/" + ConfigsRelativePath;
         public const string TemplateConfigsPath = ConfigsPath + "/" + "Template";
         public const string GenreatedConfigsPath = ConfigsPath + "/" + "Generated";
@@ -35,10 +34,8 @@ namespace DigitalWorld.Logic
         public const string BehaviourPath = ConfigsPath + "/" + BehavioursRelativePath;
 
         internal const string LogicExportPath = "Assets/Res/Logic";
-
         public const string LogicExportBehaviourPath = LogicExportPath + "/" + BehavioursRelativePath;
 
-        private static bool autoRefresh = false;
         public static Dictionary<string, int> KeyDict = new Dictionary<string, int>();
 
         public readonly static string[] usingNamespaces = new string[2] { "DigitalWorld.Game", "UnityEngine" };
@@ -46,8 +43,7 @@ namespace DigitalWorld.Logic
         /// 逻辑命名空间
         /// </summary>
         public const string LogicNamespace = "DigitalWorld.Logic";
-        private const string AutoRefreshKey = LogicNamespace + "." + "AutoRefresh";
-
+      
         private static Assembly csharpAss = null;
         #endregion
 

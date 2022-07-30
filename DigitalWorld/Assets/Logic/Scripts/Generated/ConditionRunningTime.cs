@@ -24,20 +24,26 @@ namespace DigitalWorld.Logic
         /// 时长
         /// </summary>
 		public float duration = default(float);
+		/// <summary>
+        /// 测试用
+        /// </summary>
+		public int testVVV = default(int);
 		private enum EValueIndex
 		{
 			duration = 0, 
+			testVVV = 1, 
 		}
 
 		public ConditionRunningTime()
 		{
-			operators = new ECheckOperator[1];
+			operators = new ECheckOperator[2];
 		}
 		
 		public override void OnAllocate()
         {
 			base.OnAllocate();
 			duration = default(float);
+			testVVV = default(int);
 			
         }
 
@@ -45,6 +51,7 @@ namespace DigitalWorld.Logic
         {
             base.OnRecycle();
 			duration = default(float);
+			testVVV = default(int);
         }
 
 		public override object Clone()
@@ -73,6 +80,7 @@ namespace DigitalWorld.Logic
             if (null != v)
             {
 				v.duration = this.duration;
+				v.testVVV = this.testVVV;
             }
             return obj;
         }
@@ -97,6 +105,7 @@ namespace DigitalWorld.Logic
                 if (descs.Count < 1)
                 {
                     descs.Add("duration", "时长");
+                    descs.Add("testVVV", "测试用");
                 }
 
                 return descs;
@@ -148,6 +157,7 @@ namespace DigitalWorld.Logic
         {
             base.OnCalculateSize();
 			CalculateSize(this.duration);
+			CalculateSize(this.testVVV);
   
         }
 
@@ -155,6 +165,7 @@ namespace DigitalWorld.Logic
         {
             base.OnEncode();
 			Encode(this.duration);
+			Encode(this.testVVV);
           
         }
 
@@ -162,6 +173,7 @@ namespace DigitalWorld.Logic
         {
             base.OnDecode();
 			Decode(ref this.duration);
+			Decode(ref this.testVVV);
         }
 
 #if UNITY_EDITOR
@@ -169,12 +181,14 @@ namespace DigitalWorld.Logic
         {
             base.OnDecode(node);
 			Decode(ref this.duration, "duration");
+			Decode(ref this.testVVV, "testVVV");
         }
 
         protected override void OnEncode(XmlElement node)
         {
 			base.OnEncode(node);
 			Encode(this.duration, "duration");
+			Encode(this.testVVV, "testVVV");
         }
 #endif
 		#endregion

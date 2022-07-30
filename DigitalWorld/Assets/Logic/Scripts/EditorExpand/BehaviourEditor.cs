@@ -69,6 +69,11 @@ namespace DigitalWorld.Logic
                 OnClickCreateAction();
             }
 
+            if (GUILayout.Button("Create Condition"))
+            {
+                OnClickCreateCondition();
+            }
+
             if (GUILayout.Button("OpenAll"))
             {
                 for (int i = 0; i < this._children.Count; ++i)
@@ -86,20 +91,19 @@ namespace DigitalWorld.Logic
             }
         }
 
-        protected override void OnGUIBody()
+        protected override void OnGUIEditing()
         {
-            base.OnGUIBody();
-
-
-
-
-
-
+            base.OnGUIEditing();
         }
 
         private void OnClickCreateAction()
         {
             LogicHelper.ApplyAddNode(ENodeType.Action, this);
+        }
+
+        private void OnClickCreateCondition()
+        {
+            LogicHelper.ApplyAddNode(ENodeType.Condition, this);
         }
         #endregion
 
@@ -141,6 +145,7 @@ namespace DigitalWorld.Logic
             fullPath = System.IO.Path.Combine(Utility.LogicExportPath, fullPath);
 
             TextAsset ta = new TextAsset(text);
+            AssetDatabase.DeleteAsset(fullPath);
             AssetDatabase.CreateAsset(ta, fullPath);
         }
 
@@ -163,6 +168,7 @@ namespace DigitalWorld.Logic
 
 
             TextAsset ta = new TextAsset(xmlDocument.InnerXml);
+            AssetDatabase.DeleteAsset(fullPath);
             AssetDatabase.CreateAsset(ta, fullPath);
 
         }

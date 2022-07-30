@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Xml;
 
 namespace DigitalWorld.Logic
 {
@@ -12,6 +14,22 @@ namespace DigitalWorld.Logic
         /// 与字段数量一致 每个字段的操作符
         /// </summary>
         protected ECheckOperator[] operators = null;
+        #endregion
+
+        #region Common
+        public override T CloneTo<T>(T obj)
+        {
+            ConditionBase bc = base.CloneTo(obj) as ConditionBase;
+            if (null != bc)
+            {
+                for (int i = 0; i < this.operators.Length; ++i)
+                {
+                    bc.operators[i] = this.operators[i];
+                }
+            }
+
+            return bc as T;
+        }
         #endregion
 
         #region Logic
@@ -158,6 +176,82 @@ namespace DigitalWorld.Logic
                 throw new ArgumentOutOfRangeException();
 
             this.operators[index] = oper;
+        }
+        #endregion
+
+        #region Proto
+        protected override void OnEncode(XmlElement element)
+        {
+            base.OnEncode(element);
+
+            XmlElement operatorsEle = element.OwnerDocument.CreateElement("operators");
+            element.AppendChild(operatorsEle);
+            for (int i = 0; i < this.operators.Length; ++i)
+            {
+                string operKey = this.GetOperKey(i);
+                XmlElement ele = element.OwnerDocument.CreateElement(operKey);
+                ele.SetAttribute("operator", this.GetOperatorFromField(operKey).ToString());
+
+                operatorsEle.AppendChild(ele);
+            }
+        }
+
+        protected override void OnDecode(XmlElement element)
+        {
+            base.OnDecode(element);
+
+            XmlElement operatorsEle = element["operators"];
+            if (null != operatorsEle)
+            {
+                foreach (var subN in operatorsEle.ChildNodes)
+                {
+                    XmlElement ele = subN as XmlElement;
+                    if (ele.HasAttribute("operator"))
+                    {
+                        string value = ele.GetAttribute("operator");
+                        ECheckOperator op = (ECheckOperator)Enum.Parse(typeof(ECheckOperator), value);
+                        this.SetOperatorByField(ele.Name, op);
+                    }
+                }
+            }
+        }
+
+        protected override void OnCalculateSize()
+        {
+            base.OnCalculateSize();
+
+            int length = this.operators.Length;
+            CalculateSize(length);
+            for (int i = 0; i < length; ++i)
+            {
+                ECheckOperator oper = this.operators[i];
+                CalculateSizeEnum(oper);
+            }
+        }
+
+        protected override void OnEncode()
+        {
+            base.OnEncode();
+
+            List<int> operators = new List<int>(this.operators.Length);
+            for (int i = 0; i < this.operators.Length; ++i)
+            {
+                operators.Add((int)this.operators[i]);
+            }
+            Encode(operators);
+        }
+
+        protected override void OnDecode()
+        {
+            base.OnDecode();
+
+            List<int> operators = null;
+            Decode(ref operators);
+
+            for (int i = 0; i < operators.Count; ++i)
+            {
+                this.SetOper(i, (ECheckOperator)operators[i]);
+            }
         }
         #endregion
     }
