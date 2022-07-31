@@ -10,39 +10,9 @@ namespace DigitalWorld.Logic
 {
     public partial class NodeBase
     {
-        #region Event
-        public delegate void OnDirtyChangedHandle(bool dirty);
-        public event OnDirtyChangedHandle OnDirtyChanged;
-        #endregion
+       
 
-        #region Dirty
-        public virtual void SetDirty()
-        {
-            if (null != _parent)
-            {
-                _parent.SetDirty();
-            }
-
-            if (!this._dirty)
-            {
-                this._dirty = true;
-                if (null != OnDirtyChanged)
-                {
-                    OnDirtyChanged(this._dirty);
-                }
-            }
-        }
-
-        /// <summary>
-        /// 是否为脏
-        /// </summary>
-        public virtual bool IsDirty
-        {
-            get
-            { return _dirty; }
-        }
-        protected bool _dirty = false;
-        #endregion
+        
 
 #if UNITY_EDITOR
 

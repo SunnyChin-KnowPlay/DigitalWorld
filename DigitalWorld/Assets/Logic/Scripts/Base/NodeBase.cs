@@ -11,6 +11,11 @@ namespace DigitalWorld.Logic
     /// </summary>
     public abstract partial class NodeBase : ByteBuffer, INode
     {
+        #region Event
+        public delegate void OnDirtyChangedHandle(bool dirty);
+        public event OnDirtyChangedHandle OnDirtyChanged;
+        #endregion
+
         #region Params
         /// <summary>
         /// 索引号
@@ -137,6 +142,32 @@ namespace DigitalWorld.Logic
         protected string _description = string.Empty;
         #endregion
 
+        #region Dirty
+        public virtual void SetDirty()
+        {
+            if (null != _parent)
+            {
+                _parent.SetDirty();
+            }
+
+            if (!this._dirty)
+            {
+                this._dirty = true;
+                OnDirtyChanged?.Invoke(this._dirty);
+            }
+        }
+
+        /// <summary>
+        /// 是否为脏
+        /// </summary>
+        public virtual bool IsDirty
+        {
+            get
+            { return _dirty; }
+        }
+        protected bool _dirty = false;
+        #endregion
+
         #region Pool
         public override void OnAllocate()
         {
@@ -244,6 +275,18 @@ namespace DigitalWorld.Logic
                     this._name = name;
                     break;
                 }
+            }
+        }
+
+        /// <summary>
+        /// 当自己或者父节点更改了
+        /// </summary>
+        protected virtual void OnChanged()
+        {
+            for (int i = 0; i < this._children.Count; ++i)
+            {
+                NodeBase node = this._children[i];
+                node.OnChanged();
             }
         }
 

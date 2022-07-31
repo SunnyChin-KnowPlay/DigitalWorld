@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Text;
 using UnityEditor;
+using UnityEditorInternal;
 #endif
 using UnityEngine;
 
@@ -10,10 +11,17 @@ namespace DigitalWorld.Logic
     public partial class Effect
     {
 #if UNITY_EDITOR
+       
+
         #region GUI
         public override void OnGUI()
         {
             base.OnGUI();
+        }
+
+        protected override void OnGUIEditing()
+        {
+            base.OnGUIEditing();
         }
 
         protected override void OnGUITitleMenus()

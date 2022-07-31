@@ -45,6 +45,15 @@ namespace DigitalWorld.Logic
         }
         #endregion
 
+        #region Relation
+        protected override void OnChanged()
+        {
+            base.OnChanged();
+
+
+        }
+        #endregion
+
         #region Logic
         public virtual bool GetRequirement()
         {
