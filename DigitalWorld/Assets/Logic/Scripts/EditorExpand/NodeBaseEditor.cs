@@ -10,9 +10,9 @@ namespace DigitalWorld.Logic
 {
     public partial class NodeBase
     {
-       
 
-        
+
+
 
 #if UNITY_EDITOR
 
@@ -94,20 +94,27 @@ namespace DigitalWorld.Logic
 
         public virtual void OnGUI()
         {
+           
             OnGUITitle();
             if (this.IsEditing)
             {
                 OnGUIEditing();
             }
+
+          
         }
 
         public virtual void OnGUITitle()
         {
-            GUIStyle style = new GUIStyle("Tooltip");
+            GUIStyle style = new GUIStyle("IN Title");
+            style.padding.left = 0;
+
+            int x = 1;
+
             EditorGUILayout.BeginHorizontal(style);
 
 
-            _isEditing = EditorGUILayout.Toggle("", _isEditing, EditorStyles.foldout, GUILayout.Width(12));
+            _isEditing = EditorGUILayout.Toggle("", _isEditing, EditorStyles.foldout, GUILayout.Width(EditorGUIUtility.singleLineHeight));
 
 
             this.OnGUIEnabled();
@@ -187,7 +194,7 @@ namespace DigitalWorld.Logic
         protected virtual void OnGUIEnabled()
         {
             bool old = _enabled;
-            this._enabled = EditorGUILayout.Toggle(old, GUILayout.Width(14));
+            this._enabled = EditorGUILayout.Toggle(old, GUILayout.Width(EditorGUIUtility.singleLineHeight));
             if (old != _enabled)
             {
                 this.SetDirty();
@@ -325,8 +332,7 @@ namespace DigitalWorld.Logic
             if (this._children.Count > 0)
             {
 
-                GUIStyle style = new GUIStyle("Tooltip");
-                EditorGUILayout.BeginVertical(style);
+                EditorGUILayout.BeginVertical();
                 for (int i = 0; i < this._children.Count; ++i)
                 {
 

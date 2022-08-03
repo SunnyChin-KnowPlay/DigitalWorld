@@ -14,8 +14,10 @@ namespace DigitalWorld.Logic
 #if UNITY_EDITOR
 
         #region Params
-
         protected ReorderableList reorderableRequirementList;
+        protected List<string> brotherNames = new List<string>();
+
+        protected bool _requirementEditing = true;
         #endregion
 
         #region Common
@@ -25,8 +27,45 @@ namespace DigitalWorld.Logic
             {
                 drawElementCallback = OnDrawRequiementElement,
                 onAddCallback = (list) => OnAddRequiement(),
-                onRemoveCallback = (list) => OnRemoveRequiement()
+                onRemoveCallback = (list) => OnRemoveRequiement(),
+                drawHeaderCallback = OnDrawRequiementHead,
             };
+        }
+
+
+        protected List<string> CalculateBrotherNames()
+        {
+            brotherNames.Clear();
+
+            if (null != this._parent)
+            {
+                List<NodeBase> children = _parent.Children;
+                foreach (NodeBase brother in children)
+                {
+                    if (brother != this)
+                    {
+                        brotherNames.Add(brother.Name);
+                    }
+                }
+            }
+
+            return brotherNames;
+        }
+
+        protected int GetBrotherIndex(string name)
+        {
+            int index = -1;
+
+            for (int i = 0; i < brotherNames.Count; ++i)
+            {
+                string n = brotherNames[i];
+                if (n == name)
+                {
+                    index = i; break;
+                }
+            }
+
+            return index;
         }
         #endregion
 
@@ -65,9 +104,24 @@ namespace DigitalWorld.Logic
 
         protected virtual void OnGUIEditingRequirementsInfo()
         {
-            GUILayout.BeginVertical();
-            reorderableRequirementList.DoLayoutList();
-            GUILayout.EndVertical();
+            this.CalculateBrotherNames();
+
+            GUILayout.BeginHorizontal();
+
+            GUILayout.Space(EditorGUIUtility.singleLineHeight);
+
+            _requirementEditing = EditorGUILayout.Toggle("", _requirementEditing, EditorStyles.foldout, GUILayout.Width(EditorGUIUtility.singleLineHeight));
+            if (_requirementEditing)
+            {
+                reorderableRequirementList.DoLayoutList();
+            }
+            else
+            {
+                EditorGUILayout.LabelField("Requirements");
+            }
+
+
+            GUILayout.EndHorizontal();
         }
 
         protected virtual void OnGUITitleRequirementsInfo()
@@ -93,7 +147,7 @@ namespace DigitalWorld.Logic
             {
                 richText = true
             };
-            EditorGUILayout.SelectableLabel(title.ToString(), labelStyle, GUILayout.MaxHeight(16));
+            EditorGUILayout.SelectableLabel(title.ToString(), labelStyle, GUILayout.Height(EditorGUIUtility.singleLineHeight));
         }
 
         protected virtual void OnGUITitlePropertiesInfo()
@@ -129,6 +183,16 @@ namespace DigitalWorld.Logic
             EditorGUILayout.SelectableLabel(title.ToString(), labelStyle, GUILayout.MaxHeight(16));
         }
 
+        private void OnDrawRequiementHead(Rect rect)
+        {
+            EditorGUI.LabelField(rect, "Requirements");
+
+            rect.xMin += 100;
+            rect.xMax = rect.xMin + 300;
+
+            _requirementLogic = (ECheckLogic)EditorGUI.EnumPopup(rect, this._requirementLogic);
+        }
+
         private void OnDrawRequiementElement(Rect rect, int index, bool selected, bool focused)
         {
             float width = rect.width;
@@ -136,10 +200,17 @@ namespace DigitalWorld.Logic
             {
                 Requirement item = _requirements[index];
 
+                int currentSelectedIndex = this.GetBrotherIndex(item.nodeName);
+
                 rect.y += 2;
                 rect.height = EditorGUIUtility.singleLineHeight;
-                rect.xMax = rect.xMin + rect.width / 2 - 2;
-                item.nodeName = EditorGUI.TextField(rect, item.nodeName);
+                rect.xMax = rect.xMin + rect.width / 3 - 2;
+                int newSelectedIndex = EditorGUI.Popup(rect, currentSelectedIndex, this.brotherNames.ToArray());
+                if (newSelectedIndex != currentSelectedIndex && newSelectedIndex >= 0)
+                {
+                    item.nodeName = this.brotherNames[newSelectedIndex];
+                }
+                //item.nodeName = EditorGUI.TextField(rect, item.nodeName);
 
                 rect.xMin = rect.xMax + 4;
                 rect.width = width / 2 - 2;

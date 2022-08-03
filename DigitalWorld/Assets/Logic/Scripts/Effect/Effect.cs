@@ -18,12 +18,12 @@ namespace DigitalWorld.Logic
             }
         }
 
-        public ECheckLogic CheckLogic
+        public ECheckLogic RequirementLogic
         {
-            get => _checkLogic;
-            set => _checkLogic = value;
+            get => _requirementLogic;
+            set => _requirementLogic = value;
         }
-        protected ECheckLogic _checkLogic;
+        protected ECheckLogic _requirementLogic;
 
         public List<Requirement> Requirements => _requirements;
         protected List<Requirement> _requirements = new List<Requirement>();
@@ -34,7 +34,7 @@ namespace DigitalWorld.Logic
         {
             base.OnAllocate();
 
-            _checkLogic = ECheckLogic.And;
+            _requirementLogic = ECheckLogic.And;
         }
 
         public override void OnRecycle()
@@ -71,7 +71,7 @@ namespace DigitalWorld.Logic
                 return base.CheckRequirement();
 
             bool result = true;
-            switch (_checkLogic)
+            switch (_requirementLogic)
             {
                 case ECheckLogic.And:
                 {
@@ -119,10 +119,10 @@ namespace DigitalWorld.Logic
             XmlElement requirementsEle = element["_requirements"];
             if (null != requirementsEle)
             {
-                if (requirementsEle.HasAttribute("_checkLogic"))
+                if (requirementsEle.HasAttribute("_requirementLogic"))
                 {
-                    string checkLogicStr = requirementsEle.GetAttribute("_checkLogic");
-                    Enum.TryParse(checkLogicStr, true, out _checkLogic);
+                    string checkLogicStr = requirementsEle.GetAttribute("_requirementLogic");
+                    Enum.TryParse(checkLogicStr, true, out _requirementLogic);
                 }
 
                 int index = 0;
@@ -154,7 +154,7 @@ namespace DigitalWorld.Logic
             XmlDocument doc = element.OwnerDocument;
 
             XmlElement requirementsEle = doc.CreateElement("_requirements");
-            requirementsEle.SetAttribute("_checkLogic", this._checkLogic.ToString());
+            requirementsEle.SetAttribute("_requirementLogic", this._requirementLogic.ToString());
             foreach (Requirement requirement in this._requirements)
             {
                 XmlElement requirementEle = doc.CreateElement("requirement");
