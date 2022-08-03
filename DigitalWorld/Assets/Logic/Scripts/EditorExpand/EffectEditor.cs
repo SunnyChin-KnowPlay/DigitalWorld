@@ -1,4 +1,5 @@
 ﻿#if UNITY_EDITOR
+using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using UnityEditor;
@@ -11,7 +12,21 @@ namespace DigitalWorld.Logic
     public partial class Effect
     {
 #if UNITY_EDITOR
-       
+
+        #region Params
+
+        protected ReorderableList reorderableRequirementList;
+        #endregion
+
+        #region Common
+        public Effect()
+        {
+            reorderableRequirementList = new ReorderableList(this._requirements, typeof(Requirement));
+            reorderableRequirementList.drawElementCallback = OnDrawElement;
+            reorderableRequirementList.onAddCallback = (list) => OnAdd();
+            reorderableRequirementList.onRemoveCallback = (list) => OnRemove();
+        }
+        #endregion
 
         #region GUI
         public override void OnGUI()
@@ -22,6 +37,10 @@ namespace DigitalWorld.Logic
         protected override void OnGUIEditing()
         {
             base.OnGUIEditing();
+
+            OnGUIEditingRequirementsInfo();
+
+
         }
 
         protected override void OnGUITitleMenus()
@@ -42,6 +61,13 @@ namespace DigitalWorld.Logic
             OnGUITitlePropertiesInfo();
         }
 
+        protected virtual void OnGUIEditingRequirementsInfo()
+        {
+            GUILayout.BeginVertical();
+            reorderableRequirementList.DoLayoutList();
+            GUILayout.EndVertical();
+        }
+
         protected virtual void OnGUITitleRequirementsInfo()
         {
             StringBuilder title = new StringBuilder();
@@ -49,9 +75,9 @@ namespace DigitalWorld.Logic
             title.Append("<color=#50AFCCFF>Requirements:</color>(");
 
             int index = 0;
-            foreach (var kvp in this._requirements)
+            foreach (Requirement requirement in this._requirements)
             {
-                title.AppendFormat("<color=#59E323FF>{0}</color> = <color=#F2660BFF>{1}</color>", kvp.Key, kvp.Value);
+                title.AppendFormat("<color=#59E323FF>{0}</color> = <color=#F2660BFF>{1}</color>", requirement.nodeName, requirement.isRequirement);
 
                 index++;
                 if (index < this._requirements.Count)
@@ -99,6 +125,46 @@ namespace DigitalWorld.Logic
                 richText = true
             };
             EditorGUILayout.SelectableLabel(title.ToString(), labelStyle, GUILayout.MaxHeight(16));
+        }
+
+        private void OnDrawElement(Rect rect, int index, bool selected, bool focused)
+        {
+            float width = rect.width;
+            if (index < _requirements.Count)
+            {
+                Requirement item = _requirements[index];
+
+                rect.y += 2;
+                rect.height = EditorGUIUtility.singleLineHeight;
+                rect.xMax = rect.xMin + rect.width / 2 - 2;
+                item.nodeName = EditorGUI.TextField(rect, item.nodeName);
+
+                rect.xMin = rect.xMax + 4;
+                rect.width = width / 2 - 2;
+                item.isRequirement = EditorGUI.Toggle(rect, item.isRequirement);
+            }
+            else
+            {
+                reorderableRequirementList.list.RemoveAt(index);
+            }
+        }
+
+        private void OnAdd()
+        {
+            int count = _requirements.Count;
+            _requirements.Add(new Requirement { index = count });
+            //_containerNamesSP.arraySize += 1;
+            //_containerWidgetsSP.arraySize += 1;
+
+            //SerializedProperty objectReferenceValuePro = _containerWidgetsSP.GetArrayElementAtIndex(_containerWidgetsSP.arraySize - 1);
+            //objectReferenceValuePro.objectReferenceValue = null;
+        }
+
+        private void OnRemove()
+        {
+            _requirements.RemoveAt(reorderableRequirementList.index);
+
+
         }
         #endregion
 

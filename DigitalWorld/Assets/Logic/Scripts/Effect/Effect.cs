@@ -25,8 +25,8 @@ namespace DigitalWorld.Logic
         }
         protected ECheckLogic _checkLogic;
 
-        public Dictionary<string, bool> Requirements => _requirements;
-        protected Dictionary<string, bool> _requirements = new Dictionary<string, bool>();
+        public List<Requirement> Requirements => _requirements;
+        protected List<Requirement> _requirements = new List<Requirement>();
         #endregion
 
         #region Pool
@@ -75,10 +75,10 @@ namespace DigitalWorld.Logic
             {
                 case ECheckLogic.And:
                 {
-                    foreach (KeyValuePair<string, bool> item in this._requirements)
+                    foreach (Requirement requirement in _requirements)
                     {
-                        bool ret = this.Behaviour.GetRequirement(item.Key);
-                        if (ret != item.Value)
+                        bool ret = this.Behaviour.GetRequirement(requirement.nodeName);
+                        if (ret != requirement.isRequirement)
                         {
                             result = false;
                             break;
@@ -89,10 +89,10 @@ namespace DigitalWorld.Logic
                 case ECheckLogic.Or:
                 {
                     result = false;
-                    foreach (KeyValuePair<string, bool> item in this._requirements)
+                    foreach (Requirement requirement in _requirements)
                     {
-                        bool ret = this.Behaviour.GetRequirement(item.Key);
-                        if (ret == item.Value)
+                        bool ret = this.Behaviour.GetRequirement(requirement.nodeName);
+                        if (ret == requirement.isRequirement)
                         {
                             result = true;
                             break;
@@ -125,12 +125,19 @@ namespace DigitalWorld.Logic
                     Enum.TryParse(checkLogicStr, true, out _checkLogic);
                 }
 
+                int index = 0;
                 foreach (object node in requirementsEle.ChildNodes)
                 {
                     XmlElement requirementEle = node as XmlElement;
                     string key = requirementEle.GetAttribute("key");
                     bool.TryParse("value", out bool value);
-                    this._requirements.Add(key, value);
+                    Requirement requirement = new Requirement()
+                    {
+                        index = index,
+                        nodeName = key,
+                        isRequirement = value,
+                    };
+                    this._requirements.Add(requirement);
                 }
             }
         }
@@ -148,11 +155,11 @@ namespace DigitalWorld.Logic
 
             XmlElement requirementsEle = doc.CreateElement("_requirements");
             requirementsEle.SetAttribute("_checkLogic", this._checkLogic.ToString());
-            foreach (KeyValuePair<string, bool> item in this._requirements)
+            foreach (Requirement requirement in this._requirements)
             {
                 XmlElement requirementEle = doc.CreateElement("requirement");
-                requirementEle.SetAttribute("key", item.Key);
-                requirementEle.SetAttribute("value", item.Value.ToString());
+                requirementEle.SetAttribute("key", requirement.nodeName);
+                requirementEle.SetAttribute("value", requirement.isRequirement.ToString());
                 requirementsEle.AppendChild(requirementEle);
             }
             element.AppendChild(requirementsEle);
