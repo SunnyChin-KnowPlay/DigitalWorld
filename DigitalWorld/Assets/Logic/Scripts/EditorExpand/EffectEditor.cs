@@ -21,10 +21,12 @@ namespace DigitalWorld.Logic
         #region Common
         public Effect()
         {
-            reorderableRequirementList = new ReorderableList(this._requirements, typeof(Requirement));
-            reorderableRequirementList.drawElementCallback = OnDrawElement;
-            reorderableRequirementList.onAddCallback = (list) => OnAdd();
-            reorderableRequirementList.onRemoveCallback = (list) => OnRemove();
+            reorderableRequirementList = new ReorderableList(this._requirements, typeof(Requirement))
+            {
+                drawElementCallback = OnDrawRequiementElement,
+                onAddCallback = (list) => OnAddRequiement(),
+                onRemoveCallback = (list) => OnRemoveRequiement()
+            };
         }
         #endregion
 
@@ -127,7 +129,7 @@ namespace DigitalWorld.Logic
             EditorGUILayout.SelectableLabel(title.ToString(), labelStyle, GUILayout.MaxHeight(16));
         }
 
-        private void OnDrawElement(Rect rect, int index, bool selected, bool focused)
+        private void OnDrawRequiementElement(Rect rect, int index, bool selected, bool focused)
         {
             float width = rect.width;
             if (index < _requirements.Count)
@@ -149,22 +151,15 @@ namespace DigitalWorld.Logic
             }
         }
 
-        private void OnAdd()
+        private void OnAddRequiement()
         {
             int count = _requirements.Count;
             _requirements.Add(new Requirement { index = count });
-            //_containerNamesSP.arraySize += 1;
-            //_containerWidgetsSP.arraySize += 1;
-
-            //SerializedProperty objectReferenceValuePro = _containerWidgetsSP.GetArrayElementAtIndex(_containerWidgetsSP.arraySize - 1);
-            //objectReferenceValuePro.objectReferenceValue = null;
         }
 
-        private void OnRemove()
+        private void OnRemoveRequiement()
         {
             _requirements.RemoveAt(reorderableRequirementList.index);
-
-
         }
         #endregion
 
