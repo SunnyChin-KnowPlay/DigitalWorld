@@ -45,11 +45,20 @@ namespace DigitalWorld.Logic
         public const string LogicNamespace = "DigitalWorld.Logic";
       
         private static Assembly csharpAss = null;
+
+        public static Color kSplitLineColor;
         #endregion
 
         #region Common
+        static Utility()
+        {
+            kSplitLineColor = new Color(0.12f, 0.12f, 0.12f, 0.62f);
+        }
+
 #if UNITY_EDITOR
-        
+
+
+
         public static TextAsset LoadTemplateConfig(string path)
         {
             if (string.IsNullOrEmpty(path))

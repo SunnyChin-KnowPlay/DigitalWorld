@@ -190,9 +190,12 @@ namespace DigitalWorld.Logic
 
         private void OnDrawRequiementElement(Rect rect, int index, bool selected, bool focused)
         {
+            Rect parentRect = rect;
             float width = rect.width;
             if (index < _requirements.Count)
             {
+                Rect lineRect = Rect.MinMaxRect(parentRect.xMin + 4, parentRect.yMax - 2, parentRect.xMax - 4, parentRect.yMax);
+
                 Requirement item = _requirements[index];
 
                 int currentSelectedIndex = this.GetBrotherIndex(item.nodeName);
@@ -209,6 +212,8 @@ namespace DigitalWorld.Logic
                 rect.xMin = rect.xMax + 4;
                 rect.width = width / 2 - 2;
                 item.isRequirement = EditorGUI.Toggle(rect, "", item.isRequirement);
+
+                EditorGUI.DrawRect(lineRect, Logic.Utility.kSplitLineColor);
             }
             else
             {

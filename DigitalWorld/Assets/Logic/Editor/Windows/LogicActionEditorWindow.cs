@@ -11,7 +11,7 @@ namespace DigitalWorld.Logic.Editor
 
         private EAction selectAction = 0;
 
-        private List<EAction> typeEnums = new List<EAction>();
+        private readonly List<EAction> typeEnums = new List<EAction>();
 
         private static readonly List<EAction> enumList = new List<EAction>();
 

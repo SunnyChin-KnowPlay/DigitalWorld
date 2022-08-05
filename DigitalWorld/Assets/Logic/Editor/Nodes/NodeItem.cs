@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Xml;
 using UnityEditor;
+using UnityEditorInternal;
 using UnityEngine;
 
 namespace DigitalWorld.Logic.Editor
 {
     internal abstract class NodeItem : NodeBase
     {
+        #region Params
         private Vector2 offset = Vector2.zero;
 
         public delegate void OnCallbackModifyItem(EItemType type, NodeItem ba);
@@ -17,7 +19,7 @@ namespace DigitalWorld.Logic.Editor
             get { return desc; }
         }
         protected List<NodeField> fields = new List<NodeField>();
-        private static List<NodeField> processFields = new List<NodeField>();
+        private static readonly List<NodeField> processFields = new List<NodeField>();
 
         public List<NodeField> Fields
         {
@@ -31,7 +33,72 @@ namespace DigitalWorld.Logic.Editor
             set { editingFields = value; }
         }
 
+        protected readonly ReorderableList fieldList;
+        #endregion
+
+        #region Common
+        internal NodeItem()
+        {
+            fieldList = new ReorderableList(fields, typeof(NodeField))
+            {
+                drawElementCallback = OnDrawFieldElement,
+                onAddCallback = (list) => OnAddField(),
+                onRemoveCallback = (list) => OnRemoveField(),
+                drawHeaderCallback = OnDrawFieldHead,
+                draggable = true,
+            };
+        }
+        #endregion
+
         #region GUI
+        protected virtual void OnDrawFieldElement(Rect rect, int index, bool selected, bool focused)
+        {
+            float width = rect.width;
+            if (index < fields.Count)
+            {
+                NodeField item = fields[index];
+
+                rect.y += 2;
+                rect.height = EditorGUIUtility.singleLineHeight;
+
+                rect.xMax = rect.xMin + 36;
+                item.Name = EditorGUI.TextField(rect, item.Name);
+
+                rect.xMin = rect.xMax + 4;
+                rect.xMax = rect.xMin + 36;
+                item.baseClassT = EditorGUI.TextField(rect, item.baseClassT);
+
+                rect.xMin = rect.xMax + 4;
+                rect.xMax = rect.xMin + 36;
+                item.classT = EditorGUI.TextField(rect, item.classT);
+
+                rect.xMin = rect.xMax + 4;
+                rect.xMax = rect.xMin + 36;
+                item.desc = EditorGUI.TextField(rect, item.desc);
+
+
+            }
+            else
+            {
+                fields.RemoveAt(index);
+            }
+        }
+
+        private void OnDrawFieldHead(Rect rect)
+        {
+            EditorGUI.LabelField(rect, "Fields");
+        }
+
+        protected virtual void OnAddField()
+        {
+            fields.Add(new NodeField());
+        }
+
+        protected virtual void OnRemoveField()
+        {
+            fields.RemoveAt(fieldList.index);
+        }
+
         public override void OnGUITitle()
         {
             base.OnGUITitle();
@@ -48,10 +115,6 @@ namespace DigitalWorld.Logic.Editor
             EditorGUILayout.BeginHorizontal();
             editingFields = EditorGUILayout.Foldout(editingFields, "字段");
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button("新增"))
-            {
-                fields.Add(new NodeField());
-            }
 
             if (GUILayout.Button("打开所有"))
             {
@@ -73,36 +136,39 @@ namespace DigitalWorld.Logic.Editor
             EditorGUILayout.EndHorizontal();
             if (editingFields && fields.Count > 0)
             {
-                GUIStyle style = new GUIStyle(GUI.skin.box);
 
-                offset = EditorGUILayout.BeginScrollView(offset, style);
+                fieldList.DoLayoutList();
 
-                processFields.Clear();
-                processFields.AddRange(fields);
+                //GUIStyle style = new GUIStyle(GUI.skin.box);
 
-                for (int i = 0; i < processFields.Count; ++i)
-                {
-                    string name = string.Format("字段{0}", i + 1);
+                //offset = EditorGUILayout.BeginScrollView(offset, style);
 
-                    EditorGUILayout.BeginHorizontal();
-                    processFields[i].Editing = EditorGUILayout.Foldout(processFields[i].Editing, name);
+                //processFields.Clear();
+                //processFields.AddRange(fields);
 
-                    GUILayout.FlexibleSpace();
-                    if (GUILayout.Button("删除"))
-                    {
-                        fields.Remove(processFields[i]);
-                    }
+                //for (int i = 0; i < processFields.Count; ++i)
+                //{
+                //    string name = string.Format("字段{0}", i + 1);
 
-                    EditorGUILayout.EndHorizontal();
+                //    EditorGUILayout.BeginHorizontal();
+                //    processFields[i].Editing = EditorGUILayout.Foldout(processFields[i].Editing, name);
 
-                    if (processFields[i].Editing)
-                    {
-                        EditorGUILayout.BeginVertical(style);
-                        processFields[i].OnGUIBody();
-                        EditorGUILayout.EndVertical();
-                    }
-                }
-                EditorGUILayout.EndScrollView();
+                //    GUILayout.FlexibleSpace();
+                //    if (GUILayout.Button("删除"))
+                //    {
+                //        fields.Remove(processFields[i]);
+                //    }
+
+                //    EditorGUILayout.EndHorizontal();
+
+                //    if (processFields[i].Editing)
+                //    {
+                //        EditorGUILayout.BeginVertical(style);
+                //        processFields[i].OnGUIBody();
+                //        EditorGUILayout.EndVertical();
+                //    }
+                //}
+                //EditorGUILayout.EndScrollView();
             }
         }
 

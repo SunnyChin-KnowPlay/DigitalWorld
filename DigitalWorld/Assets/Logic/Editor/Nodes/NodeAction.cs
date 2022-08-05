@@ -11,7 +11,7 @@ namespace DigitalWorld.Logic.Editor
         #region Common
         public override string GetTitle()
         {
-            return "行动";
+            return "Action";
         }
 
         public override object Clone()

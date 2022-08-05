@@ -12,8 +12,8 @@ namespace DigitalWorld.Logic.Editor
     internal class NodeController : Singleton<NodeController>
     {
         #region Params
-        public Dictionary<EItemType, Dictionary<int, NodeItem>> items = new Dictionary<EItemType, Dictionary<int, NodeItem>>();
-        private Dictionary<EItemType, bool> itemsEditings = new Dictionary<EItemType, bool>();
+        public Dictionary<EItemType, List<NodeItem>> items = new Dictionary<EItemType, List<NodeItem>>();
+        private readonly Dictionary<EItemType, bool> itemsEditings = new Dictionary<EItemType, bool>();
 
         public bool editing = false;
         public bool Editing
@@ -480,7 +480,6 @@ namespace DigitalWorld.Logic.Editor
         {
             if (editing)
             {
-                //this.items.Clear();
                 editing = false;
                 dirty = false;
             }
@@ -520,6 +519,11 @@ namespace DigitalWorld.Logic.Editor
             }
         }
 
+        private int OnSortItem(NodeItem l, NodeItem r)
+        {
+            return l.Name.CompareTo(r.Name);
+        }
+
         //public void SortItems(ItemTypeEnum type)
         //{
         //    var list = this.GetItems(type);
@@ -553,7 +557,7 @@ namespace DigitalWorld.Logic.Editor
             return node;
         }
 
-        private void LoadItems(EItemType type, Dictionary<int, NodeItem> list, TextAsset asset)
+        private void LoadItems(EItemType type, List<NodeItem> list, TextAsset asset)
         {
             list.Clear();
 
@@ -569,11 +573,11 @@ namespace DigitalWorld.Logic.Editor
 
                 NodeItem item = this.CreateItem(type);
                 item.Decode(element);
-                list.Add(item.Id, item);
+                list.Add(item);
             }
         }
 
-        public void WriteItems(EItemType type, Dictionary<int, NodeItem> dict)
+        public void WriteItems(EItemType type, List<NodeItem> list)
         {
             XmlDocument doc = new XmlDocument();
 
@@ -582,12 +586,12 @@ namespace DigitalWorld.Logic.Editor
 
             XmlElement root = doc.CreateElement("data");
 
-            foreach (var kvp in dict)
+            foreach (var node in list)
             {
                 string eleName = GetXmlElementName(type);
                 XmlElement ele = doc.CreateElement(eleName);
 
-                kvp.Value.Encode(ele);
+                node.Encode(ele);
                 root.AppendChild(ele);
             }
 
@@ -604,13 +608,22 @@ namespace DigitalWorld.Logic.Editor
         public void AddItem(EItemType type, NodeItem item)
         {
             var items = this.GetItems(type);
-            items.Add(item.Id, item);
+            items.Add(item);
+
+            items.Sort(OnSortItem);
         }
 
         public void RemoveItem(EItemType type, NodeItem item)
         {
-            var items = this.GetItems(type);
-            items.Remove(item.Id);
+            List<NodeItem> items = this.GetItems(type);
+            for (int i = 0; i < items.Count; ++i)
+            {
+                if (items[i].Id == item.Id)
+                {
+                    items.RemoveAt(i);
+                    break;
+                }
+            }
         }
 
         private string GetFilePath(EItemType item)
@@ -652,21 +665,26 @@ namespace DigitalWorld.Logic.Editor
             }
         }
 
-        public Dictionary<int, NodeItem> GetItems(EItemType item)
+        public List<NodeItem> GetItems(EItemType item)
         {
-            Dictionary<int, NodeItem> dict = null;
-            this.items.TryGetValue(item, out dict);
-            if (null == dict)
+            List<NodeItem> list = null;
+            this.items.TryGetValue(item, out list);
+            if (null == list)
             {
-                dict = new Dictionary<int, NodeItem>();
-                this.items.Add(item, dict);
+                list = new List<NodeItem>();
+                this.items.Add(item, list);
             }
-            return dict;
+            return list;
         }
 
-        private bool CheckIdCanUse(Dictionary<int, NodeItem> dict, int id)
+        private bool CheckIdCanUse(List<NodeItem> list, int id)
         {
-            return !dict.ContainsKey(id);
+            foreach (NodeItem item in list)
+            {
+                if (item.Id == id)
+                    return false;
+            }
+            return true;
         }
 
         public int GetNewId(EItemType type)
@@ -699,11 +717,11 @@ namespace DigitalWorld.Logic.Editor
             if (null == list || list.Count < 1)
                 return false;
 
-            foreach (var kvp in list)
+            foreach (NodeItem item in list)
             {
-                if (kvp.Value.Id == id)
+                if (item.Id == id)
                 {
-                    node = kvp.Value;
+                    node = item;
                     return true;
                 }
             }
@@ -718,11 +736,11 @@ namespace DigitalWorld.Logic.Editor
             if (null == list || list.Count < 1)
                 return false;
 
-            foreach (var kvp in list)
+            foreach (NodeItem item in list)
             {
-                if (kvp.Value.Name == name)
+                if (item.Name == name)
                 {
-                    node = kvp.Value;
+                    node = item;
                     return true;
                 }
             }
@@ -735,11 +753,11 @@ namespace DigitalWorld.Logic.Editor
             switch (item)
             {
                 case EItemType.Action:
-                    return "行动";
+                    return "Action";
                 case EItemType.Condition:
-                    return "条件";
+                    return "Condition";
                 case EItemType.Event:
-                    return "事件";
+                    return "Event";
                 default:
                     return null;
             }

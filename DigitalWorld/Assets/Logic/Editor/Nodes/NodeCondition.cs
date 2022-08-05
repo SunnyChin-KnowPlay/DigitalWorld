@@ -9,7 +9,7 @@ namespace DigitalWorld.Logic.Editor
         #region Common
         public override string GetTitle()
         {
-            return "条件";
+            return "Condition";
         }
 
         public override object Clone()

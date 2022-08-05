@@ -9,7 +9,7 @@ namespace DigitalWorld.Logic.Editor
         #region Common
         public override string GetTitle()
         {
-            return "事件";
+            return "Event";
         }
 
         public override object Clone()

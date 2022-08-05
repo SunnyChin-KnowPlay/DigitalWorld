@@ -37,7 +37,7 @@ namespace DigitalWorld.Logic.Editor
             this.addHandle = add;
 
             string v = NodeController.GetTitleWithType(type);
-            this.titleContent.text = currentMode == ShowModeEnum.Add ? "新增 " + v : "编辑 " + v;
+            this.titleContent.text = currentMode == ShowModeEnum.Add ? "Create " + v : "Edit " + v;
         }
 
         public void Show(EItemType type, NodeItem node, OnCallbackModifyItem remove, OnCallbackModifyItem add)
@@ -53,7 +53,7 @@ namespace DigitalWorld.Logic.Editor
             this.addHandle = add;
 
             string v = NodeController.GetTitleWithType(type);
-            this.titleContent.text = currentMode == ShowModeEnum.Add ? "新增 " + v : "编辑 " + v;
+            this.titleContent.text = currentMode == ShowModeEnum.Add ? "Create " + v : "Edit " + v;
         }
 
         #region ONGUI
@@ -62,7 +62,7 @@ namespace DigitalWorld.Logic.Editor
 
             EditorGUILayout.BeginHorizontal();
             string v = NodeController.GetTitleWithType(type);
-            EditorGUILayout.LabelField(v + " 类型");
+            EditorGUILayout.LabelField(v + " Type");
             EditorGUILayout.EndHorizontal();
 
             if (null != currentNode)
@@ -76,12 +76,12 @@ namespace DigitalWorld.Logic.Editor
             EditorGUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
 
-            if (GUILayout.Button("确定"))
+            if (GUILayout.Button("Save"))
             {
                 this.OnClickSave();
             }
 
-            if (GUILayout.Button("取消"))
+            if (GUILayout.Button("Cancel"))
             {
                 this.OnClickCancel();
             }
