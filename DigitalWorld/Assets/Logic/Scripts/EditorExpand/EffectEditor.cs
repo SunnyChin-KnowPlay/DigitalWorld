@@ -32,7 +32,6 @@ namespace DigitalWorld.Logic
             };
         }
 
-
         protected List<string> CalculateBrotherNames()
         {
             brotherNames.Clear();
@@ -80,8 +79,6 @@ namespace DigitalWorld.Logic
             base.OnGUIEditing();
 
             OnGUIEditingRequirementsInfo();
-
-
         }
 
         protected override void OnGUITitleMenus()
@@ -108,9 +105,7 @@ namespace DigitalWorld.Logic
 
             GUILayout.BeginHorizontal();
 
-            GUILayout.Space(EditorGUIUtility.singleLineHeight);
-
-            _requirementEditing = EditorGUILayout.Toggle("", _requirementEditing, EditorStyles.foldout, GUILayout.Width(EditorGUIUtility.singleLineHeight));
+            _requirementEditing = EditorGUILayout.Toggle("", _requirementEditing, EditorStyles.foldout, GUILayout.Width(12));
             if (_requirementEditing)
             {
                 reorderableRequirementList.DoLayoutList();
@@ -120,15 +115,16 @@ namespace DigitalWorld.Logic
                 EditorGUILayout.LabelField("Requirements");
             }
 
-
             GUILayout.EndHorizontal();
+
+            reorderableRequirementList.displayAdd = CheckDisplayAdd();
         }
 
         protected virtual void OnGUITitleRequirementsInfo()
         {
             StringBuilder title = new StringBuilder();
 
-            title.Append("<color=#50AFCCFF>Requirements:</color>(");
+            title.Append("<color=#50AFCCFF>Req:</color>(");
 
             int index = 0;
             foreach (Requirement requirement in this._requirements)
@@ -152,9 +148,8 @@ namespace DigitalWorld.Logic
 
         protected virtual void OnGUITitlePropertiesInfo()
         {
-
             StringBuilder title = new StringBuilder();
-            title.Append("<color=#50AFCCFF>Properties:</color>(");
+            title.Append("<color=#50AFCCFF>Pro:</color>(");
 
             System.Type type = this.GetType();
             // 这里获取到了所有的字段 把他们一个一个的显示出来
@@ -180,7 +175,7 @@ namespace DigitalWorld.Logic
             {
                 richText = true
             };
-            EditorGUILayout.SelectableLabel(title.ToString(), labelStyle, GUILayout.MaxHeight(16));
+            EditorGUILayout.SelectableLabel(title.ToString(), labelStyle, GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight));
         }
 
         private void OnDrawRequiementHead(Rect rect)
@@ -210,11 +205,10 @@ namespace DigitalWorld.Logic
                 {
                     item.nodeName = this.brotherNames[newSelectedIndex];
                 }
-                //item.nodeName = EditorGUI.TextField(rect, item.nodeName);
 
                 rect.xMin = rect.xMax + 4;
                 rect.width = width / 2 - 2;
-                item.isRequirement = EditorGUI.Toggle(rect, item.isRequirement);
+                item.isRequirement = EditorGUI.Toggle(rect, "", item.isRequirement);
             }
             else
             {
@@ -224,13 +218,82 @@ namespace DigitalWorld.Logic
 
         private void OnAddRequiement()
         {
-            int count = _requirements.Count;
-            _requirements.Add(new Requirement { index = count });
+            Requirement requirement = new Requirement();
+            bool ret = FindFirstUnusedRequirementName(out string name);
+            if (ret)
+                requirement.nodeName = name;
+
+            _requirements.Add(requirement);
         }
 
         private void OnRemoveRequiement()
         {
             _requirements.RemoveAt(reorderableRequirementList.index);
+        }
+
+        /// <summary>
+        /// 检查要求是否已经使用了?
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        private bool CheckIsRequirementUsed(string name)
+        {
+            for (int i = 0; i < this._requirements.Count; ++i)
+            {
+                if (_requirements[i].nodeName == name)
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 检查是否还允许继续添加
+        /// </summary>
+        private bool CheckDisplayAdd()
+        {
+            if (null == _parent)
+                return false;
+
+            List<NodeBase> children = _parent.Children;
+            if (children.Count - 1 > brotherNames.Count)
+                return true;
+
+            foreach (NodeBase brother in children)
+            {
+                if (brother == this)
+                    continue;
+
+                if (!CheckIsRequirementUsed(brother.Name))
+                    return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 寻找第一个仍未被使用的要求名
+        /// </summary>
+        /// <returns></returns>
+        private bool FindFirstUnusedRequirementName(out string name)
+        {
+            name = null;
+            if (null == _parent)
+                return false;
+
+            List<NodeBase> children = _parent.Children;
+            foreach (NodeBase brother in children)
+            {
+                if (brother == this)
+                    continue;
+
+                if (!CheckIsRequirementUsed(brother.Name))
+                {
+                    name = brother.Name;
+                    return true;
+                }
+            }
+
+            return false;
         }
         #endregion
 

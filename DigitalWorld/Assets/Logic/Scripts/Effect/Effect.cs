@@ -125,7 +125,6 @@ namespace DigitalWorld.Logic
                     Enum.TryParse(checkLogicStr, true, out _requirementLogic);
                 }
 
-                int index = 0;
                 foreach (object node in requirementsEle.ChildNodes)
                 {
                     XmlElement requirementEle = node as XmlElement;
@@ -133,7 +132,6 @@ namespace DigitalWorld.Logic
                     bool.TryParse("value", out bool value);
                     Requirement requirement = new Requirement()
                     {
-                        index = index,
                         nodeName = key,
                         isRequirement = value,
                     };

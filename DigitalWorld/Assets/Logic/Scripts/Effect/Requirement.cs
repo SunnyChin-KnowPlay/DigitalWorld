@@ -9,11 +9,6 @@ namespace DigitalWorld.Logic
     public partial class Requirement : PooledObject
     {
         /// <summary>
-        /// 索引号
-        /// </summary>
-        public int index;
-
-        /// <summary>
         /// 节点名
         /// </summary>
         public string nodeName;

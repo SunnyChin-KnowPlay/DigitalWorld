@@ -40,11 +40,13 @@ namespace DigitalWorld.Logic
         #region GUI
         public override void OnGUITitle()
         {
-            GUIStyle style = new GUIStyle("Tooltip");
+            GUIStyle style = new GUIStyle("IN Title");
+            style.padding.left = 0;
+
             EditorGUILayout.BeginHorizontal(style);
 
             bool old = _enabled;
-            this._enabled = EditorGUILayout.Toggle(old, GUILayout.Width(25));
+            this._enabled = EditorGUILayout.Toggle(old, GUILayout.Width(18));
             if (old != _enabled)
             {
                 if (this.Parent != null)

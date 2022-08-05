@@ -94,14 +94,14 @@ namespace DigitalWorld.Logic
 
         public virtual void OnGUI()
         {
-           
+
             OnGUITitle();
             if (this.IsEditing)
             {
                 OnGUIEditing();
             }
 
-          
+
         }
 
         public virtual void OnGUITitle()
@@ -114,7 +114,7 @@ namespace DigitalWorld.Logic
             EditorGUILayout.BeginHorizontal(style);
 
 
-            _isEditing = EditorGUILayout.Toggle("", _isEditing, EditorStyles.foldout, GUILayout.Width(EditorGUIUtility.singleLineHeight));
+            _isEditing = EditorGUILayout.Toggle("", _isEditing, EditorStyles.foldout, GUILayout.Width(12));
 
 
             this.OnGUIEnabled();
@@ -194,7 +194,7 @@ namespace DigitalWorld.Logic
         protected virtual void OnGUIEnabled()
         {
             bool old = _enabled;
-            this._enabled = EditorGUILayout.Toggle(old, GUILayout.Width(EditorGUIUtility.singleLineHeight));
+            this._enabled = EditorGUILayout.Toggle(old, GUILayout.Width(12));
             if (old != _enabled)
             {
                 this.SetDirty();
@@ -245,9 +245,11 @@ namespace DigitalWorld.Logic
         protected virtual void OnGUITitleTypeName()
         {
             string selfTypeName = this.SelfTypeName;
-            GUIStyle labelStyle = new GUIStyle(GUI.skin.label);
-            labelStyle.fontStyle = FontStyle.Bold;
-            EditorGUILayout.LabelField(selfTypeName, labelStyle);
+            GUIStyle labelStyle = new GUIStyle(GUI.skin.label)
+            {
+                fontStyle = FontStyle.Bold
+            };
+            EditorGUILayout.LabelField(selfTypeName, labelStyle, GUILayout.Width(160));
         }
 
         protected virtual void OnGUIEditingField(FieldInfo field)
