@@ -290,9 +290,9 @@ namespace DigitalWorld.Logic.Editor
                     types.Add(attr.GetAttribute("classT"));
                     descs.Add(attr.GetAttribute("desc"));
                     values.Add(string.Format("default({0})", attr.GetAttribute("classT")));
-                    serializeFuncs.Add(attr.GetAttribute("baseClassT") == "enum" ? "EncodeEnum" : "Encode");
-                    deserializeFuncs.Add(attr.GetAttribute("baseClassT") == "enum" ? "DecodeEnum" : "Decode");
-                    calculateFuncs.Add(attr.GetAttribute("baseClassT") == "enum" ? "CalculateSizeEnum" : "CalculateSize");
+                    serializeFuncs.Add(attr.GetAttribute("baseClassT") == "Enum" ? "EncodeEnum" : "Encode");
+                    deserializeFuncs.Add(attr.GetAttribute("baseClassT") == "Enum" ? "DecodeEnum" : "Decode");
+                    calculateFuncs.Add(attr.GetAttribute("baseClassT") == "Enum" ? "CalculateSizeEnum" : "CalculateSize");
                 }
 
                 tmp = new ConditionTemplate();
@@ -359,9 +359,9 @@ namespace DigitalWorld.Logic.Editor
                     baseTypes.Add(attr.GetAttribute("baseClassT"));
                     descs.Add(attr.GetAttribute("desc"));
                     values.Add(string.Format("default({0})", attr.GetAttribute("classT")));
-                    serializeFuncs.Add(attr.GetAttribute("baseClassT") == "enum" ? "EncodeEnum" : "Encode");
-                    deserializeFuncs.Add(attr.GetAttribute("baseClassT") == "enum" ? "DecodeEnum" : "Decode");
-                    calculateFuncs.Add(attr.GetAttribute("baseClassT") == "enum" ? "CalculateSizeEnum" : "CalculateSize");
+                    serializeFuncs.Add(attr.GetAttribute("baseClassT") == "Enum" ? "EncodeEnum" : "Encode");
+                    deserializeFuncs.Add(attr.GetAttribute("baseClassT") == "Enum" ? "DecodeEnum" : "Decode");
+                    calculateFuncs.Add(attr.GetAttribute("baseClassT") == "Enum" ? "CalculateSizeEnum" : "CalculateSize");
                 }
                 fileName = "Action" + element.GetAttribute("name") + ".cs";
 

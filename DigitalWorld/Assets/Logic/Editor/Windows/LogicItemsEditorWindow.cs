@@ -78,6 +78,7 @@ namespace DigitalWorld.Logic.Editor
         }
         #endregion
 
+
         #region GUI
         private void OnDrawActionElement(Rect rect, int index, bool selected, bool focused)
         {

@@ -3,6 +3,11 @@ using System.Xml;
 
 namespace DigitalWorld.Logic
 {
+    public enum ETestBBB
+    {
+        None = 0,
+        First = 1,
+    }
     /// <summary>
     /// 行为基类
     /// </summary>

@@ -154,7 +154,7 @@ namespace DigitalWorld.Logic
             System.Type type = this.GetType();
             // 这里获取到了所有的字段 把他们一个一个的显示出来
             var fields = type.GetFields(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public);
-
+            
             string fieldName = "";
             for (int i = 0; i < fields.Length; ++i)
             {

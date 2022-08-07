@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <data>
   <action id="1" name="CreateCharacter" desc="创建角色">
-    <field name="name" baseClassT="" classT="string" desc="名字" />
+    <field name="name" baseClassT="ValueType" classT="string" desc="名字" />
+    <field name="testType" baseClassT="Enum" classT="Logic.ETestBBB" desc="测试枚举" />
   </action>
   <action id="2" name="KillCharacter" desc="" />
 </data>

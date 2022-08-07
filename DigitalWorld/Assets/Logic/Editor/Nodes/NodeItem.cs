@@ -26,12 +26,6 @@ namespace DigitalWorld.Logic.Editor
             get { return fields; }
         }
 
-        protected bool editingFields = true;
-        public bool EditingFields
-        {
-            get { return editingFields; }
-            set { editingFields = value; }
-        }
 
         protected readonly ReorderableList fieldList;
         #endregion
@@ -48,6 +42,7 @@ namespace DigitalWorld.Logic.Editor
                 draggable = true,
             };
         }
+
         #endregion
 
         #region GUI
@@ -61,19 +56,33 @@ namespace DigitalWorld.Logic.Editor
                 rect.y += 2;
                 rect.height = EditorGUIUtility.singleLineHeight;
 
-                rect.xMax = rect.xMin + 36;
+                rect.xMax = rect.xMin + width * 0.2f;
                 item.Name = EditorGUI.TextField(rect, item.Name);
 
                 rect.xMin = rect.xMax + 4;
-                rect.xMax = rect.xMin + 36;
-                item.baseClassT = EditorGUI.TextField(rect, item.baseClassT);
+                rect.xMax = rect.xMin + width * 0.2f;
+                item.baseClassT = NodeField.FindBaseClassText(EditorGUI.Popup(rect, NodeField.FindBaseClassIndex(item.baseClassT), NodeField.BaseClassArray));
 
                 rect.xMin = rect.xMax + 4;
-                rect.xMax = rect.xMin + 36;
-                item.classT = EditorGUI.TextField(rect, item.classT);
+                rect.xMax = rect.xMin + width * 0.2f;
+                if (item.baseClassT == NodeField.BaseClassValueType)
+                {
+                    item.classT = NodeField.FindValueTypeText(EditorGUI.Popup(rect, NodeField.FindValueTypeIndex(item.classT), NodeField.ValueTypeClassArray));
+                }
+                else if (item.baseClassT == NodeField.BaseClassEnum)
+                {
+                    item.classT = NodeField.FindEnumTypeText(EditorGUI.Popup(rect, NodeField.FindEnumTypeIndex(item.classT), NodeField.EnumTypeShowingArray));
+                }
+                else
+                {
+                    item.classT = EditorGUI.TextField(rect, item.classT);
+                }
+
+
 
                 rect.xMin = rect.xMax + 4;
-                rect.xMax = rect.xMin + 36;
+                rect.xMax = width;
+
                 item.desc = EditorGUI.TextField(rect, item.desc);
 
 
@@ -87,6 +96,8 @@ namespace DigitalWorld.Logic.Editor
         private void OnDrawFieldHead(Rect rect)
         {
             EditorGUI.LabelField(rect, "Fields");
+
+
         }
 
         protected virtual void OnAddField()
@@ -112,64 +123,11 @@ namespace DigitalWorld.Logic.Editor
         {
             base.OnGUIBody();
 
-            EditorGUILayout.BeginHorizontal();
-            editingFields = EditorGUILayout.Foldout(editingFields, "字段");
-            GUILayout.FlexibleSpace();
 
-            if (GUILayout.Button("打开所有"))
-            {
-                editingFields = true;
-                for (int i = 0; i < fields.Count; ++i)
-                {
-                    fields[i].Editing = true;
-                }
-            }
+            fieldList.DoLayoutList();
 
-            if (GUILayout.Button("关闭所有"))
-            {
-                editingFields = false;
-                for (int i = 0; i < fields.Count; ++i)
-                {
-                    fields[i].Editing = false;
-                }
-            }
-            EditorGUILayout.EndHorizontal();
-            if (editingFields && fields.Count > 0)
-            {
 
-                fieldList.DoLayoutList();
 
-                //GUIStyle style = new GUIStyle(GUI.skin.box);
-
-                //offset = EditorGUILayout.BeginScrollView(offset, style);
-
-                //processFields.Clear();
-                //processFields.AddRange(fields);
-
-                //for (int i = 0; i < processFields.Count; ++i)
-                //{
-                //    string name = string.Format("字段{0}", i + 1);
-
-                //    EditorGUILayout.BeginHorizontal();
-                //    processFields[i].Editing = EditorGUILayout.Foldout(processFields[i].Editing, name);
-
-                //    GUILayout.FlexibleSpace();
-                //    if (GUILayout.Button("删除"))
-                //    {
-                //        fields.Remove(processFields[i]);
-                //    }
-
-                //    EditorGUILayout.EndHorizontal();
-
-                //    if (processFields[i].Editing)
-                //    {
-                //        EditorGUILayout.BeginVertical(style);
-                //        processFields[i].OnGUIBody();
-                //        EditorGUILayout.EndVertical();
-                //    }
-                //}
-                //EditorGUILayout.EndScrollView();
-            }
         }
 
         public virtual void OnGUIParams(bool editing = false)

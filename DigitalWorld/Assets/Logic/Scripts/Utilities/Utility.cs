@@ -25,6 +25,7 @@ namespace DigitalWorld.Logic
         private const string ConfigsRelativePath = "Configs";
         private const string BehavioursRelativePath = "Behaviours";
 
+        public const string ProjectNamespace = "DigitalWorld";
 
         private const string LogicAssetPath = "Assets/Logic";
         public const string ConfigsPath = LogicAssetPath + "/" + ConfigsRelativePath;
@@ -38,12 +39,12 @@ namespace DigitalWorld.Logic
 
         public static Dictionary<string, int> KeyDict = new Dictionary<string, int>();
 
-        public readonly static string[] usingNamespaces = new string[2] { "DigitalWorld.Game", "UnityEngine" };
+        public readonly static string[] usingNamespaces = new string[2] { ProjectNamespace + ".Game", "UnityEngine" };
         /// <summary>
         /// 逻辑命名空间
         /// </summary>
-        public const string LogicNamespace = "DigitalWorld.Logic";
-      
+        public const string LogicNamespace = ProjectNamespace + ".Logic";
+
         private static Assembly csharpAss = null;
 
         public static Color kSplitLineColor;
@@ -149,6 +150,35 @@ namespace DigitalWorld.Logic
             }
 
             return t;
+        }
+
+        /// <summary>
+        /// 在CurrentDomain下获取所有的枚举类型数组
+        /// </summary>
+        /// <returns></returns>
+        public static List<Type> GetPublicEnumTypes(List<Type> list)
+        {
+            if (null == list)
+                list = new List<Type>();
+
+            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (Assembly asm in assemblies)
+            {
+                Type[] types = asm.GetTypes();
+                foreach (Type type in types)
+                {
+                    if (type.IsEnum && type.IsPublic)
+                    {
+                        string namespaceName = type.Namespace;
+                        if (!string.IsNullOrEmpty(namespaceName) && namespaceName.Contains(ProjectNamespace))
+                        {
+                            list.Add(type);
+                        }
+                    }
+                }
+            }
+
+            return list;
         }
 
         public static System.Type GetBaseType(string t)
