@@ -10,13 +10,15 @@ TextAsset:
   m_Script: <?xml version="1.0" encoding="UTF-8"?><behaviour _typeName="DigitalWorld.Logic.Behaviour"
     _enabled="True" _name="123" _description="" _totalTime="0"><_children><child
     _typeName="DigitalWorld.Logic.ActionCreateCharacter" _enabled="True" _name="ActionCreateCharacter_0"
-    _description="" _totalTime="0" name=""><_children /><_requirements _requirementLogic="And"><requirement
-    key="ConditionRunningTime_1" value="False" /></_requirements></child><child _typeName="DigitalWorld.Logic.ConditionRunningTime"
+    _description="" _totalTime="0" name="" testType="None"><_children /><_requirements
+    _requirementLogic="And"><requirement key="ConditionRunningTime_1" value="False"
+    /></_requirements></child><child _typeName="DigitalWorld.Logic.ConditionRunningTime"
     _enabled="True" _name="ConditionRunningTime_0" _description="" _totalTime="0"
     duration="0" testVVV="0"><_children /><_requirements _requirementLogic="And"><requirement
     key="ConditionRunningTime_1" value="False" /></_requirements><operators><duration
-    operator="Equal" /><testVVV operator="Equal" /></operators></child><child _typeName="DigitalWorld.Logic.ConditionRunningTime"
-    _enabled="True" _name="ConditionRunningTime_1" _description="" _totalTime="0"
-    duration="0" testVVV="0"><_children /><_requirements _requirementLogic="And"><requirement
-    key="ConditionRunningTime_0" value="False" /></_requirements><operators><duration
-    operator="Equal" /><testVVV operator="Equal" /></operators></child></_children></behaviour>
+    operator="GreaterThanOrEquipTo" /><testVVV operator="Equal" /></operators></child><child
+    _typeName="DigitalWorld.Logic.ConditionRunningTime" _enabled="True" _name="ConditionRunningTime_1"
+    _description="" _totalTime="0" duration="0" testVVV="0"><_children /><_requirements
+    _requirementLogic="And"><requirement key="ConditionRunningTime_0" value="False"
+    /></_requirements><operators><duration operator="Equal" /><testVVV operator="Equal"
+    /></operators></child></_children></behaviour>

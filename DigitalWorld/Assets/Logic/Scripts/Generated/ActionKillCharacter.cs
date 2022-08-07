@@ -20,16 +20,22 @@ namespace DigitalWorld.Logic
 				return 2;
 			}
 		}
+		/// <summary>
+        /// 是否直接死亡
+        /// </summary> 
+		public bool isDeath = default(bool);
 
 		public override void OnAllocate()
         {
 			base.OnAllocate();
+			isDeath = default(bool);
         }
 
 		public override void OnRecycle()
         {
             base.OnRecycle();
-        }
+			isDeath = default(bool);
+         }
 
 		public override object Clone()
         {
@@ -56,6 +62,7 @@ namespace DigitalWorld.Logic
             ActionKillCharacter v = base.CloneTo(obj) as ActionKillCharacter;
             if (null != v)
             {
+				v.isDeath = this.isDeath;
             }
             return obj;
         }
@@ -74,6 +81,7 @@ namespace DigitalWorld.Logic
 
                 if (descs.Count < 1)
                 {
+                    descs.Add("isDeath", "是否直接死亡");
                 }
 
                 return descs;
@@ -102,29 +110,34 @@ namespace DigitalWorld.Logic
 		protected override void OnCalculateSize()
         {
             base.OnCalculateSize();
+			CalculateSize(this.isDeath);
   
         }
 
 		protected override void OnEncode()
         {
             base.OnEncode();
+			Encode(this.isDeath);
           
         }
 
         protected override void OnDecode()
         {
             base.OnDecode();
+			Decode(ref this.isDeath);
         }
 		
 #if UNITY_EDITOR
         protected override void OnDecode(XmlElement node)
         {
             base.OnDecode(node);
+			Decode(ref this.isDeath, "isDeath");
         }
 
         protected override void OnEncode(XmlElement node)
         {
 			base.OnEncode(node);
+			Encode(this.isDeath, "isDeath");
         }
 
 

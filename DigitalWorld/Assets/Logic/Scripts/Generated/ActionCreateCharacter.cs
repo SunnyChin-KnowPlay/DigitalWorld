@@ -7,75 +7,75 @@ using System.Xml;
 
 namespace DigitalWorld.Logic
 {
-    /// <summary>
+	/// <summary>
     /// 创建角色
     /// </summary>
-    public partial class ActionCreateCharacter : ActionBase
-    {
-        #region Common
-        public override int Id
-        {
-            get
-            {
-                return 1;
-            }
-        }
-        /// <summary>
+	public partial class ActionCreateCharacter : ActionBase
+	{
+#region Common
+		public override int Id
+		{
+			get
+			{
+				return 1;
+			}
+		}
+		/// <summary>
         /// 名字
         /// </summary> 
-        public string name = default(string);
-        /// <summary>
+		public string name = default(string);
+		/// <summary>
         /// 测试枚举
         /// </summary> 
-        public Logic.ETestBBB testType = default(Logic.ETestBBB);
+		public Logic.ETestBBB testType = default(Logic.ETestBBB);
 
-        public override void OnAllocate()
+		public override void OnAllocate()
         {
-            base.OnAllocate();
-            name = default(string);
-            testType = default(Logic.ETestBBB);
+			base.OnAllocate();
+			name = default(string);
+			testType = default(Logic.ETestBBB);
         }
 
-        public override void OnRecycle()
+		public override void OnRecycle()
         {
             base.OnRecycle();
-            name = default(string);
-            testType = default(Logic.ETestBBB);
-        }
+			name = default(string);
+ 			testType = default(Logic.ETestBBB);
+         }
 
-        public override object Clone()
+		public override object Clone()
         {
-            ActionCreateCharacter v = null;
-            if (Application.isPlaying)
+			ActionCreateCharacter v = null;
+			if (Application.isPlaying)
             {
-                v = Dream.Core.ObjectPool<ActionCreateCharacter>.Instance.Allocate();
+				v = Dream.Core.ObjectPool<ActionCreateCharacter>.Instance.Allocate();
             }
-            else
-            {
-                v = new ActionCreateCharacter();
-            }
-
-            if (null != v)
-            {
-                this.CloneTo(v);
-            }
+			else
+			{
+				v = new ActionCreateCharacter();
+			}
+			
+			if (null != v)
+			{
+				this.CloneTo(v);
+			}
 
             return v;
         }
 
-        public override T CloneTo<T>(T obj)
+		public override T CloneTo<T>(T obj)
         {
             ActionCreateCharacter v = base.CloneTo(obj) as ActionCreateCharacter;
             if (null != v)
             {
-                v.name = this.name;
-                v.testType = this.testType;
+				v.name = this.name;
+				v.testType = this.testType;
             }
             return obj;
         }
-        #endregion
+#endregion
 
-        #region Editor
+#region Editor
 #if UNITY_EDITOR
         private static Dictionary<string, string> descs = new Dictionary<string, string>();
 
@@ -112,49 +112,49 @@ namespace DigitalWorld.Logic
             return v;
         }
 #endif
-        #endregion
+#endregion
 
-        #region Serializion
-        protected override void OnCalculateSize()
+#region Serializion
+		protected override void OnCalculateSize()
         {
             base.OnCalculateSize();
-            CalculateSize(this.name);
-            CalculateSizeEnum(this.testType);
-
+			CalculateSize(this.name);
+			CalculateSizeEnum(this.testType);
+  
         }
 
-        protected override void OnEncode()
+		protected override void OnEncode()
         {
             base.OnEncode();
-            Encode(this.name);
-            EncodeEnum(this.testType);
-
+			Encode(this.name);
+			EncodeEnum(this.testType);
+          
         }
 
         protected override void OnDecode()
         {
             base.OnDecode();
-            Decode(ref this.name);
-            DecodeEnum(ref this.testType);
+			Decode(ref this.name);
+			DecodeEnum(ref this.testType);
         }
-
+		
 #if UNITY_EDITOR
         protected override void OnDecode(XmlElement node)
         {
             base.OnDecode(node);
-            Decode(ref this.name, "name");
-            DecodeEnum(ref this.testType, "testType");
+			Decode(ref this.name, "name");
+			DecodeEnum(ref this.testType, "testType");
         }
 
         protected override void OnEncode(XmlElement node)
         {
-            base.OnEncode(node);
-            Encode(this.name, "name");
-            EncodeEnum(this.testType, "testType");
+			base.OnEncode(node);
+			Encode(this.name, "name");
+			EncodeEnum(this.testType, "testType");
         }
 
 
 #endif
-        #endregion
-    }
+#endregion
+	}
 }

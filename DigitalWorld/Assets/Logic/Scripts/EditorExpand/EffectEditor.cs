@@ -1,4 +1,5 @@
 ﻿#if UNITY_EDITOR
+using Dream.FixMath;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
@@ -15,9 +16,12 @@ namespace DigitalWorld.Logic
 
         #region Params
         protected ReorderableList reorderableRequirementList;
+        protected ReorderableList reorderablePropertiesList;
         protected List<string> brotherNames = new List<string>();
+        protected List<FieldInfo> fieldInfos = null;
 
         protected bool _requirementEditing = true;
+        protected bool _propertiesEditing = true;
         #endregion
 
         #region Common
@@ -29,6 +33,15 @@ namespace DigitalWorld.Logic
                 onAddCallback = (list) => OnAddRequiement(),
                 onRemoveCallback = (list) => OnRemoveRequiement(),
                 drawHeaderCallback = OnDrawRequiementHead,
+            };
+
+            reorderablePropertiesList = new ReorderableList(this.FieldInfos, typeof(FieldInfo))
+            {
+                drawElementCallback = OnDrawPropertyElement,
+                drawHeaderCallback = OnDrawPropertyHead,
+                displayAdd = false,
+                displayRemove = false,
+                draggable = false,
             };
         }
 
@@ -49,6 +62,23 @@ namespace DigitalWorld.Logic
             }
 
             return brotherNames;
+        }
+
+        protected List<FieldInfo> FieldInfos
+        {
+            get
+            {
+                if (null == fieldInfos)
+                {
+                    System.Type type = this.GetType();
+                    // 这里获取到了所有的字段 把他们一个一个的显示出来
+                    FieldInfo[] fields = type.GetFields(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public);
+
+                    fieldInfos = new List<FieldInfo>(fields.Length);
+                    fieldInfos.AddRange(fields);
+                }
+                return fieldInfos;
+            }
         }
 
         protected int GetBrotherIndex(string name)
@@ -79,6 +109,7 @@ namespace DigitalWorld.Logic
             base.OnGUIEditing();
 
             OnGUIEditingRequirementsInfo();
+            OnGUIEditingPropertiesInfo();
         }
 
         protected override void OnGUITitleMenus()
@@ -120,6 +151,23 @@ namespace DigitalWorld.Logic
             reorderableRequirementList.displayAdd = CheckDisplayAdd();
         }
 
+        protected virtual void OnGUIEditingPropertiesInfo()
+        {
+            GUILayout.BeginHorizontal();
+
+            _propertiesEditing = EditorGUILayout.Toggle("", _propertiesEditing, EditorStyles.foldout, GUILayout.Width(12));
+            if (_propertiesEditing)
+            {
+                reorderablePropertiesList.DoLayoutList();
+            }
+            else
+            {
+                EditorGUILayout.LabelField("Properties");
+            }
+
+            GUILayout.EndHorizontal();
+        }
+
         protected virtual void OnGUITitleRequirementsInfo()
         {
             StringBuilder title = new StringBuilder();
@@ -154,7 +202,7 @@ namespace DigitalWorld.Logic
             System.Type type = this.GetType();
             // 这里获取到了所有的字段 把他们一个一个的显示出来
             var fields = type.GetFields(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public);
-            
+
             string fieldName = "";
             for (int i = 0; i < fields.Length; ++i)
             {
@@ -178,63 +226,7 @@ namespace DigitalWorld.Logic
             EditorGUILayout.SelectableLabel(title.ToString(), labelStyle, GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight));
         }
 
-        private void OnDrawRequiementHead(Rect rect)
-        {
-            EditorGUI.LabelField(rect, "Requirements");
 
-            rect.xMin += 100;
-            rect.xMax = rect.xMin + 300;
-
-            _requirementLogic = (ECheckLogic)EditorGUI.EnumPopup(rect, this._requirementLogic);
-        }
-
-        private void OnDrawRequiementElement(Rect rect, int index, bool selected, bool focused)
-        {
-            Rect parentRect = rect;
-            float width = rect.width;
-            if (index < _requirements.Count)
-            {
-                Rect lineRect = Rect.MinMaxRect(parentRect.xMin + 4, parentRect.yMax - 2, parentRect.xMax - 4, parentRect.yMax);
-
-                Requirement item = _requirements[index];
-
-                int currentSelectedIndex = this.GetBrotherIndex(item.nodeName);
-
-                rect.y += 2;
-                rect.height = EditorGUIUtility.singleLineHeight;
-                rect.xMax = rect.xMin + rect.width / 3 - 2;
-                int newSelectedIndex = EditorGUI.Popup(rect, currentSelectedIndex, this.brotherNames.ToArray());
-                if (newSelectedIndex != currentSelectedIndex && newSelectedIndex >= 0)
-                {
-                    item.nodeName = this.brotherNames[newSelectedIndex];
-                }
-
-                rect.xMin = rect.xMax + 4;
-                rect.width = width / 2 - 2;
-                item.isRequirement = EditorGUI.Toggle(rect, "", item.isRequirement);
-
-                EditorGUI.DrawRect(lineRect, Logic.Utility.kSplitLineColor);
-            }
-            else
-            {
-                reorderableRequirementList.list.RemoveAt(index);
-            }
-        }
-
-        private void OnAddRequiement()
-        {
-            Requirement requirement = new Requirement();
-            bool ret = FindFirstUnusedRequirementName(out string name);
-            if (ret)
-                requirement.nodeName = name;
-
-            _requirements.Add(requirement);
-        }
-
-        private void OnRemoveRequiement()
-        {
-            _requirements.RemoveAt(reorderableRequirementList.index);
-        }
 
         /// <summary>
         /// 检查要求是否已经使用了?
@@ -300,6 +292,192 @@ namespace DigitalWorld.Logic
 
             return false;
         }
+        #endregion
+
+        #region GUI/Requirement
+        private void OnDrawRequiementHead(Rect rect)
+        {
+            EditorGUI.LabelField(rect, "Requirements");
+
+            rect.xMin += 100;
+            rect.xMax = rect.xMin + 300;
+
+            _requirementLogic = (ECheckLogic)EditorGUI.EnumPopup(rect, this._requirementLogic);
+        }
+
+        private void OnDrawRequiementElement(Rect rect, int index, bool selected, bool focused)
+        {
+            Rect parentRect = rect;
+            float width = rect.width;
+            if (index < _requirements.Count)
+            {
+                Rect lineRect = Rect.MinMaxRect(parentRect.xMin + 4, parentRect.yMax - 2, parentRect.xMax - 4, parentRect.yMax);
+
+                Requirement item = _requirements[index];
+
+                int currentSelectedIndex = this.GetBrotherIndex(item.nodeName);
+
+                rect.y += 2;
+                rect.height = EditorGUIUtility.singleLineHeight;
+                rect.xMax = rect.xMin + rect.width / 3 - 2;
+                int newSelectedIndex = EditorGUI.Popup(rect, currentSelectedIndex, this.brotherNames.ToArray());
+                if (newSelectedIndex != currentSelectedIndex && newSelectedIndex >= 0)
+                {
+                    item.nodeName = this.brotherNames[newSelectedIndex];
+                }
+
+                rect.xMin = rect.xMax + 4;
+                rect.width = width / 2 - 2;
+                item.isRequirement = EditorGUI.Toggle(rect, "", item.isRequirement);
+
+                EditorGUI.DrawRect(lineRect, Logic.Utility.kSplitLineColor);
+            }
+            else
+            {
+                reorderableRequirementList.list.RemoveAt(index);
+            }
+        }
+
+        private void OnAddRequiement()
+        {
+            Requirement requirement = new Requirement();
+            bool ret = FindFirstUnusedRequirementName(out string name);
+            if (ret)
+                requirement.nodeName = name;
+
+            _requirements.Add(requirement);
+        }
+
+        private void OnRemoveRequiement()
+        {
+            _requirements.RemoveAt(reorderableRequirementList.index);
+        }
+        #endregion
+
+        #region GUI/Properties
+        private void OnDrawPropertyHead(Rect rect)
+        {
+            EditorGUI.LabelField(rect, "Properties");
+        }
+
+        protected virtual void OnDrawPropertyElementExt(FieldInfo field, ref Rect rect, int index, bool selected, bool focused)
+        {
+
+        }
+
+        protected void OnDrawPropertyElement(Rect rect, int index, bool selected, bool focused)
+        {
+            Rect parentRect = rect;
+            float width = rect.width;
+            if (index < fieldInfos.Count)
+            {
+                GUIStyle labelStyle = new GUIStyle("minibutton")
+                {
+                    alignment = TextAnchor.MiddleLeft,
+                };
+
+                FieldInfo item = fieldInfos[index];
+
+                rect.y += 2;
+                rect.height = EditorGUIUtility.singleLineHeight;
+                rect.xMax = rect.xMin + width * 0.15f;
+                EditorGUI.LabelField(rect, new GUIContent(item.Name, this.GetFieldDesc(item.Name)), labelStyle);
+
+                Rect separationRect = Rect.MinMaxRect(rect.xMax + 2, rect.yMin, rect.xMax + 4, rect.yMax);
+                EditorGUI.DrawRect(separationRect, Logic.Utility.kSplitLineColor);
+
+
+
+                rect.xMin = rect.xMax + 6;
+                rect.xMax = rect.xMin + width * 0.15f;
+
+                string fieldType = item.FieldType.ToString();
+                if (!string.IsNullOrEmpty(fieldType))
+                {
+                    if (fieldType.Contains('.'))
+                    {
+                        fieldType = fieldType[(fieldType.IndexOf('.') + 1)..];
+                    }
+                    EditorGUI.LabelField(rect, new GUIContent(fieldType, item.FieldType.BaseType.ToString()), labelStyle);
+                }
+
+                separationRect = Rect.MinMaxRect(rect.xMax + 2, rect.yMin, rect.xMax + 4, rect.yMax);
+                EditorGUI.DrawRect(separationRect, Logic.Utility.kSplitLineColor);
+
+                rect.xMin = rect.xMax + 6;
+                rect.xMax = rect.xMin + width * 0.15f;
+
+                string desc = this.GetFieldDesc(item.Name);
+                EditorGUI.LabelField(rect, desc);
+
+                separationRect = Rect.MinMaxRect(rect.xMax + 2, rect.yMin, rect.xMax + 4, rect.yMax);
+                EditorGUI.DrawRect(separationRect, Logic.Utility.kSplitLineColor);
+
+                OnDrawPropertyElementExt(item, ref rect, index, selected, focused);
+
+                OnDrawPropertyFieldValue(ref rect, parentRect, item);
+
+                Rect lineRect = Rect.MinMaxRect(parentRect.xMin + 4, parentRect.yMax - 2, parentRect.xMax - 4, parentRect.yMax);
+                EditorGUI.DrawRect(lineRect, Logic.Utility.kSplitLineColor);
+            }
+            else
+            {
+                reorderableRequirementList.list.RemoveAt(index);
+            }
+        }
+
+        protected virtual void OnDrawPropertyFieldValue(ref Rect rect, Rect parentRect, FieldInfo field)
+        {
+            rect.xMin = rect.xMax + 6;
+            rect.xMax = rect.xMin + parentRect.width * 0.2f;
+
+            if (field.FieldType == typeof(int))
+            {
+                int v = (int)field.GetValue(this);
+                v = EditorGUI.IntField(rect, v);
+                field.SetValue(this, v);
+            }
+            else if (field.FieldType == typeof(float))
+            {
+                float v = (float)field.GetValue(this);
+                v = EditorGUI.FloatField(rect, v);
+                field.SetValue(this, v);
+            }
+            else if (field.FieldType == typeof(bool))
+            {
+                bool v = (bool)field.GetValue(this);
+                v = EditorGUI.Toggle(rect, v);
+                field.SetValue(this, v);
+            }
+            else if (field.FieldType == typeof(string))
+            {
+                string v = (string)field.GetValue(this);
+                v = EditorGUI.TextField(rect, v);
+                field.SetValue(this, v);
+            }
+            else if (field.FieldType == typeof(FixVector3))
+            {
+                FixVector3 v = (FixVector3)field.GetValue(this);
+                Vector3Int vi = new Vector3Int(v.x, v.y, v.z);
+                vi = EditorGUI.Vector3IntField(rect, new GUIContent(""), vi);
+                v = new FixVector3(vi.x, vi.y, vi.z);
+                field.SetValue(this, v);
+            }
+            else if (field.FieldType == typeof(Color))
+            {
+                Color v = (Color)field.GetValue(this);
+                v = EditorGUI.ColorField(rect, v);
+                field.SetValue(this, v);
+            }
+            else if (field.FieldType.IsEnum)
+            {
+                System.Enum v = (System.Enum)field.GetValue(this);
+                v = EditorGUI.EnumPopup(rect, v);
+
+                field.SetValue(this, v);
+            }
+        }
+
         #endregion
 
         #region Listen

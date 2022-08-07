@@ -130,6 +130,20 @@ namespace DigitalWorld.Logic
 
             EditorGUILayout.EndHorizontal();
         }
+
+        protected override void OnDrawPropertyElementExt(FieldInfo field, ref Rect rect, int index, bool selected, bool focused)
+        {
+            base.OnDrawPropertyElementExt(field, ref rect, index, selected, focused);
+
+
+            rect.xMin = rect.xMax + 6;
+            rect.xMax = rect.xMin + 40;
+
+            ECheckOperator oper = GetOperatorFromField(field.Name);
+            ECheckOperator newOper = (ECheckOperator)EditorGUI.Popup(rect, (int)oper, OperatorStr);
+            if (newOper != oper)
+                SetOperatorByField(field.Name, newOper);
+        }
         #endregion
 #endif
     }
