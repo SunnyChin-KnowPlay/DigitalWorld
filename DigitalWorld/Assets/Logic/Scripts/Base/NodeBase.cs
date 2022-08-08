@@ -262,11 +262,11 @@ namespace DigitalWorld.Logic
 
         /// <summary>
         /// 设置父节点后，如果名字为空，则设置默认名字
-        /// 默认递归到999 如果999仍然找不到 则不设置名字了
+        /// 默认递归到int.MaxValue 如果int.MaxValue仍然找不到 则不设置名字了
         /// </summary>
         private void SetDefaultName()
         {
-            for (int i = 0; i < 999; ++i)
+            for (int i = 0; i < int.MaxValue; ++i)
             {
                 string name = string.Format("{0}_{1}", this.SelfTypeName, i);
                 NodeBase node = _parent.FindChild(name);

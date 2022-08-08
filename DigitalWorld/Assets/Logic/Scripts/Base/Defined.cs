@@ -41,20 +41,24 @@
         /// </summary>
         None = 0,
         /// <summary>
+        /// 属性
+        /// </summary>
+        Property = 1 << 0,
+        /// <summary>
         /// 行动
         /// </summary>
-        Action = 1 << 0,
+        Action = 1 << 1,
         /// <summary>
         /// 条件
         /// </summary>
-        Condition = 1 << 1,
+        Condition = 1 << 2,
         /// <summary>
         /// 触发器
         /// </summary>
-        Trigger = 1 << 2,
+        Trigger = 1 << 3,
         /// <summary>
         /// 行为
         /// </summary>
-        Behaviour = 1 << 3,
+        Behaviour = 1 << 4,
     }
 }
