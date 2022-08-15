@@ -71,11 +71,6 @@ namespace DigitalWorld.Logic
                 OnClickCreateAction();
             }
 
-            if (GUILayout.Button("Create Condition"))
-            {
-                OnClickCreateCondition();
-            }
-
             if (GUILayout.Button("OpenAll"))
             {
                 for (int i = 0; i < this._children.Count; ++i)
@@ -101,11 +96,6 @@ namespace DigitalWorld.Logic
         private void OnClickCreateAction()
         {
             LogicHelper.ApplyAddNode(ENodeType.Action, this);
-        }
-
-        private void OnClickCreateCondition()
-        {
-            LogicHelper.ApplyAddNode(ENodeType.Condition, this);
         }
         #endregion
 
@@ -162,7 +152,7 @@ namespace DigitalWorld.Logic
             xmlDocument.AppendChild(root);
 
 
-            this.Encode(root);
+            this.EncodeXml(root);
 
             string fullPath = System.IO.Path.Combine(RelativeFolderPath, this.Name);
             fullPath += ".asset";

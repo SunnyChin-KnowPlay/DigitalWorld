@@ -30,7 +30,7 @@ namespace Assets.Logic.Editor.Templates
         {
             this.Write("namespace DigitalWorld.Logic\r\n{\r\n    public static partial class ");
             
-            #line 17 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+            #line 15 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
@@ -47,13 +47,13 @@ namespace Assets.Logic.Editor.Templates
         {
             switch (nodeType)
             {
-                case ENodeType.Condition:
-                {
-                    return GetCondition(id);
-                }
                 case ENodeType.Action:
                 {
                     return GetAction(id);
+                }
+                case ENodeType.Property:
+                {
+                    return GetProperty(id);
                 }
                 case ENodeType.Behaviour:
                 {
@@ -64,13 +64,60 @@ namespace Assets.Logic.Editor.Templates
             }
         }
 
+        public static PropertyBase GetProperty(int id)
+        {
+            return id switch
+            {
+");
+            
+            #line 48 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+
+                for (int i = 0; i < propertyEnums.Length; ++i)
+                {
+
+            
+            #line default
+            #line hidden
+            this.Write("                ");
+            
+            #line 52 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(propertyEnums[i]));
+            
+            #line default
+            #line hidden
+            this.Write(" => GetNode<Property");
+            
+            #line 52 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(propertyNames[i]));
+            
+            #line default
+            #line hidden
+            this.Write(">(),\r\n");
+            
+            #line 53 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+
+                }
+
+            
+            #line default
+            #line hidden
+            this.Write(@" 
+                _ => null,
+            };
+        }
+
+        public static T GetProperty<T>(int id) where T : PropertyBase
+        {
+            return GetProperty(id) as T;
+        }
+
         public static ActionBase GetAction(int id)
         {
             return id switch
             {
 ");
             
-            #line 50 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+            #line 69 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
 
                 for (int i = 0; i < actionEnums.Length; ++i)
                 {
@@ -80,63 +127,29 @@ namespace Assets.Logic.Editor.Templates
             #line hidden
             this.Write("                ");
             
-            #line 54 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+            #line 73 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(actionEnums[i]));
             
             #line default
             #line hidden
             this.Write(" => GetNode<Action");
             
-            #line 54 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+            #line 73 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(actionNames[i]));
             
             #line default
             #line hidden
             this.Write(">(),\r\n");
             
-            #line 55 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+            #line 74 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
 
                 }
 
             
             #line default
             #line hidden
-            this.Write("                \r\n                _ => null,\r\n            };\r\n        }\r\n\r\n      " +
-                    "  public static ConditionBase GetCondition(int id)\r\n        {\r\n            retur" +
-                    "n id switch\r\n            {\r\n");
-            
-            #line 66 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
-
-				for (int i = 0; i < conditionEnums.Length; ++i)
-				{
-
-            
-            #line default
-            #line hidden
-            this.Write("                ");
-            
-            #line 70 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(conditionEnums[i]));
-            
-            #line default
-            #line hidden
-            this.Write(" => GetNode<Condition");
-            
-            #line 70 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(conditionNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(">(),\r\n");
-            
-            #line 71 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
-
-				}
-
-            
-            #line default
-            #line hidden
-            this.Write("    \r\n                _ => null,\r\n            };\r\n        }\r\n\r\n\t\t\r\n    }\r\n}\r\n");
+            this.Write("                \r\n                _ => null,\r\n            };\r\n        }\r\n    }\r\n}" +
+                    "\r\n");
             return this.GenerationEnvironment.ToString();
         }
         
@@ -178,32 +191,6 @@ private string[] actionNames
     get
     {
         return this._actionNamesField;
-    }
-}
-
-private string[] _conditionEnumsField;
-
-/// <summary>
-/// Access the conditionEnums parameter of the template.
-/// </summary>
-private string[] conditionEnums
-{
-    get
-    {
-        return this._conditionEnumsField;
-    }
-}
-
-private string[] _conditionNamesField;
-
-/// <summary>
-/// Access the conditionNames parameter of the template.
-/// </summary>
-private string[] conditionNames
-{
-    get
-    {
-        return this._conditionNamesField;
     }
 }
 
@@ -307,34 +294,6 @@ if ((actionNamesValueAcquired == false))
     if ((data != null))
     {
         this._actionNamesField = ((string[])(data));
-    }
-}
-bool conditionEnumsValueAcquired = false;
-if (this.Session.ContainsKey("conditionEnums"))
-{
-    this._conditionEnumsField = ((string[])(this.Session["conditionEnums"]));
-    conditionEnumsValueAcquired = true;
-}
-if ((conditionEnumsValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("conditionEnums");
-    if ((data != null))
-    {
-        this._conditionEnumsField = ((string[])(data));
-    }
-}
-bool conditionNamesValueAcquired = false;
-if (this.Session.ContainsKey("conditionNames"))
-{
-    this._conditionNamesField = ((string[])(this.Session["conditionNames"]));
-    conditionNamesValueAcquired = true;
-}
-if ((conditionNamesValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("conditionNames");
-    if ((data != null))
-    {
-        this._conditionNamesField = ((string[])(data));
     }
 }
 bool propertyEnumsValueAcquired = false;

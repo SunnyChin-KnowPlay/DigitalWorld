@@ -1,5 +1,8 @@
 using DigitalWorld.Game;
 using UnityEngine;
+using System;
+using Dream;
+using Dream.Core;
 using System.Collections.Generic;
 #if UNITY_EDITOR
 using System.Xml;
@@ -23,25 +26,32 @@ namespace DigitalWorld.Logic
 		/// <summary>
         /// 名字
         /// </summary> 
-		public string name = default(string);
+		public Property<Int32> name = default(Property<Int32>);
 		/// <summary>
         /// 测试枚举
         /// </summary> 
-		public Logic.ETestBBB testType = default(Logic.ETestBBB);
+		public Property<DigitalWorld.Proto.Logic.EEventType> testType = default(Property<DigitalWorld.Proto.Logic.EEventType>);
 
 		public override void OnAllocate()
         {
 			base.OnAllocate();
-			name = default(string);
-			testType = default(Logic.ETestBBB);
+
         }
 
 		public override void OnRecycle()
         {
             base.OnRecycle();
-			name = default(string);
- 			testType = default(Logic.ETestBBB);
-         }
+			if (null != name)
+			{
+				name.Recycle();
+				name = null;
+			}	
+			if (null != testType)
+			{
+				testType.Recycle();
+				testType = null;
+			}	
+        }
 
 		public override object Clone()
         {
@@ -68,8 +78,7 @@ namespace DigitalWorld.Logic
             ActionCreateCharacter v = base.CloneTo(obj) as ActionCreateCharacter;
             if (null != v)
             {
-				v.name = this.name;
-				v.testType = this.testType;
+
             }
             return obj;
         }
@@ -118,39 +127,89 @@ namespace DigitalWorld.Logic
 		protected override void OnCalculateSize()
         {
             base.OnCalculateSize();
-			CalculateSize(this.name);
-			CalculateSizeEnum(this.testType);
+	
+			if (null != this.name)
+				CalculateSize(this.name);
+	
+			if (null != this.testType)
+				CalculateSize(this.testType);
   
         }
 
 		protected override void OnEncode()
         {
             base.OnEncode();
-			Encode(this.name);
-			EncodeEnum(this.testType);
+			if (null != this.name)
+				Encode(this.name);
+			if (null != this.testType)
+				Encode(this.testType);
           
         }
 
         protected override void OnDecode()
         {
             base.OnDecode();
+			int id = 0;
+			ParseId(this._buffer, this._pos, out id);
+			if (null == this.name)
+			{
+				this.name = LogicHelper.GetProperty<Property<Int32>>(id);
+			}
 			Decode(ref this.name);
-			DecodeEnum(ref this.testType);
+			ParseId(this._buffer, this._pos, out id);
+			if (null == this.testType)
+			{
+				this.testType = LogicHelper.GetProperty<Property<DigitalWorld.Proto.Logic.EEventType>>(id);
+			}
+			Decode(ref this.testType);
         }
 		
 #if UNITY_EDITOR
         protected override void OnDecode(XmlElement node)
         {
             base.OnDecode(node);
+			
+			if (null == this.name)
+			{
+				XmlElement ele = node["name"];
+				if (null != ele)
+				{
+					System.Type type = null;
+                    bool ret = ParseType(ele, out type);
+                    if (ret)
+                    {
+                        if (System.Activator.CreateInstance(type) is Property<Int32> child)
+                        {
+                            this.name = child;
+                        }
+					}
+				}
+			}
 			Decode(ref this.name, "name");
-			DecodeEnum(ref this.testType, "testType");
+			if (null == this.testType)
+			{
+				XmlElement ele = node["testType"];
+				if (null != ele)
+				{
+					System.Type type = null;
+                    bool ret = ParseType(ele, out type);
+                    if (ret)
+                    {
+                        if (System.Activator.CreateInstance(type) is Property<DigitalWorld.Proto.Logic.EEventType> child)
+                        {
+                            this.testType = child;
+                        }
+					}
+				}
+			}
+			Decode(ref this.testType, "testType");
         }
 
         protected override void OnEncode(XmlElement node)
         {
 			base.OnEncode(node);
 			Encode(this.name, "name");
-			EncodeEnum(this.testType, "testType");
+			Encode(this.testType, "testType");
         }
 
 

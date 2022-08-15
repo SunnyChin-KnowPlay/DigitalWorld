@@ -109,7 +109,7 @@ namespace DigitalWorld.Game
 
         protected virtual void OnMove(float delta)
         {
-            float moveSpeed = this.MoveSpeed.FactorByStand.singleFloat;
+            float moveSpeed = this.MoveSpeed.FactorByStand.SingleFloat;
 
             if (CheckIsNearestByTarget())
             {

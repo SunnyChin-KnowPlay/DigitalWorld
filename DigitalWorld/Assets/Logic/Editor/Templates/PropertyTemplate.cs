@@ -9,15 +9,18 @@
 // ------------------------------------------------------------------------------
 namespace Assets.Logic.Editor.Templates
 {
+    using System.Linq;
+    using System.Text;
+    using System.Collections.Generic;
     using System;
     
     /// <summary>
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
+    #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
-    public partial class DefinedTemplate : DefinedTemplateBase
+    public partial class PropertyTemplate : PropertyTemplateBase
     {
 #line hidden
         /// <summary>
@@ -25,235 +28,151 @@ namespace Assets.Logic.Editor.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("namespace DigitalWorld.Logic\r\n{\r\n\tpublic enum EEvent : int\r\n\t{\r\n");
             
-            #line 13 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
+            #line 11 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
 
-		for (int i = 0; i < eventNames.Length; ++i)
-		{
-
-            
-            #line default
-            #line hidden
-            this.Write("\t\t/// <summary>\r\n        /// ");
-            
-            #line 18 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(eventDescs[i]));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n        /// </summary>\r\n\t\t");
-            
-            #line 20 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(eventNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(" = ");
-            
-            #line 20 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(eventValues[i]));
-            
-            #line default
-            #line hidden
-            this.Write(",\r\n");
-            
-            #line 21 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
-
-		}
+	for (int i = 0; i < usingNamespaces.Length; ++i)
+	{
 
             
             #line default
             #line hidden
-            this.Write("\t}\r\n\r\n\tpublic enum EAction : int\r\n\t{\r\n");
+            this.Write("using ");
             
-            #line 28 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
+            #line 15 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(usingNamespaces[i]));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n");
+            
+            #line 16 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
 
-		for (int i = 0; i < actionNames.Length; ++i)
-		{
-
-            
-            #line default
-            #line hidden
-            this.Write("\t\t/// <summary>\r\n        /// ");
-            
-            #line 33 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(actionDescs[i]));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n        /// </summary>\r\n\t\t");
-            
-            #line 35 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(actionNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(" = ");
-            
-            #line 35 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(actionValues[i]));
-            
-            #line default
-            #line hidden
-            this.Write(",\r\n");
-            
-            #line 36 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
-
-		}
+	}
 
             
             #line default
             #line hidden
-            this.Write("\t}\r\n\r\n\tpublic static class Defined\r\n\t{\r\n        public static string GetEventDesc" +
-                    "(EEvent e)\r\n        {\r\n\t\t\tswitch (e)\r\n            {\r\n");
+            this.Write("\r\nnamespace DigitalWorld.Logic\r\n{\r\n\t/// <summary>\r\n    /// ");
             
-            #line 47 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
-
-				for (int i = 0; i < eventNames.Length; ++i)
-				{
-
+            #line 23 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(desc));
             
             #line default
             #line hidden
-            this.Write("\t\t\t\tcase EEvent.");
+            this.Write("\r\n    /// </summary>\r\n    public partial class Property");
             
-            #line 51 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(eventNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(":\r\n\t\t\t\t\treturn \"");
-            
-            #line 52 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(eventDescs[i]));
+            #line 25 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
             #line hidden
-            this.Write("\";\r\n");
+            this.Write(" : Property<");
             
-            #line 53 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
-
-				}
-
+            #line 25 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(valueType));
             
             #line default
             #line hidden
-            this.Write("\t\t\t\tdefault:\r\n\t\t\t\t\treturn null;\r\n\t\t\t}\r\n        }\r\n\r\n\t\tpublic static string GetAct" +
-                    "ionDesc(EAction e)\r\n        {\r\n\t\t\tswitch (e)\r\n            {\r\n");
+            this.Write(">\r\n    {\r\n        public override int Id => ");
             
-            #line 65 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
-
-				for (int i = 0; i < actionNames.Length; ++i)
-				{
-
+            #line 27 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(id));
             
             #line default
             #line hidden
-            this.Write("\t\t\t\tcase EAction.");
+            this.Write(";\r\n\r\n        public override object Clone()\r\n        {\r\n            Property");
             
-            #line 69 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(actionNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(":\r\n\t\t\t\t\treturn \"");
-            
-            #line 70 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(actionDescs[i]));
+            #line 31 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
             #line hidden
-            this.Write("\";\r\n");
+            this.Write(" v = null;\r\n            if (Application.isPlaying)\r\n            {\r\n              " +
+                    "  v = Dream.Core.ObjectPool<Property");
             
-            #line 71 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
-
-				}
-
+            #line 34 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
             #line hidden
-            this.Write("\t\t\t\tdefault:\r\n\t\t\t\t\treturn null;\r\n\t\t\t}\r\n        }\r\n    }\r\n}\r\n");
+            this.Write(">.Instance.Allocate();\r\n            }\r\n            else\r\n            {\r\n         " +
+                    "       v = new Property");
+            
+            #line 38 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(className));
+            
+            #line default
+            #line hidden
+            this.Write("();\r\n            }\r\n\r\n            if (null != v)\r\n            {\r\n                " +
+                    "this.CloneTo(v);\r\n            }\r\n\r\n            return v;\r\n        }\r\n    }\r\n}\r\n");
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
+        #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
 
-private string[] _eventNamesField;
+private string _classNameField;
 
 /// <summary>
-/// Access the eventNames parameter of the template.
+/// Access the className parameter of the template.
 /// </summary>
-private string[] eventNames
+private string className
 {
     get
     {
-        return this._eventNamesField;
+        return this._classNameField;
     }
 }
 
-private string[] _eventValuesField;
+private string _valueTypeField;
 
 /// <summary>
-/// Access the eventValues parameter of the template.
+/// Access the valueType parameter of the template.
 /// </summary>
-private string[] eventValues
+private string valueType
 {
     get
     {
-        return this._eventValuesField;
+        return this._valueTypeField;
     }
 }
 
-private string[] _eventDescsField;
+private int _idField;
 
 /// <summary>
-/// Access the eventDescs parameter of the template.
+/// Access the id parameter of the template.
 /// </summary>
-private string[] eventDescs
+private int id
 {
     get
     {
-        return this._eventDescsField;
+        return this._idField;
     }
 }
 
-private string[] _actionNamesField;
+private string _descField;
 
 /// <summary>
-/// Access the actionNames parameter of the template.
+/// Access the desc parameter of the template.
 /// </summary>
-private string[] actionNames
+private string desc
 {
     get
     {
-        return this._actionNamesField;
+        return this._descField;
     }
 }
 
-private string[] _actionValuesField;
+private string[] _usingNamespacesField;
 
 /// <summary>
-/// Access the actionValues parameter of the template.
+/// Access the usingNamespaces parameter of the template.
 /// </summary>
-private string[] actionValues
+private string[] usingNamespaces
 {
     get
     {
-        return this._actionValuesField;
-    }
-}
-
-private string[] _actionDescsField;
-
-/// <summary>
-/// Access the actionDescs parameter of the template.
-/// </summary>
-private string[] actionDescs
-{
-    get
-    {
-        return this._actionDescsField;
+        return this._usingNamespacesField;
     }
 }
 
@@ -265,88 +184,74 @@ public virtual void Initialize()
 {
     if ((this.Errors.HasErrors == false))
     {
-bool eventNamesValueAcquired = false;
-if (this.Session.ContainsKey("eventNames"))
+bool classNameValueAcquired = false;
+if (this.Session.ContainsKey("className"))
 {
-    this._eventNamesField = ((string[])(this.Session["eventNames"]));
-    eventNamesValueAcquired = true;
+    this._classNameField = ((string)(this.Session["className"]));
+    classNameValueAcquired = true;
 }
-if ((eventNamesValueAcquired == false))
+if ((classNameValueAcquired == false))
 {
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("eventNames");
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("className");
     if ((data != null))
     {
-        this._eventNamesField = ((string[])(data));
+        this._classNameField = ((string)(data));
     }
 }
-bool eventValuesValueAcquired = false;
-if (this.Session.ContainsKey("eventValues"))
+bool valueTypeValueAcquired = false;
+if (this.Session.ContainsKey("valueType"))
 {
-    this._eventValuesField = ((string[])(this.Session["eventValues"]));
-    eventValuesValueAcquired = true;
+    this._valueTypeField = ((string)(this.Session["valueType"]));
+    valueTypeValueAcquired = true;
 }
-if ((eventValuesValueAcquired == false))
+if ((valueTypeValueAcquired == false))
 {
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("eventValues");
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("valueType");
     if ((data != null))
     {
-        this._eventValuesField = ((string[])(data));
+        this._valueTypeField = ((string)(data));
     }
 }
-bool eventDescsValueAcquired = false;
-if (this.Session.ContainsKey("eventDescs"))
+bool idValueAcquired = false;
+if (this.Session.ContainsKey("id"))
 {
-    this._eventDescsField = ((string[])(this.Session["eventDescs"]));
-    eventDescsValueAcquired = true;
+    this._idField = ((int)(this.Session["id"]));
+    idValueAcquired = true;
 }
-if ((eventDescsValueAcquired == false))
+if ((idValueAcquired == false))
 {
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("eventDescs");
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("id");
     if ((data != null))
     {
-        this._eventDescsField = ((string[])(data));
+        this._idField = ((int)(data));
     }
 }
-bool actionNamesValueAcquired = false;
-if (this.Session.ContainsKey("actionNames"))
+bool descValueAcquired = false;
+if (this.Session.ContainsKey("desc"))
 {
-    this._actionNamesField = ((string[])(this.Session["actionNames"]));
-    actionNamesValueAcquired = true;
+    this._descField = ((string)(this.Session["desc"]));
+    descValueAcquired = true;
 }
-if ((actionNamesValueAcquired == false))
+if ((descValueAcquired == false))
 {
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("actionNames");
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("desc");
     if ((data != null))
     {
-        this._actionNamesField = ((string[])(data));
+        this._descField = ((string)(data));
     }
 }
-bool actionValuesValueAcquired = false;
-if (this.Session.ContainsKey("actionValues"))
+bool usingNamespacesValueAcquired = false;
+if (this.Session.ContainsKey("usingNamespaces"))
 {
-    this._actionValuesField = ((string[])(this.Session["actionValues"]));
-    actionValuesValueAcquired = true;
+    this._usingNamespacesField = ((string[])(this.Session["usingNamespaces"]));
+    usingNamespacesValueAcquired = true;
 }
-if ((actionValuesValueAcquired == false))
+if ((usingNamespacesValueAcquired == false))
 {
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("actionValues");
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("usingNamespaces");
     if ((data != null))
     {
-        this._actionValuesField = ((string[])(data));
-    }
-}
-bool actionDescsValueAcquired = false;
-if (this.Session.ContainsKey("actionDescs"))
-{
-    this._actionDescsField = ((string[])(this.Session["actionDescs"]));
-    actionDescsValueAcquired = true;
-}
-if ((actionDescsValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("actionDescs");
-    if ((data != null))
-    {
-        this._actionDescsField = ((string[])(data));
+        this._usingNamespacesField = ((string[])(data));
     }
 }
 
@@ -367,7 +272,7 @@ if ((actionDescsValueAcquired == false))
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
-    public class DefinedTemplateBase
+    public class PropertyTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

@@ -3,9 +3,6 @@
 <#@ parameter name="eventNames" type="System.String[]"#>
 <#@ parameter name="eventValues" type="System.String[]"#>
 <#@ parameter name="eventDescs" type="System.String[]"#>
-<#@ parameter name="conditionNames" type="System.String[]"#>
-<#@ parameter name="conditionValues" type="System.String[]"#>
-<#@ parameter name="conditionDescs" type="System.String[]"#>
 <#@ parameter name="actionNames" type="System.String[]"#>
 <#@ parameter name="actionValues" type="System.String[]"#>
 <#@ parameter name="actionDescs" type="System.String[]"#>
@@ -21,21 +18,6 @@ namespace DigitalWorld.Logic
         /// <#= eventDescs[i] #>
         /// </summary>
 		<#= eventNames[i] #> = <#= eventValues[i] #>,
-<#
-		}
-#>
-	}
-
-	public enum ECondition : int
-	{
-<#
-		for (int i = 0; i < conditionNames.Length; ++i)
-		{
-#>
-		/// <summary>
-        /// <#= conditionDescs[i] #>
-        /// </summary>
-		<#= conditionNames[i] #> = <#= conditionValues[i] #>,
 <#
 		}
 #>
@@ -86,24 +68,6 @@ namespace DigitalWorld.Logic
 #>
 				case EAction.<#= actionNames[i] #>:
 					return "<#= actionDescs[i] #>";
-<#
-				}
-#>
-				default:
-					return null;
-			}
-        }
-
-		public static string GetConditionDesc(ECondition e)
-        {
-			switch (e)
-            {
-<#
-				for (int i = 0; i < conditionNames.Length; ++i)
-				{
-#>
-				case ECondition.<#= conditionNames[i] #>:
-					return "<#= conditionDescs[i] #>";
 <#
 				}
 #>

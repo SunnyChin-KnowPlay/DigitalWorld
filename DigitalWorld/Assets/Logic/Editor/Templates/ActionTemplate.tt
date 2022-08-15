@@ -1,7 +1,6 @@
 ﻿<#@ template language="C#" #>
 <#@ assembly name="System.Core" #>
 <#@ parameter name="className" type="System.String"#>
-<#@ parameter name="baseTypes" type="System.String[]"#>
 <#@ parameter name="types" type="System.String[]"#>
 <#@ parameter name="varNames" type="System.String[]"#>
 <#@ parameter name="descripts" type="System.String[]"#>
@@ -47,7 +46,7 @@ namespace DigitalWorld.Logic
 		/// <summary>
         /// <#= descripts[i] #>
         /// </summary> 
-		public <#= types[i] #> <#= varNames[i] #> = default(<#= types[i] #>);
+		public Property<<#= types[i] #>> <#= varNames[i] #> = default(Property<<#= types[i] #>>);
 <#
 		}
 #>
@@ -55,21 +54,7 @@ namespace DigitalWorld.Logic
 		public override void OnAllocate()
         {
 			base.OnAllocate();
-<#
-			for (int i = 0; i < types.Length; ++i)
-			{
-#><#
-			if (baseTypes[i] == "property")
-			{
-#>
-			<#= varNames[i] #> = default(Property<<#= types[i] #>>);
-<# } else { #>
-			<#= varNames[i] #> = default(<#= types[i] #>);
-<#
-			} 
-#><#
-			}
-#>
+
         }
 
 		public override void OnRecycle()
@@ -78,20 +63,13 @@ namespace DigitalWorld.Logic
 <#
 			for (int i = 0; i < types.Length; ++i)
 			{
-#><#
-			if (baseTypes[i] == "property")
-			{
 #>
 			if (null != <#= varNames[i] #>)
 			{
 				<#= varNames[i] #>.Recycle();
 				<#= varNames[i] #> = null;
 			}	
-<# } else { #>
-			<#= varNames[i] #> = default(<#= types[i] #>);
 <#
-			}
-#> <#
 			}
 #>
         }
@@ -121,22 +99,7 @@ namespace DigitalWorld.Logic
             Action<#= className #> v = base.CloneTo(obj) as Action<#= className #>;
             if (null != v)
             {
-<#
-				for (int i = 0; i < types.Length; ++i)
-				{
-#><#
-				if (baseTypes[i] == "property")
-				{
-#>
-				if (null != this.<#= varNames[i] #>)
-					v.<#= varNames[i] #> = (Property<<#= types[i] #>>)this.<#= varNames[i] #>.Clone();
-<# } else { #>
-				v.<#= varNames[i] #> = this.<#= varNames[i] #>;
-<#
-				}
-#><#
-				}
-#>
+
             }
             return obj;
         }
@@ -194,8 +157,9 @@ namespace DigitalWorld.Logic
 <#
 			for (int i = 0; i < types.Length; ++i)
 			{
-#>
-			<#= calculateFuncs[i] #>(this.<#= varNames[i] #>);
+#>	
+			if (null != this.<#= varNames[i] #>)
+				<#= calculateFuncs[i] #>(this.<#= varNames[i] #>);
 <#
 			}
 #>  
@@ -208,7 +172,8 @@ namespace DigitalWorld.Logic
 			for (int i = 0; i < types.Length; ++i)
 			{
 #>
-			<#= serializeFuncs[i] #>(this.<#= varNames[i] #>);
+			if (null != this.<#= varNames[i] #>)
+				<#= serializeFuncs[i] #>(this.<#= varNames[i] #>);
 <#
 			}
 #>          
@@ -217,10 +182,16 @@ namespace DigitalWorld.Logic
         protected override void OnDecode()
         {
             base.OnDecode();
+			int id = 0;
 <#
 			for (int i = 0; i < types.Length; ++i)
 			{
 #>
+			ParseId(this._buffer, this._pos, out id);
+			if (null == this.<#= varNames[i] #>)
+			{
+				this.<#= varNames[i] #> = LogicHelper.GetProperty<Property<<#= types[i] #>>>(id);
+			}
 			<#= deserializeFuncs[i] #>(ref this.<#= varNames[i] #>);
 <#
 			}
@@ -231,10 +202,27 @@ namespace DigitalWorld.Logic
         protected override void OnDecode(XmlElement node)
         {
             base.OnDecode(node);
+			
 <#
 			for (int i = 0; i < types.Length; ++i)
 			{
 #>
+			if (null == this.<#= varNames[i] #>)
+			{
+				XmlElement ele = node["<#= varNames[i] #>"];
+				if (null != ele)
+				{
+					System.Type type = null;
+                    bool ret = ParseType(ele, out type);
+                    if (ret)
+                    {
+                        if (System.Activator.CreateInstance(type) is Property<<#= types[i] #>> child)
+                        {
+                            this.<#= varNames[i] #> = child;
+                        }
+					}
+				}
+			}
 			<#= deserializeFuncs[i] #>(ref this.<#= varNames[i] #>, "<#= varNames[i] #>");
 <#
 			}

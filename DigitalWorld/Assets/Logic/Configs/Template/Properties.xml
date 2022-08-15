@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<data>
+  <property id="1" name="TestInt32" desc="int型属性测试" valueType="Int32" />
+</data>

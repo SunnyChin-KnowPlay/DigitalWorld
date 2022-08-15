@@ -87,7 +87,7 @@ namespace DigitalWorld.Logic.Editor
                     XmlElement root = doc["behaviour"];
                     if (null != root)
                     {
-                        behaviour.Decode(root);
+                        behaviour.DecodeXml(root);
                     }
                 }
 
@@ -104,11 +104,6 @@ namespace DigitalWorld.Logic.Editor
                 case ENodeType.Action:
                 {
                     window = LogicActionEditorWindow.GetWindow() as LogicEffectEditorWindow;
-                    break;
-                }
-                case ENodeType.Condition:
-                {
-                    window = LogicConditionEditorWindow.GetWindow() as LogicEffectEditorWindow;
                     break;
                 }
             }
@@ -129,11 +124,7 @@ namespace DigitalWorld.Logic.Editor
                     window = LogicActionEditorWindow.GetWindow() as LogicEffectEditorWindow;
                     break;
                 }
-                case ENodeType.Condition:
-                {
-                    window = LogicConditionEditorWindow.GetWindow() as LogicEffectEditorWindow;
-                    break;
-                }
+
             }
 
             if (null != window)

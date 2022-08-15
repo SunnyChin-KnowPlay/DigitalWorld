@@ -15,7 +15,7 @@ namespace DigitalWorld.Logic
     public enum EItemType
     {
         Action,
-        Condition,
+        Property,
         Event,
     }
 
@@ -39,7 +39,7 @@ namespace DigitalWorld.Logic
 
         public static Dictionary<string, int> KeyDict = new Dictionary<string, int>();
 
-        public readonly static string[] usingNamespaces = new string[2] { ProjectNamespace + ".Game", "UnityEngine" };
+        public readonly static string[] usingNamespaces = new string[5] { ProjectNamespace + ".Game", "UnityEngine", "System", "Dream", "Dream.Core" };
         /// <summary>
         /// 逻辑命名空间
         /// </summary>
@@ -237,22 +237,11 @@ namespace DigitalWorld.Logic
             //{
             //    return typeof(Color);
             //}
-            return typeof(System.Object);
         }
 
         public static NodeBase CreateNewAction(EAction action)
         {
             string name = string.Format("{0}.Action{1}", LogicNamespace, action);
-            System.Type type = GetTemplateType(name);
-            if (null == type)
-                return null;
-            NodeBase bc = System.Activator.CreateInstance(type) as NodeBase;
-            return bc;
-        }
-
-        public static NodeBase CreateNewCondition(ECondition cond)
-        {
-            string name = string.Format("{0}.Condition{1}", LogicNamespace, cond);
             System.Type type = GetTemplateType(name);
             if (null == type)
                 return null;

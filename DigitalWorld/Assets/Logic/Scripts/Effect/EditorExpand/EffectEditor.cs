@@ -360,11 +360,6 @@ namespace DigitalWorld.Logic
             EditorGUI.LabelField(rect, "Properties");
         }
 
-        protected virtual void OnDrawPropertyElementExt(FieldInfo field, ref Rect rect, int index, bool selected, bool focused)
-        {
-
-        }
-
         protected void OnDrawPropertyElement(Rect rect, int index, bool selected, bool focused)
         {
             Rect parentRect = rect;
@@ -412,8 +407,6 @@ namespace DigitalWorld.Logic
 
                 separationRect = Rect.MinMaxRect(rect.xMax + 2, rect.yMin, rect.xMax + 4, rect.yMax);
                 EditorGUI.DrawRect(separationRect, Logic.Utility.kSplitLineColor);
-
-                OnDrawPropertyElementExt(item, ref rect, index, selected, focused);
 
                 OnDrawPropertyFieldValue(ref rect, parentRect, item);
 

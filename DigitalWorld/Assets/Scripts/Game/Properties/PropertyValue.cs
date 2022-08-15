@@ -29,7 +29,7 @@ namespace DigitalWorld.Game
         /// 标准值
         /// </summary>
         public int StandV { get { return standV; } }
-        private int standV;
+        private readonly int standV;
 
         public int Value
         {

@@ -66,7 +66,7 @@ namespace DigitalWorld.Table
                     XmlElement root = xmlDocument["table"];
                     if (null != root)
                     {
-                        table.Decode(root);
+                        table.DecodeXml(root);
                     }
                 }
             }

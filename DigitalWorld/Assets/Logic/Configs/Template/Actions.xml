@@ -1,10 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <data>
   <action id="1" name="CreateCharacter" desc="创建角色">
-    <field name="name" baseClassT="ValueType" classT="string" desc="名字" />
-    <field name="testType" baseClassT="Enum" classT="Logic.ETestBBB" desc="测试枚举" />
-  </action>
-  <action id="2" name="KillCharacter" desc="">
-    <field name="isDeath" baseClassT="ValueType" classT="bool" desc="是否直接死亡" />
+    <field name="name" type="Int32" desc="名字" />
+    <field name="testType" type="DigitalWorld.Proto.Logic.EEventType" desc="测试枚举" />
   </action>
 </data>

@@ -27,13 +27,14 @@ namespace DigitalWorld.Logic
 
         public List<Requirement> Requirements => _requirements;
         protected List<Requirement> _requirements = new List<Requirement>();
+
         #endregion
 
         #region Pool
         public override void OnAllocate()
         {
             base.OnAllocate();
-
+           
             _requirementLogic = ECheckLogic.And;
         }
 
@@ -49,7 +50,6 @@ namespace DigitalWorld.Logic
         protected override void OnChanged()
         {
             base.OnChanged();
-
 
         }
         #endregion

@@ -22,7 +22,8 @@ namespace DigitalWorld.Logic.Editor
         }
 
         private ReorderableList actionList;
-        private ReorderableList conditionList;
+        private ReorderableList propertyList;
+
         #endregion
 
         #region Common
@@ -43,14 +44,15 @@ namespace DigitalWorld.Logic.Editor
                 draggable = false
             };
 
-            conditionList = new ReorderableList(c.GetItems(EItemType.Condition), typeof(NodeItem))
+            propertyList = new ReorderableList(c.GetItems(EItemType.Property), typeof(NodeItem))
             {
-                drawElementCallback = OnDrawConditionElement,
-                onAddCallback = (list) => OnAddItem(EItemType.Condition),
-                onRemoveCallback = (list) => OnRemoveItem(conditionList),
-                drawHeaderCallback = OnDrawConditionHead,
+                drawElementCallback = OnDrawPropertyElement,
+                onAddCallback = (list) => OnAddItem(EItemType.Property),
+                onRemoveCallback = (list) => OnRemoveItem(propertyList),
+                drawHeaderCallback = OnDrawPropertyHead,
                 draggable = false
             };
+
         }
 
         private ReorderableList GetList(EItemType type)
@@ -58,7 +60,7 @@ namespace DigitalWorld.Logic.Editor
             return type switch
             {
                 EItemType.Action => actionList,
-                EItemType.Condition => conditionList,
+                EItemType.Property => propertyList,
                 _ => null,
             };
         }
@@ -109,7 +111,6 @@ namespace DigitalWorld.Logic.Editor
                     OnEditItem(EItemType.Action, item);
                 }
 
-
                 EditorGUI.DrawRect(lineRect, Logic.Utility.kSplitLineColor);
 
             }
@@ -119,12 +120,16 @@ namespace DigitalWorld.Logic.Editor
             }
         }
 
-        private void OnDrawConditionElement(Rect rect, int index, bool selected, bool focused)
+        private void OnDrawPropertyElement(Rect rect, int index, bool selected, bool focused)
         {
+            Rect parentRect = rect;
+
             float width = rect.width;
-            if (index < conditionList.list.Count)
+            if (index < propertyList.list.Count)
             {
-                NodeItem item = conditionList.list[index] as NodeItem;
+                Rect lineRect = Rect.MinMaxRect(parentRect.xMin + 4, parentRect.yMax - 2, parentRect.xMax - 4, parentRect.yMax);
+
+                NodeItem item = propertyList.list[index] as NodeItem;
 
                 rect.y += 2;
                 rect.height = EditorGUIUtility.singleLineHeight;
@@ -141,12 +146,15 @@ namespace DigitalWorld.Logic.Editor
                 bool ret = GUI.Button(rect, new GUIContent("Edit"));
                 if (ret)
                 {
-                    OnEditItem(EItemType.Condition, item);
+                    OnEditItem(EItemType.Property, item);
                 }
+
+                EditorGUI.DrawRect(lineRect, Logic.Utility.kSplitLineColor);
+
             }
             else
             {
-                conditionList.list.RemoveAt(index);
+                actionList.list.RemoveAt(index);
             }
         }
 
@@ -163,15 +171,11 @@ namespace DigitalWorld.Logic.Editor
         private void OnDrawActionHead(Rect rect)
         {
             EditorGUI.LabelField(rect, "Actions");
-
-
         }
 
-        private void OnDrawConditionHead(Rect rect)
+        private void OnDrawPropertyHead(Rect rect)
         {
-            EditorGUI.LabelField(rect, "Conditions");
-
-
+            EditorGUI.LabelField(rect, "Properties");
         }
 
         public void OnGUI()
@@ -234,51 +238,6 @@ namespace DigitalWorld.Logic.Editor
                     {
                         list.DoLayoutList();
                     }
-
-                    //reorderableRequirementList.DoLayoutList();
-
-                    //var dict = c.GetItems(type);
-                    //if (null != dict)
-                    //{
-                    //    List<NodeItem> list = new List<NodeItem>(dict.Count);
-                    //    list.AddRange(dict);
-
-                    //    for (int i = 0; i < list.Count; ++i)
-                    //    {
-                    //        if (!string.IsNullOrEmpty(filter) && !list[i].Name.ToLower().Contains(filter))
-                    //            continue;
-
-                    //        GUIStyle style = new GUIStyle(GUI.skin.box);
-                    //        EditorGUILayout.BeginHorizontal(style);
-                    //        list[i].OnGUITitle();
-
-
-                    //        if (GUILayout.Button("编辑", GUILayout.MaxWidth(60)))
-                    //        {
-                    //            EditorWindow.GetWindow<LevelItemEditorWindow>("编辑 " + NodeController.GetTitleWithType(type)).Show(type, list[i], RemoveItem, AddItem);
-                    //        }
-
-                    //        if (GUILayout.Button("删除", GUILayout.MaxWidth(60)))
-                    //        {
-                    //            NodeController.instance.SetDirty();
-
-                    //            for (int j = 0; j < dict.Count; ++j)
-                    //            {
-                    //                if (dict[j].Id == list[i].Id)
-                    //                {
-                    //                    dict.RemoveAt(j);
-                    //                    break;
-                    //                }
-                    //            }
-
-                    //            EditorGUILayout.EndHorizontal();
-                    //            break;
-                    //        }
-
-                    //        EditorGUILayout.EndHorizontal();
-
-                    //    }
-                    //}
                 }
             }
 

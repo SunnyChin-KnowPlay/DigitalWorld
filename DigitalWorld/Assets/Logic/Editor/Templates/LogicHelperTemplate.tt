@@ -6,8 +6,6 @@
 <#@ parameter name="className" type="System.String"#>
 <#@ parameter name="actionEnums" type="System.String[]"#>
 <#@ parameter name="actionNames" type="System.String[]"#>
-<#@ parameter name="conditionEnums" type="System.String[]"#>
-<#@ parameter name="conditionNames" type="System.String[]"#>
 <#@ parameter name="propertyEnums" type="System.String[]"#>
 <#@ parameter name="propertyNames" type="System.String[]"#>
 <#@ parameter name="eventIds" type="System.String[]"#>
@@ -26,13 +24,13 @@ namespace DigitalWorld.Logic
         {
             switch (nodeType)
             {
-                case ENodeType.Condition:
-                {
-                    return GetCondition(id);
-                }
                 case ENodeType.Action:
                 {
                     return GetAction(id);
+                }
+                case ENodeType.Property:
+                {
+                    return GetProperty(id);
                 }
                 case ENodeType.Behaviour:
                 {
@@ -41,6 +39,27 @@ namespace DigitalWorld.Logic
                 default:
                     return null;
             }
+        }
+
+        public static PropertyBase GetProperty(int id)
+        {
+            return id switch
+            {
+<#
+                for (int i = 0; i < propertyEnums.Length; ++i)
+                {
+#>
+                <#= propertyEnums[i] #> => GetNode<Property<#= propertyNames[i] #>>(),
+<#
+                }
+#> 
+                _ => null,
+            };
+        }
+
+        public static T GetProperty<T>(int id) where T : PropertyBase
+        {
+            return GetProperty(id) as T;
         }
 
         public static ActionBase GetAction(int id)
@@ -58,23 +77,5 @@ namespace DigitalWorld.Logic
                 _ => null,
             };
         }
-
-        public static ConditionBase GetCondition(int id)
-        {
-            return id switch
-            {
-<#
-				for (int i = 0; i < conditionEnums.Length; ++i)
-				{
-#>
-                <#= conditionEnums[i] #> => GetNode<Condition<#= conditionNames[i] #>>(),
-<#
-				}
-#>    
-                _ => null,
-            };
-        }
-
-		
     }
 }

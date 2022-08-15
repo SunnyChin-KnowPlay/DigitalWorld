@@ -20,24 +20,12 @@ namespace DigitalWorld.Logic
 		CharacterActivate = 4,
 	}
 
-	public enum ECondition : int
-	{
-		/// <summary>
-        /// 运行时间
-        /// </summary>
-		RunningTime = 1,
-	}
-
 	public enum EAction : int
 	{
 		/// <summary>
         /// 创建角色
         /// </summary>
 		CreateCharacter = 1,
-		/// <summary>
-        /// 
-        /// </summary>
-		KillCharacter = 2,
 	}
 
 	public static class Defined
@@ -65,19 +53,6 @@ namespace DigitalWorld.Logic
             {
 				case EAction.CreateCharacter:
 					return "创建角色";
-				case EAction.KillCharacter:
-					return "";
-				default:
-					return null;
-			}
-        }
-
-		public static string GetConditionDesc(ECondition e)
-        {
-			switch (e)
-            {
-				case ECondition.RunningTime:
-					return "运行时间";
 				default:
 					return null;
 			}

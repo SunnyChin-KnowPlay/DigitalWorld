@@ -9,8 +9,6 @@ namespace DigitalWorld.Logic.Editor
     internal abstract class NodeItem : NodeBase
     {
         #region Params
-        private Vector2 offset = Vector2.zero;
-
         public delegate void OnCallbackModifyItem(EItemType type, NodeItem ba);
 
         protected string desc = "";
@@ -19,8 +17,7 @@ namespace DigitalWorld.Logic.Editor
             get { return desc; }
         }
         protected List<NodeField> fields = new List<NodeField>();
-        private static readonly List<NodeField> processFields = new List<NodeField>();
-
+        
         public List<NodeField> Fields
         {
             get { return fields; }
@@ -60,25 +57,9 @@ namespace DigitalWorld.Logic.Editor
                 item.Name = EditorGUI.TextField(rect, item.Name);
 
                 rect.xMin = rect.xMax + 4;
-                rect.xMax = rect.xMin + width * 0.2f;
-                item.baseClassT = NodeField.FindBaseClassText(EditorGUI.Popup(rect, NodeField.FindBaseClassIndex(item.baseClassT), NodeField.BaseClassArray));
-
-                rect.xMin = rect.xMax + 4;
-                rect.xMax = rect.xMin + width * 0.2f;
-                if (item.baseClassT == NodeField.BaseClassValueType)
-                {
-                    item.classT = NodeField.FindValueTypeText(EditorGUI.Popup(rect, NodeField.FindValueTypeIndex(item.classT), NodeField.ValueTypeClassArray));
-                }
-                else if (item.baseClassT == NodeField.BaseClassEnum)
-                {
-                    item.classT = NodeField.FindEnumTypeText(EditorGUI.Popup(rect, NodeField.FindEnumTypeIndex(item.classT), NodeField.EnumTypeShowingArray));
-                }
-                else
-                {
-                    item.classT = EditorGUI.TextField(rect, item.classT);
-                }
-
-
+                rect.xMax = rect.xMin + width * 0.3f;
+                item.type = NodeField.FindType(EditorGUI.Popup(rect, NodeField.FindTypeIndex(item.type), NodeField.TypeDisplayArray));
+                
 
                 rect.xMin = rect.xMax + 4;
                 rect.xMax = width;
@@ -175,7 +156,6 @@ namespace DigitalWorld.Logic.Editor
             base.Encode(node);
 
             node.SetAttribute("desc", this.desc);
-
 
             for (int i = 0; i < fields.Count; ++i)
             {

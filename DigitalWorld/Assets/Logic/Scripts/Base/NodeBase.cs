@@ -9,7 +9,7 @@ namespace DigitalWorld.Logic
     /// <summary>
     /// 逻辑根节点
     /// </summary>
-    public abstract partial class NodeBase : ByteBuffer, INode
+    public abstract partial class NodeBase : ByteBuffer, INode, IComparable
     {
         #region Event
         public delegate void OnDirtyChangedHandle(bool dirty);
@@ -463,7 +463,7 @@ namespace DigitalWorld.Logic
             for (int i = 0; i < _children.Count; ++i)
             {
                 XmlElement childEle = doc.CreateElement("child");
-                _children[i].Encode(childEle);
+                _children[i].EncodeXml(childEle);
                 childrenEle.AppendChild(childEle);
             }
             element.AppendChild(childrenEle);
@@ -491,7 +491,7 @@ namespace DigitalWorld.Logic
                     {
                         if (System.Activator.CreateInstance(type) is NodeBase child)
                         {
-                            child.Decode(childEle);
+                            child.DecodeXml(childEle);
                             child.SetParent(this);
                         }
                     }
@@ -524,6 +524,16 @@ namespace DigitalWorld.Logic
                 return false;
 
             DecodeEnum(buffer, ref pos, ref nodeType);
+            Decode(buffer, ref pos, ref id);
+            return true;
+        }
+
+        public static bool ParseId(byte[] buffer, int pos, out int id)
+        {
+            id = 0;
+
+            if (null == buffer)
+                return false;
             Decode(buffer, ref pos, ref id);
             return true;
         }
@@ -571,6 +581,21 @@ namespace DigitalWorld.Logic
         {
 
             return true;
+        }
+        #endregion
+
+        #region Comparable
+        public virtual int CompareTo(object obj)
+        {
+            if (obj == null)
+                return 1;
+
+            if (obj is NodeBase node)
+            {
+                return this._index.CompareTo(node._index);
+            }
+
+            throw new ArgumentException("Arg_MustBeNodeBase");
         }
         #endregion
     }

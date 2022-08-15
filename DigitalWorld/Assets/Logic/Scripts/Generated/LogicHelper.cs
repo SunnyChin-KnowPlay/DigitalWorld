@@ -12,13 +12,13 @@ namespace DigitalWorld.Logic
         {
             switch (nodeType)
             {
-                case ENodeType.Condition:
-                {
-                    return GetCondition(id);
-                }
                 case ENodeType.Action:
                 {
                     return GetAction(id);
+                }
+                case ENodeType.Property:
+                {
+                    return GetProperty(id);
                 }
                 case ENodeType.Behaviour:
                 {
@@ -29,27 +29,29 @@ namespace DigitalWorld.Logic
             }
         }
 
+        public static PropertyBase GetProperty(int id)
+        {
+            return id switch
+            {
+                1 => GetNode<PropertyTestInt32>(),
+ 
+                _ => null,
+            };
+        }
+
+        public static T GetProperty<T>(int id) where T : PropertyBase
+        {
+            return GetProperty(id) as T;
+        }
+
         public static ActionBase GetAction(int id)
         {
             return id switch
             {
                 1 => GetNode<ActionCreateCharacter>(),
-                2 => GetNode<ActionKillCharacter>(),
                 
                 _ => null,
             };
         }
-
-        public static ConditionBase GetCondition(int id)
-        {
-            return id switch
-            {
-                1 => GetNode<ConditionRunningTime>(),
-    
-                _ => null,
-            };
-        }
-
-		
     }
 }

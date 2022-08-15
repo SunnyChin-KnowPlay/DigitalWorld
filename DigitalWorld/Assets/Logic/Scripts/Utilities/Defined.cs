@@ -48,17 +48,42 @@
         /// 行动
         /// </summary>
         Action = 1 << 1,
-        /// <summary>
-        /// 条件
-        /// </summary>
-        Condition = 1 << 2,
+     
         /// <summary>
         /// 触发器
         /// </summary>
-        Trigger = 1 << 3,
+        Trigger = 1 << 2,
         /// <summary>
         /// 行为
         /// </summary>
-        Behaviour = 1 << 4,
+        Behaviour = 1 << 3,
     }
+
+    /// <summary>
+    /// 类型代码
+    /// </summary>
+    public enum ETypeCode
+    {
+        Empty = 0,
+        Enum,
+        Boolean,
+        Char,
+        SByte,
+        Byte ,
+        Int16,
+        UInt16,
+        Int32,
+        UInt32,
+        Int64,
+        UInt64,
+        Single,
+        Double,
+        Decimal,
+        DateTime,
+        String,
+        FixVector2,
+        FixVector3,
+        FixFactor,
+    }
+
 }

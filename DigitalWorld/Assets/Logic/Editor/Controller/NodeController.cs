@@ -37,22 +37,20 @@ namespace DigitalWorld.Logic.Editor
             XmlDocument eventDoc = new XmlDocument();
             eventDoc.LoadXml(text.text);
 
-            text = DigitalWorld.Logic.Utility.LoadTemplateConfig("Conditions");
-            XmlDocument condDoc = new XmlDocument();
-            condDoc.LoadXml(text.text);
-
             text = DigitalWorld.Logic.Utility.LoadTemplateConfig("Actions");
             XmlDocument actionDoc = new XmlDocument();
             actionDoc.LoadXml(text.text);
 
-
+            text = DigitalWorld.Logic.Utility.LoadTemplateConfig("Properties");
+            XmlDocument propertyDoc = new XmlDocument();
+            propertyDoc.LoadXml(text.text);
 
             GenerateEvent(eventDoc);
-            GenerateConditions(condDoc);
+            GenerateProperties(propertyDoc);
             GenerateActions(actionDoc);
 
-            GenerateEnums(eventDoc, condDoc, actionDoc);
-            GenerateHelper(eventDoc, condDoc, actionDoc);
+            GenerateEnums(eventDoc, actionDoc);
+            GenerateHelper(eventDoc, actionDoc, propertyDoc);
 
             AssetDatabase.Refresh();
         }
@@ -96,7 +94,7 @@ namespace DigitalWorld.Logic.Editor
             return string.Empty;
         }
 
-        private static void GenerateEnums(XmlDocument ev, XmlDocument con, XmlDocument act)
+        private static void GenerateEnums(XmlDocument ev, XmlDocument act)
         {
             DefinedTemplate tmp = new DefinedTemplate
             {
@@ -124,22 +122,6 @@ namespace DigitalWorld.Logic.Editor
             values.Clear();
             descs.Clear();
 
-            root = con["data"];
-            foreach (var node in root.ChildNodes)
-            {
-                e = (XmlElement)node;
-                names.Add(e.GetAttribute("name"));
-                values.Add(e.GetAttribute("id"));
-                descs.Add(e.GetAttribute("desc"));
-            }
-            tmp.Session["conditionNames"] = names.ToArray();
-            tmp.Session["conditionValues"] = values.ToArray();
-            tmp.Session["conditionDescs"] = descs.ToArray();
-
-            names.Clear();
-            values.Clear();
-            descs.Clear();
-
             root = act["data"];
             foreach (var node in root.ChildNodes)
             {
@@ -161,7 +143,7 @@ namespace DigitalWorld.Logic.Editor
             DigitalWorld.Logic.Utility.SaveDataToFile(data, targetPath);
         }
 
-        private static void GenerateHelper(XmlDocument ev, XmlDocument con, XmlDocument act)
+        private static void GenerateHelper(XmlDocument ev, XmlDocument act, XmlDocument property)
         {
             LogicHelperTemplate tmp = null;
             tmp = new LogicHelperTemplate();
@@ -189,20 +171,6 @@ namespace DigitalWorld.Logic.Editor
             names.Clear();
             ids.Clear();
 
-            root = con["data"];
-            foreach (var node in root.ChildNodes)
-            {
-                e = (XmlElement)node;
-                names.Add(e.GetAttribute("name"));
-                ids.Add(e.GetAttribute("id"));
-
-            }
-            tmp.Session["conditionNames"] = names.ToArray();
-            tmp.Session["conditionEnums"] = ids.ToArray();
-
-            names.Clear();
-            ids.Clear();
-
             root = act["data"];
             foreach (var node in root.ChildNodes)
             {
@@ -214,7 +182,22 @@ namespace DigitalWorld.Logic.Editor
             tmp.Session["actionNames"] = names.ToArray();
             tmp.Session["actionEnums"] = ids.ToArray();
 
+            if (null != property)
+            {
+                names.Clear();
+                ids.Clear();
 
+                root = property["data"];
+                foreach (var node in root.ChildNodes)
+                {
+                    e = (XmlElement)node;
+                    names.Add(e.GetAttribute("name"));
+                    ids.Add(e.GetAttribute("id"));
+
+                }
+                tmp.Session["propertyNames"] = names.ToArray();
+                tmp.Session["propertyEnums"] = ids.ToArray();
+            }
 
             tmp.Initialize();
             string data = tmp.TransformText();
@@ -249,68 +232,32 @@ namespace DigitalWorld.Logic.Editor
             }
         }
 
-        private static void GenerateConditions(XmlDocument xmlDocument)
+        private static void GenerateProperties(XmlDocument xmlDocument)
         {
             XmlElement root = xmlDocument["data"];
 
-            List<string> names = new List<string>();
-            List<string> baseTypes = new List<string>();
-            List<string> types = new List<string>();
-            List<string> descs = new List<string>();
-            List<string> values = new List<string>();
-
-            List<string> serializeFuncs = new List<string>();
-            List<string> deserializeFuncs = new List<string>();
-            List<string> calculateFuncs = new List<string>();
-
             string fileName = null;
-
-            ConditionTemplate tmp = null;
+            PropertyTemplate tmp = null;
 
             foreach (var node in root.ChildNodes)
             {
-                names.Clear();
-                baseTypes.Clear();
-                types.Clear();
-                descs.Clear();
-                values.Clear();
-                serializeFuncs.Clear();
-                deserializeFuncs.Clear();
-                calculateFuncs.Clear();
-
                 XmlElement element = (XmlElement)node;
 
-                fileName = "Condition" + element.GetAttribute("name") + ".cs";
 
-                foreach (var a in element.ChildNodes)
+                fileName = "Property" + element.GetAttribute("name") + ".cs";
+
+                tmp = new PropertyTemplate
                 {
-                    XmlElement attr = (XmlElement)a;
-                    names.Add(attr.GetAttribute("name"));
-                    baseTypes.Add(attr.GetAttribute("baseClassT"));
-                    types.Add(attr.GetAttribute("classT"));
-                    descs.Add(attr.GetAttribute("desc"));
-                    values.Add(string.Format("default({0})", attr.GetAttribute("classT")));
-                    serializeFuncs.Add(attr.GetAttribute("baseClassT") == "Enum" ? "EncodeEnum" : "Encode");
-                    deserializeFuncs.Add(attr.GetAttribute("baseClassT") == "Enum" ? "DecodeEnum" : "Decode");
-                    calculateFuncs.Add(attr.GetAttribute("baseClassT") == "Enum" ? "CalculateSizeEnum" : "CalculateSize");
-                }
+                    Session = new Dictionary<string, object>
+                    {
+                        ["id"] = int.Parse(element.GetAttribute("id")),
+                        ["className"] = element.GetAttribute("name"),
+                        ["desc"] = element.GetAttribute("desc"),
+                        ["valueType"] = element.GetAttribute("valueType"),
+                        ["usingNamespaces"] = DigitalWorld.Logic.Utility.usingNamespaces,
+                    }
+                };
 
-                tmp = new ConditionTemplate();
-                tmp.Session = new Dictionary<string, object>();
-
-                tmp.Session["id"] = int.Parse(element.GetAttribute("id"));
-                tmp.Session["className"] = element.GetAttribute("name");
-                tmp.Session["desc"] = element.GetAttribute("desc");
-
-                tmp.Session["baseTypes"] = baseTypes.ToArray();
-                tmp.Session["types"] = types.ToArray();
-                tmp.Session["varNames"] = names.ToArray();
-                tmp.Session["descripts"] = descs.ToArray();
-                tmp.Session["defaultValues"] = values.ToArray();
-                tmp.Session["usingNamespaces"] = DigitalWorld.Logic.Utility.usingNamespaces;
-                tmp.Session["serializeFuncs"] = serializeFuncs.ToArray();
-                tmp.Session["deserializeFuncs"] = deserializeFuncs.ToArray();
-                tmp.Session["calculateFuncs"] = calculateFuncs.ToArray();
 
                 tmp.Initialize();
                 string data = tmp.TransformText();
@@ -326,7 +273,7 @@ namespace DigitalWorld.Logic.Editor
             XmlElement root = xmlDocument["data"];
 
             List<string> names = new List<string>();
-            List<string> baseTypes = new List<string>();
+
             List<string> types = new List<string>();
             List<string> descs = new List<string>();
             List<string> values = new List<string>();
@@ -344,7 +291,7 @@ namespace DigitalWorld.Logic.Editor
 
                 names.Clear();
                 types.Clear();
-                baseTypes.Clear();
+
                 descs.Clear();
                 values.Clear();
                 serializeFuncs.Clear();
@@ -355,13 +302,13 @@ namespace DigitalWorld.Logic.Editor
                 {
                     XmlElement attr = (XmlElement)a;
                     names.Add(attr.GetAttribute("name"));
-                    types.Add(attr.GetAttribute("classT"));
-                    baseTypes.Add(attr.GetAttribute("baseClassT"));
+                    types.Add(attr.GetAttribute("type"));
+
                     descs.Add(attr.GetAttribute("desc"));
-                    values.Add(string.Format("default({0})", attr.GetAttribute("classT")));
-                    serializeFuncs.Add(attr.GetAttribute("baseClassT") == "Enum" ? "EncodeEnum" : "Encode");
-                    deserializeFuncs.Add(attr.GetAttribute("baseClassT") == "Enum" ? "DecodeEnum" : "Decode");
-                    calculateFuncs.Add(attr.GetAttribute("baseClassT") == "Enum" ? "CalculateSizeEnum" : "CalculateSize");
+                    values.Add(string.Format("default({0})", attr.GetAttribute("type")));
+                    serializeFuncs.Add("Encode");
+                    deserializeFuncs.Add("Decode");
+                    calculateFuncs.Add("CalculateSize");
                 }
                 fileName = "Action" + element.GetAttribute("name") + ".cs";
 
@@ -372,7 +319,6 @@ namespace DigitalWorld.Logic.Editor
                 tmp.Session["className"] = element.GetAttribute("name");
                 tmp.Session["desc"] = element.GetAttribute("desc");
 
-                tmp.Session["baseTypes"] = baseTypes.ToArray();
                 tmp.Session["types"] = types.ToArray();
                 tmp.Session["varNames"] = names.ToArray();
                 tmp.Session["descripts"] = descs.ToArray();
@@ -388,50 +334,6 @@ namespace DigitalWorld.Logic.Editor
                 string targetPath = System.IO.Path.Combine(DigitalWorld.Logic.Utility.CodesPath, fileName);
                 DigitalWorld.Logic.Utility.SaveDataToFile(data, targetPath);
             }
-        }
-
-        private static string GetLoadXmlText(string xmlNodeName, string baseType, string type, string name)
-        {
-            System.Type bt = DigitalWorld.Logic.Utility.GetBaseType(baseType);
-            if (bt == typeof(Enum))
-            {
-                return string.Format("({0})System.Enum.Parse(typeof({0}), {1})", type, GetGetAttributeString(xmlNodeName, name));
-            }
-            else if (bt == typeof(ValueType))
-            {
-                System.Type tp = DigitalWorld.Logic.Utility.GetValueType(type);
-                if (tp == typeof(int))
-                {
-                    return string.Format("int.Parse({0})", GetGetAttributeString(xmlNodeName, name));
-                }
-                else if (tp == typeof(uint))
-                {
-                    return string.Format("uint.Parse({0})", GetGetAttributeString(xmlNodeName, name));
-                }
-                else if (tp == typeof(string))
-                {
-                    return GetGetAttributeString(xmlNodeName, name);
-                }
-                else if (tp == typeof(float))
-                {
-                    return string.Format("float.Parse({0})", GetGetAttributeString(xmlNodeName, name));
-                }
-                else if (tp == typeof(bool))
-                {
-                    return string.Format("bool.Parse({0})", GetGetAttributeString(xmlNodeName, name));
-                }
-                else if (tp == typeof(Color))
-                {
-                    return String.Format("Utility.ParseColor({0})", GetGetAttributeString(xmlNodeName, name));
-                }
-            }
-
-            return string.Empty;
-        }
-
-        private static string GetGetAttributeString(string node, string name)
-        {
-            return string.Format("{0}.GetAttribute(\"{1}\")", node, name);
         }
 
         private static void ClearAllCodeFiles()
@@ -542,8 +444,8 @@ namespace DigitalWorld.Logic.Editor
                 case EItemType.Action:
                     node = new NodeAction();
                     break;
-                case EItemType.Condition:
-                    node = new NodeCondition();
+                case EItemType.Property:
+                    node = new NodeProperty();
                     break;
                 case EItemType.Event:
                     node = new NodeEvent();
@@ -561,19 +463,21 @@ namespace DigitalWorld.Logic.Editor
         {
             list.Clear();
 
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(asset.text);
-
-
-            XmlElement root = doc["data"];
-
-            foreach (var node in root.ChildNodes)
+            if (null != asset)
             {
-                XmlElement element = (XmlElement)node;
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(asset.text);
 
-                NodeItem item = this.CreateItem(type);
-                item.Decode(element);
-                list.Add(item);
+                XmlElement root = doc["data"];
+
+                foreach (var node in root.ChildNodes)
+                {
+                    XmlElement element = (XmlElement)node;
+
+                    NodeItem item = this.CreateItem(type);
+                    item.Decode(element);
+                    list.Add(item);
+                }
             }
         }
 
@@ -641,8 +545,8 @@ namespace DigitalWorld.Logic.Editor
             {
                 case EItemType.Action:
                     return "Actions";
-                case EItemType.Condition:
-                    return "Conditions";
+                case EItemType.Property:
+                    return "Properties";
                 case EItemType.Event:
                     return "Events";
                 default:
@@ -656,8 +560,8 @@ namespace DigitalWorld.Logic.Editor
             {
                 case EItemType.Action:
                     return "action";
-                case EItemType.Condition:
-                    return "condition";
+                case EItemType.Property:
+                    return "property";
                 case EItemType.Event:
                     return "event";
                 default:
@@ -754,10 +658,13 @@ namespace DigitalWorld.Logic.Editor
             {
                 case EItemType.Action:
                     return "Action";
-                case EItemType.Condition:
-                    return "Condition";
+
+                case EItemType.Property:
+                    return "Property";
+
                 case EItemType.Event:
                     return "Event";
+
                 default:
                     return null;
             }
