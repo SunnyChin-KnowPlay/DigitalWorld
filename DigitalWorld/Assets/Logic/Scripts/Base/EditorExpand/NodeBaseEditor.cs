@@ -63,6 +63,15 @@ namespace DigitalWorld.Logic
         {
             return string.Empty;
         }
+
+        protected void ForeachSetEditing(bool isEditing)
+        {
+            for (int i = 0; i < this._children.Count; ++i)
+            {
+                this._children[i].ForeachSetEditing(isEditing);
+            }
+            this._isEditing = isEditing;
+        }
         #endregion
 
         #region GUI
@@ -155,15 +164,6 @@ namespace DigitalWorld.Logic
             {
                 ForeachSetEditing(false);
             }
-        }
-
-        protected void ForeachSetEditing(bool isEditing)
-        {
-            for (int i = 0; i < this._children.Count; ++i)
-            {
-                this._children[i].ForeachSetEditing(isEditing);
-            }
-            this._isEditing = isEditing;
         }
 
         protected virtual void OnGUIDescription()
@@ -348,6 +348,14 @@ namespace DigitalWorld.Logic
                 EditorGUILayout.EndVertical();
 
             }
+        }
+
+        /// <summary>
+        /// 当为字段渲染时
+        /// </summary>
+        protected virtual void OnGUIField()
+        {
+
         }
         #endregion
 #endif

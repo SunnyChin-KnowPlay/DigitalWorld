@@ -386,15 +386,42 @@ namespace DigitalWorld.Logic
                 rect.xMin = rect.xMax + 6;
                 rect.xMax = rect.xMin + width * 0.15f;
 
-                string fieldType = item.FieldType.ToString();
-                if (!string.IsNullOrEmpty(fieldType))
+                // 如果是属性的话 则显示属性的参数类型
+                if (item.FieldType.IsSubclassOf(typeof(PropertyBase)) && item.FieldType.IsGenericType)
                 {
-                    if (fieldType.Contains('.'))
+                    System.Type fieldType = item.FieldType;
+                    System.Type[] args = fieldType.GenericTypeArguments;
+                    if (null != args && args.Length > 0)
                     {
-                        fieldType = fieldType[(fieldType.IndexOf('.') + 1)..];
+                        string genericType = args[0].ToString();
+                        if (!string.IsNullOrEmpty(genericType))
+                        {
+                            if (genericType.Contains('.'))
+                            {
+                                genericType = genericType[(genericType.LastIndexOf('.') + 1)..];
+                            }
+                            EditorGUI.LabelField(rect, new GUIContent(genericType, fieldType.ToString()), labelStyle);
+                        }
                     }
-                    EditorGUI.LabelField(rect, new GUIContent(fieldType, item.FieldType.BaseType.ToString()), labelStyle);
+                    else
+                    {
+                        EditorGUI.LabelField(rect, new GUIContent(fieldType.ToString()), labelStyle);
+                    }
                 }
+                else
+                {
+                    string fieldType = item.FieldType.ToString();
+                    if (!string.IsNullOrEmpty(fieldType))
+                    {
+                        if (fieldType.Contains('.'))
+                        {
+                            fieldType = fieldType[(fieldType.IndexOf('.') + 1)..];
+                        }
+                        EditorGUI.LabelField(rect, new GUIContent(fieldType, item.FieldType.BaseType.ToString()), labelStyle);
+                    }
+                }
+
+
 
                 separationRect = Rect.MinMaxRect(rect.xMax + 2, rect.yMin, rect.xMax + 4, rect.yMax);
                 EditorGUI.DrawRect(separationRect, Logic.Utility.kSplitLineColor);
@@ -419,7 +446,30 @@ namespace DigitalWorld.Logic
             }
         }
 
+        /// <summary>
+        /// 绘制字段值
+        /// 首先判定字段是否为NodeBase 如果是的话 则交由NodeBase自行绘制 如果是Underlying类型 则直接进行绘制
+        /// </summary>
+        /// <param name="rect"></param>
+        /// <param name="parentRect"></param>
+        /// <param name="field"></param>
         protected virtual void OnDrawPropertyFieldValue(ref Rect rect, Rect parentRect, FieldInfo field)
+        {
+            System.Type fieldType = field.FieldType;
+
+            if (fieldType.IsSubclassOf(typeof(PropertyBase)))
+            {
+                
+            }
+            else
+            {
+                OnDrawUnderlyingFieldValue(ref rect, parentRect, field);
+            }
+
+
+        }
+
+        protected virtual void OnDrawUnderlyingFieldValue(ref Rect rect, Rect parentRect, FieldInfo field)
         {
             rect.xMin = rect.xMax + 6;
             rect.xMax = rect.xMin + parentRect.width * 0.2f;
