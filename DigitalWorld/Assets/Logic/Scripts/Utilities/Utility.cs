@@ -181,6 +181,39 @@ namespace DigitalWorld.Logic
             return list;
         }
 
+        /// <summary>
+        /// 获取该类型的所有派生类的队列
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static List<Type> GetDerivedTypesFromType(List<Type> list, Type type)
+        {
+            if (null == list)
+                list = new List<Type>();
+
+            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (Assembly asm in assemblies)
+            {
+                Type[] types = asm.GetTypes();
+                foreach (Type t in types)
+                {
+                    if (t.IsPublic)
+                    {
+                        if(t.IsSubclassOf(type))
+                        {
+                            string namespaceName = type.Namespace;
+                            if (!string.IsNullOrEmpty(namespaceName) && namespaceName.Contains(ProjectNamespace))
+                            {
+                                list.Add(t);
+                            }
+                        }  
+                    }
+                }
+            }
+
+            return list;
+        }
+
         public static System.Type GetBaseType(string t)
         {
             if (t == "Enum")

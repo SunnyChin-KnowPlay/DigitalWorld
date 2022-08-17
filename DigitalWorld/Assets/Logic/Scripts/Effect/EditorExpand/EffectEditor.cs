@@ -54,10 +54,7 @@ namespace DigitalWorld.Logic
                 List<NodeBase> children = _parent.Children;
                 foreach (NodeBase brother in children)
                 {
-                    if (brother != this)
-                    {
-                        brotherNames.Add(brother.Name);
-                    }
+                    brotherNames.Add(brother.Name);
                 }
             }
 
@@ -94,6 +91,54 @@ namespace DigitalWorld.Logic
                 }
             }
 
+            return index;
+        }
+
+        public string[] GetPropertyNames(List<System.Type> types)
+        {
+            List<string> classList = new List<string>();
+
+            foreach (System.Type type in types)
+            {
+                string v = type.ToString();
+                classList.Add(v);
+            }
+
+            return classList.ToArray();
+        }
+
+        public string[] GetPropertyDisplayNames(List<System.Type> types)
+        {
+            List<string> classList = new List<string>();
+
+            foreach (System.Type type in types)
+            {
+                string v = type.ToString();
+                classList.Add(v.Replace('.', '/'));
+            }
+
+            return classList.ToArray();
+        }
+
+        public static string FindPropertyType(string[] types, int index)
+        {
+            if (index < 0 || index >= types.Length)
+                return types[0];
+
+            return types[index];
+        }
+
+        public static int FindPropertyTypeIndex(string[] types, string v)
+        {
+            int index = 0;
+            for (int i = 0; i < types.Length; ++i)
+            {
+                if (types[i] == v)
+                {
+                    index = i;
+                    break;
+                }
+            }
             return index;
         }
         #endregion
@@ -435,7 +480,7 @@ namespace DigitalWorld.Logic
                 separationRect = Rect.MinMaxRect(rect.xMax + 2, rect.yMin, rect.xMax + 4, rect.yMax);
                 EditorGUI.DrawRect(separationRect, Logic.Utility.kSplitLineColor);
 
-                OnDrawPropertyFieldValue(ref rect, parentRect, item);
+                OnDrawUnderlyingFieldValue(ref rect, parentRect, item);
 
                 Rect lineRect = Rect.MinMaxRect(parentRect.xMin + 4, parentRect.yMax - 2, parentRect.xMax - 4, parentRect.yMax);
                 EditorGUI.DrawRect(lineRect, Logic.Utility.kSplitLineColor);
@@ -444,29 +489,6 @@ namespace DigitalWorld.Logic
             {
                 reorderableRequirementList.list.RemoveAt(index);
             }
-        }
-
-        /// <summary>
-        /// 绘制字段值
-        /// 首先判定字段是否为NodeBase 如果是的话 则交由NodeBase自行绘制 如果是Underlying类型 则直接进行绘制
-        /// </summary>
-        /// <param name="rect"></param>
-        /// <param name="parentRect"></param>
-        /// <param name="field"></param>
-        protected virtual void OnDrawPropertyFieldValue(ref Rect rect, Rect parentRect, FieldInfo field)
-        {
-            System.Type fieldType = field.FieldType;
-
-            if (fieldType.IsSubclassOf(typeof(PropertyBase)))
-            {
-                
-            }
-            else
-            {
-                OnDrawUnderlyingFieldValue(ref rect, parentRect, field);
-            }
-
-
         }
 
         protected virtual void OnDrawUnderlyingFieldValue(ref Rect rect, Rect parentRect, FieldInfo field)

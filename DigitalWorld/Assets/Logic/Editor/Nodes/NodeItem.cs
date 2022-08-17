@@ -58,8 +58,9 @@ namespace DigitalWorld.Logic.Editor
 
                 rect.xMin = rect.xMax + 4;
                 rect.xMax = rect.xMin + width * 0.3f;
-                item.type = NodeField.FindType(EditorGUI.Popup(rect, NodeField.FindTypeIndex(item.type), NodeField.TypeDisplayArray));
-                
+                item.typeName = NodeField.FindTypeName(EditorGUI.Popup(rect, NodeField.FindTypeIndex(item.typeName), NodeField.TypeDisplayArray));
+                System.Type type = NodeField.FindType(NodeField.FindTypeIndex(item.typeName));
+                item.baseTypeName = type.BaseType.ToString();
 
                 rect.xMin = rect.xMax + 4;
                 rect.xMax = width;

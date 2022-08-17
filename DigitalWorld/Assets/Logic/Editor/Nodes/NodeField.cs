@@ -10,10 +10,11 @@ namespace DigitalWorld.Logic.Editor
     {
         #region Params
 
-        public string type;
+        public string baseTypeName;
+        public string typeName;
         public string desc;
 
-     
+
         #endregion
 
         #region Save & Load
@@ -21,9 +22,10 @@ namespace DigitalWorld.Logic.Editor
         {
             if (node.HasAttribute("name"))
                 name = node.GetAttribute("name");
-
-            if (node.HasAttribute("type"))
-                type = node.GetAttribute("type");
+            if (node.HasAttribute("baseTypeName"))
+                baseTypeName = node.GetAttribute("baseTypeName");
+            if (node.HasAttribute("typeName"))
+                typeName = node.GetAttribute("typeName");
             if (node.HasAttribute("desc"))
                 desc = node.GetAttribute("desc");
         }
@@ -31,8 +33,8 @@ namespace DigitalWorld.Logic.Editor
         public override void Encode(XmlElement node)
         {
             node.SetAttribute("name", name);
-
-            node.SetAttribute("type", type);
+            node.SetAttribute("baseTypeName", baseTypeName);
+            node.SetAttribute("typeName", typeName);
             node.SetAttribute("desc", desc);
         }
         #endregion
@@ -44,7 +46,7 @@ namespace DigitalWorld.Logic.Editor
 
             name = EditorGUILayout.TextField("name", name);
 
-            type = EditorGUILayout.TextField("type", type);
+            typeName = EditorGUILayout.TextField("typeName", typeName);
             desc = EditorGUILayout.TextField("desc", desc);
         }
         #endregion
@@ -67,14 +69,14 @@ namespace DigitalWorld.Logic.Editor
             if (base.CloneTo(obj) is NodeField v)
             {
 
-                v.type = this.type;
+                v.typeName = this.typeName;
                 v.desc = this.desc;
             }
 
             return obj;
         }
 
-       
+
 
         #endregion
     }

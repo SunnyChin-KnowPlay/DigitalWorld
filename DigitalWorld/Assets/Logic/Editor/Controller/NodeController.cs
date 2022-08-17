@@ -306,9 +306,9 @@ namespace DigitalWorld.Logic.Editor
 
                     descs.Add(attr.GetAttribute("desc"));
                     values.Add(string.Format("default({0})", attr.GetAttribute("type")));
-                    serializeFuncs.Add("Encode");
-                    deserializeFuncs.Add("Decode");
-                    calculateFuncs.Add("CalculateSize");
+                    serializeFuncs.Add(attr.GetAttribute("baseClassT") == "Enum" ? "EncodeEnum" : "Encode");
+                    deserializeFuncs.Add(attr.GetAttribute("baseClassT") == "Enum" ? "DecodeEnum" : "Decode");
+                    calculateFuncs.Add(attr.GetAttribute("baseClassT") == "Enum" ? "CalculateSizeEnum" : "CalculateSize");
                 }
                 fileName = "Action" + element.GetAttribute("name") + ".cs";
 

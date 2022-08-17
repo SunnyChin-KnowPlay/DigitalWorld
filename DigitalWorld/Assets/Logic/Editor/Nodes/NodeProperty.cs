@@ -50,7 +50,7 @@ namespace DigitalWorld.Logic.Editor
             }
             else
             {
-                this.valueType = NodeProperty.FindType(EditorGUILayout.Popup("valueType", NodeProperty.FindTypeIndex(this.valueType), NodeField.TypeDisplayArray));
+                this.valueType = NodeProperty.FindTypeName(EditorGUILayout.Popup("valueType", NodeProperty.FindTypeIndex(this.valueType), NodeField.TypeDisplayArray));
             }
         }
         #endregion

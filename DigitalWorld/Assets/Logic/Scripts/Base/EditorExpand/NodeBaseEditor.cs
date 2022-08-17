@@ -311,6 +311,57 @@ namespace DigitalWorld.Logic
             EditorGUILayout.EndHorizontal();
         }
 
+        protected void OnGUIEditingField(FieldInfo field, ref Rect rect, Rect parentRect)
+        {
+            if (field.FieldType == typeof(int))
+            {
+                int v = (int)field.GetValue(this);
+                v = EditorGUI.IntField(rect, new GUIContent(field.Name, this.GetFieldDesc(field.Name)), v);
+                field.SetValue(this, v);
+            }
+            else if (field.FieldType == typeof(float))
+            {
+                float v = (float)field.GetValue(this);
+                v = EditorGUI.FloatField(rect, new GUIContent(field.Name, this.GetFieldDesc(field.Name)), v);
+                field.SetValue(this, v);
+            }
+            else if (field.FieldType == typeof(bool))
+            {
+                bool v = (bool)field.GetValue(this);
+                v = EditorGUI.Toggle(rect, new GUIContent(field.Name, this.GetFieldDesc(field.Name)), v);
+                field.SetValue(this, v);
+            }
+            else if (field.FieldType == typeof(string))
+            {
+                string v = (string)field.GetValue(this);
+                v = EditorGUI.TextField(rect, new GUIContent(field.Name, this.GetFieldDesc(field.Name)), v);
+                field.SetValue(this, v);
+            }
+            else if (field.FieldType == typeof(FixVector3))
+            {
+                FixVector3 v = (FixVector3)field.GetValue(this);
+                Vector3Int vi = new Vector3Int(v.x, v.y, v.z);
+                vi = EditorGUI.Vector3IntField(rect, new GUIContent(field.Name, this.GetFieldDesc(field.Name)), vi);
+                v = new FixVector3(vi.x, vi.y, vi.z);
+                field.SetValue(this, v);
+            }
+            else if (field.FieldType == typeof(Color))
+            {
+                Color v = (Color)field.GetValue(this);
+                v = EditorGUI.ColorField(rect, new GUIContent(field.Name, this.GetFieldDesc(field.Name)), v);
+                field.SetValue(this, v);
+            }
+            else if (field.FieldType.BaseType == typeof(Enum))
+            {
+                Enum v = (Enum)field.GetValue(this);
+                v = EditorGUI.EnumPopup(rect, new GUIContent(field.Name, this.GetFieldDesc(field.Name)), v);
+
+                field.SetValue(this, v);
+            }
+
+
+        }
+
         protected bool OnGUICustomEditingField(FieldInfo info)
         {
             string methodName = string.Format("OnGUICustomEditingField{0}", info.Name);
@@ -353,7 +404,7 @@ namespace DigitalWorld.Logic
         /// <summary>
         /// 当为字段渲染时
         /// </summary>
-        protected virtual void OnGUIField()
+        public virtual void OnGUIField(ref Rect rect, Rect parentRect)
         {
 
         }

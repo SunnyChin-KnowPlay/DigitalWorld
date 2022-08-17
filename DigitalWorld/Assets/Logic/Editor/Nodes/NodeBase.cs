@@ -63,7 +63,8 @@ namespace DigitalWorld.Logic.Editor
         }
         protected bool editing = true;
 
-        protected static string[] typeClassArray = null;
+        protected static System.Type[] typeArray = null;
+        protected static string[] typeNamesArray = null;
         protected static string[] typeDisplayArray = null;
 
         #endregion
@@ -147,11 +148,33 @@ namespace DigitalWorld.Logic.Editor
             }
         }
 
-        public static string[] TypeClassArray
+        public static Type[] TypeArray
         {
             get
             {
-                if (null == typeClassArray)
+                if (null == typeArray)
+                {
+                    List<Type> typeList = new List<Type>();
+                    typeList.AddRange(Enum.GetValues(typeof(ETypeCode)) as Type[]);
+
+                    List<Type> enumTypes = EnumTypes;
+                    foreach (Type type in enumTypes)
+                    {
+                        typeList.Add(type);
+                    }
+
+                    typeArray = typeList.ToArray();
+                }
+
+                return typeArray;
+            }
+        }
+
+        public static string[] TypeNamesArray
+        {
+            get
+            {
+                if (null == typeNamesArray)
                 {
                     List<string> classList = new List<string>();
                     classList.AddRange(Enum.GetNames(typeof(ETypeCode)));
@@ -163,9 +186,9 @@ namespace DigitalWorld.Logic.Editor
                         classList.Add(v);
                     }
 
-                    typeClassArray = classList.ToArray();
+                    typeNamesArray = classList.ToArray();
                 }
-                return typeClassArray;
+                return typeNamesArray;
             }
         }
 
@@ -195,20 +218,28 @@ namespace DigitalWorld.Logic.Editor
             }
         }
 
-        public static string FindType(int index)
+        public static Type FindType(int index)
         {
-            if (index < 0 || index >= TypeClassArray.Length)
-                return TypeClassArray[0];
+            if (index < 0 || index >= TypeArray.Length)
+                return TypeArray[0];
 
-            return TypeClassArray[index];
+            return TypeArray[index];
+        }
+
+        public static string FindTypeName(int index)
+        {
+            if (index < 0 || index >= TypeNamesArray.Length)
+                return TypeNamesArray[0];
+
+            return TypeNamesArray[index];
         }
 
         public static int FindTypeIndex(string v)
         {
             int index = 0;
-            for (int i = 0; i < TypeClassArray.Length; ++i)
+            for (int i = 0; i < TypeNamesArray.Length; ++i)
             {
-                if (TypeClassArray[i] == v)
+                if (TypeNamesArray[i] == v)
                 {
                     index = i;
                     break;

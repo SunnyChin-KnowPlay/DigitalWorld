@@ -46,7 +46,7 @@ namespace DigitalWorld.Logic
 		/// <summary>
         /// <#= descripts[i] #>
         /// </summary> 
-		public Property<<#= types[i] #>> <#= varNames[i] #> = default(Property<<#= types[i] #>>);
+		public <#= types[i] #> <#= varNames[i] #> = default(<#= types[i] #>);
 <#
 		}
 #>
@@ -64,11 +64,7 @@ namespace DigitalWorld.Logic
 			for (int i = 0; i < types.Length; ++i)
 			{
 #>
-			if (null != <#= varNames[i] #>)
-			{
-				<#= varNames[i] #>.Recycle();
-				<#= varNames[i] #> = null;
-			}	
+			<#= varNames[i] #> = default(<#= types[i] #>);
 <#
 			}
 #>
@@ -99,7 +95,14 @@ namespace DigitalWorld.Logic
             Action<#= className #> v = base.CloneTo(obj) as Action<#= className #>;
             if (null != v)
             {
-
+<#
+				for (int i = 0; i < types.Length; ++i)
+				{
+#>
+				v.<#= varNames[i] #> = this.<#= varNames[i] #>;
+<#
+				}
+#>
             }
             return obj;
         }
@@ -158,8 +161,7 @@ namespace DigitalWorld.Logic
 			for (int i = 0; i < types.Length; ++i)
 			{
 #>	
-			if (null != this.<#= varNames[i] #>)
-				<#= calculateFuncs[i] #>(this.<#= varNames[i] #>);
+			<#= calculateFuncs[i] #>(this.<#= varNames[i] #>);
 <#
 			}
 #>  
@@ -172,8 +174,7 @@ namespace DigitalWorld.Logic
 			for (int i = 0; i < types.Length; ++i)
 			{
 #>
-			if (null != this.<#= varNames[i] #>)
-				<#= serializeFuncs[i] #>(this.<#= varNames[i] #>);
+			<#= serializeFuncs[i] #>(this.<#= varNames[i] #>);
 <#
 			}
 #>          
@@ -182,16 +183,11 @@ namespace DigitalWorld.Logic
         protected override void OnDecode()
         {
             base.OnDecode();
-			int id = 0;
+			
 <#
 			for (int i = 0; i < types.Length; ++i)
 			{
 #>
-			ParseId(this._buffer, this._pos, out id);
-			if (null == this.<#= varNames[i] #>)
-			{
-				this.<#= varNames[i] #> = LogicHelper.GetProperty<Property<<#= types[i] #>>>(id);
-			}
 			<#= deserializeFuncs[i] #>(ref this.<#= varNames[i] #>);
 <#
 			}
@@ -207,22 +203,6 @@ namespace DigitalWorld.Logic
 			for (int i = 0; i < types.Length; ++i)
 			{
 #>
-			if (null == this.<#= varNames[i] #>)
-			{
-				XmlElement ele = node["<#= varNames[i] #>"];
-				if (null != ele)
-				{
-					System.Type type = null;
-                    bool ret = ParseType(ele, out type);
-                    if (ret)
-                    {
-                        if (System.Activator.CreateInstance(type) is Property<<#= types[i] #>> child)
-                        {
-                            this.<#= varNames[i] #> = child;
-                        }
-					}
-				}
-			}
 			<#= deserializeFuncs[i] #>(ref this.<#= varNames[i] #>, "<#= varNames[i] #>");
 <#
 			}
