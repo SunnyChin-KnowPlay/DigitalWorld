@@ -155,40 +155,14 @@ namespace DigitalWorld.Logic.Editor
                 if (null == typeArray)
                 {
                     List<Type> typeList = new List<Type>();
-                    typeList.AddRange(Enum.GetValues(typeof(ETypeCode)) as Type[]);
 
-                    List<Type> enumTypes = EnumTypes;
-                    foreach (Type type in enumTypes)
-                    {
-                        typeList.Add(type);
-                    }
+                    typeList = Logic.Utility.GetUnderlyingTypes(typeList);
+
+                    typeList = Logic.Utility.GetPublicEnumTypes(typeList);
 
                     typeArray = typeList.ToArray();
                 }
-
                 return typeArray;
-            }
-        }
-
-        public static string[] TypeNamesArray
-        {
-            get
-            {
-                if (null == typeNamesArray)
-                {
-                    List<string> classList = new List<string>();
-                    classList.AddRange(Enum.GetNames(typeof(ETypeCode)));
-
-                    List<Type> enumTypes = EnumTypes;
-                    foreach (Type type in enumTypes)
-                    {
-                        string v = type.ToString();
-                        classList.Add(v);
-                    }
-
-                    typeNamesArray = classList.ToArray();
-                }
-                return typeNamesArray;
             }
         }
 
@@ -198,24 +172,27 @@ namespace DigitalWorld.Logic.Editor
             {
                 if (null == typeDisplayArray)
                 {
-                    List<string> list = new List<string>();
-                    string[] names = Enum.GetNames(typeof(ETypeCode));
-                    for (int i = 0; i < names.Length; ++i)
-                    {
-                        list.Add(names[i].Replace('.', '.'));
-                    }
 
-                    List<Type> enumTypes = EnumTypes;
-                    foreach (Type type in enumTypes)
-                    {
-                        string v = String.Format("{0}.{1}", "Enum", type.ToString());
-                        list.Add(v.Replace('.', '/'));
-                    }
+                    Type[] types = TypeArray;
 
-                    typeDisplayArray = list.ToArray();
+                    typeDisplayArray = new string[types.Length];
+
+                    for (int i = 0; i < types.Length; ++i)
+                    {
+                        typeDisplayArray[i] = types[i].FullName.Replace('.', '/');
+                    }
                 }
                 return typeDisplayArray;
             }
+        }
+
+        public static string FindTypeName(int index)
+        {
+            Type type = FindType(index);
+            if (null == type)
+                return String.Empty;
+
+            return type.FullName;
         }
 
         public static Type FindType(int index)
@@ -226,20 +203,15 @@ namespace DigitalWorld.Logic.Editor
             return TypeArray[index];
         }
 
-        public static string FindTypeName(int index)
-        {
-            if (index < 0 || index >= TypeNamesArray.Length)
-                return TypeNamesArray[0];
-
-            return TypeNamesArray[index];
-        }
-
         public static int FindTypeIndex(string v)
         {
             int index = 0;
-            for (int i = 0; i < TypeNamesArray.Length; ++i)
+
+            Type[] types = TypeArray;
+
+            for (int i = 0; i < types.Length; ++i)
             {
-                if (TypeNamesArray[i] == v)
+                if (types[i].FullName == v)
                 {
                     index = i;
                     break;

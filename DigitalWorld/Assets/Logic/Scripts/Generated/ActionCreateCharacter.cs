@@ -26,11 +26,11 @@ namespace DigitalWorld.Logic
 		/// <summary>
         /// 名字
         /// </summary> 
-		public Int32 name = default(Int32);
+		public Dream.FixMath.FixVector2 name = default(Dream.FixMath.FixVector2);
 		/// <summary>
         /// 测试枚举
         /// </summary> 
-		public DigitalWorld.Proto.Logic.EEventType testType = default(DigitalWorld.Proto.Logic.EEventType);
+		public DigitalWorld.Game.ELogicControlType testType = default(DigitalWorld.Game.ELogicControlType);
 
 		public override void OnAllocate()
         {
@@ -41,8 +41,8 @@ namespace DigitalWorld.Logic
 		public override void OnRecycle()
         {
             base.OnRecycle();
-			name = default(Int32);
-			testType = default(DigitalWorld.Proto.Logic.EEventType);
+			name = default(Dream.FixMath.FixVector2);
+			testType = default(DigitalWorld.Game.ELogicControlType);
         }
 
 		public override object Clone()
@@ -123,7 +123,7 @@ namespace DigitalWorld.Logic
 	
 			CalculateSize(this.name);
 	
-			//CalculateSize(this.testType);
+			CalculateSizeEnum(this.testType);
   
         }
 
@@ -131,7 +131,7 @@ namespace DigitalWorld.Logic
         {
             base.OnEncode();
 			Encode(this.name);
-			//Encode(this.testType);
+			EncodeEnum(this.testType);
           
         }
 
@@ -140,7 +140,7 @@ namespace DigitalWorld.Logic
             base.OnDecode();
 			
 			Decode(ref this.name);
-			//Decode(ref this.testType);
+			DecodeEnum(ref this.testType);
         }
 		
 #if UNITY_EDITOR
@@ -149,14 +149,14 @@ namespace DigitalWorld.Logic
             base.OnDecode(node);
 			
 			Decode(ref this.name, "name");
-			//Decode(ref this.testType, "testType");
+			DecodeEnum(ref this.testType, "testType");
         }
 
         protected override void OnEncode(XmlElement node)
         {
 			base.OnEncode(node);
 			Encode(this.name, "name");
-			//Encode(this.testType, "testType");
+			EncodeEnum(this.testType, "testType");
         }
 
 

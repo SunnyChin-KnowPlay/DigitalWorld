@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <data>
   <action id="1" name="CreateCharacter" desc="创建角色">
-    <field name="name" type="Int32" desc="名字" />
-    <field name="testType" type="DigitalWorld.Proto.Logic.EEventType" desc="测试枚举" />
+    <field name="name" baseTypeName="System.ValueType" typeName="Dream.FixMath.FixVector2" desc="名字" />
+    <field name="testType" baseTypeName="System.Enum" typeName="DigitalWorld.Game.ELogicControlType" desc="测试枚举" />
   </action>
 </data>

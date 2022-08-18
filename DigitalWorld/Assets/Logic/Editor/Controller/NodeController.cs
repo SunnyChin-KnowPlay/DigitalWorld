@@ -302,13 +302,15 @@ namespace DigitalWorld.Logic.Editor
                 {
                     XmlElement attr = (XmlElement)a;
                     names.Add(attr.GetAttribute("name"));
-                    types.Add(attr.GetAttribute("type"));
+                    types.Add(attr.GetAttribute("typeName"));
+
+                    System.Type baseType = Type.GetType(attr.GetAttribute("baseTypeName"));
 
                     descs.Add(attr.GetAttribute("desc"));
-                    values.Add(string.Format("default({0})", attr.GetAttribute("type")));
-                    serializeFuncs.Add(attr.GetAttribute("baseClassT") == "Enum" ? "EncodeEnum" : "Encode");
-                    deserializeFuncs.Add(attr.GetAttribute("baseClassT") == "Enum" ? "DecodeEnum" : "Decode");
-                    calculateFuncs.Add(attr.GetAttribute("baseClassT") == "Enum" ? "CalculateSizeEnum" : "CalculateSize");
+                    values.Add(string.Format("default({0})", attr.GetAttribute("typeName")));
+                    serializeFuncs.Add(baseType  == typeof(Enum)? "EncodeEnum" : "Encode");
+                    deserializeFuncs.Add(baseType == typeof(Enum) ? "DecodeEnum" : "Decode");
+                    calculateFuncs.Add(baseType == typeof(Enum) ? "CalculateSizeEnum" : "CalculateSize");
                 }
                 fileName = "Action" + element.GetAttribute("name") + ".cs";
 

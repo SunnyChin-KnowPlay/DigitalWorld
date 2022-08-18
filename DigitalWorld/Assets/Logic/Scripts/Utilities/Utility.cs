@@ -181,6 +181,38 @@ namespace DigitalWorld.Logic
             return list;
         }
 
+        private static bool CheckIsUnderlyingType(Type type)
+        {
+            foreach (ETypeCode c in System.Enum.GetValues(typeof(ETypeCode)))
+            {
+                if (type.Name == c.ToString())
+                    return true;
+            }
+            return false;
+        }
+
+        public static List<Type> GetUnderlyingTypes(List<Type> list)
+        {
+            if (null == list)
+                list = new List<Type>();
+
+            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (Assembly asm in assemblies)
+            {
+                Type[] types = asm.GetTypes();
+                foreach (Type type in types)
+                {
+                    if (type.IsPublic && CheckIsUnderlyingType(type))
+                    {
+                        list.Add(type);
+
+                    }
+                }
+            }
+
+            return list;
+        }
+
         /// <summary>
         /// 获取该类型的所有派生类的队列
         /// </summary>
@@ -199,14 +231,14 @@ namespace DigitalWorld.Logic
                 {
                     if (t.IsPublic)
                     {
-                        if(t.IsSubclassOf(type))
+                        if (t.IsSubclassOf(type))
                         {
                             string namespaceName = type.Namespace;
                             if (!string.IsNullOrEmpty(namespaceName) && namespaceName.Contains(ProjectNamespace))
                             {
                                 list.Add(t);
                             }
-                        }  
+                        }
                     }
                 }
             }
