@@ -47,9 +47,11 @@ namespace DigitalWorld.Logic.Editor
 
             string relativeFilePath = fullPath.Substring(DigitalWorld.Logic.Utility.ConfigsPath.Length + 1);
 
-            Behaviour behaviour = new Behaviour();
-            behaviour.Name = this.behaviourName;
-            behaviour.RelativeFolderPath = relativeFilePath;
+            Behaviour behaviour = new Behaviour
+            {
+                Name = this.behaviourName,
+                RelativeFolderPath = relativeFilePath
+            };
 
             behaviour.Save();
         }
@@ -65,7 +67,7 @@ namespace DigitalWorld.Logic.Editor
                 return;
             }
 
-            LogicBehaviourCreateWizard.DisplayWizard(selectFolderPath);
+            DisplayWizard(selectFolderPath);
         }
         #endregion
     }

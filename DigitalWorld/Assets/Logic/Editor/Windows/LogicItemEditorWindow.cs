@@ -1,74 +1,78 @@
-﻿using UnityEditor;
+﻿using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
-using static DigitalWorld.Logic.Editor.NodeItem;
 
 namespace DigitalWorld.Logic.Editor
 {
-    internal class LevelItemEditorWindow : EditorWindow
+    internal class LogicItemEditorWindow : EditorWindow
     {
-        public enum ShowModeEnum
-        {
-            Add = 0,
-            Edit = 1,
-        }
-
-
         #region Params
-        public ShowModeEnum currentMode;
-        private NodeItem initNode;
-        private NodeItem currentNode;
-        private EItemType type;
+        /// <summary>
+        /// 当前正在编辑的行为
+        /// </summary>
+        private NodeItem currentItem = null;
 
-        private OnCallbackModifyItem removeHandle;
-        private OnCallbackModifyItem addHandle;
+        /// <summary>
+        /// 所有正在编辑的行为
+        /// </summary>
+        private static Dictionary<string, LogicItemEditorWindow> editingItems = new Dictionary<string, LogicItemEditorWindow>();
+
         #endregion
 
-        public void Show(EItemType type, OnCallbackModifyItem add)
+
+        #region Common
+        /// <summary>
+        /// 检查是否有已打开正在编辑的窗口 如果有的话 直接还出去
+        /// </summary>
+        /// <param name="relativePath"></param>
+        /// <param name="window"></param>
+        /// <returns></returns>
+        internal static bool CheckHasEditing(string name, out LogicItemEditorWindow window)
         {
-            base.ShowPopup();
+            if (editingItems.ContainsKey(name))
+            {
+                window = editingItems[name];
+                return true;
+            }
 
-            this.type = type;
-            currentMode = ShowModeEnum.Add;
-            initNode = null;
-            currentNode = NodeController.instance.CreateItem(type);
-
-            currentNode.Id = NodeController.instance.GetNewId(type);
-
-            this.addHandle = add;
-
-            string v = NodeController.GetTitleWithType(type);
-            this.titleContent.text = currentMode == ShowModeEnum.Add ? "Create " + v : "Edit " + v;
+            window = null;
+            return false;
         }
 
-        public void Show(EItemType type, NodeItem node, OnCallbackModifyItem remove, OnCallbackModifyItem add)
+        private void OnDestroy()
         {
-            base.ShowPopup();
-
-            this.type = type;
-            currentMode = ShowModeEnum.Edit;
-            this.initNode = node;
-            this.currentNode = (NodeItem)node.Clone();
-
-            this.removeHandle = remove;
-            this.addHandle = add;
-
-            string v = NodeController.GetTitleWithType(type);
-            this.titleContent.text = currentMode == ShowModeEnum.Add ? "Create " + v : "Edit " + v;
+            if (null != this.currentItem)
+            {
+                editingItems.Remove(currentItem.Name);
+            }
         }
+
+        public void Show(NodeItem item)
+        {
+            base.Show();
+
+            this.SetTitle(item.Name);
+
+            this.currentItem = item;
+            editingItems.Add(item.Name, this);
+        }
+        #endregion
+
+
 
         #region ONGUI
+        private void SetTitle(string title)
+        {
+            this.titleContent = new GUIContent(title);
+        }
+
         private void OnGUI()
         {
 
-            EditorGUILayout.BeginHorizontal();
-            string v = NodeController.GetTitleWithType(type);
-            EditorGUILayout.LabelField(v + " Type");
-            EditorGUILayout.EndHorizontal();
-
-            if (null != currentNode)
+            if (null != currentItem)
             {
-                currentNode.OnGUIParams(this.currentMode == ShowModeEnum.Edit);
-                currentNode.OnGUIBody();
+                currentItem.OnGUIParams(true);
+                currentItem.OnGUIBody();
             }
 
             GUILayout.FlexibleSpace();
@@ -93,48 +97,8 @@ namespace DigitalWorld.Logic.Editor
         #region Listen
         private void OnClickSave()
         {
-            if (this.currentMode == ShowModeEnum.Add)
-            {
-                NodeItem exitsNode = null;
-                if (NodeController.instance.CheckItemExits(this.type, currentNode.Id, ref exitsNode))
-                {
-                    string title = NodeController.GetTitleWithType(type);
-                    string v = string.Format("{0}已存在，使用该ID({1})的{0}为({2})", title, currentNode.Id, exitsNode.Name);
-                    EditorUtility.DisplayDialog("错误，无法保存", v, "Ok");
-                    return;
-                }
-
-                if (NodeController.instance.CheckItemExits(this.type, currentNode.Name, ref exitsNode))
-                {
-                    string title = NodeController.GetTitleWithType(type);
-                    string v = string.Format("{0}已存在，使用该名字({1})的{0}为({2})", title, currentNode.Name, exitsNode.Name);
-                    EditorUtility.DisplayDialog("错误，无法保存", v, "Ok");
-                    return;
-                }
-
-                if (null != addHandle)
-                {
-                    addHandle.Invoke(this.type, this.currentNode);
-                }
-            }
-            else
-            {
-                if (null != removeHandle)
-                {
-                    removeHandle.Invoke(this.type, this.initNode);
-                }
-                if (null != addHandle)
-                {
-                    addHandle.Invoke(this.type, this.currentNode);
-                }
-            }
-
-            this.currentNode.SetDirty();
+            this.currentItem.SetDirty();
             EditorWindow.GetWindow<LogicItemsEditorWindow>().Repaint();
-
-            //ItemController.instance.SortItems(this.type);
-
-            this.Close();
         }
 
         private void OnClickCancel()

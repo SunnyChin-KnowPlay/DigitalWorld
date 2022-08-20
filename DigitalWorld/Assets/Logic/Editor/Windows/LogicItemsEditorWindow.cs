@@ -108,7 +108,7 @@ namespace DigitalWorld.Logic.Editor
                 bool ret = GUI.Button(rect, new GUIContent("Edit"));
                 if (ret)
                 {
-                    OnEditItem(EItemType.Action, item);
+                    OnEditItem(item);
                 }
 
                 EditorGUI.DrawRect(lineRect, Logic.Utility.kSplitLineColor);
@@ -146,7 +146,7 @@ namespace DigitalWorld.Logic.Editor
                 bool ret = GUI.Button(rect, new GUIContent("Edit"));
                 if (ret)
                 {
-                    OnEditItem(EItemType.Property, item);
+                    OnEditItem(item);
                 }
 
                 EditorGUI.DrawRect(lineRect, Logic.Utility.kSplitLineColor);
@@ -160,7 +160,7 @@ namespace DigitalWorld.Logic.Editor
 
         private void OnAddItem(EItemType type)
         {
-            EditorWindow.GetWindow<LevelItemEditorWindow>("Create " + NodeController.GetTitleWithType(type)).Show(type, OnAddItem);
+            LogicItemCreateWizard.DisplayWizard(type, OnAddItem, NodeController.instance.GetNewId(type));
         }
 
         private void OnRemoveItem(ReorderableList list)
@@ -182,33 +182,7 @@ namespace DigitalWorld.Logic.Editor
         {
             NodeController c = C;
 
-            bool editing = c.Editing;
-            EditorGUILayout.BeginHorizontal();
 
-            if (editing)
-            {
-                if (c.IsDirty)
-                {
-                    if (GUILayout.Button("Save & Quit"))
-                    {
-                        SaveAndQuitEdit();
-                    }
-                }
-
-                if (GUILayout.Button("Quit"))
-                {
-                    QuitEdit();
-                }
-            }
-            else
-            {
-                if (GUILayout.Button("Start Edit"))
-                {
-                    StartEdit();
-
-                }
-            }
-            EditorGUILayout.EndHorizontal();
 
             bool isDisable = !NodeController.instance.Editing;
             EditorGUI.BeginDisabledGroup(isDisable);
@@ -245,21 +219,65 @@ namespace DigitalWorld.Logic.Editor
 
             EditorGUI.EndDisabledGroup();
             GUILayout.FlexibleSpace();
+
+            bool editing = c.Editing;
+            EditorGUILayout.BeginHorizontal();
+
+            if (editing)
+            {
+                EditorGUI.BeginDisabledGroup(!c.IsDirty);
+
+                if (GUILayout.Button("Save & Quit"))
+                {
+                    SaveAndQuitEdit();
+                    NodeController.instance.GenerateNodesCode();
+                }
+                EditorGUI.EndDisabledGroup();
+
+                if (GUILayout.Button("Quit"))
+                {
+                    QuitEdit();
+                }
+            }
+            else
+            {
+                if (GUILayout.Button("Start Edit"))
+                {
+                    StartEdit();
+                }
+
+                if (GUILayout.Button("Generate Codes"))
+                {
+                    NodeController.instance.GenerateNodesCode();
+                }
+            }
+
+
+            EditorGUILayout.EndHorizontal();
         }
 
-        private void OnEditItem(EItemType type, NodeItem item)
+        private void OnEditItem(NodeItem item)
         {
-            EditorWindow.GetWindow<LevelItemEditorWindow>("Edit " + NodeController.GetTitleWithType(type)).Show(type, item, OnRemoveItem, OnAddItem);
-        }
+            bool ret = LogicItemEditorWindow.CheckHasEditing(item.Name, out LogicItemEditorWindow window);
+            if (ret)
+            {
+                window.Focus();
+            }
+            else
+            {
+                window = LogicItemEditorWindow.CreateWindow<LogicItemEditorWindow>(typeof(LogicItemEditorWindow), null);
+                window.Show(item);
+            }
 
-        private void OnRemoveItem(EItemType type, NodeItem n)
-        {
-            C.RemoveItem(type, n);
+            //EditorWindow window = LogicItemEditorWindow.CreateWindow<LogicItemEditorWindow>(typeof(LogicItemEditorWindow), null);
+            //EditorWindow.GetWindow<LogicItemEditorWindow>
+            //EditorWindow.GetWindow<LogicItemEditorWindow>("Edit " + NodeController.GetTitleWithType(type)).Show(type, item, OnRemoveItem, OnAddItem);
         }
 
         private void OnAddItem(EItemType type, NodeItem ba)
         {
             C.AddItem(type, ba);
+            Focus();
         }
         #endregion
     }

@@ -4,4 +4,5 @@
     <field name="name" baseTypeName="System.ValueType" typeName="Dream.FixMath.FixVector2" desc="名字" />
     <field name="testType" baseTypeName="System.Enum" typeName="DigitalWorld.Game.ELogicControlType" desc="测试枚举" />
   </action>
+  <action id="2" name="KillCharacter" desc="杀死角色" />
 </data>

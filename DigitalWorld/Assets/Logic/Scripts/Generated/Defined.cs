@@ -26,6 +26,10 @@ namespace DigitalWorld.Logic
         /// 创建角色
         /// </summary>
 		CreateCharacter = 1,
+		/// <summary>
+        /// 杀死角色
+        /// </summary>
+		KillCharacter = 2,
 	}
 
 	public static class Defined
@@ -53,6 +57,8 @@ namespace DigitalWorld.Logic
             {
 				case EAction.CreateCharacter:
 					return "创建角色";
+				case EAction.KillCharacter:
+					return "杀死角色";
 				default:
 					return null;
 			}

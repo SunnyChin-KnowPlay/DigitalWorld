@@ -15,9 +15,10 @@ namespace DigitalWorld.Logic.Editor
         public string Desc
         {
             get { return desc; }
+            set { desc = value; }
         }
         protected List<NodeField> fields = new List<NodeField>();
-        
+
         public List<NodeField> Fields
         {
             get { return fields; }
@@ -105,11 +106,7 @@ namespace DigitalWorld.Logic.Editor
         {
             base.OnGUIBody();
 
-
             fieldList.DoLayoutList();
-
-
-
         }
 
         public virtual void OnGUIParams(bool editing = false)

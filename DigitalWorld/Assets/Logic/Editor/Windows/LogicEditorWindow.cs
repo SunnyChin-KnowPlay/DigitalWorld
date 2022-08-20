@@ -14,11 +14,5 @@ namespace DigitalWorld.Logic.Editor
         {
             EditorWindow.GetWindow<LogicItemsEditorWindow>("Nodes Editor").Show();
         }
-
-        [MenuItem("Logic/Generater/Codes", priority = 1)]
-        private static void GenerateNodesCode()
-        {
-            NodeController.instance.GenerateNodesCode();
-        }
     }
 }

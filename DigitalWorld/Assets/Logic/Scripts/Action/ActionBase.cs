@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace DigitalWorld.Logic
 {
-    public abstract partial class Effect : NodeState
+    public abstract partial class ActionBase : NodeState
     {
         #region Params
         public Behaviour Behaviour
@@ -25,16 +25,17 @@ namespace DigitalWorld.Logic
         }
         protected ECheckLogic _requirementLogic;
 
+        public override ENodeType NodeType => ENodeType.Action;
+
         public List<Requirement> Requirements => _requirements;
         protected List<Requirement> _requirements = new List<Requirement>();
-
         #endregion
 
         #region Pool
         public override void OnAllocate()
         {
             base.OnAllocate();
-           
+
             _requirementLogic = ECheckLogic.And;
         }
 
@@ -46,13 +47,6 @@ namespace DigitalWorld.Logic
         }
         #endregion
 
-        #region Relation
-        protected override void OnChanged()
-        {
-            base.OnChanged();
-
-        }
-        #endregion
 
         #region Logic
         public virtual bool GetRequirement()
@@ -103,6 +97,19 @@ namespace DigitalWorld.Logic
             }
 
             return result;
+        }
+
+        protected override void OnUpdate(float delta)
+        {
+            if (this.State == EState.Idle)
+            {
+                if (this.GetRequirement())
+                {
+                    this.State = EState.Running;
+                }
+            }
+
+            base.OnUpdate(delta);
         }
         #endregion
 

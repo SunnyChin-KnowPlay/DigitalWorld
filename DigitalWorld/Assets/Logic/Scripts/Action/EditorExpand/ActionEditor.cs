@@ -10,10 +10,9 @@ using UnityEngine;
 
 namespace DigitalWorld.Logic
 {
-    public partial class Effect
+    public partial class ActionBase
     {
 #if UNITY_EDITOR
-
         #region Params
         protected ReorderableList reorderableRequirementList;
         protected ReorderableList reorderablePropertiesList;
@@ -25,7 +24,7 @@ namespace DigitalWorld.Logic
         #endregion
 
         #region Common
-        public Effect()
+        public ActionBase()
         {
             reorderableRequirementList = new ReorderableList(this._requirements, typeof(Requirement))
             {
@@ -141,7 +140,7 @@ namespace DigitalWorld.Logic
             }
             return index;
         }
-        #endregion
+#endregion
 
         #region GUI
         public override void OnGUI()
@@ -485,7 +484,7 @@ namespace DigitalWorld.Logic
             rect.xMin = rect.xMax + 6;
             rect.xMax = parentRect.xMax;
 
-         
+
             if (field.FieldType == typeof(int))
             {
                 int v = (int)field.GetValue(this);
