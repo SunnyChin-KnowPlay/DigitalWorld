@@ -420,7 +420,7 @@ namespace DigitalWorld.Logic
 
                 rect.y += 2;
                 rect.height = EditorGUIUtility.singleLineHeight;
-                rect.xMax = rect.xMin + width * 0.15f;
+                rect.xMax = rect.xMin + width * 0.2f;
                 EditorGUI.LabelField(rect, new GUIContent(item.Name, this.GetFieldDesc(item.Name)), labelStyle);
 
                 Rect separationRect = Rect.MinMaxRect(rect.xMax + 2, rect.yMin, rect.xMax + 4, rect.yMax);
@@ -429,7 +429,7 @@ namespace DigitalWorld.Logic
 
 
                 rect.xMin = rect.xMax + 6;
-                rect.xMax = rect.xMin + width * 0.15f;
+                rect.xMax = rect.xMin + width * 0.2f;
 
                 // 如果是属性的话 则显示属性的参数类型
                 if (item.FieldType.IsSubclassOf(typeof(PropertyBase)) && item.FieldType.IsGenericType)
@@ -466,17 +466,6 @@ namespace DigitalWorld.Logic
                     }
                 }
 
-
-
-                separationRect = Rect.MinMaxRect(rect.xMax + 2, rect.yMin, rect.xMax + 4, rect.yMax);
-                EditorGUI.DrawRect(separationRect, Logic.Utility.kSplitLineColor);
-
-                rect.xMin = rect.xMax + 6;
-                rect.xMax = rect.xMin + width * 0.15f;
-
-                string desc = this.GetFieldDesc(item.Name);
-                EditorGUI.LabelField(rect, desc);
-
                 separationRect = Rect.MinMaxRect(rect.xMax + 2, rect.yMin, rect.xMax + 4, rect.yMax);
                 EditorGUI.DrawRect(separationRect, Logic.Utility.kSplitLineColor);
 
@@ -494,8 +483,9 @@ namespace DigitalWorld.Logic
         protected virtual void OnDrawUnderlyingFieldValue(ref Rect rect, Rect parentRect, FieldInfo field)
         {
             rect.xMin = rect.xMax + 6;
-            rect.xMax = rect.xMin + parentRect.width * 0.2f;
+            rect.xMax = parentRect.xMax;
 
+         
             if (field.FieldType == typeof(int))
             {
                 int v = (int)field.GetValue(this);
@@ -520,6 +510,22 @@ namespace DigitalWorld.Logic
                 v = EditorGUI.TextField(rect, v);
                 field.SetValue(this, v);
             }
+            else if (field.FieldType == typeof(FixFactor))
+            {
+                FixVector2 v = (FixVector2)field.GetValue(this);
+                Vector2Int vi = new Vector2Int(v.x, v.y);
+                vi = EditorGUI.Vector2IntField(rect, new GUIContent(""), vi);
+                v = new FixVector2(vi.x, vi.y);
+                field.SetValue(this, v);
+            }
+            else if (field.FieldType == typeof(FixVector2))
+            {
+                FixVector2 v = (FixVector2)field.GetValue(this);
+                Vector2Int vi = new Vector2Int(v.x, v.y);
+                vi = EditorGUI.Vector2IntField(rect, new GUIContent(""), vi);
+                v = new FixVector2(vi.x, vi.y);
+                field.SetValue(this, v);
+            }
             else if (field.FieldType == typeof(FixVector3))
             {
                 FixVector3 v = (FixVector3)field.GetValue(this);
@@ -541,6 +547,7 @@ namespace DigitalWorld.Logic
 
                 field.SetValue(this, v);
             }
+            EditorGUI.EndChangeCheck();
         }
 
         #endregion
