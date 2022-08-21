@@ -10,15 +10,18 @@ namespace DigitalWorld.Logic
         /// </summary>
         public enum EState
         {
+            /// <summary>
+            /// 待机中
+            /// </summary>
             Idle = 0,
             /// <summary>
             /// 运行中
             /// </summary>
             Running,
             /// <summary>
-            /// 结束中
+            /// 已结束
             /// </summary>
-            Ending,
+            Ended,
         }
 
         /// <summary>
@@ -102,7 +105,7 @@ namespace DigitalWorld.Logic
             {
                 case EState.Idle:
                 {
-                    if (lastState == EState.Ending)
+                    if (lastState == EState.Ended)
                     {
                         this.OnExit();
                     }
@@ -135,7 +138,7 @@ namespace DigitalWorld.Logic
 
                 if (this._runningTime >= this._totalTime)
                 {
-                    this.State = EState.Ending;
+                    this.State = EState.Ended;
                 }
             }
         }

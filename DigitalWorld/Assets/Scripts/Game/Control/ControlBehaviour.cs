@@ -55,7 +55,7 @@ namespace DigitalWorld.Game
             for (int i = 0; i < runningBehaviours.Count; ++i)
             {
                 Logic.Behaviour behaviour = runningBehaviours[i];
-                if (behaviour.State == Logic.NodeState.EState.Ending)
+                if (behaviour.State == Logic.NodeState.EState.Ended)
                 {
                     behaviour.Recycle();
                     this.runningBehaviours.RemoveAt(i);
