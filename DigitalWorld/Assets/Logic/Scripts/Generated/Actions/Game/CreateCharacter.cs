@@ -1,3 +1,8 @@
+/**
+ * 该文件通过代码生成器生成
+ * 请不要修改这些代码
+ * 当然，修改了也没什么用，如果你有兴趣你可以试试。
+ */
 using DigitalWorld.Game;
 using UnityEngine;
 using System;
@@ -8,10 +13,10 @@ using System.Collections.Generic;
 using System.Xml;
 #endif
 
-namespace DigitalWorld.Logic.Actions
+namespace DigitalWorld.Logic.Actions.Game
 {
 	/// <summary>
-    /// 创建角色
+    /// 游戏中的创建对象，位置是基于世界坐标的
     /// </summary>
 	public partial class CreateCharacter : ActionBase
 	{
@@ -20,17 +25,9 @@ namespace DigitalWorld.Logic.Actions
 		{
 			get
 			{
-				return 1;
+				return 2;
 			}
 		}
-		/// <summary>
-        /// 角色配置ID
-        /// </summary> 
-		public System.Int32 cfgId = default;
-		/// <summary>
-        /// 世界坐标
-        /// </summary> 
-		public Dream.FixMath.FixVector3 worldPosition = default;
 
 		public override void OnAllocate()
         {
@@ -41,8 +38,6 @@ namespace DigitalWorld.Logic.Actions
 		public override void OnRecycle()
         {
             base.OnRecycle();
-			cfgId = default;
-			worldPosition = default;
         }
 
 		public override object Clone()
@@ -70,8 +65,6 @@ namespace DigitalWorld.Logic.Actions
             CreateCharacter v = base.CloneTo(obj) as CreateCharacter;
             if (null != v)
             {
-				v.cfgId = this.cfgId;
-				v.worldPosition = this.worldPosition;
             }
             return obj;
         }
@@ -90,8 +83,6 @@ namespace DigitalWorld.Logic.Actions
 
                 if (descs.Count < 1)
                 {
-                    descs.Add("cfgId", "角色配置ID");
-                    descs.Add("worldPosition", "世界坐标");
                 }
 
                 return descs;
@@ -102,7 +93,7 @@ namespace DigitalWorld.Logic.Actions
         {
             get
             {
-                return "创建角色";
+                return "游戏中的创建对象，位置是基于世界坐标的";
             }
         }
 
@@ -120,18 +111,12 @@ namespace DigitalWorld.Logic.Actions
 		protected override void OnCalculateSize()
         {
             base.OnCalculateSize();
-	
-			CalculateSize(this.cfgId);
-	
-			CalculateSize(this.worldPosition);
   
         }
 
 		protected override void OnEncode()
         {
             base.OnEncode();
-			Encode(this.cfgId);
-			Encode(this.worldPosition);
           
         }
 
@@ -139,8 +124,6 @@ namespace DigitalWorld.Logic.Actions
         {
             base.OnDecode();
 			
-			Decode(ref this.cfgId);
-			Decode(ref this.worldPosition);
         }
 		
 #if UNITY_EDITOR
@@ -148,15 +131,11 @@ namespace DigitalWorld.Logic.Actions
         {
             base.OnDecode(node);
 			
-			Decode(ref this.cfgId, "cfgId");
-			Decode(ref this.worldPosition, "worldPosition");
         }
 
         protected override void OnEncode(XmlElement node)
         {
 			base.OnEncode(node);
-			Encode(this.cfgId, "cfgId");
-			Encode(this.worldPosition, "worldPosition");
         }
 
 

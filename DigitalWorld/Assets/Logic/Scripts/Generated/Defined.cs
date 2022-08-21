@@ -1,3 +1,8 @@
+/**
+ * 该文件通过代码生成器生成
+ * 请不要修改这些代码
+ * 当然，修改了也没什么用，如果你有兴趣你可以试试。
+ */
 namespace DigitalWorld.Logic
 {
 	public enum EEvent : int
@@ -15,9 +20,13 @@ namespace DigitalWorld.Logic
         /// </summary>
 		None = 0,
 		/// <summary>
-        /// 创建角色
+        /// 游戏中的创建对象，位置是基于世界坐标的
         /// </summary>
-		CreateCharacter = 1,
+		Game_CreateCharacter = 2,
+		/// <summary>
+        /// 基于单位的创建角色，位置使用相对关系
+        /// </summary>
+		Game_Unit_CreateCharacter = 3,
 	}
 
 	public static class Defined
@@ -39,8 +48,10 @@ namespace DigitalWorld.Logic
             {
 				case EAction.None:
 					return "空行动";
-				case EAction.CreateCharacter:
-					return "创建角色";
+				case EAction.Game_CreateCharacter:
+					return "游戏中的创建对象，位置是基于世界坐标的";
+				case EAction.Game_Unit_CreateCharacter:
+					return "基于单位的创建角色，位置使用相对关系";
 				default:
 					return null;
 			}

@@ -8,6 +8,8 @@
 <#@ parameter name="actionNames" type="System.String[]"#>
 <#@ parameter name="propertyEnums" type="System.String[]"#>
 <#@ parameter name="propertyNames" type="System.String[]"#>
+<#@ parameter name="tips" type="System.String"#>
+<#= tips #>
 namespace DigitalWorld.Logic
 {
     public static partial class <#= className #>
@@ -60,7 +62,7 @@ namespace DigitalWorld.Logic
             return GetProperty(id) as T;
         }
 
-        public static ActionBase GetAction(int id)
+        public static Actions.ActionBase GetAction(int id)
         {
             return id switch
             {

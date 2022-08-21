@@ -1,6 +1,6 @@
 ﻿using Dream.Core;
 
-namespace DigitalWorld.Logic
+namespace DigitalWorld.Logic.Actions
 {
     /// <summary>
     /// 用于逻辑检测用的要求

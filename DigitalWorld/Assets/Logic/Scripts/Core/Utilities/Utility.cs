@@ -31,8 +31,16 @@ namespace DigitalWorld.Logic
         public const string ConfigsPath = LogicAssetPath + "/" + ConfigsRelativePath;
         public const string TemplateConfigsPath = ConfigsPath + "/" + "Template";
         public const string GenreatedConfigsPath = ConfigsPath + "/" + "Generated";
-        public const string CodesPath = LogicAssetPath + "/" + "Scripts/Generated";
+        public const string ScriptPath = LogicAssetPath + "/" + "Scripts";
+        public const string GeneratedScriptPath = ScriptPath + "/" + "Generated";
+        public const string ImplementScriptPath = ScriptPath + "/" + "Implements";
         public const string BehaviourPath = ConfigsPath + "/" + BehavioursRelativePath;
+
+        public const string GeneratedTips = @"/**
+ * 该文件通过代码生成器生成
+ * 请不要修改这些代码
+ * 当然，修改了也没什么用，如果你有兴趣你可以试试。
+ */";
 
         internal const string LogicExportPath = "Assets/Res/Logic";
         public const string LogicExportBehaviourPath = LogicExportPath + "/" + BehavioursRelativePath;
@@ -52,7 +60,7 @@ namespace DigitalWorld.Logic
         public const string LogicActionNamespace = LogicNamespace + "." + ActionName;
         public const string LogicEventNamespace = LogicNamespace + "." + EventName;
         public const string LogicPropertyNamespace = LogicNamespace + "." + PropertyName;
-        
+
         private static Assembly csharpAss = null;
 
         public static Color kSplitLineColor;
@@ -163,6 +171,16 @@ namespace DigitalWorld.Logic
             name = name.Replace('.', '_');
             name = name.Replace('/', '_');
             return name;
+        }
+
+        /// <summary>
+        /// 获取基于文件夹的名字
+        /// </summary>
+        /// <param name="name">标准命名空间的名字</param>
+        /// <returns></returns>
+        public static string GetDirectoryFileName(string name)
+        {
+            return name.Replace('.', '/');
         }
 
         /// <summary>

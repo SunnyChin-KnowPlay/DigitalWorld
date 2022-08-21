@@ -8,7 +8,7 @@ using UnityEditorInternal;
 #endif
 using UnityEngine;
 
-namespace DigitalWorld.Logic
+namespace DigitalWorld.Logic.Actions
 {
     public partial class ActionBase
     {

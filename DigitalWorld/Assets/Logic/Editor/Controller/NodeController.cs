@@ -94,13 +94,14 @@ namespace DigitalWorld.Logic.Editor
             tmp.Session["actionNames"] = names.ToArray();
             tmp.Session["actionValues"] = values.ToArray();
             tmp.Session["actionDescs"] = descs.ToArray();
+            tmp.Session["tips"] = Logic.Utility.GeneratedTips;
 
 
             tmp.Initialize();
             string data = tmp.TransformText();
 
             string fileName = "Defined.cs";
-            string targetPath = Path.Combine(DigitalWorld.Logic.Utility.CodesPath, fileName);
+            string targetPath = Path.Combine(DigitalWorld.Logic.Utility.GeneratedScriptPath, fileName);
             DigitalWorld.Logic.Utility.SaveDataToFile(data, targetPath);
         }
 
@@ -155,6 +156,7 @@ namespace DigitalWorld.Logic.Editor
                     ids.Add(e.GetAttribute("id"));
 
                 }
+                tmp.Session["tips"] = Logic.Utility.GeneratedTips;
                 tmp.Session["propertyNames"] = names.ToArray();
                 tmp.Session["propertyEnums"] = ids.ToArray();
             }
@@ -163,7 +165,7 @@ namespace DigitalWorld.Logic.Editor
             string data = tmp.TransformText();
 
             string fileName = string.Format("{0}.cs", className, ".cs");
-            string targetPath = System.IO.Path.Combine(DigitalWorld.Logic.Utility.CodesPath, fileName);
+            string targetPath = System.IO.Path.Combine(DigitalWorld.Logic.Utility.GeneratedScriptPath, fileName);
             DigitalWorld.Logic.Utility.SaveDataToFile(data, targetPath);
         }
 
@@ -181,8 +183,9 @@ namespace DigitalWorld.Logic.Editor
                 {
                     Session = new Dictionary<string, object>
                     {
+                        ["tips"] = Logic.Utility.GeneratedTips,
                         ["eventName"] = element.GetAttribute("name"),
-                        ["namespaceName"] = Logic.Utility.CombineName(Logic.Utility.LogicEventNamespace, Logic.Utility.GetNamespaceName(element.GetAttribute("name"))),
+                        ["namespaceName"] = Logic.Utility.CombineName(Logic.Utility.LogicEventNamespace, Logic.Utility.GetDirectoryFileName(Logic.Utility.GetNamespaceName(element.GetAttribute("name")))),
                         ["desc"] = element.GetAttribute("desc"),
                     }
                 };
@@ -191,7 +194,7 @@ namespace DigitalWorld.Logic.Editor
 
                 fileName = System.IO.Path.Combine(Logic.Utility.EventName, element.GetAttribute("name")) + ".cs";
 
-                string targetPath = System.IO.Path.Combine(DigitalWorld.Logic.Utility.CodesPath, fileName);
+                string targetPath = System.IO.Path.Combine(DigitalWorld.Logic.Utility.GeneratedScriptPath, fileName);
                 DigitalWorld.Logic.Utility.SaveDataToFile(data, targetPath);
             }
         }
@@ -207,12 +210,13 @@ namespace DigitalWorld.Logic.Editor
             {
                 XmlElement element = (XmlElement)node;
 
-                fileName = System.IO.Path.Combine(Logic.Utility.PropertyName, element.GetAttribute("name")) + ".cs";
+                fileName = System.IO.Path.Combine(Logic.Utility.PropertyName, Logic.Utility.GetDirectoryFileName(element.GetAttribute("name"))) + ".cs";
 
                 tmp = new PropertyTemplate
                 {
                     Session = new Dictionary<string, object>
                     {
+                        ["tips"] = Logic.Utility.GeneratedTips,
                         ["id"] = int.Parse(element.GetAttribute("id")),
                         ["className"] = element.GetAttribute("name"),
                         ["desc"] = element.GetAttribute("desc"),
@@ -226,7 +230,7 @@ namespace DigitalWorld.Logic.Editor
                 tmp.Initialize();
                 string data = tmp.TransformText();
 
-                string targetPath = System.IO.Path.Combine(DigitalWorld.Logic.Utility.CodesPath, fileName);
+                string targetPath = System.IO.Path.Combine(DigitalWorld.Logic.Utility.GeneratedScriptPath, fileName);
                 DigitalWorld.Logic.Utility.SaveDataToFile(data, targetPath);
             }
         }
@@ -245,9 +249,10 @@ namespace DigitalWorld.Logic.Editor
             List<string> deserializeFuncs = new List<string>();
             List<string> calculateFuncs = new List<string>();
 
-            string fileName = null;
+            string fileName;
+            ActionTemplate generatedTemplate;
 
-            ActionTemplate tmp = null;
+            ActionImplementTemplate implementTemplate;
 
             foreach (var node in root.ChildNodes)
             {
@@ -275,12 +280,13 @@ namespace DigitalWorld.Logic.Editor
                     deserializeFuncs.Add(baseType == typeof(Enum) ? "DecodeEnum" : "Decode");
                     calculateFuncs.Add(baseType == typeof(Enum) ? "CalculateSizeEnum" : "CalculateSize");
                 }
-                fileName = System.IO.Path.Combine(Logic.Utility.ActionName, element.GetAttribute("name")) + ".cs";
+                fileName = Path.Combine(Logic.Utility.ActionName, Logic.Utility.GetDirectoryFileName(element.GetAttribute("name"))) + ".cs";
 
-                tmp = new ActionTemplate
+                generatedTemplate = new ActionTemplate
                 {
                     Session = new Dictionary<string, object>
                     {
+                        ["tips"] = Logic.Utility.GeneratedTips,
                         ["id"] = int.Parse(element.GetAttribute("id")),
                         ["className"] = Logic.Utility.GetSelfName(element.GetAttribute("name")),
                         ["namespaceName"] = Logic.Utility.CombineName(Logic.Utility.LogicActionNamespace, Logic.Utility.GetNamespaceName(element.GetAttribute("name"))),
@@ -297,17 +303,36 @@ namespace DigitalWorld.Logic.Editor
                     }
                 };
 
-                tmp.Initialize();
-                string data = tmp.TransformText();
+                generatedTemplate.Initialize();
+                string data = generatedTemplate.TransformText();
 
-                string targetPath = System.IO.Path.Combine(DigitalWorld.Logic.Utility.CodesPath, fileName);
+                string targetPath = System.IO.Path.Combine(DigitalWorld.Logic.Utility.GeneratedScriptPath, fileName);
                 DigitalWorld.Logic.Utility.SaveDataToFile(data, targetPath);
+
+                // 这里是生成实现文件的模板 首先判断一下 实现文件是否已经存在 没有的情况下利用模板进行生成
+                string implementFullPath = Path.Combine(DigitalWorld.Logic.Utility.ImplementScriptPath, fileName);
+                if (!File.Exists(implementFullPath))
+                {
+                    implementTemplate = new ActionImplementTemplate
+                    {
+                        Session = new Dictionary<string, object>
+                        {
+                            ["className"] = Logic.Utility.GetSelfName(element.GetAttribute("name")),
+                            ["namespaceName"] = Logic.Utility.CombineName(Logic.Utility.LogicActionNamespace, Logic.Utility.GetNamespaceName(element.GetAttribute("name"))),
+                        }
+                    };
+
+                    implementTemplate.Initialize();
+                    data = implementTemplate.TransformText();
+
+                    DigitalWorld.Logic.Utility.SaveDataToFile(data, implementFullPath);
+                }
             }
         }
 
         private static void ClearAllCodeFiles()
         {
-            DigitalWorld.Logic.Utility.DeleteAllFilesAndDirectories(Logic.Utility.CodesPath);
+            DigitalWorld.Logic.Utility.DeleteAllFilesAndDirectories(Logic.Utility.GeneratedScriptPath);
         }
 
         public void SetDirty()

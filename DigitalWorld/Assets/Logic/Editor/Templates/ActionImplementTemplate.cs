@@ -18,9 +18,9 @@ namespace Assets.Logic.Editor.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
+    #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionImplementTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
-    public partial class EventTemplate : EventTemplateBase
+    public partial class ActionImplementTemplate : ActionImplementTemplateBase
     {
 #line hidden
         /// <summary>
@@ -28,60 +28,77 @@ namespace Assets.Logic.Editor.Templates
         /// </summary>
         public virtual string TransformText()
         {
+            this.Write("/**\r\n * 该文件通过代码生成器生成\r\n * 默认模板的回调函数会抛出NotImplementedException异常\r\n * 在创建对应的行动后，建议第一" +
+                    "时间实现函数效果。\r\n */\r\nusing System;\r\n\r\nnamespace ");
             
-            #line 10 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(tips));
-            
-            #line default
-            #line hidden
-            this.Write("\r\nusing DigitalWorld.Game;\r\nusing UnityEngine;\r\n\r\nnamespace ");
-            
-            #line 14 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
+            #line 15 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionImplementTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(namespaceName));
             
             #line default
             #line hidden
-            this.Write("\r\n{\r\n    /// <summary>\r\n    /// 事件\r\n    /// </summary>\r\n    public partial struct" +
-                    " Event\r\n    {\r\n        #region Construction\r\n\r\n\t\t/// <summary>\r\n        /// ");
+            this.Write("\r\n{\r\n    public partial class ");
             
-            #line 24 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(desc));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n        /// </summary> \r\n\t\tpublic static Event Create");
-            
-            #line 26 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(eventName));
+            #line 17 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionImplementTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
             #line hidden
-            this.Write("(UnitHandle triggering, UnitHandle target = default)\r\n        {\r\n            Even" +
-                    "t ev = new Event\r\n            {\r\n                Id = (int)EEvent.");
-            
-            #line 30 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(eventName));
-            
-            #line default
-            #line hidden
-            this.Write(",\r\n                Triggering = triggering,\r\n                Target = target,\r\n  " +
-                    "          };\r\n            return ev;\r\n        }\r\n\r\n        #endregion\r\n    }\r\n}\r" +
-                    "\n");
+            this.Write(@"
+    {
+        /// <summary>
+        /// 当进场时的回调
+        /// 如果是延时类行动 则该函数实现""进场""效果 例如给目标对象挂上效果之类的
+        /// 如果是瞬时类行动 则将实现直接写入该函数
+        /// </summary>
+        protected override void OnEnter()
+        {
+            base.OnEnter();
+
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 当退场时的回调
+        /// 如果是延时类行动 则该函数实现""退场""效果 例如给目标对象移除效果之类的
+        /// 如果是瞬时类行动 则可以忽视该函数 通常情况下 该函数会在进场的同一帧内被调用 建议留空该函数
+        /// </summary>
+        protected override void OnExit()
+        {
+            base.OnExit();
+
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 迭代回调
+        /// 如果是延时类行动 则该函数实现具体的迭代功能
+        /// 如果是瞬时类行动 则建议忽视该函数 留空
+        /// </summary>
+        /// <param name=""delta""></param>
+        protected override void OnUpdate(float delta)
+        {
+            base.OnUpdate(delta);
+
+            throw new NotImplementedException();
+        }
+    }
+}
+");
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
+        #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionImplementTemplate.tt"
 
-private string _eventNameField;
+private string _classNameField;
 
 /// <summary>
-/// Access the eventName parameter of the template.
+/// Access the className parameter of the template.
 /// </summary>
-private string eventName
+private string className
 {
     get
     {
-        return this._eventNameField;
+        return this._classNameField;
     }
 }
 
@@ -98,32 +115,6 @@ private string namespaceName
     }
 }
 
-private string _descField;
-
-/// <summary>
-/// Access the desc parameter of the template.
-/// </summary>
-private string desc
-{
-    get
-    {
-        return this._descField;
-    }
-}
-
-private string _tipsField;
-
-/// <summary>
-/// Access the tips parameter of the template.
-/// </summary>
-private string tips
-{
-    get
-    {
-        return this._tipsField;
-    }
-}
-
 
 /// <summary>
 /// Initialize the template
@@ -132,18 +123,18 @@ public virtual void Initialize()
 {
     if ((this.Errors.HasErrors == false))
     {
-bool eventNameValueAcquired = false;
-if (this.Session.ContainsKey("eventName"))
+bool classNameValueAcquired = false;
+if (this.Session.ContainsKey("className"))
 {
-    this._eventNameField = ((string)(this.Session["eventName"]));
-    eventNameValueAcquired = true;
+    this._classNameField = ((string)(this.Session["className"]));
+    classNameValueAcquired = true;
 }
-if ((eventNameValueAcquired == false))
+if ((classNameValueAcquired == false))
 {
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("eventName");
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("className");
     if ((data != null))
     {
-        this._eventNameField = ((string)(data));
+        this._classNameField = ((string)(data));
     }
 }
 bool namespaceNameValueAcquired = false;
@@ -158,34 +149,6 @@ if ((namespaceNameValueAcquired == false))
     if ((data != null))
     {
         this._namespaceNameField = ((string)(data));
-    }
-}
-bool descValueAcquired = false;
-if (this.Session.ContainsKey("desc"))
-{
-    this._descField = ((string)(this.Session["desc"]));
-    descValueAcquired = true;
-}
-if ((descValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("desc");
-    if ((data != null))
-    {
-        this._descField = ((string)(data));
-    }
-}
-bool tipsValueAcquired = false;
-if (this.Session.ContainsKey("tips"))
-{
-    this._tipsField = ((string)(this.Session["tips"]));
-    tipsValueAcquired = true;
-}
-if ((tipsValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("tips");
-    if ((data != null))
-    {
-        this._tipsField = ((string)(data));
     }
 }
 
@@ -206,7 +169,7 @@ if ((tipsValueAcquired == false))
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
-    public class EventTemplateBase
+    public class ActionImplementTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

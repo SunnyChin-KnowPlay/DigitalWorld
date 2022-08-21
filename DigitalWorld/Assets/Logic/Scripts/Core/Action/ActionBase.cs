@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace DigitalWorld.Logic
+namespace DigitalWorld.Logic.Actions
 {
     public abstract partial class ActionBase : NodeState
     {

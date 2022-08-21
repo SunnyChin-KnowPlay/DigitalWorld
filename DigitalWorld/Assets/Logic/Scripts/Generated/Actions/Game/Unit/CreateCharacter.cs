@@ -13,19 +13,19 @@ using System.Collections.Generic;
 using System.Xml;
 #endif
 
-namespace DigitalWorld.Logic.Actions
+namespace DigitalWorld.Logic.Actions.Game.Unit
 {
 	/// <summary>
-    /// 空行动
+    /// 基于单位的创建角色，位置使用相对关系
     /// </summary>
-	public partial class None : ActionBase
+	public partial class CreateCharacter : ActionBase
 	{
 #region Common
 		public override int Id
 		{
 			get
 			{
-				return 0;
+				return 3;
 			}
 		}
 
@@ -42,14 +42,14 @@ namespace DigitalWorld.Logic.Actions
 
 		public override object Clone()
         {
-			None v = null;
+			CreateCharacter v = null;
 			if (Application.isPlaying)
             {
-				v = Dream.Core.ObjectPool<None>.Instance.Allocate();
+				v = Dream.Core.ObjectPool<CreateCharacter>.Instance.Allocate();
             }
 			else
 			{
-				v = new None();
+				v = new CreateCharacter();
 			}
 			
 			if (null != v)
@@ -62,7 +62,7 @@ namespace DigitalWorld.Logic.Actions
 
 		public override T CloneTo<T>(T obj)
         {
-            None v = base.CloneTo(obj) as None;
+            CreateCharacter v = base.CloneTo(obj) as CreateCharacter;
             if (null != v)
             {
             }
@@ -93,7 +93,7 @@ namespace DigitalWorld.Logic.Actions
         {
             get
             {
-                return "空行动";
+                return "基于单位的创建角色，位置使用相对关系";
             }
         }
 

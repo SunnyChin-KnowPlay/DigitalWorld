@@ -6,6 +6,8 @@
 <#@ parameter name="eventName" type="System.String"#>
 <#@ parameter name="namespaceName" type="System.String"#>
 <#@ parameter name="desc" type="System.String"#>
+<#@ parameter name="tips" type="System.String"#>
+<#= tips #>
 using DigitalWorld.Game;
 using UnityEngine;
 

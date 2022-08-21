@@ -6,6 +6,8 @@
 <#@ parameter name="actionNames" type="System.String[]"#>
 <#@ parameter name="actionValues" type="System.String[]"#>
 <#@ parameter name="actionDescs" type="System.String[]"#>
+<#@ parameter name="tips" type="System.String"#>
+<#= tips #>
 namespace DigitalWorld.Logic
 {
 	public enum EEvent : int

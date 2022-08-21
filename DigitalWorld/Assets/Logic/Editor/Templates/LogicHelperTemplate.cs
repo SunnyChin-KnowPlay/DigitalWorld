@@ -28,9 +28,15 @@ namespace Assets.Logic.Editor.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("namespace DigitalWorld.Logic\r\n{\r\n    public static partial class ");
             
-            #line 13 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+            #line 12 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(tips));
+            
+            #line default
+            #line hidden
+            this.Write("\r\nnamespace DigitalWorld.Logic\r\n{\r\n    public static partial class ");
+            
+            #line 15 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
@@ -70,7 +76,7 @@ namespace Assets.Logic.Editor.Templates
             {
 ");
             
-            #line 46 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+            #line 48 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
 
                 for (int i = 0; i < propertyEnums.Length; ++i)
                 {
@@ -80,21 +86,21 @@ namespace Assets.Logic.Editor.Templates
             #line hidden
             this.Write("                ");
             
-            #line 50 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+            #line 52 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(propertyEnums[i]));
             
             #line default
             #line hidden
             this.Write(" => GetNode<");
             
-            #line 50 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+            #line 52 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(propertyNames[i]));
             
             #line default
             #line hidden
             this.Write(">(),\r\n");
             
-            #line 51 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+            #line 53 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
 
                 }
 
@@ -111,13 +117,13 @@ namespace Assets.Logic.Editor.Templates
             return GetProperty(id) as T;
         }
 
-        public static ActionBase GetAction(int id)
+        public static Actions.ActionBase GetAction(int id)
         {
             return id switch
             {
 ");
             
-            #line 67 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+            #line 69 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
 
                 for (int i = 0; i < actionEnums.Length; ++i)
                 {
@@ -127,21 +133,21 @@ namespace Assets.Logic.Editor.Templates
             #line hidden
             this.Write("                ");
             
-            #line 71 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+            #line 73 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(actionEnums[i]));
             
             #line default
             #line hidden
             this.Write(" => GetNode<");
             
-            #line 71 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+            #line 73 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(actionNames[i]));
             
             #line default
             #line hidden
             this.Write(">(),\r\n");
             
-            #line 72 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
+            #line 74 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\LogicHelperTemplate.tt"
 
                 }
 
@@ -217,6 +223,19 @@ private string[] propertyNames
     get
     {
         return this._propertyNamesField;
+    }
+}
+
+private string _tipsField;
+
+/// <summary>
+/// Access the tips parameter of the template.
+/// </summary>
+private string tips
+{
+    get
+    {
+        return this._tipsField;
     }
 }
 
@@ -296,6 +315,20 @@ if ((propertyNamesValueAcquired == false))
     if ((data != null))
     {
         this._propertyNamesField = ((string[])(data));
+    }
+}
+bool tipsValueAcquired = false;
+if (this.Session.ContainsKey("tips"))
+{
+    this._tipsField = ((string)(this.Session["tips"]));
+    tipsValueAcquired = true;
+}
+if ((tipsValueAcquired == false))
+{
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("tips");
+    if ((data != null))
+    {
+        this._tipsField = ((string)(data));
     }
 }
 

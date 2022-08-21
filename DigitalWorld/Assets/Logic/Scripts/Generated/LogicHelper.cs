@@ -1,3 +1,8 @@
+/**
+ * 该文件通过代码生成器生成
+ * 请不要修改这些代码
+ * 当然，修改了也没什么用，如果你有兴趣你可以试试。
+ */
 namespace DigitalWorld.Logic
 {
     public static partial class LogicHelper
@@ -43,12 +48,13 @@ namespace DigitalWorld.Logic
             return GetProperty(id) as T;
         }
 
-        public static ActionBase GetAction(int id)
+        public static Actions.ActionBase GetAction(int id)
         {
             return id switch
             {
                 0 => GetNode<Actions.None>(),
-                1 => GetNode<Actions.CreateCharacter>(),
+                2 => GetNode<Actions.Game.CreateCharacter>(),
+                3 => GetNode<Actions.Game.Unit.CreateCharacter>(),
                 
                 _ => null,
             };
