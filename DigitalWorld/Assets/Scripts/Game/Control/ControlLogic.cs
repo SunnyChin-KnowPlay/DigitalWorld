@@ -2,6 +2,9 @@
 
 namespace DigitalWorld.Game
 {
+    /// <summary>
+    /// 逻辑控制器
+    /// </summary>
     public abstract class ControlLogic : MonoBehaviour
     {
         #region Params
@@ -34,6 +37,11 @@ namespace DigitalWorld.Game
         }
 
         protected virtual void Update()
+        {
+
+        }
+
+        protected virtual void LateUpdate()
         {
 
         }

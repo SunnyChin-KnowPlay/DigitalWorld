@@ -2,17 +2,17 @@
 
 namespace DigitalWorld.Game
 {
-    public abstract partial class BaseSummonerCom : MonoBehaviour
+    internal abstract partial class SummonerComBase : MonoBehaviour
     {
-        public BaseSummoner Summoner
+        public SummonerBase Summoner
         {
             get { return summoner; }
         }
-        protected BaseSummoner summoner = null;
+        protected SummonerBase summoner = null;
 
-        public virtual void Init(BaseSummoner sumer)
+        public virtual void Init(SummonerBase summoner)
         {
-            summoner = sumer;
+            this.summoner = summoner;
         }
 
         public virtual string ComName()

@@ -30,7 +30,7 @@ namespace DigitalWorld.Logic.Action
 		/// <summary>
         /// 世界坐标
         /// </summary> 
-		public Dream.FixMath.FixVector3 worldPosition = default(Dream.FixMath.FixVector3);
+		public Dream.FixMath.FixVector3 worldPosition = default;
 
 		public override void OnAllocate()
         {

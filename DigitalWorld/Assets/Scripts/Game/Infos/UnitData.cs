@@ -87,10 +87,12 @@ namespace DigitalWorld.Game
         #region Common
         public static UnitData CreateFromCharacter(int configId)
         {
-            UnitData unitData = new UnitData();
-            unitData.configId = configId;
-            unitData.unitType = EUnitType.Character;
-            unitData.level = 1;
+            UnitData unitData = new UnitData
+            {
+                configId = configId,
+                unitType = EUnitType.Character,
+                level = 1
+            };
             return unitData;
         }
         #endregion

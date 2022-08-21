@@ -70,8 +70,7 @@ namespace DigitalWorld.Logic
 
         public override T CloneTo<T>(T obj)
         {
-            NodeState node = base.CloneTo(obj) as NodeState;
-            if (null != node)
+            if (base.CloneTo(obj) is NodeState node)
             {
                 node._totalTime = this._totalTime;
             }
@@ -138,11 +137,6 @@ namespace DigitalWorld.Logic
                 {
                     this.State = EState.Ending;
                 }
-            }
-
-            if (this._state == EState.Ending)
-            {
-                this.State = EState.Idle;
             }
         }
 

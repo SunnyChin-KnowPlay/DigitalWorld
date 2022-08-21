@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace DigitalWorld.Logic
 {
-    public partial class NodeBase
+    public abstract partial class NodeBase
     {
 #if UNITY_EDITOR
 

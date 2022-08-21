@@ -47,37 +47,13 @@ namespace DigitalWorld.Game
         #region Controls
         protected Dictionary<ELogicControlType, ControlLogic> controls = null;
 
-        public ControlAnimator Animator
-        {
-            get
-            {
-                return this.controls[ELogicControlType.Animator] as ControlAnimator;
-            }
-        }
+        public ControlAnimator Animator => this.controls[ELogicControlType.Animator] as ControlAnimator;
+       
+        public ControlProperty Property => this.controls[ELogicControlType.Property] as ControlProperty;
 
-        public ControlProperty Property
-        {
-            get
-            {
-                return this.controls[ELogicControlType.Property] as ControlProperty;
-            }
-        }
+        public ControlSkill Skill => this.controls[ELogicControlType.Skill] as ControlSkill;
 
-        public ControlSkill Skill
-        {
-            get
-            {
-                return this.controls[ELogicControlType.Skill] as ControlSkill;
-            }
-        }
-
-        public ControlMove Move
-        {
-            get
-            {
-                return this.controls[ELogicControlType.Move] as ControlMove;
-            }
-        }
+        public ControlMove Move => this.controls[ELogicControlType.Move] as ControlMove;
         #endregion
 
         #region Behaviour
@@ -127,7 +103,7 @@ namespace DigitalWorld.Game
         #endregion
 
         #region Controls
-        private void EachAllControls(OnProcessControl handle)
+        protected void EachAllControls(OnProcessControl handle)
         {
             if (null != handle)
             {
@@ -138,21 +114,7 @@ namespace DigitalWorld.Game
             }
         }
 
-        protected virtual void SetupControls()
-        {
-            if (null == this.controls)
-            {
-                this.controls = new Dictionary<ELogicControlType, ControlLogic>
-                {
-                    { ELogicControlType.Property, this.GetOrAddComponent<ControlProperty>() },
-                    { ELogicControlType.Animator, this.GetOrAddComponent<ControlAnimator>() },
-                    { ELogicControlType.Skill, this.GetOrAddComponent<ControlSkill>() },
-                    { ELogicControlType.Move, this.GetOrAddComponent<ControlMove>() },
-                };
-            }
-
-            this.EachAllControls(OnSetupControl);
-        }
+        protected abstract void SetupControls();
 
         protected virtual void OnSetupControl(ControlLogic c)
         {

@@ -30,6 +30,10 @@
         /// 移动
         /// </summary>
         Move,
+        /// <summary>
+        /// 行为
+        /// </summary>
+        Behaviour,
     }
 
     public enum EUnitStatus

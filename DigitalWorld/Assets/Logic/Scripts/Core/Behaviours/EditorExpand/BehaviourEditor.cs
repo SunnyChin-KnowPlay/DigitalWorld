@@ -118,7 +118,7 @@ namespace DigitalWorld.Logic
             {
                 fontStyle = FontStyle.Bold
             };
-            EditorGUILayout.LabelField("Expolre", labelStyle, GUILayout.Width(160));
+            EditorGUILayout.LabelField("Action Explore", labelStyle, GUILayout.Width(160));
 
             GUILayout.FlexibleSpace();
 

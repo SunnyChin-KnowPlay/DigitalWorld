@@ -1,16 +1,16 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Dream.Extension.Unity;
 
 namespace DigitalWorld.Game
 {
     public partial class ControlCharacter : ControlUnit
     {
         #region Params
-        
-        protected int currentMoveType;
-        private const int moveTypeMask = 0x1;
-        public float moveSpeed = 1f;
+
+      
         #endregion
 
         #region Behaviour
@@ -18,18 +18,35 @@ namespace DigitalWorld.Game
         {
             base.Awake();
 
-          
+
         }
 
         protected override void Update()
         {
             base.Update();
-          
+
         }
         #endregion
 
-      
+
         #region Logic
+        protected override void SetupControls()
+        {
+            if (null == this.controls)
+            {
+                this.controls = new Dictionary<ELogicControlType, ControlLogic>
+                {
+                    { ELogicControlType.Property, this.GetOrAddComponent<ControlProperty>() },
+                    { ELogicControlType.Animator, this.GetOrAddComponent<ControlAnimator>() },
+                    { ELogicControlType.Skill, this.GetOrAddComponent<ControlSkill>() },
+                    { ELogicControlType.Move, this.GetOrAddComponent<ControlMove>() },
+                    { ELogicControlType.Behaviour, this.GetOrAddComponent<ControlBehaviour>() },
+                };
+            }
+
+            this.EachAllControls(OnSetupControl);
+        }
+
         public override void OnBorn()
         {
 
