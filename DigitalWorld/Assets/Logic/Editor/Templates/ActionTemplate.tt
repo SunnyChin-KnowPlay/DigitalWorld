@@ -47,7 +47,7 @@ namespace <#= namespaceName #>
 		/// <summary>
         /// <#= descripts[i] #>
         /// </summary> 
-		public <#= types[i] #> <#= varNames[i] #> = default(<#= types[i] #>);
+		public <#= types[i] #> <#= varNames[i] #> = default;
 <#
 		}
 #>
@@ -65,7 +65,7 @@ namespace <#= namespaceName #>
 			for (int i = 0; i < types.Length; ++i)
 			{
 #>
-			<#= varNames[i] #> = default(<#= types[i] #>);
+			<#= varNames[i] #> = default;
 <#
 			}
 #>

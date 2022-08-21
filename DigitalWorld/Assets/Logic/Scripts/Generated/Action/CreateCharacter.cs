@@ -26,7 +26,7 @@ namespace DigitalWorld.Logic.Action
 		/// <summary>
         /// 角色配置ID
         /// </summary> 
-		public System.Int32 cfgId = default(System.Int32);
+		public System.Int32 cfgId = default;
 		/// <summary>
         /// 世界坐标
         /// </summary> 
@@ -41,8 +41,8 @@ namespace DigitalWorld.Logic.Action
 		public override void OnRecycle()
         {
             base.OnRecycle();
-			cfgId = default(System.Int32);
-			worldPosition = default(Dream.FixMath.FixVector3);
+			cfgId = default;
+			worldPosition = default;
         }
 
 		public override object Clone()

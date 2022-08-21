@@ -5,6 +5,7 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ parameter name="eventName" type="System.String"#>
 <#@ parameter name="namespaceName" type="System.String"#>
+<#@ parameter name="desc" type="System.String"#>
 using DigitalWorld.Game;
 using UnityEngine;
 
@@ -18,7 +19,7 @@ namespace <#= namespaceName #>
         #region Construction
 
 		/// <summary>
-        /// Create<#= eventName #>
+        /// <#= desc #>
         /// </summary> 
 		public static Event Create<#= eventName #>(UnitHandle triggering, UnitHandle target = default)
         {

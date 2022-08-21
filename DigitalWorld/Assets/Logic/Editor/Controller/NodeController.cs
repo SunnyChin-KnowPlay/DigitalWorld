@@ -177,12 +177,15 @@ namespace DigitalWorld.Logic.Editor
             foreach (var node in root.ChildNodes)
             {
                 XmlElement element = (XmlElement)node;
-                tmp = new EventTemplate();
-                tmp.Session = new Dictionary<string, object>();
-
-                tmp.Session["eventName"] = element.GetAttribute("name");
-                tmp.Session["namespaceName"] = Logic.Utility.LogicNamespace;
-
+                tmp = new EventTemplate
+                {
+                    Session = new Dictionary<string, object>
+                    {
+                        ["eventName"] = element.GetAttribute("name"),
+                        ["namespaceName"] = Logic.Utility.LogicNamespace,
+                        ["desc"] = element.GetAttribute("desc"),
+                    }
+                };
                 tmp.Initialize();
                 string data = tmp.TransformText();
 

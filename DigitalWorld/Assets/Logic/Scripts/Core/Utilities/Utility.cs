@@ -45,9 +45,9 @@ namespace DigitalWorld.Logic
         /// </summary>
         public const string LogicNamespace = ProjectNamespace + ".Logic";
 
-        public const string ActionName = "Action";
-        public const string PropertyName = "Property";
-        public const string EventName = "Event";
+        public const string ActionName = "Actions";
+        public const string PropertyName = "Properties";
+        public const string EventName = "Events";
 
         public const string LogicActionNamespace = LogicNamespace + "." + ActionName;
         public const string LogicPropertyNamespace = LogicNamespace + "." + PropertyName;

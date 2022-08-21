@@ -30,23 +30,22 @@ namespace Assets.Logic.Editor.Templates
         {
             this.Write("using DigitalWorld.Game;\r\nusing UnityEngine;\r\n\r\nnamespace ");
             
-            #line 11 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
+            #line 12 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(namespaceName));
             
             #line default
             #line hidden
             this.Write("\r\n{\r\n    /// <summary>\r\n    /// 事件\r\n    /// </summary>\r\n    public partial struct" +
-                    " Event\r\n    {\r\n        #region Construction\r\n\r\n\t\t/// <summary>\r\n        /// Crea" +
-                    "te");
+                    " Event\r\n    {\r\n        #region Construction\r\n\r\n\t\t/// <summary>\r\n        /// ");
             
-            #line 21 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(eventName));
+            #line 22 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(desc));
             
             #line default
             #line hidden
             this.Write("\r\n        /// </summary> \r\n\t\tpublic static Event Create");
             
-            #line 23 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
+            #line 24 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(eventName));
             
             #line default
@@ -54,7 +53,7 @@ namespace Assets.Logic.Editor.Templates
             this.Write("(UnitHandle triggering, UnitHandle target = default)\r\n        {\r\n            Even" +
                     "t ev = new Event\r\n            {\r\n                Id = (int)EEvent.");
             
-            #line 27 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
+            #line 28 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(eventName));
             
             #line default
@@ -93,6 +92,19 @@ private string namespaceName
     }
 }
 
+private string _descField;
+
+/// <summary>
+/// Access the desc parameter of the template.
+/// </summary>
+private string desc
+{
+    get
+    {
+        return this._descField;
+    }
+}
+
 
 /// <summary>
 /// Initialize the template
@@ -127,6 +139,20 @@ if ((namespaceNameValueAcquired == false))
     if ((data != null))
     {
         this._namespaceNameField = ((string)(data));
+    }
+}
+bool descValueAcquired = false;
+if (this.Session.ContainsKey("desc"))
+{
+    this._descField = ((string)(this.Session["desc"]));
+    descValueAcquired = true;
+}
+if ((descValueAcquired == false))
+{
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("desc");
+    if ((data != null))
+    {
+        this._descField = ((string)(data));
     }
 }
 

@@ -111,14 +111,7 @@ namespace Assets.Logic.Editor.Templates
             
             #line default
             #line hidden
-            this.Write(" = default(");
-            
-            #line 50 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(types[i]));
-            
-            #line default
-            #line hidden
-            this.Write(");\r\n");
+            this.Write(" = default;\r\n");
             
             #line 51 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 
@@ -146,14 +139,7 @@ namespace Assets.Logic.Editor.Templates
             
             #line default
             #line hidden
-            this.Write(" = default(");
-            
-            #line 68 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(types[i]));
-            
-            #line default
-            #line hidden
-            this.Write(");\r\n");
+            this.Write(" = default;\r\n");
             
             #line 69 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 

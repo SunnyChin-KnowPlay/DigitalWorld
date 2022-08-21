@@ -11,7 +11,7 @@ namespace DigitalWorld.Logic
         #region Construction
 
 		/// <summary>
-        /// CreateUpdate
+        /// 迭代事件
         /// </summary> 
 		public static Event CreateUpdate(UnitHandle triggering, UnitHandle target = default)
         {
