@@ -50,6 +50,7 @@ namespace DigitalWorld.Logic
         public const string EventName = "Events";
 
         public const string LogicActionNamespace = LogicNamespace + "." + ActionName;
+        public const string LogicEventNamespace = LogicNamespace + "." + EventName;
         public const string LogicPropertyNamespace = LogicNamespace + "." + PropertyName;
         
         private static Assembly csharpAss = null;

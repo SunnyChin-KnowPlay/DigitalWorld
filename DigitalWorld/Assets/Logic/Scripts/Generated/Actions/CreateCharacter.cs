@@ -8,21 +8,29 @@ using System.Collections.Generic;
 using System.Xml;
 #endif
 
-namespace DigitalWorld.Logic.Action
+namespace DigitalWorld.Logic.Actions
 {
 	/// <summary>
-    /// 空行动
+    /// 创建角色
     /// </summary>
-	public partial class None : ActionBase
+	public partial class CreateCharacter : ActionBase
 	{
 #region Common
 		public override int Id
 		{
 			get
 			{
-				return 0;
+				return 1;
 			}
 		}
+		/// <summary>
+        /// 角色配置ID
+        /// </summary> 
+		public System.Int32 cfgId = default;
+		/// <summary>
+        /// 世界坐标
+        /// </summary> 
+		public Dream.FixMath.FixVector3 worldPosition = default;
 
 		public override void OnAllocate()
         {
@@ -33,18 +41,20 @@ namespace DigitalWorld.Logic.Action
 		public override void OnRecycle()
         {
             base.OnRecycle();
+			cfgId = default;
+			worldPosition = default;
         }
 
 		public override object Clone()
         {
-			None v = null;
+			CreateCharacter v = null;
 			if (Application.isPlaying)
             {
-				v = Dream.Core.ObjectPool<None>.Instance.Allocate();
+				v = Dream.Core.ObjectPool<CreateCharacter>.Instance.Allocate();
             }
 			else
 			{
-				v = new None();
+				v = new CreateCharacter();
 			}
 			
 			if (null != v)
@@ -57,9 +67,11 @@ namespace DigitalWorld.Logic.Action
 
 		public override T CloneTo<T>(T obj)
         {
-            None v = base.CloneTo(obj) as None;
+            CreateCharacter v = base.CloneTo(obj) as CreateCharacter;
             if (null != v)
             {
+				v.cfgId = this.cfgId;
+				v.worldPosition = this.worldPosition;
             }
             return obj;
         }
@@ -78,6 +90,8 @@ namespace DigitalWorld.Logic.Action
 
                 if (descs.Count < 1)
                 {
+                    descs.Add("cfgId", "角色配置ID");
+                    descs.Add("worldPosition", "世界坐标");
                 }
 
                 return descs;
@@ -88,7 +102,7 @@ namespace DigitalWorld.Logic.Action
         {
             get
             {
-                return "空行动";
+                return "创建角色";
             }
         }
 
@@ -106,12 +120,18 @@ namespace DigitalWorld.Logic.Action
 		protected override void OnCalculateSize()
         {
             base.OnCalculateSize();
+	
+			CalculateSize(this.cfgId);
+	
+			CalculateSize(this.worldPosition);
   
         }
 
 		protected override void OnEncode()
         {
             base.OnEncode();
+			Encode(this.cfgId);
+			Encode(this.worldPosition);
           
         }
 
@@ -119,6 +139,8 @@ namespace DigitalWorld.Logic.Action
         {
             base.OnDecode();
 			
+			Decode(ref this.cfgId);
+			Decode(ref this.worldPosition);
         }
 		
 #if UNITY_EDITOR
@@ -126,11 +148,15 @@ namespace DigitalWorld.Logic.Action
         {
             base.OnDecode(node);
 			
+			Decode(ref this.cfgId, "cfgId");
+			Decode(ref this.worldPosition, "worldPosition");
         }
 
         protected override void OnEncode(XmlElement node)
         {
 			base.OnEncode(node);
+			Encode(this.cfgId, "cfgId");
+			Encode(this.worldPosition, "worldPosition");
         }
 
 

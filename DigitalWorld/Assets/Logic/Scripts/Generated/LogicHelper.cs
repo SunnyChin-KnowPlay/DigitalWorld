@@ -47,8 +47,8 @@ namespace DigitalWorld.Logic
         {
             return id switch
             {
-                0 => GetNode<Action.None>(),
-                1 => GetNode<Action.CreateCharacter>(),
+                0 => GetNode<Actions.None>(),
+                1 => GetNode<Actions.CreateCharacter>(),
                 
                 _ => null,
             };

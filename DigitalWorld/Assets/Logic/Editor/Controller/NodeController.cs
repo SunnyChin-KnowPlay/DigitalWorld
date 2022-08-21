@@ -182,7 +182,7 @@ namespace DigitalWorld.Logic.Editor
                     Session = new Dictionary<string, object>
                     {
                         ["eventName"] = element.GetAttribute("name"),
-                        ["namespaceName"] = Logic.Utility.LogicNamespace,
+                        ["namespaceName"] = Logic.Utility.CombineName(Logic.Utility.LogicEventNamespace, Logic.Utility.GetNamespaceName(element.GetAttribute("name"))),
                         ["desc"] = element.GetAttribute("desc"),
                     }
                 };

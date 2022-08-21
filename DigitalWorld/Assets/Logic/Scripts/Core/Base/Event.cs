@@ -4,7 +4,7 @@ using UnityEditor;
 #endif
 using UnityEngine;
 
-namespace DigitalWorld.Logic
+namespace DigitalWorld.Logic.Events
 {
     /// <summary>
     /// 事件
@@ -51,10 +51,10 @@ namespace DigitalWorld.Logic
             UnitHandle handle = this.Triggering;
             if (handle)
             {
-                string v = string.Format("触发者ID:<color=#32D22FFF>{0}</color>", handle.Unit.Uid);
+                string v = string.Format("Triggering ID:<color=#32D22FFF>{0}</color>", handle.Unit.Uid);
                 EditorGUILayout.LabelField(v);
                
-                if (GUILayout.Button(new GUIContent("选择目标"), GUILayout.MaxHeight(18)))
+                if (GUILayout.Button(new GUIContent("Select Target"), GUILayout.MaxHeight(18)))
                 {
                     if (null != handle.Unit.gameObject)
                         Selection.activeGameObject = handle.Unit.gameObject;

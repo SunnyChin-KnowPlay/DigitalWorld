@@ -1,7 +1,7 @@
 using DigitalWorld.Game;
 using UnityEngine;
 
-namespace DigitalWorld.Logic
+namespace DigitalWorld.Logic.Events
 {
     /// <summary>
     /// 事件
