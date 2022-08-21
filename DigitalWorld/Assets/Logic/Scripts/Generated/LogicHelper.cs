@@ -33,7 +33,6 @@ namespace DigitalWorld.Logic
         {
             return id switch
             {
-                1 => GetNode<PropertyTestInt32>(),
  
                 _ => null,
             };
@@ -48,8 +47,8 @@ namespace DigitalWorld.Logic
         {
             return id switch
             {
-                1 => GetNode<ActionCreateCharacter>(),
-                2 => GetNode<ActionKillCharacter>(),
+                0 => GetNode<Action.None>(),
+                1 => GetNode<Action.CreateCharacter>(),
                 
                 _ => null,
             };

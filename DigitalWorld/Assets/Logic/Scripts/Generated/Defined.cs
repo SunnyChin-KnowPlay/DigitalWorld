@@ -3,33 +3,21 @@ namespace DigitalWorld.Logic
 	public enum EEvent : int
 	{
 		/// <summary>
-        /// 游戏初始化
+        /// 迭代事件
         /// </summary>
-		GameInit = 1,
-		/// <summary>
-        /// 游戏启动
-        /// </summary>
-		GameStart = 2,
-		/// <summary>
-        /// 游戏结束
-        /// </summary>
-		GameEnd = 3,
-		/// <summary>
-        /// 角色激活
-        /// </summary>
-		CharacterActivate = 4,
+		Update = 0,
 	}
 
 	public enum EAction : int
 	{
 		/// <summary>
+        /// 空行动
+        /// </summary>
+		None = 0,
+		/// <summary>
         /// 创建角色
         /// </summary>
 		CreateCharacter = 1,
-		/// <summary>
-        /// 杀死角色
-        /// </summary>
-		KillCharacter = 2,
 	}
 
 	public static class Defined
@@ -38,14 +26,8 @@ namespace DigitalWorld.Logic
         {
 			switch (e)
             {
-				case EEvent.GameInit:
-					return "游戏初始化";
-				case EEvent.GameStart:
-					return "游戏启动";
-				case EEvent.GameEnd:
-					return "游戏结束";
-				case EEvent.CharacterActivate:
-					return "角色激活";
+				case EEvent.Update:
+					return "迭代事件";
 				default:
 					return null;
 			}
@@ -55,10 +37,10 @@ namespace DigitalWorld.Logic
         {
 			switch (e)
             {
+				case EAction.None:
+					return "空行动";
 				case EAction.CreateCharacter:
 					return "创建角色";
-				case EAction.KillCharacter:
-					return "杀死角色";
 				default:
 					return null;
 			}

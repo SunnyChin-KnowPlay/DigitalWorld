@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <data>
+  <action id="0" name="None" desc="空行动" />
   <action id="1" name="CreateCharacter" desc="创建角色">
-    <field name="name" baseTypeName="System.ValueType" typeName="Dream.FixMath.FixVector2" desc="名字" />
-    <field name="testType" baseTypeName="System.Enum" typeName="DigitalWorld.Game.ELogicControlType" desc="测试枚举" />
+    <field name="cfgId" baseTypeName="System.ValueType" typeName="System.Int32" desc="角色配置ID" />
+    <field name="worldPosition" baseTypeName="System.ValueType" typeName="Dream.FixMath.FixVector3" desc="世界坐标" />
   </action>
-  <action id="2" name="KillCharacter" desc="杀死角色" />
 </data>

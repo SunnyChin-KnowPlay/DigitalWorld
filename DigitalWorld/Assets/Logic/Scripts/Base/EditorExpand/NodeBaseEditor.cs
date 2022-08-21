@@ -10,10 +10,6 @@ namespace DigitalWorld.Logic
 {
     public partial class NodeBase
     {
-
-
-
-
 #if UNITY_EDITOR
 
         #region Params
@@ -101,15 +97,18 @@ namespace DigitalWorld.Logic
             EditorGUILayout.EndScrollView();
         }
 
-        public virtual void OnGUI()
+        public void OnGUI()
         {
-
+            EditorGUI.BeginChangeCheck();
             OnGUITitle();
             if (this.IsEditing)
             {
                 OnGUIEditing();
             }
-
+            if (EditorGUI.EndChangeCheck())
+            {
+                this.SetDirty();
+            }
 
         }
 
@@ -118,10 +117,11 @@ namespace DigitalWorld.Logic
             GUIStyle style = new GUIStyle("IN Title");
             style.padding.left = 0;
 
-            int x = 1;
+            Color color = GUI.backgroundColor;
+            GUI.backgroundColor = new Color32(160, 160, 160, 255);
 
-            EditorGUILayout.BeginHorizontal(style);
-
+            using EditorGUILayout.HorizontalScope h = new EditorGUILayout.HorizontalScope(style);
+            GUI.backgroundColor = color;
 
             _isEditing = EditorGUILayout.Toggle("", _isEditing, EditorStyles.foldout, GUILayout.Width(12));
 
@@ -129,12 +129,6 @@ namespace DigitalWorld.Logic
             this.OnGUIEnabled();
             this.OnGUIIndex();
             this.OnGUITitleTypeName();
-
-            //EditorGUILayout.Space(selfTypeName != null ? selfTypeName.Length * 5 : 0);
-
-
-
-
             this.OnGUIName();
             this.OnGUITitleInfo();
 
@@ -142,7 +136,10 @@ namespace DigitalWorld.Logic
 
             this.OnGUITitleMenus();
 
-            EditorGUILayout.EndHorizontal();
+            if (GUI.Button(h.rect, GUIContent.none, EditorStyles.whiteLabel))
+            {
+                OnClickTitle(h);
+            }
         }
 
         /// <summary>
@@ -168,22 +165,12 @@ namespace DigitalWorld.Logic
 
         protected virtual void OnGUIDescription()
         {
-            string srcDesc = this._description;
             this._description = EditorGUILayout.TextArea(this._description, GUILayout.MinHeight(20));
-            if (srcDesc != _description)
-            {
-                this.SetDirty();
-            }
         }
 
         protected virtual void OnGUIName()
         {
-            string old = _name;
             _name = EditorGUILayout.TextField(_name, GUILayout.MaxWidth(160));
-            if (old != _name)
-            {
-                this.SetDirty();
-            }
         }
 
         protected virtual void OnGUIType()
@@ -193,12 +180,7 @@ namespace DigitalWorld.Logic
 
         protected virtual void OnGUIEnabled()
         {
-            bool old = _enabled;
-            this._enabled = EditorGUILayout.Toggle(old, GUILayout.Width(12));
-            if (old != _enabled)
-            {
-                this.SetDirty();
-            }
+            this._enabled = EditorGUILayout.Toggle(this._enabled, GUILayout.Width(12));   
         }
 
         protected virtual void OnGUIIndex()
@@ -207,11 +189,11 @@ namespace DigitalWorld.Logic
             if (null == this._parent)
                 return;
 
-            string title = string.Format("{0}.{1:00}", "Node", _index);
+            string title = string.Format("{0}.{1:000}", "Node", _index);
             GUIStyle style = new GUIStyle(GUI.skin.button);
             style.alignment = TextAnchor.MiddleCenter;
 
-            if (GUILayout.Button(title, style, GUILayout.Width(60)))
+            if (GUILayout.Button(title, style, GUILayout.Width(72)))
             {
                 GenericMenu menu = new GenericMenu();
                 bool isDisable = false;
@@ -219,7 +201,7 @@ namespace DigitalWorld.Logic
                 for (int k = 0; k < _parent.Children.Count; ++k)
                 {
                     isDisable = k == this._index;
-                    string nameText = string.Format("{0}.{1:00}", "Node", k);
+                    string nameText = string.Format("{0}.{1:000}", "Node", k);
                     if (isDisable)
                     {
                         menu.AddDisabledItem(new GUIContent(nameText));
@@ -377,7 +359,9 @@ namespace DigitalWorld.Logic
 
         protected virtual void OnGUIEditing()
         {
+
             OnGUIChildren();
+
         }
 
         protected virtual void OnGUIChildren()
@@ -407,6 +391,13 @@ namespace DigitalWorld.Logic
         public virtual void OnGUIField(ref Rect rect, Rect parentRect)
         {
 
+        }
+        #endregion
+
+        #region Listener
+        protected virtual void OnClickTitle(EditorGUILayout.HorizontalScope horizontalScope)
+        {
+            _isEditing = !_isEditing;
         }
         #endregion
 #endif

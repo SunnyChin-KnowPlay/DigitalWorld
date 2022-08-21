@@ -1,4 +1,6 @@
 ﻿#if UNITY_EDITOR
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using UnityEditor;
@@ -35,6 +37,37 @@ namespace DigitalWorld.Logic
         private string relativeFolderPath;
 
         internal override bool IsEditing => true;
+
+        protected EAction selectedAction;
+
+        public static string[] ActionDisplayNames
+        {
+            get
+            {
+                if (null == actionDisplayNames)
+                {
+                    List<string> actionNames = new List<string>();
+
+                    foreach (EAction i in System.Enum.GetValues(typeof(EAction)))
+                    {
+                        actionNames.Add(i.ToString().Replace('_', '/'));
+                    }
+                    actionDisplayNames = actionNames.ToArray();
+                }
+                return actionDisplayNames;
+            }
+        }
+        private static string[] actionDisplayNames = null;
+
+        public static EAction GetEActionByIndex(int index)
+        {
+            System.Array array = System.Enum.GetValues(typeof(EAction));
+
+            if (null == array || array.Length < 1)
+                throw new ArgumentNullException("GetEActionByIndex array is null");
+
+            return (EAction)array.GetValue(index);
+        }
         #endregion
 
         #region GUI
@@ -45,13 +78,7 @@ namespace DigitalWorld.Logic
 
             EditorGUILayout.BeginHorizontal(style);
 
-            bool old = _enabled;
-            this._enabled = EditorGUILayout.Toggle(old, GUILayout.Width(18));
-            if (old != _enabled)
-            {
-                if (this.Parent != null)
-                    this.Parent.SetDirty();
-            }
+            this._enabled = EditorGUILayout.Toggle(_enabled, GUILayout.Width(18));
 
             this.OnGUIName();
             GUILayout.FlexibleSpace();
@@ -66,11 +93,6 @@ namespace DigitalWorld.Logic
         /// </summary>
         private void OnGUITopMenus()
         {
-            if (GUILayout.Button("Create Action"))
-            {
-                OnClickCreateAction();
-            }
-
             if (GUILayout.Button("OpenAll"))
             {
                 for (int i = 0; i < this._children.Count; ++i)
@@ -88,14 +110,45 @@ namespace DigitalWorld.Logic
             }
         }
 
+        protected virtual void OnGUIExplore()
+        {
+            EditorGUILayout.BeginHorizontal();
+
+            GUIStyle labelStyle = new GUIStyle(GUI.skin.label)
+            {
+                fontStyle = FontStyle.Bold
+            };
+            EditorGUILayout.LabelField("Expolre", labelStyle, GUILayout.Width(160));
+
+            GUILayout.FlexibleSpace();
+
+            if (Enum.GetValues(typeof(EAction)) != null && Enum.GetValues(typeof(EAction)).Length > 0)
+            {
+                selectedAction = GetEActionByIndex(EditorGUILayout.Popup((int)selectedAction, ActionDisplayNames));
+
+                if (GUILayout.Button("Create Action"))
+                {
+                    OnClickCreateAction();
+                }
+            }
+
+            EditorGUILayout.EndHorizontal();
+        }
+
         protected override void OnGUIEditing()
         {
+            this.OnGUIExplore();
+
             base.OnGUIEditing();
         }
 
         private void OnClickCreateAction()
         {
-            LogicHelper.ApplyAddNode(ENodeType.Action, this);
+            NodeBase node = Utility.CreateNewAction(this.selectedAction);
+            if (null != node)
+            {
+                node.SetParent(this);
+            }
         }
         #endregion
 

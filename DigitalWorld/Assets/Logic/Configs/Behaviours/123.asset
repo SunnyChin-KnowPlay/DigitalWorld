@@ -8,4 +8,7 @@ TextAsset:
   m_PrefabAsset: {fileID: 0}
   m_Name: 123
   m_Script: <?xml version="1.0" encoding="UTF-8"?><behaviour _typeName="DigitalWorld.Logic.Behaviour"
-    _enabled="True" _name="123" _description="" _totalTime="0"><_children /></behaviour>
+    _enabled="True" _name="123" _description="" _totalTime="0"><_children><child
+    _typeName="DigitalWorld.Logic.Action.CreateCharacter" _enabled="True" _name="CreateCharacter_1"
+    _description="" _totalTime="0" cfgId="3" worldPosition="( 0, 0, 0)"><_children
+    /><_requirements _requirementLogic="And" /></child></_children></behaviour>

@@ -8,19 +8,19 @@ using System.Collections.Generic;
 using System.Xml;
 #endif
 
-namespace DigitalWorld.Logic
+namespace DigitalWorld.Logic.Action
 {
 	/// <summary>
-    /// 杀死角色
+    /// 空行动
     /// </summary>
-	public partial class ActionKillCharacter : ActionBase
+	public partial class None : ActionBase
 	{
 #region Common
 		public override int Id
 		{
 			get
 			{
-				return 2;
+				return 0;
 			}
 		}
 
@@ -37,14 +37,14 @@ namespace DigitalWorld.Logic
 
 		public override object Clone()
         {
-			ActionKillCharacter v = null;
+			None v = null;
 			if (Application.isPlaying)
             {
-				v = Dream.Core.ObjectPool<ActionKillCharacter>.Instance.Allocate();
+				v = Dream.Core.ObjectPool<None>.Instance.Allocate();
             }
 			else
 			{
-				v = new ActionKillCharacter();
+				v = new None();
 			}
 			
 			if (null != v)
@@ -57,7 +57,7 @@ namespace DigitalWorld.Logic
 
 		public override T CloneTo<T>(T obj)
         {
-            ActionKillCharacter v = base.CloneTo(obj) as ActionKillCharacter;
+            None v = base.CloneTo(obj) as None;
             if (null != v)
             {
             }
@@ -88,7 +88,7 @@ namespace DigitalWorld.Logic
         {
             get
             {
-                return "杀死角色";
+                return "空行动";
             }
         }
 

@@ -11,13 +11,13 @@ namespace DigitalWorld.Logic
         #region Construction
 
 		/// <summary>
-        /// CreateGameStart
+        /// CreateUpdate
         /// </summary> 
-		public static Event CreateGameStart(UnitHandle triggering, UnitHandle target = default)
+		public static Event CreateUpdate(UnitHandle triggering, UnitHandle target = default)
         {
             Event ev = new Event
             {
-                Id = (int)EEvent.GameStart,
+                Id = (int)EEvent.Update,
                 Triggering = triggering,
                 Target = target,
             };

@@ -8,6 +8,7 @@
 <#@ parameter name="id" type="System.Int32"#>
 <#@ parameter name="desc" type="System.String"#>
 <#@ parameter name="usingNamespaces" type="System.String[]"#>
+<#@ parameter name="namespaceName" type="System.String"#>
 <#
 	for (int i = 0; i < usingNamespaces.Length; ++i)
 	{
@@ -17,25 +18,25 @@ using <#= usingNamespaces[i] #>;
 	}
 #>
 
-namespace DigitalWorld.Logic
+namespace <#= namespaceName #>
 {
 	/// <summary>
     /// <#= desc #>
     /// </summary>
-    public partial class Property<#= className #> : Property<<#= valueType #>>
+    public partial class <#= className #> : PropertyTemplate<<#= valueType #>>
     {
         public override int Id => <#= id #>;
 
         public override object Clone()
         {
-            Property<#= className #> v = null;
+            <#= className #> v = null;
             if (Application.isPlaying)
             {
-                v = Dream.Core.ObjectPool<Property<#= className #>>.Instance.Allocate();
+                v = Dream.Core.ObjectPool<<#= className #>>.Instance.Allocate();
             }
             else
             {
-                v = new Property<#= className #>();
+                v = new <#= className #>();
             }
 
             if (null != v)

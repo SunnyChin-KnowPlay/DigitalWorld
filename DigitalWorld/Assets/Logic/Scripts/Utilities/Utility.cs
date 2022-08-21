@@ -45,6 +45,13 @@ namespace DigitalWorld.Logic
         /// </summary>
         public const string LogicNamespace = ProjectNamespace + ".Logic";
 
+        public const string ActionName = "Action";
+        public const string PropertyName = "Property";
+        public const string EventName = "Event";
+
+        public const string LogicActionNamespace = LogicNamespace + "." + ActionName;
+        public const string LogicPropertyNamespace = LogicNamespace + "." + PropertyName;
+        
         private static Assembly csharpAss = null;
 
         public static Color kSplitLineColor;
@@ -96,23 +103,30 @@ namespace DigitalWorld.Logic
             return p;
         }
 
-        public static void DeleteAllFiles(string path)
+        public static void DeleteAllFilesAndDirectories(string path)
         {
-            var files = System.IO.Directory.GetFiles(path);
+            var files = Directory.GetFiles(path);
             for (int i = 0; i < files.Length; ++i)
             {
-                System.IO.File.Delete(files[i]);
+                File.Delete(files[i]);
             }
 
             var folders = Directory.GetDirectories(path);
             for (int i = 0; i < folders.Length; ++i)
             {
-                DeleteAllFiles(folders[i]);
+                DeleteAllFilesAndDirectories(folders[i]);
+                Directory.Delete(folders[i]);
             }
         }
 
         public static void SaveDataToFile(string data, string filePath, FileMode mode = FileMode.Create)
         {
+            string folderPath = System.IO.Path.GetDirectoryName(filePath);
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
             FileStream stream = File.Open(filePath, mode);
             StreamWriter writer = new StreamWriter(stream);
             writer.Write(data);
@@ -120,7 +134,92 @@ namespace DigitalWorld.Logic
             writer.Close();
             stream.Close();
         }
-#endif
+
+        /// <summary>
+        /// 获取自己的名字 就是说 取最后一个.后面的名字
+        /// </summary>
+        /// <param name="fullName"></param>
+        /// <returns></returns>
+        public static string GetSelfName(string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName))
+                return fullName;
+            if (!fullName.Contains('.'))
+                return fullName;
+
+            return fullName[(fullName.LastIndexOf('.') + 1)..];
+        }
+
+        /// <summary>
+        /// 获取标准化枚举命名
+        /// 将所有的 . 以及 / 替换成 _ 
+        /// 因为枚举是只可以使用 _ 符号的
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static string GetStandardizationEnumName(string name)
+        {
+            name = name.Replace('.', '_');
+            name = name.Replace('/', '_');
+            return name;
+        }
+
+        /// <summary>
+        /// 通过.来组合命名 用在命名空间上
+        /// </summary>
+        /// <param name="name1">命名空间前缀</param>
+        /// <param name="name2">相对自身的命名空间</param>
+        /// <returns></returns>
+        public static string CombineName(string name1, string name2)
+        {
+            string ret = "";
+            if (!string.IsNullOrEmpty(name1))
+            {
+                ret += name1;
+            }
+
+            if (!string.IsNullOrEmpty(name1) && !string.IsNullOrEmpty(name2))
+            {
+                ret += '.';
+            }
+
+            if (!string.IsNullOrEmpty(name2))
+            {
+
+                ret += name2;
+            }
+
+            return ret;
+        }
+
+
+
+        /// <summary>
+        /// 获取命名空间的名字
+        /// 即最后一个点之前的名字
+        /// </summary>
+        /// <param name="fullName"></param>
+        /// <returns></returns>
+        public static string GetNamespaceName(string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName))
+                return fullName;
+            if (!fullName.Contains('.'))
+                return string.Empty;
+
+            return fullName[..fullName.LastIndexOf('.')];
+        }
+
+        public static NodeBase CreateNewAction(EAction action)
+        {
+            string name = string.Format("{0}.{1}", LogicActionNamespace, action);
+            System.Type type = GetTemplateType(name);
+            if (null == type)
+                return null;
+            NodeBase node = System.Activator.CreateInstance(type) as NodeBase;
+            return node;
+        }
+
 
         public static Type GetTemplateType(string name)
         {
@@ -212,107 +311,7 @@ namespace DigitalWorld.Logic
 
             return list;
         }
-
-        /// <summary>
-        /// 获取该类型的所有派生类的队列
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public static List<Type> GetDerivedTypesFromType(List<Type> list, Type type)
-        {
-            if (null == list)
-                list = new List<Type>();
-
-            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            foreach (Assembly asm in assemblies)
-            {
-                Type[] types = asm.GetTypes();
-                foreach (Type t in types)
-                {
-                    if (t.IsPublic)
-                    {
-                        if (t.IsSubclassOf(type))
-                        {
-                            string namespaceName = type.Namespace;
-                            if (!string.IsNullOrEmpty(namespaceName) && namespaceName.Contains(ProjectNamespace))
-                            {
-                                list.Add(t);
-                            }
-                        }
-                    }
-                }
-            }
-
-            return list;
-        }
-
-        public static System.Type GetBaseType(string t)
-        {
-            if (t == "Enum")
-            {
-                return typeof(Enum);
-            }
-            else if (t == "ValueType")
-            {
-                return typeof(ValueType);
-            }
-            else
-            {
-                return typeof(ValueType);
-            }
-        }
-
-        public static System.Type GetValueType(string t)
-        {
-            return Type.GetType(t);
-
-            //if (t == "int")
-            //{
-            //    return typeof(int);
-            //}
-            //else if (t == "int32")
-            //{
-            //    return typeof(int);
-            //}
-            //else if (t == "uint")
-            //{
-            //    return typeof(uint);
-            //}
-            //else if (t == "uint32")
-            //{
-            //    return typeof(uint);
-            //}
-            //else if (t == "float")
-            //{
-            //    return typeof(float);
-            //}
-            //else if (t == "bool")
-            //{
-            //    return typeof(bool);
-            //}
-            //else if (t == "string")
-            //{
-            //    return typeof(string);
-            //}
-            //else if (t == "Vector3")
-            //{
-            //    return typeof(Vector3);
-            //}
-            //else if (t == "Color")
-            //{
-            //    return typeof(Color);
-            //}
-        }
-
-        public static NodeBase CreateNewAction(EAction action)
-        {
-            string name = string.Format("{0}.Action{1}", LogicNamespace, action);
-            System.Type type = GetTemplateType(name);
-            if (null == type)
-                return null;
-            NodeBase bc = System.Activator.CreateInstance(type) as NodeBase;
-            return bc;
-        }
+#endif
         #endregion
     }
 }

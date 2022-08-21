@@ -106,11 +106,6 @@ namespace DigitalWorld.Logic.Editor
         #endregion
 
         #region GUI
-        public virtual void OnGUITitle()
-        {
-
-        }
-
         public virtual void OnGUIBody()
         {
 
@@ -119,11 +114,6 @@ namespace DigitalWorld.Logic.Editor
 
         #region Common
         public abstract string GetTitle();
-
-        public virtual void Save()
-        {
-
-        }
 
         public abstract object Clone();
 
@@ -136,18 +126,6 @@ namespace DigitalWorld.Logic.Editor
             return obj;
         }
 
-        protected static List<Type> EnumTypes
-        {
-            get
-            {
-                List<Type> list = new List<Type>();
-
-                list = Logic.Utility.GetPublicEnumTypes(list);
-
-                return list;
-            }
-        }
-
         public static Type[] TypeArray
         {
             get
@@ -155,11 +133,8 @@ namespace DigitalWorld.Logic.Editor
                 if (null == typeArray)
                 {
                     List<Type> typeList = new List<Type>();
-
                     typeList = Logic.Utility.GetUnderlyingTypes(typeList);
-
                     typeList = Logic.Utility.GetPublicEnumTypes(typeList);
-
                     typeArray = typeList.ToArray();
                 }
                 return typeArray;
@@ -172,11 +147,8 @@ namespace DigitalWorld.Logic.Editor
             {
                 if (null == typeDisplayArray)
                 {
-
                     Type[] types = TypeArray;
-
                     typeDisplayArray = new string[types.Length];
-
                     for (int i = 0; i < types.Length; ++i)
                     {
                         typeDisplayArray[i] = types[i].FullName.Replace('.', '/');

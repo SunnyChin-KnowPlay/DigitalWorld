@@ -8,8 +8,6 @@
 <#@ parameter name="actionNames" type="System.String[]"#>
 <#@ parameter name="propertyEnums" type="System.String[]"#>
 <#@ parameter name="propertyNames" type="System.String[]"#>
-<#@ parameter name="eventIds" type="System.String[]"#>
-<#@ parameter name="eventNames" type="System.String[]"#>
 namespace DigitalWorld.Logic
 {
     public static partial class <#= className #>
@@ -49,7 +47,7 @@ namespace DigitalWorld.Logic
                 for (int i = 0; i < propertyEnums.Length; ++i)
                 {
 #>
-                <#= propertyEnums[i] #> => GetNode<Property<#= propertyNames[i] #>>(),
+                <#= propertyEnums[i] #> => GetNode<<#= propertyNames[i] #>>(),
 <#
                 }
 #> 
@@ -70,7 +68,7 @@ namespace DigitalWorld.Logic
                 for (int i = 0; i < actionEnums.Length; ++i)
                 {
 #>
-                <#= actionEnums[i] #> => GetNode<Action<#= actionNames[i] #>>(),
+                <#= actionEnums[i] #> => GetNode<<#= actionNames[i] #>>(),
 <#
                 }
 #>                

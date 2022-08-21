@@ -5,7 +5,7 @@ namespace DigitalWorld.Logic
 {
     
 
-    public abstract partial class Property<T> : PropertyBase, IEquatable<Property<T>>
+    public abstract partial class PropertyTemplate<T> : PropertyBase, IEquatable<PropertyTemplate<T>>
     {
         #region TypeCode
         public override ETypeCode TypeCode
@@ -45,7 +45,7 @@ namespace DigitalWorld.Logic
         #endregion
 
         #region Equatable
-        public virtual bool Equals(Property<T> other)
+        public virtual bool Equals(PropertyTemplate<T> other)
         {
             return this.GetValue().Equals(other.GetValue());
         }
@@ -67,7 +67,7 @@ namespace DigitalWorld.Logic
         #region Clone
         public override TObj CloneTo<TObj>(TObj obj)
         {
-            if (base.CloneTo(obj) is Property<T> pt)
+            if (base.CloneTo(obj) is PropertyTemplate<T> pt)
             {
 
             }

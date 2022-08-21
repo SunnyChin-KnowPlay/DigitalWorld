@@ -28,18 +28,25 @@ namespace Assets.Logic.Editor.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("using DigitalWorld.Game;\r\nusing UnityEngine;\r\n\r\nnamespace DigitalWorld.Logic\r\n{\r\n" +
-                    "    /// <summary>\r\n    /// 事件\r\n    /// </summary>\r\n    public partial struct Eve" +
-                    "nt\r\n    {\r\n        #region Construction\r\n\r\n\t\t/// <summary>\r\n        /// Create");
+            this.Write("using DigitalWorld.Game;\r\nusing UnityEngine;\r\n\r\nnamespace ");
             
-            #line 20 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
+            #line 11 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(namespaceName));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n{\r\n    /// <summary>\r\n    /// 事件\r\n    /// </summary>\r\n    public partial struct" +
+                    " Event\r\n    {\r\n        #region Construction\r\n\r\n\t\t/// <summary>\r\n        /// Crea" +
+                    "te");
+            
+            #line 21 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(eventName));
             
             #line default
             #line hidden
             this.Write("\r\n        /// </summary> \r\n\t\tpublic static Event Create");
             
-            #line 22 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
+            #line 23 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(eventName));
             
             #line default
@@ -47,7 +54,7 @@ namespace Assets.Logic.Editor.Templates
             this.Write("(UnitHandle triggering, UnitHandle target = default)\r\n        {\r\n            Even" +
                     "t ev = new Event\r\n            {\r\n                Id = (int)EEvent.");
             
-            #line 26 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
+            #line 27 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(eventName));
             
             #line default
@@ -73,6 +80,19 @@ private string eventName
     }
 }
 
+private string _namespaceNameField;
+
+/// <summary>
+/// Access the namespaceName parameter of the template.
+/// </summary>
+private string namespaceName
+{
+    get
+    {
+        return this._namespaceNameField;
+    }
+}
+
 
 /// <summary>
 /// Initialize the template
@@ -93,6 +113,20 @@ if ((eventNameValueAcquired == false))
     if ((data != null))
     {
         this._eventNameField = ((string)(data));
+    }
+}
+bool namespaceNameValueAcquired = false;
+if (this.Session.ContainsKey("namespaceName"))
+{
+    this._namespaceNameField = ((string)(this.Session["namespaceName"]));
+    namespaceNameValueAcquired = true;
+}
+if ((namespaceNameValueAcquired == false))
+{
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("namespaceName");
+    if ((data != null))
+    {
+        this._namespaceNameField = ((string)(data));
     }
 }
 

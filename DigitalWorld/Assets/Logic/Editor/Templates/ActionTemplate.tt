@@ -11,6 +11,7 @@
 <#@ parameter name="deserializeFuncs" type="System.String[]"#>
 <#@ parameter name="defaultValues" type="System.String[]"#>
 <#@ parameter name="calculateFuncs" type="System.String[]"#>
+<#@ parameter name="namespaceName" type="System.String"#>
 <#
 	for (int i = 0; i < usingNamespaces.Length; ++i)
 	{
@@ -24,12 +25,12 @@ using System.Collections.Generic;
 using System.Xml;
 #endif
 
-namespace DigitalWorld.Logic
+namespace <#= namespaceName #>
 {
 	/// <summary>
     /// <#= desc #>
     /// </summary>
-	public partial class Action<#= className #> : ActionBase
+	public partial class <#= className #> : ActionBase
 	{
 #region Common
 		public override int Id
@@ -72,14 +73,14 @@ namespace DigitalWorld.Logic
 
 		public override object Clone()
         {
-			Action<#= className #> v = null;
+			<#= className #> v = null;
 			if (Application.isPlaying)
             {
-				v = Dream.Core.ObjectPool<Action<#= className #>>.Instance.Allocate();
+				v = Dream.Core.ObjectPool<<#= className #>>.Instance.Allocate();
             }
 			else
 			{
-				v = new Action<#= className #>();
+				v = new <#= className #>();
 			}
 			
 			if (null != v)
@@ -92,7 +93,7 @@ namespace DigitalWorld.Logic
 
 		public override T CloneTo<T>(T obj)
         {
-            Action<#= className #> v = base.CloneTo(obj) as Action<#= className #>;
+            <#= className #> v = base.CloneTo(obj) as <#= className #>;
             if (null != v)
             {
 <#

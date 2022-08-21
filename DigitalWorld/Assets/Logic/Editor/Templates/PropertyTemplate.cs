@@ -29,7 +29,7 @@ namespace Assets.Logic.Editor.Templates
         public virtual string TransformText()
         {
             
-            #line 11 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 12 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
 
 	for (int i = 0; i < usingNamespaces.Length; ++i)
 	{
@@ -39,67 +39,74 @@ namespace Assets.Logic.Editor.Templates
             #line hidden
             this.Write("using ");
             
-            #line 15 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 16 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(usingNamespaces[i]));
             
             #line default
             #line hidden
             this.Write(";\r\n");
             
-            #line 16 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 17 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
 
 	}
 
             
             #line default
             #line hidden
-            this.Write("\r\nnamespace DigitalWorld.Logic\r\n{\r\n\t/// <summary>\r\n    /// ");
+            this.Write("\r\nnamespace ");
             
-            #line 23 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 21 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(namespaceName));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n{\r\n\t/// <summary>\r\n    /// ");
+            
+            #line 24 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(desc));
             
             #line default
             #line hidden
-            this.Write("\r\n    /// </summary>\r\n    public partial class Property");
+            this.Write("\r\n    /// </summary>\r\n    public partial class ");
             
-            #line 25 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 26 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
             #line hidden
-            this.Write(" : Property<");
+            this.Write(" : PropertyTemplate<");
             
-            #line 25 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 26 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(valueType));
             
             #line default
             #line hidden
             this.Write(">\r\n    {\r\n        public override int Id => ");
             
-            #line 27 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 28 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(id));
             
             #line default
             #line hidden
-            this.Write(";\r\n\r\n        public override object Clone()\r\n        {\r\n            Property");
+            this.Write(";\r\n\r\n        public override object Clone()\r\n        {\r\n            ");
             
-            #line 31 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 32 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
             #line hidden
             this.Write(" v = null;\r\n            if (Application.isPlaying)\r\n            {\r\n              " +
-                    "  v = Dream.Core.ObjectPool<Property");
+                    "  v = Dream.Core.ObjectPool<");
             
-            #line 34 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 35 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
             #line hidden
             this.Write(">.Instance.Allocate();\r\n            }\r\n            else\r\n            {\r\n         " +
-                    "       v = new Property");
+                    "       v = new ");
             
-            #line 38 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 39 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
@@ -173,6 +180,19 @@ private string[] usingNamespaces
     get
     {
         return this._usingNamespacesField;
+    }
+}
+
+private string _namespaceNameField;
+
+/// <summary>
+/// Access the namespaceName parameter of the template.
+/// </summary>
+private string namespaceName
+{
+    get
+    {
+        return this._namespaceNameField;
     }
 }
 
@@ -252,6 +272,20 @@ if ((usingNamespacesValueAcquired == false))
     if ((data != null))
     {
         this._usingNamespacesField = ((string[])(data));
+    }
+}
+bool namespaceNameValueAcquired = false;
+if (this.Session.ContainsKey("namespaceName"))
+{
+    this._namespaceNameField = ((string)(this.Session["namespaceName"]));
+    namespaceNameValueAcquired = true;
+}
+if ((namespaceNameValueAcquired == false))
+{
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("namespaceName");
+    if ((data != null))
+    {
+        this._namespaceNameField = ((string)(data));
     }
 }
 

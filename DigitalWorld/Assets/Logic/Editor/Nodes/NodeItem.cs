@@ -17,13 +17,8 @@ namespace DigitalWorld.Logic.Editor
             get { return desc; }
             set { desc = value; }
         }
+
         protected List<NodeField> fields = new List<NodeField>();
-
-        public List<NodeField> Fields
-        {
-            get { return fields; }
-        }
-
 
         protected readonly ReorderableList fieldList;
         #endregion
@@ -58,7 +53,7 @@ namespace DigitalWorld.Logic.Editor
                 item.Name = EditorGUI.TextField(rect, item.Name);
 
                 rect.xMin = rect.xMax + 4;
-                rect.xMax = rect.xMin + width * 0.3f;
+                rect.xMax = rect.xMin + width * 0.4f;
                 item.typeName = NodeField.FindTypeName(EditorGUI.Popup(rect, NodeField.FindTypeIndex(item.typeName), NodeField.TypeDisplayArray));
                 System.Type type = NodeField.FindType(NodeField.FindTypeIndex(item.typeName));
                 item.baseTypeName = type.BaseType.ToString();
@@ -67,8 +62,6 @@ namespace DigitalWorld.Logic.Editor
                 rect.xMax = width;
 
                 item.desc = EditorGUI.TextField(rect, item.desc);
-
-
             }
             else
             {
@@ -79,8 +72,6 @@ namespace DigitalWorld.Logic.Editor
         private void OnDrawFieldHead(Rect rect)
         {
             EditorGUI.LabelField(rect, "Fields");
-
-
         }
 
         protected virtual void OnAddField()
@@ -91,15 +82,6 @@ namespace DigitalWorld.Logic.Editor
         protected virtual void OnRemoveField()
         {
             fields.RemoveAt(fieldList.index);
-        }
-
-        public override void OnGUITitle()
-        {
-            base.OnGUITitle();
-
-            string field = string.Format("{0} - {1}", this.id, this.name);
-            EditorGUILayout.LabelField(field);
-
         }
 
         public override void OnGUIBody()
@@ -179,8 +161,7 @@ namespace DigitalWorld.Logic.Editor
 
         public override T CloneTo<T>(T obj)
         {
-            NodeItem v = base.CloneTo(obj) as NodeItem;
-            if (null != v)
+            if (base.CloneTo(obj) is NodeItem v)
             {
                 v.desc = this.desc;
 
@@ -192,8 +173,6 @@ namespace DigitalWorld.Logic.Editor
             }
 
             return obj;
-
-
         }
         #endregion
 

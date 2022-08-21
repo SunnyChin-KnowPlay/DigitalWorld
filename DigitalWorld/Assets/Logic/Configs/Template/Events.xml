@@ -1,7 +1,4 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <data>
-  <event id="1" name="GameInit" desc="游戏初始化" />
-  <event id="2" name="GameStart" desc="游戏启动" />
-  <event id="3" name="GameEnd" desc="游戏结束" />
-  <event id="4" name="CharacterActivate" desc="角色激活" />
+  <event id="0" name="Update" desc="迭代事件" />
 </data>

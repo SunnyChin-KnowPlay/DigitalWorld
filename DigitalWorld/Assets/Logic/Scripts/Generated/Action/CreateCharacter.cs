@@ -8,12 +8,12 @@ using System.Collections.Generic;
 using System.Xml;
 #endif
 
-namespace DigitalWorld.Logic
+namespace DigitalWorld.Logic.Action
 {
 	/// <summary>
     /// 创建角色
     /// </summary>
-	public partial class ActionCreateCharacter : ActionBase
+	public partial class CreateCharacter : ActionBase
 	{
 #region Common
 		public override int Id
@@ -24,13 +24,13 @@ namespace DigitalWorld.Logic
 			}
 		}
 		/// <summary>
-        /// 名字
+        /// 角色配置ID
         /// </summary> 
-		public Dream.FixMath.FixVector2 name = default(Dream.FixMath.FixVector2);
+		public System.Int32 cfgId = default(System.Int32);
 		/// <summary>
-        /// 测试枚举
+        /// 世界坐标
         /// </summary> 
-		public DigitalWorld.Game.ELogicControlType testType = default(DigitalWorld.Game.ELogicControlType);
+		public Dream.FixMath.FixVector3 worldPosition = default(Dream.FixMath.FixVector3);
 
 		public override void OnAllocate()
         {
@@ -41,20 +41,20 @@ namespace DigitalWorld.Logic
 		public override void OnRecycle()
         {
             base.OnRecycle();
-			name = default(Dream.FixMath.FixVector2);
-			testType = default(DigitalWorld.Game.ELogicControlType);
+			cfgId = default(System.Int32);
+			worldPosition = default(Dream.FixMath.FixVector3);
         }
 
 		public override object Clone()
         {
-			ActionCreateCharacter v = null;
+			CreateCharacter v = null;
 			if (Application.isPlaying)
             {
-				v = Dream.Core.ObjectPool<ActionCreateCharacter>.Instance.Allocate();
+				v = Dream.Core.ObjectPool<CreateCharacter>.Instance.Allocate();
             }
 			else
 			{
-				v = new ActionCreateCharacter();
+				v = new CreateCharacter();
 			}
 			
 			if (null != v)
@@ -67,11 +67,11 @@ namespace DigitalWorld.Logic
 
 		public override T CloneTo<T>(T obj)
         {
-            ActionCreateCharacter v = base.CloneTo(obj) as ActionCreateCharacter;
+            CreateCharacter v = base.CloneTo(obj) as CreateCharacter;
             if (null != v)
             {
-				v.name = this.name;
-				v.testType = this.testType;
+				v.cfgId = this.cfgId;
+				v.worldPosition = this.worldPosition;
             }
             return obj;
         }
@@ -90,8 +90,8 @@ namespace DigitalWorld.Logic
 
                 if (descs.Count < 1)
                 {
-                    descs.Add("name", "名字");
-                    descs.Add("testType", "测试枚举");
+                    descs.Add("cfgId", "角色配置ID");
+                    descs.Add("worldPosition", "世界坐标");
                 }
 
                 return descs;
@@ -121,17 +121,17 @@ namespace DigitalWorld.Logic
         {
             base.OnCalculateSize();
 	
-			CalculateSize(this.name);
+			CalculateSize(this.cfgId);
 	
-			CalculateSizeEnum(this.testType);
+			CalculateSize(this.worldPosition);
   
         }
 
 		protected override void OnEncode()
         {
             base.OnEncode();
-			Encode(this.name);
-			EncodeEnum(this.testType);
+			Encode(this.cfgId);
+			Encode(this.worldPosition);
           
         }
 
@@ -139,8 +139,8 @@ namespace DigitalWorld.Logic
         {
             base.OnDecode();
 			
-			Decode(ref this.name);
-			DecodeEnum(ref this.testType);
+			Decode(ref this.cfgId);
+			Decode(ref this.worldPosition);
         }
 		
 #if UNITY_EDITOR
@@ -148,15 +148,15 @@ namespace DigitalWorld.Logic
         {
             base.OnDecode(node);
 			
-			Decode(ref this.name, "name");
-			DecodeEnum(ref this.testType, "testType");
+			Decode(ref this.cfgId, "cfgId");
+			Decode(ref this.worldPosition, "worldPosition");
         }
 
         protected override void OnEncode(XmlElement node)
         {
 			base.OnEncode(node);
-			Encode(this.name, "name");
-			EncodeEnum(this.testType, "testType");
+			Encode(this.cfgId, "cfgId");
+			Encode(this.worldPosition, "worldPosition");
         }
 
 

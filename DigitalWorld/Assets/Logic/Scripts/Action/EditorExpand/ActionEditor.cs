@@ -19,8 +19,7 @@ namespace DigitalWorld.Logic
         protected List<string> brotherNames = new List<string>();
         protected List<FieldInfo> fieldInfos = null;
 
-        protected bool _requirementEditing = true;
-        protected bool _propertiesEditing = true;
+
         #endregion
 
         #region Common
@@ -140,12 +139,12 @@ namespace DigitalWorld.Logic
             }
             return index;
         }
-#endregion
+        #endregion
 
         #region GUI
-        public override void OnGUI()
+        protected override void OnGUIName()
         {
-            base.OnGUI();
+            base.OnGUIName();
         }
 
         protected override void OnGUIEditing()
@@ -163,15 +162,18 @@ namespace DigitalWorld.Logic
                 OnClickEdit();
             }
 
-            base.OnGUITitleMenus();
+            if (GUILayout.Button("Remove"))
+            {
+                OnClickRemove();
+            }
         }
 
         protected override void OnGUITitleInfo()
         {
             base.OnGUITitleInfo();
 
-            OnGUITitleRequirementsInfo();
-            OnGUITitlePropertiesInfo();
+            //OnGUITitleRequirementsInfo();
+            //OnGUITitlePropertiesInfo();
         }
 
         protected virtual void OnGUIEditingRequirementsInfo()
@@ -180,15 +182,7 @@ namespace DigitalWorld.Logic
 
             GUILayout.BeginHorizontal();
 
-            _requirementEditing = EditorGUILayout.Toggle("", _requirementEditing, EditorStyles.foldout, GUILayout.Width(12));
-            if (_requirementEditing)
-            {
-                reorderableRequirementList.DoLayoutList();
-            }
-            else
-            {
-                EditorGUILayout.LabelField("Requirements");
-            }
+            reorderableRequirementList.DoLayoutList();
 
             GUILayout.EndHorizontal();
 
@@ -199,15 +193,7 @@ namespace DigitalWorld.Logic
         {
             GUILayout.BeginHorizontal();
 
-            _propertiesEditing = EditorGUILayout.Toggle("", _propertiesEditing, EditorStyles.foldout, GUILayout.Width(12));
-            if (_propertiesEditing)
-            {
-                reorderablePropertiesList.DoLayoutList();
-            }
-            else
-            {
-                EditorGUILayout.LabelField("Properties");
-            }
+            reorderablePropertiesList.DoLayoutList();
 
             GUILayout.EndHorizontal();
         }
@@ -555,6 +541,12 @@ namespace DigitalWorld.Logic
         protected virtual void OnClickEdit()
         {
             LogicHelper.ApplyEditNode(this.NodeType, this.Parent, this);
+        }
+
+        protected virtual void OnClickRemove()
+        {
+            this.SetParent(null);
+            this.Recycle();
         }
         #endregion
 #endif

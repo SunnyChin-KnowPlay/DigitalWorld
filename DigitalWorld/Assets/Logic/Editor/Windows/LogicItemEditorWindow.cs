@@ -99,6 +99,8 @@ namespace DigitalWorld.Logic.Editor
         {
             this.currentItem.SetDirty();
             EditorWindow.GetWindow<LogicItemsEditorWindow>().Repaint();
+
+            this.Close();
         }
 
         private void OnClickCancel()

@@ -14,7 +14,6 @@ namespace DigitalWorld.Logic.Editor
         public string typeName;
         public string desc;
 
-
         #endregion
 
         #region Save & Load

@@ -4,10 +4,11 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ parameter name="eventName" type="System.String"#>
+<#@ parameter name="namespaceName" type="System.String"#>
 using DigitalWorld.Game;
 using UnityEngine;
 
-namespace DigitalWorld.Logic
+namespace <#= namespaceName #>
 {
     /// <summary>
     /// 事件
