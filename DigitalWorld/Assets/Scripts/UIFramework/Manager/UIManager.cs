@@ -39,8 +39,7 @@ namespace DigitalWorld.UI
                         GameObject rootObj = GameObject.Instantiate(obj);
                         if (null != rootObj)
                         {
-                            instance = rootObj.GetComponent<UIManager>();
-                            if (null == instance)
+                            if (!rootObj.TryGetComponent<UIManager>(out instance))
                             {
                                 instance = rootObj.AddComponent<UIManager>();
                             }
@@ -255,8 +254,7 @@ namespace DigitalWorld.UI
             if (null == go)
                 return;
 
-            PanelControl panel = go.GetComponent<PanelControl>();
-            if (null == panel)
+            if (!go.TryGetComponent<PanelControl>(out var panel))
             {
                 go.AddComponent<TControl>();
             }

@@ -31,7 +31,7 @@ namespace DigitalWorld.UI
         {
             Transform t = rectTransform.Find(path);
             if (null == t)
-                return default(T);
+                return default;
 
             return t.GetComponent<T>();
         }
