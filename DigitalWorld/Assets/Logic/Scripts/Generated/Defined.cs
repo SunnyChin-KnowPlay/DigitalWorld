@@ -20,6 +20,10 @@ namespace DigitalWorld.Logic
         /// </summary>
 		None = 0,
 		/// <summary>
+        /// 杀掉角色
+        /// </summary>
+		Game_Unit_KillCharacter = 1,
+		/// <summary>
         /// 游戏中的创建对象，位置是基于世界坐标的
         /// </summary>
 		Game_CreateCharacter = 2,
@@ -48,6 +52,8 @@ namespace DigitalWorld.Logic
             {
 				case EAction.None:
 					return "空行动";
+				case EAction.Game_Unit_KillCharacter:
+					return "杀掉角色";
 				case EAction.Game_CreateCharacter:
 					return "游戏中的创建对象，位置是基于世界坐标的";
 				case EAction.Game_Unit_CreateCharacter:

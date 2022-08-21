@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <data>
   <action id="0" name="None" desc="空行动" />
+  <action id="1" name="Game.Unit.KillCharacter" desc="杀掉角色" />
   <action id="2" name="Game.CreateCharacter" desc="游戏中的创建对象，位置是基于世界坐标的" />
   <action id="3" name="Game.Unit.CreateCharacter" desc="基于单位的创建角色，位置使用相对关系" />
 </data>

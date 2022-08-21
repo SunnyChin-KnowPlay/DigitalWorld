@@ -112,6 +112,13 @@ namespace DigitalWorld.Logic
 
         }
 
+        /// <summary>
+        /// GUI渲染标题
+        /// 标题包含各类信息 横向展示
+        /// 开关 索引 类型名 名字 以及标题信息
+        /// 接下来还有快捷操作按钮集合
+        /// 标题底层覆盖函数 用来实现点击开关
+        /// </summary>
         public virtual void OnGUITitle()
         {
             GUIStyle style = new GUIStyle("IN Title");

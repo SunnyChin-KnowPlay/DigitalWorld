@@ -64,7 +64,6 @@ namespace DigitalWorld.Logic.Editor
         protected bool editing = true;
 
         protected static System.Type[] typeArray = null;
-        protected static string[] typeNamesArray = null;
         protected static string[] typeDisplayArray = null;
 
         #endregion

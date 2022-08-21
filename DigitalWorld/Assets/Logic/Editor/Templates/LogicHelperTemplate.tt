@@ -6,6 +6,7 @@
 <#@ parameter name="className" type="System.String"#>
 <#@ parameter name="actionEnums" type="System.String[]"#>
 <#@ parameter name="actionNames" type="System.String[]"#>
+<#@ parameter name="actionDescs" type="System.String[]"#>
 <#@ parameter name="propertyEnums" type="System.String[]"#>
 <#@ parameter name="propertyNames" type="System.String[]"#>
 <#@ parameter name="tips" type="System.String"#>
@@ -60,6 +61,27 @@ namespace DigitalWorld.Logic
         public static T GetProperty<T>(int id) where T : PropertyBase
         {
             return GetProperty(id) as T;
+        }
+
+        /// <summary>
+        /// 通过枚举来获取对应的注释
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public static string GetActionDesc(int id)
+        {
+            return id switch
+            {
+<#
+                for (int i = 0; i < actionEnums.Length; ++i)
+                {
+#>
+                <#= actionEnums[i] #> => "<#= actionDescs[i] #>",
+<#
+                }
+#>  
+                _ => null,
+            };
         }
 
         public static Actions.ActionBase GetAction(int id)

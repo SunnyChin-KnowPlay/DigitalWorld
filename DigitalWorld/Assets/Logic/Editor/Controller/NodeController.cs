@@ -118,6 +118,7 @@ namespace DigitalWorld.Logic.Editor
 
             List<string> names = new List<string>();
             List<string> ids = new List<string>();
+            List<string> descs = new List<string>();
 
             XmlElement e = null;
 
@@ -134,10 +135,12 @@ namespace DigitalWorld.Logic.Editor
 
                 names.Add(fullName);
                 ids.Add(e.GetAttribute("id"));
+                descs.Add(e.GetAttribute("desc"));
 
             }
             tmp.Session["actionNames"] = names.ToArray();
             tmp.Session["actionEnums"] = ids.ToArray();
+            tmp.Session["actionDescs"] = descs.ToArray();
 
             if (null != property)
             {

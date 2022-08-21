@@ -48,11 +48,30 @@ namespace DigitalWorld.Logic
             return GetProperty(id) as T;
         }
 
+        /// <summary>
+        /// 通过枚举来获取对应的注释
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public static string GetActionDesc(int id)
+        {
+            return id switch
+            {
+                0 => "空行动",
+                1 => "杀掉角色",
+                2 => "游戏中的创建对象，位置是基于世界坐标的",
+                3 => "基于单位的创建角色，位置使用相对关系",
+  
+                _ => null,
+            };
+        }
+
         public static Actions.ActionBase GetAction(int id)
         {
             return id switch
             {
                 0 => GetNode<Actions.None>(),
+                1 => GetNode<Actions.Game.Unit.KillCharacter>(),
                 2 => GetNode<Actions.Game.CreateCharacter>(),
                 3 => GetNode<Actions.Game.Unit.CreateCharacter>(),
                 

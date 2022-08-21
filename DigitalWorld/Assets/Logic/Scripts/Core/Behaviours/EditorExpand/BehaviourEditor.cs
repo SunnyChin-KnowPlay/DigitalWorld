@@ -48,10 +48,14 @@ namespace DigitalWorld.Logic
                 {
                     List<string> actionNames = new List<string>();
 
-                    foreach (EAction i in System.Enum.GetValues(typeof(EAction)))
+                    EAction[] actionArray = ActionArray;
+                    for (int i = 0; i < actionArray.Length; ++i)
                     {
-                        actionNames.Add(i.ToString().Replace('_', '/'));
+                        string name = actionArray[i].ToString().Replace('_', '/');
+                        name += string.Format(" - {0}", LogicHelper.GetActionDesc((int)actionArray[i]));
+                        actionNames.Add(name);
                     }
+
                     actionDisplayNames = actionNames.ToArray();
                 }
                 return actionDisplayNames;
@@ -59,15 +63,50 @@ namespace DigitalWorld.Logic
         }
         private static string[] actionDisplayNames = null;
 
-        public static EAction GetEActionByIndex(int index)
+        public static EAction[] ActionArray
         {
-            System.Array array = System.Enum.GetValues(typeof(EAction));
+            get
+            {
+                if (null == actionArray)
+                {
+                    List<EAction> actionList = new List<EAction>();
+                    foreach (EAction i in System.Enum.GetValues(typeof(EAction)))
+                    {
+                        actionList.Add(i);
+                    }
 
-            if (null == array || array.Length < 1)
-                throw new ArgumentNullException("GetEActionByIndex array is null");
-
-            return (EAction)array.GetValue(index);
+                    actionArray = actionList.ToArray();
+                }
+                return actionArray;
+            }
         }
+        private static EAction[] actionArray = null;
+
+        public static EAction FindAction(int index)
+        {
+            if (index < 0 || index >= ActionArray.Length)
+                return ActionArray[0];
+
+            return ActionArray[index];
+        }
+
+        public static int FindActionIndex(EAction v)
+        {
+            int index = 0;
+
+            EAction[] types = ActionArray;
+
+            for (int i = 0; i < types.Length; ++i)
+            {
+                if (types[i] == v)
+                {
+                    index = i;
+                    break;
+                }
+            }
+            return index;
+        }
+
         #endregion
 
         #region GUI
@@ -124,7 +163,8 @@ namespace DigitalWorld.Logic
 
             if (Enum.GetValues(typeof(EAction)) != null && Enum.GetValues(typeof(EAction)).Length > 0)
             {
-                selectedAction = GetEActionByIndex(EditorGUILayout.Popup((int)selectedAction, ActionDisplayNames));
+
+                selectedAction = FindAction(EditorGUILayout.Popup(FindActionIndex(selectedAction), ActionDisplayNames, GUILayout.Width(300)));
 
                 if (GUILayout.Button("Create Action"))
                 {

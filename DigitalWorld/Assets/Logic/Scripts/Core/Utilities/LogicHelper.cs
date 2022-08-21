@@ -7,22 +7,11 @@ namespace DigitalWorld.Logic
     public static partial class LogicHelper
     {
         #region Event
-        public delegate void OnAddNodeHandle(ENodeType nodeType, NodeBase parent);
-        public static event OnAddNodeHandle OnAddNode;
-
         public delegate void OnEditNodeHandle(ENodeType nodeType, NodeBase parent, NodeBase initialNode);
         public static event OnEditNodeHandle OnEditNode;
         #endregion
 
         #region Apply
-        public static void ApplyAddNode(ENodeType nodeType, NodeBase parent)
-        {
-            if (null != OnAddNode)
-            {
-                OnAddNode.Invoke(nodeType, parent);
-            }
-        }
-
         public static void ApplyEditNode(ENodeType nodeType, NodeBase parent, NodeBase initialNode)
         {
             if (null != OnEditNode)

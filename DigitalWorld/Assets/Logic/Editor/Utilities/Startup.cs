@@ -26,7 +26,6 @@ namespace DigitalWorld.Logic.Editor
         {
             Selection.selectionChanged += OnSelectionChanged;
 
-            Logic.LogicHelper.OnAddNode += OnAddNode;
             Logic.LogicHelper.OnEditNode += OnEditNode;
         }
 
@@ -34,7 +33,6 @@ namespace DigitalWorld.Logic.Editor
         {
             Selection.selectionChanged -= OnSelectionChanged;
 
-            Logic.LogicHelper.OnAddNode -= OnAddNode;
             Logic.LogicHelper.OnEditNode -= OnEditNode;
         }
 
@@ -93,24 +91,6 @@ namespace DigitalWorld.Logic.Editor
 
                 window = LogicBehaviourEditorWindow.CreateWindow<LogicBehaviourEditorWindow>(typeof(LogicBehaviourEditorWindow), null);
                 window.Show(behaviour);
-            }
-        }
-
-        private static void OnAddNode(ENodeType nodeType, Logic.NodeBase parent)
-        {
-            LogicEffectEditorWindow window = null;
-            switch (nodeType)
-            {
-                case ENodeType.Action:
-                {
-                    window = LogicActionEditorWindow.GetWindow() as LogicEffectEditorWindow;
-                    break;
-                }
-            }
-
-            if (null != window)
-            {
-                window.Show(parent);
             }
         }
 

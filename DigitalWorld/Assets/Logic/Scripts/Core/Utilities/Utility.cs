@@ -174,6 +174,18 @@ namespace DigitalWorld.Logic
         }
 
         /// <summary>
+        /// 获取标准化的命名空间名字
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static string GetStandardizationNamespaceName(string name)
+        {
+            name = name.Replace('_', '.');
+            name = name.Replace('/', '.');
+            return name;
+        }
+
+        /// <summary>
         /// 获取基于文件夹的名字
         /// </summary>
         /// <param name="name">标准命名空间的名字</param>
@@ -231,7 +243,7 @@ namespace DigitalWorld.Logic
 
         public static NodeBase CreateNewAction(EAction action)
         {
-            string name = string.Format("{0}.{1}", LogicActionNamespace, action);
+            string name = string.Format("{0}.{1}", LogicActionNamespace, GetStandardizationNamespaceName(action.ToString()));
             System.Type type = GetTemplateType(name);
             if (null == type)
                 return null;
