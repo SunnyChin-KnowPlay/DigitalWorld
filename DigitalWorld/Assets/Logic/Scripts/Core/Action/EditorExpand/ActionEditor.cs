@@ -157,105 +157,29 @@ namespace DigitalWorld.Logic.Actions
 
         protected override void OnGUITitleMenus()
         {
-            if (GUILayout.Button("Edit"))
+            if (GUILayout.Button("Menu"))
             {
-                OnClickEdit();
-            }
-
-            if (GUILayout.Button("Remove"))
-            {
-                OnClickRemove();
+                OnClickMenu();
             }
         }
 
         protected override void OnGUITitleInfo()
         {
             base.OnGUITitleInfo();
-
-            //OnGUITitleRequirementsInfo();
-            //OnGUITitlePropertiesInfo();
         }
 
         protected virtual void OnGUIEditingRequirementsInfo()
         {
             this.CalculateBrotherNames();
 
-            GUILayout.BeginHorizontal();
-
             reorderableRequirementList.DoLayoutList();
-
-            GUILayout.EndHorizontal();
-
             reorderableRequirementList.displayAdd = CheckDisplayAdd();
         }
 
         protected virtual void OnGUIEditingPropertiesInfo()
         {
-            GUILayout.BeginHorizontal();
-
             reorderablePropertiesList.DoLayoutList();
-
-            GUILayout.EndHorizontal();
         }
-
-        protected virtual void OnGUITitleRequirementsInfo()
-        {
-            StringBuilder title = new StringBuilder();
-
-            title.Append("<color=#50AFCCFF>Req:</color>(");
-
-            int index = 0;
-            foreach (Requirement requirement in this._requirements)
-            {
-                title.AppendFormat("<color=#59E323FF>{0}</color> = <color=#F2660BFF>{1}</color>", requirement.nodeName, requirement.isRequirement);
-
-                index++;
-                if (index < this._requirements.Count)
-                {
-                    title.Append(", ");
-                }
-            }
-
-            title.Append(")");
-            GUIStyle labelStyle = new GUIStyle(GUI.skin.label)
-            {
-                richText = true
-            };
-            EditorGUILayout.SelectableLabel(title.ToString(), labelStyle, GUILayout.Height(EditorGUIUtility.singleLineHeight));
-        }
-
-        protected virtual void OnGUITitlePropertiesInfo()
-        {
-            StringBuilder title = new StringBuilder();
-            title.Append("<color=#50AFCCFF>Pro:</color>(");
-
-            System.Type type = this.GetType();
-            // 这里获取到了所有的字段 把他们一个一个的显示出来
-            var fields = type.GetFields(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public);
-
-            string fieldName = "";
-            for (int i = 0; i < fields.Length; ++i)
-            {
-                FieldInfo field = fields[i];
-                if (field.IsFamily)
-                    continue;
-
-                fieldName = field.Name;
-                title.AppendFormat("<color=#59E323FF>{0}</color> = <color=#F2660BFF>{1}</color>", fieldName, field.GetValue(this)?.ToString());
-                if (i < fields.Length - 1)
-                {
-                    title.Append(", ");
-                }
-            }
-
-            title.Append(")");
-            GUIStyle labelStyle = new GUIStyle(GUI.skin.label)
-            {
-                richText = true
-            };
-            EditorGUILayout.SelectableLabel(title.ToString(), labelStyle, GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight));
-        }
-
 
 
         /// <summary>
@@ -470,7 +394,6 @@ namespace DigitalWorld.Logic.Actions
             rect.xMin = rect.xMax + 6;
             rect.xMax = parentRect.xMax;
 
-
             if (field.FieldType == typeof(int))
             {
                 int v = (int)field.GetValue(this);
@@ -538,15 +461,44 @@ namespace DigitalWorld.Logic.Actions
         #endregion
 
         #region Listen
-        protected virtual void OnClickEdit()
-        {
-            LogicHelper.ApplyEditNode(this.NodeType, this.Parent, this);
-        }
-
         protected virtual void OnClickRemove()
         {
             this.SetParent(null);
             this.Recycle();
+        }
+
+        protected virtual void OnClickMenu()
+        {
+            bool isDisable;
+
+            GenericMenu menu = new GenericMenu();
+           
+            menu.AddItem(new GUIContent("Remove"), false, (object userData) =>
+            {
+                this.OnClickRemove();
+            }, null);
+
+            menu.AddSeparator("");
+            menu.AddItem(new GUIContent("Copy"), false, (object userData) =>
+            {
+                Utility.copyNodeBuffer = this.Clone() as NodeBase;
+            }, null);
+            isDisable = (Utility.copyNodeBuffer == null || Utility.copyNodeBuffer.GetType() != this.GetType());
+            if (isDisable)
+            {
+                menu.AddDisabledItem(new GUIContent("Paste"));
+            }
+            else
+            {
+                menu.AddItem(new GUIContent("Paste"), false, (object userData) =>
+                {
+                    Utility.copyNodeBuffer.CloneTo(this);
+                    this.SetDirty();
+                }, null);
+            }
+
+            menu.ShowAsContext();
+
         }
         #endregion
 #endif

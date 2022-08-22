@@ -67,16 +67,12 @@ namespace DigitalWorld.Logic.Editor
         {
             if (base.CloneTo(obj) is NodeField v)
             {
-
                 v.typeName = this.typeName;
                 v.desc = this.desc;
             }
 
             return obj;
         }
-
-
-
         #endregion
     }
 }

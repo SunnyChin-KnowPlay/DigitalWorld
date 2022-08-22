@@ -28,6 +28,14 @@ namespace DigitalWorld.Logic.Actions.Game
 				return 2;
 			}
 		}
+		/// <summary>
+        /// 角色的配置ID
+        /// </summary> 
+		public System.Int32 cfgId = default;
+		/// <summary>
+        /// 世界坐标系
+        /// </summary> 
+		public Dream.FixMath.FixVector3 worldPosition = default;
 
 		public override void OnAllocate()
         {
@@ -38,6 +46,8 @@ namespace DigitalWorld.Logic.Actions.Game
 		public override void OnRecycle()
         {
             base.OnRecycle();
+			cfgId = default;
+			worldPosition = default;
         }
 
 		public override object Clone()
@@ -65,6 +75,8 @@ namespace DigitalWorld.Logic.Actions.Game
             CreateCharacter v = base.CloneTo(obj) as CreateCharacter;
             if (null != v)
             {
+				v.cfgId = this.cfgId;
+				v.worldPosition = this.worldPosition;
             }
             return obj;
         }
@@ -83,6 +95,8 @@ namespace DigitalWorld.Logic.Actions.Game
 
                 if (descs.Count < 1)
                 {
+                    descs.Add("cfgId", "角色的配置ID");
+                    descs.Add("worldPosition", "世界坐标系");
                 }
 
                 return descs;
@@ -111,12 +125,18 @@ namespace DigitalWorld.Logic.Actions.Game
 		protected override void OnCalculateSize()
         {
             base.OnCalculateSize();
+	
+			CalculateSize(this.cfgId);
+	
+			CalculateSize(this.worldPosition);
   
         }
 
 		protected override void OnEncode()
         {
             base.OnEncode();
+			Encode(this.cfgId);
+			Encode(this.worldPosition);
           
         }
 
@@ -124,6 +144,8 @@ namespace DigitalWorld.Logic.Actions.Game
         {
             base.OnDecode();
 			
+			Decode(ref this.cfgId);
+			Decode(ref this.worldPosition);
         }
 		
 #if UNITY_EDITOR
@@ -131,11 +153,15 @@ namespace DigitalWorld.Logic.Actions.Game
         {
             base.OnDecode(node);
 			
+			Decode(ref this.cfgId, "cfgId");
+			Decode(ref this.worldPosition, "worldPosition");
         }
 
         protected override void OnEncode(XmlElement node)
         {
 			base.OnEncode(node);
+			Encode(this.cfgId, "cfgId");
+			Encode(this.worldPosition, "worldPosition");
         }
 
 

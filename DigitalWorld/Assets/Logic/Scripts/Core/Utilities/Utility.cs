@@ -73,8 +73,10 @@ namespace DigitalWorld.Logic
         }
 
 #if UNITY_EDITOR
-
-
+        /// <summary>
+        /// 拷贝节点缓冲器
+        /// </summary>
+        public static NodeBase copyNodeBuffer = null;
 
         public static TextAsset LoadTemplateConfig(string path)
         {

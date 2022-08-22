@@ -8,6 +8,10 @@ namespace DigitalWorld.Logic.Editor
     {
         #region Params
         /// <summary>
+        /// 原节点
+        /// </summary>
+        private NodeItem srcItem;
+        /// <summary>
         /// 当前正在编辑的行为
         /// </summary>
         private NodeItem currentItem = null;
@@ -15,7 +19,7 @@ namespace DigitalWorld.Logic.Editor
         /// <summary>
         /// 所有正在编辑的行为
         /// </summary>
-        private static Dictionary<string, LogicItemEditorWindow> editingItems = new Dictionary<string, LogicItemEditorWindow>();
+        private static readonly Dictionary<string, LogicItemEditorWindow> editingItems = new Dictionary<string, LogicItemEditorWindow>();
 
         #endregion
 
@@ -41,9 +45,10 @@ namespace DigitalWorld.Logic.Editor
 
         private void OnDestroy()
         {
-            if (null != this.currentItem)
+            if (null != this.srcItem)
             {
-                editingItems.Remove(currentItem.Name);
+                editingItems.Remove(srcItem.Name);
+                srcItem = null;
             }
         }
 
@@ -51,9 +56,11 @@ namespace DigitalWorld.Logic.Editor
         {
             base.Show();
 
+            this.srcItem = item;
+            this.currentItem = item.Clone() as NodeItem;
             this.SetTitle(item.Name);
 
-            this.currentItem = item;
+
             editingItems.Add(item.Name, this);
         }
         #endregion
@@ -80,14 +87,14 @@ namespace DigitalWorld.Logic.Editor
             EditorGUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
 
-            if (GUILayout.Button("Save"))
+            if (GUILayout.Button("Confirm"))
             {
-                this.OnClickSave();
+                this.OnClickConfirm();
             }
 
             if (GUILayout.Button("Cancel"))
             {
-                this.OnClickCancel();
+                OnClickCancel();
             }
 
             EditorGUILayout.EndHorizontal();
@@ -95,9 +102,13 @@ namespace DigitalWorld.Logic.Editor
         #endregion
 
         #region Listen
-        private void OnClickSave()
+        private void OnClickConfirm()
         {
-            this.currentItem.SetDirty();
+            _ = this.currentItem.CloneTo(this.srcItem);
+            this.srcItem.SetDirty();
+
+            this.currentItem = null;
+
             EditorWindow.GetWindow<LogicItemsEditorWindow>().Repaint();
 
             this.Close();
@@ -105,6 +116,7 @@ namespace DigitalWorld.Logic.Editor
 
         private void OnClickCancel()
         {
+            this.currentItem = null;
             this.Close();
         }
         #endregion

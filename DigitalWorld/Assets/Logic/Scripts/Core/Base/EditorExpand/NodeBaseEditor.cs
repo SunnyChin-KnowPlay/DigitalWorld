@@ -109,7 +109,6 @@ namespace DigitalWorld.Logic
             {
                 this.SetDirty();
             }
-
         }
 
         /// <summary>
@@ -233,12 +232,12 @@ namespace DigitalWorld.Logic
 
         protected virtual void OnGUITitleTypeName()
         {
-            string selfTypeName = this.SelfTypeName;
+            string localTypeName = this.LocalTypeName;
             GUIStyle labelStyle = new GUIStyle(GUI.skin.label)
             {
                 fontStyle = FontStyle.Bold
             };
-            EditorGUILayout.LabelField(selfTypeName, labelStyle, GUILayout.Width(160));
+            EditorGUILayout.LabelField(localTypeName, labelStyle, GUILayout.Width(240));
         }
 
         protected virtual void OnGUIEditingField(FieldInfo field)

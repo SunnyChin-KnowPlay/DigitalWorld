@@ -104,7 +104,31 @@ namespace DigitalWorld.Logic
                 if (string.IsNullOrEmpty(typeName))
                     return typeName;
 
-                return typeName.Substring(typeName.LastIndexOf('.') + 1);
+                if (!typeName.Contains('.'))
+                    return typeName;
+
+                return typeName[(typeName.LastIndexOf('.') + 1)..];
+            }
+        }
+
+        /// <summary>
+        /// 本地的类型名
+        /// </summary>
+        public virtual string LocalTypeName
+        {
+            get
+            {
+                string typeName = TypeName;
+                if (string.IsNullOrEmpty(typeName))
+                    return typeName;
+
+                if (!typeName.Contains('.'))
+                    return typeName;
+
+                if (!typeName.Contains(Utility.LogicNamespace))
+                    return typeName;
+
+                return typeName[(typeName.IndexOf(Utility.LogicNamespace) + Utility.LogicNamespace.Length + 1)..];
             }
         }
 

@@ -2,6 +2,9 @@
 <data>
   <action id="0" name="None" desc="空行动" />
   <action id="1" name="Game.Unit.KillCharacter" desc="杀掉角色" />
-  <action id="2" name="Game.CreateCharacter" desc="游戏中的创建对象，位置是基于世界坐标的" />
+  <action id="2" name="Game.CreateCharacter" desc="游戏中的创建对象，位置是基于世界坐标的">
+    <field name="cfgId" baseTypeName="System.ValueType" typeName="System.Int32" desc="角色的配置ID" />
+    <field name="worldPosition" baseTypeName="System.ValueType" typeName="Dream.FixMath.FixVector3" desc="世界坐标系" />
+  </action>
   <action id="3" name="Game.Unit.CreateCharacter" desc="基于单位的创建角色，位置使用相对关系" />
 </data>

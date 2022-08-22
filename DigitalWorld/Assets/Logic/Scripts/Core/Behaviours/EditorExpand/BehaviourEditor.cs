@@ -132,7 +132,7 @@ namespace DigitalWorld.Logic
         /// </summary>
         private void OnGUITopMenus()
         {
-            if (GUILayout.Button("OpenAll"))
+            if (GUILayout.Button("OpenAll", GUILayout.Width(79)))
             {
                 for (int i = 0; i < this._children.Count; ++i)
                 {
@@ -140,7 +140,7 @@ namespace DigitalWorld.Logic
                 }
             }
 
-            if (GUILayout.Button("CloseAll"))
+            if (GUILayout.Button("CloseAll", GUILayout.Width(79)))
             {
                 for (int i = 0; i < this._children.Count; ++i)
                 {
@@ -166,7 +166,7 @@ namespace DigitalWorld.Logic
 
                 selectedAction = FindAction(EditorGUILayout.Popup(FindActionIndex(selectedAction), ActionDisplayNames, GUILayout.Width(300)));
 
-                if (GUILayout.Button("Create Action"))
+                if (GUILayout.Button("Create Action", GUILayout.Width(160)))
                 {
                     OnClickCreateAction();
                 }
