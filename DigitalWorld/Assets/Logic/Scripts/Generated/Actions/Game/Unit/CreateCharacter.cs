@@ -28,16 +28,25 @@ namespace DigitalWorld.Logic.Actions.Game.Unit
 				return 3;
 			}
 		}
+		/// <summary>
+        /// 角色配置ID
+        /// </summary> 
+		public System.Int32 cfgId = default;
+		/// <summary>
+        /// 本地坐标偏移量
+        /// </summary> 
+		public Dream.FixMath.FixVector3 localPosition = default;
 
 		public override void OnAllocate()
         {
 			base.OnAllocate();
-
         }
 
 		public override void OnRecycle()
         {
             base.OnRecycle();
+			cfgId = default;
+			localPosition = default;
         }
 
 		public override object Clone()
@@ -65,6 +74,8 @@ namespace DigitalWorld.Logic.Actions.Game.Unit
             CreateCharacter v = base.CloneTo(obj) as CreateCharacter;
             if (null != v)
             {
+				v.cfgId = this.cfgId;
+				v.localPosition = this.localPosition;
             }
             return obj;
         }
@@ -83,6 +94,8 @@ namespace DigitalWorld.Logic.Actions.Game.Unit
 
                 if (descs.Count < 1)
                 {
+                    descs.Add("cfgId", "角色配置ID");
+                    descs.Add("localPosition", "本地坐标偏移量");
                 }
 
                 return descs;
@@ -111,12 +124,18 @@ namespace DigitalWorld.Logic.Actions.Game.Unit
 		protected override void OnCalculateSize()
         {
             base.OnCalculateSize();
+	
+			CalculateSize(this.cfgId);
+	
+			CalculateSize(this.localPosition);
   
         }
 
 		protected override void OnEncode()
         {
             base.OnEncode();
+			Encode(this.cfgId);
+			Encode(this.localPosition);
           
         }
 
@@ -124,6 +143,8 @@ namespace DigitalWorld.Logic.Actions.Game.Unit
         {
             base.OnDecode();
 			
+			Decode(ref this.cfgId);
+			Decode(ref this.localPosition);
         }
 		
 #if UNITY_EDITOR
@@ -131,11 +152,15 @@ namespace DigitalWorld.Logic.Actions.Game.Unit
         {
             base.OnDecode(node);
 			
+			Decode(ref this.cfgId, "cfgId");
+			Decode(ref this.localPosition, "localPosition");
         }
 
         protected override void OnEncode(XmlElement node)
         {
 			base.OnEncode(node);
+			Encode(this.cfgId, "cfgId");
+			Encode(this.localPosition, "localPosition");
         }
 
 

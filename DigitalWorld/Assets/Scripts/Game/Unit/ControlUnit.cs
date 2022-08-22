@@ -1,4 +1,4 @@
-using Dream.Extension.Unity;
+using DigitalWorld.Extension.Unity;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -48,12 +48,10 @@ namespace DigitalWorld.Game
         protected Dictionary<ELogicControlType, ControlLogic> controls = null;
 
         public ControlAnimator Animator => this.controls[ELogicControlType.Animator] as ControlAnimator;
-       
         public ControlProperty Property => this.controls[ELogicControlType.Property] as ControlProperty;
-
         public ControlSkill Skill => this.controls[ELogicControlType.Skill] as ControlSkill;
-
         public ControlMove Move => this.controls[ELogicControlType.Move] as ControlMove;
+        public ControlBehaviour Behaviour => this.controls[ELogicControlType.Behaviour] as ControlBehaviour;
         #endregion
 
         #region Behaviour

@@ -93,16 +93,10 @@ namespace DigitalWorld.Utilities
             PlayerPrefs.SetInt(fullKey, value);
         }
 
-        public static void ClearDirectory(string path, int index = 0)
+        public static void ClearDirectory(string path)
         {
             if (!Directory.Exists(path))
                 return;
-
-            string[] directories = Directory.GetDirectories(path);
-            for (int i = 0; i < directories.Length; ++i)
-            {
-                ClearDirectory(directories[i], index + 1);
-            }
 
             string[] files = Directory.GetFiles(path);
             for (int i = 0; i < files.Length; ++i)
@@ -110,13 +104,16 @@ namespace DigitalWorld.Utilities
                 File.Delete(files[i]);
             }
 
-            if (index > 0)
+            string[] directories = Directory.GetDirectories(path);
+            for (int i = 0; i < directories.Length; ++i)
             {
-                if (Directory.Exists(path))
+                if (Directory.Exists(directories[i]))
                 {
-                    Directory.Delete(path);
+                    ClearDirectory(directories[i]);
+                    Directory.Delete(directories[i]);
                 }
             }
+
         }
     }
 }

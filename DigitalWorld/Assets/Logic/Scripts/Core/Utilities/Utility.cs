@@ -114,22 +114,6 @@ namespace DigitalWorld.Logic
             return p;
         }
 
-        public static void DeleteAllFilesAndDirectories(string path)
-        {
-            var files = Directory.GetFiles(path);
-            for (int i = 0; i < files.Length; ++i)
-            {
-                File.Delete(files[i]);
-            }
-
-            var folders = Directory.GetDirectories(path);
-            for (int i = 0; i < folders.Length; ++i)
-            {
-                DeleteAllFilesAndDirectories(folders[i]);
-                Directory.Delete(folders[i]);
-            }
-        }
-
         public static void SaveDataToFile(string data, string filePath, FileMode mode = FileMode.Create)
         {
             string folderPath = System.IO.Path.GetDirectoryName(filePath);

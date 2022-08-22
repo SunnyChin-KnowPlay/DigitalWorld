@@ -1,4 +1,5 @@
-﻿using Dream.Core;
+﻿using DigitalWorld.Asset;
+using Dream.Core;
 using System.Xml;
 using UnityEngine;
 
@@ -73,6 +74,25 @@ namespace DigitalWorld.Logic
                 return GetNode(nodeType, id);
             }
             return null;
+        }
+        #endregion
+
+        #region Allocate
+        /// <summary>
+        /// 分配一个行为
+        /// </summary>
+        /// <param name="path">行为的资产路径</param>
+        /// <returns></returns>
+        public static Behaviour AllocateBehaviour(string path)
+        {
+            TextAsset ta = AssetManager.LoadAsset<TextAsset>(path);
+            if (null == ta)
+                return null;
+
+            Behaviour behaviour = ObjectPool<Behaviour>.Instance.Allocate();
+            behaviour.Decode(ta.bytes, 0);
+
+            return behaviour;
         }
         #endregion
     }

@@ -66,7 +66,13 @@ namespace DigitalWorld.Game
         #endregion
 
         #region Logic
-        protected void ClearRunningBehaviours()
+        public virtual void AddBehaviour(Logic.Behaviour behaviour)
+        {
+            behaviour.State = Logic.NodeState.EState.Running;
+            this.runningBehaviours.Add(behaviour);
+        }
+
+        protected virtual void ClearRunningBehaviours()
         {
             for (int i = 0; i < runningBehaviours.Count; ++i)
             {

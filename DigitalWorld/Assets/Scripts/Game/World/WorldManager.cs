@@ -2,7 +2,7 @@
 using DigitalWorld.Behaviour;
 using DigitalWorld.Proto.Game;
 using DigitalWorld.Table;
-using Dream.Extension.Unity;
+using DigitalWorld.Extension.Unity;
 using DreamEngine;
 using System.Collections.Generic;
 using System.IO;
@@ -69,6 +69,9 @@ namespace DigitalWorld.Game
             if (null != unit)
             {
                 unit.LogicPosition = Vector3.zero;
+
+                Logic.Behaviour behaviour = Logic.LogicHelper.AllocateBehaviour("Res/Logic/Behaviours/123.asset");
+                unit.Behaviour.AddBehaviour(behaviour);
             }
 
 
@@ -87,6 +90,7 @@ namespace DigitalWorld.Game
             if (null != unit)
             {
                 this.RegisterUnit(unit, data);
+                return unit;
             }
             return null;
         }
@@ -138,7 +142,7 @@ namespace DigitalWorld.Game
             {
                 unitControl = gameObject.AddComponent<ControlCharacter>();
             }
-               
+
 
             return unitControl;
         }

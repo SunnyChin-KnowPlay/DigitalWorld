@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Dream.Extension.Unity
+namespace DigitalWorld.Extension.Unity
 {
     public static class EComponent
     {

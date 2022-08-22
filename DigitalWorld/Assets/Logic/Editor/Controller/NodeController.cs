@@ -335,7 +335,7 @@ namespace DigitalWorld.Logic.Editor
 
         private static void ClearAllCodeFiles()
         {
-            DigitalWorld.Logic.Utility.DeleteAllFilesAndDirectories(Logic.Utility.GeneratedScriptPath);
+            DigitalWorld.Utilities.Utility.ClearDirectory(Logic.Utility.GeneratedScriptPath);
         }
 
         public void SetDirty()
