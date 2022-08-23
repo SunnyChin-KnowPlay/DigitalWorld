@@ -10,7 +10,7 @@ namespace DigitalWorld.Game
     {
         #region Params
 
-      
+
         #endregion
 
         #region Behaviour
@@ -41,6 +41,7 @@ namespace DigitalWorld.Game
                     { ELogicControlType.Skill, this.GetOrAddComponent<ControlSkill>() },
                     { ELogicControlType.Move, this.GetOrAddComponent<ControlMove>() },
                     { ELogicControlType.Behaviour, this.GetOrAddComponent<ControlBehaviour>() },
+                    { ELogicControlType.Situation, this.GetOrAddComponent<ControlSituation>() },
                 };
             }
 

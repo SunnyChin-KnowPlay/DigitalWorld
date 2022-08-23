@@ -34,6 +34,10 @@
         /// 行为
         /// </summary>
         Behaviour,
+        /// <summary>
+        /// 战场态势
+        /// </summary>
+        Situation,
     }
 
     public enum EUnitStatus
