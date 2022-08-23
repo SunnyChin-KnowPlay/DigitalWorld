@@ -24,10 +24,32 @@ namespace DigitalWorld.Behaviour
         // Update is called once per frame
         void Update()
         {
-            
+            if (null != unit)
+            {
+                Vector3 movingDir = Vector3.zero;
+                if (Input.GetKey(KeyCode.W))
+                {
+                    movingDir += Vector3.forward;
+                }
+
+                if (Input.GetKey(KeyCode.A))
+                {
+                    movingDir += Vector3.left;
+                }
+
+                if (Input.GetKey(KeyCode.S))
+                {
+                    movingDir += Vector3.back;
+                }
+
+                if (Input.GetKey(KeyCode.D))
+                {
+                    movingDir += Vector3.right;
+                }
+
+                unit.Move.ApplyMove(movingDir);
+            }
         }
-
-
     }
 
 }

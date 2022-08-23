@@ -70,6 +70,9 @@ namespace DigitalWorld.Game
             {
                 unit.LogicPosition = Vector3.zero;
 
+                _ = unit.GetOrAddComponent<InputBehaviour>();
+
+
                 Logic.Behaviour behaviour = Logic.LogicHelper.AllocateBehaviour("Res/Logic/Behaviours/123.asset");
                 unit.Behaviour.AddBehaviour(behaviour);
             }
