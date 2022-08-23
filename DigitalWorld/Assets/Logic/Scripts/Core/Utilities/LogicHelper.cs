@@ -85,12 +85,12 @@ namespace DigitalWorld.Logic
         /// <returns></returns>
         public static Behaviour AllocateBehaviour(string path)
         {
-            TextAsset ta = AssetManager.LoadAsset<TextAsset>(path);
-            if (null == ta)
+            ByteAsset asset = AssetManager.LoadAsset<ByteAsset>(path);
+            if (null == asset)
                 return null;
 
             Behaviour behaviour = ObjectPool<Behaviour>.Instance.Allocate();
-            behaviour.Decode(ta.bytes, 0);
+            behaviour.Decode(asset.bytes, 0);
 
             return behaviour;
         }

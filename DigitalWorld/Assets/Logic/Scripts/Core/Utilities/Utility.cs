@@ -131,6 +131,29 @@ namespace DigitalWorld.Logic
         }
 
         /// <summary>
+        /// 写入byte流到文件
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="size"></param>
+        /// <param name="filePath"></param>
+        /// <param name="mode"></param>
+        public static void SaveDataToFile(byte[] data, int size, string filePath, FileMode mode = FileMode.Create)
+        {
+            string folderPath = System.IO.Path.GetDirectoryName(filePath);
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            FileStream stream = File.Open(filePath, mode);
+            BinaryWriter writer = new BinaryWriter(stream);
+            writer.Write(data, 0, size);
+            writer.Flush();
+            writer.Close();
+            stream.Close();
+        }
+
+        /// <summary>
         /// 获取自己的名字 就是说 取最后一个.后面的名字
         /// </summary>
         /// <param name="fullName"></param>

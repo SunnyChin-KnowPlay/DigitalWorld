@@ -1,4 +1,5 @@
 ﻿#if UNITY_EDITOR
+using DigitalWorld.Asset;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -223,15 +224,13 @@ namespace DigitalWorld.Logic
             byte[] data = new byte[size];
             this.Encode(data, 0);
 
-            string text = System.Text.Encoding.UTF8.GetString(data, 0, size);
-
             string fullPath = System.IO.Path.Combine(RelativeFolderPath, this.Name);
             fullPath += ".asset";
             fullPath = System.IO.Path.Combine(Utility.LogicExportPath, fullPath);
 
-            TextAsset ta = new TextAsset(text);
             AssetDatabase.DeleteAsset(fullPath);
-            AssetDatabase.CreateAsset(ta, fullPath);
+            ByteAsset.CreateAsset(data, fullPath);
+            
         }
 
         private void SaveXml()
