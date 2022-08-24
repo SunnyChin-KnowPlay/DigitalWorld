@@ -51,7 +51,7 @@ namespace DigitalWorld.Table.Editor
         [MenuItem("Table/Convert/ConvertXmlToBytes")]
         private static void ConvertXmlToBytes()
         {
-            string bytesDirectory = Utilities.Utility.GetString(Utility.configDataKey, Path.Combine(Application.dataPath, Utility.defaultConfigData));
+            string bytesDirectory = Utilities.Utility.GetString(Utility.configDataKey, Path.Combine(Utilities.Utility.GetProjectDataPath(), Utility.defaultConfigData));
             if (!string.IsNullOrEmpty(bytesDirectory))
             {
                 if (!Directory.Exists(bytesDirectory))
@@ -72,7 +72,7 @@ namespace DigitalWorld.Table.Editor
         [MenuItem("Table/CopyXmlFromConfig")]
         private static void CopyXmlFromConfig()
         {
-            string targetPath = Utilities.Utility.GetString(Utility.configXmlKey, Path.Combine(Application.dataPath, Utility.defaultConfigXml));
+            string targetPath = Utilities.Utility.GetString(Utility.configXmlKey, Path.Combine(Utilities.Utility.GetProjectDataPath(), Utility.defaultConfigXml));
             ClearDirectory(targetPath);
 
             CopyDirectory(Utilities.Utility.GetString(Utility.configSrcKey, Utility.defaultConfigSrc), targetPath, null);

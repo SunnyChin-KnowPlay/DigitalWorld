@@ -19,10 +19,10 @@ namespace DigitalWorld.Table
         public const string defaultConfigSrc = "D:/Projects/DigitalWorld/DigitalWorld-Config/Configs";
 
         public const string configXmlKey = "Table.Config.Xml";
-        public const string defaultConfigXml = "Tables/Config/Xml";
+        public const string defaultConfigXml = "Assets/Tables/Config/Xml";
 
         public const string configDataKey = "Table.Config.Data";
-        public const string defaultConfigData = "Res/Config/Datas";
+        public const string defaultConfigData = "Assets/Res/Config/Datas";
 
         public const string GenerateCodesCmd = "GenerateCodesWithModel";
         public const string GenerateTablesCmd = "GenerateTablesWithModel";

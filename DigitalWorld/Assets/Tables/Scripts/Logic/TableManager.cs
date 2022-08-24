@@ -25,7 +25,7 @@ namespace DigitalWorld.Table
         private string GetDataFilePath(string tableName)
         {
             string folderPath = Utility.defaultConfigData;
-            return string.Format("{0}/{1}.bytes", folderPath, tableName);
+            return string.Format("{0}/{1}.asset", folderPath, tableName);
         }
         #endregion
 
@@ -43,7 +43,7 @@ namespace DigitalWorld.Table
                 string path = GetDataFilePath(tableName);
                 if (!string.IsNullOrEmpty(path))
                 {
-                    TextAsset ta = AssetManager.LoadAsset<TextAsset>(path);
+                    ByteAsset ta = AssetManager.LoadAsset<ByteAsset>(path);
 
                     if (null != ta)
                     {
@@ -57,18 +57,23 @@ namespace DigitalWorld.Table
         {
             if (null != table)
             {
-                string fullPath = Path.Combine(Application.dataPath, GetXmlFilePath(tableName));
-                if (File.Exists(fullPath))
+#if UNITY_EDITOR
+                string fullPath = GetXmlFilePath(tableName);
+                TextAsset ta = UnityEditor.AssetDatabase.LoadAssetAtPath(fullPath, typeof(TextAsset)) as TextAsset;
+
+                if (null != ta)
                 {
-                    using FileStream fs = File.Open(fullPath, FileMode.Open, FileAccess.Read, FileShare.Read);
                     XmlDocument xmlDocument = new XmlDocument();
-                    xmlDocument.Load(fs);
+                    xmlDocument.LoadXml(ta.text);
                     XmlElement root = xmlDocument["table"];
                     if (null != root)
                     {
                         table.DecodeXml(root);
                     }
                 }
+#endif
+
+
             }
         }
 
@@ -81,22 +86,25 @@ namespace DigitalWorld.Table
                 byte[] data = new byte[size];
                 table.Encode(data, 0);
 
-                string fullPath = Path.Combine(Application.dataPath, GetDataFilePath(tableName));
+                ByteAsset.CreateAsset(data, GetDataFilePath(tableName));
 
-                string path = fullPath;
-                if (!string.IsNullOrEmpty(path))
-                {
-                    string directoryPath = Path.GetDirectoryName(path);
-                    if (!Directory.Exists(directoryPath))
-                    {
-                        Directory.CreateDirectory(directoryPath);
-                    }
 
-                    using FileStream fs = File.Open(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
-                    fs.Write(data, 0, size);
-                    fs.Flush();
-                    fs.Close();
-                }
+                //string fullPath = Path.Combine(Application.dataPath,);
+
+                //string path = fullPath;
+                //if (!string.IsNullOrEmpty(path))
+                //{
+                //    string directoryPath = Path.GetDirectoryName(path);
+                //    if (!Directory.Exists(directoryPath))
+                //    {
+                //        Directory.CreateDirectory(directoryPath);
+                //    }
+
+                //    using FileStream fs = File.Open(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
+                //    fs.Write(data, 0, size);
+                //    fs.Flush();
+                //    fs.Close();
+                //}
             }
 #endif
         }
