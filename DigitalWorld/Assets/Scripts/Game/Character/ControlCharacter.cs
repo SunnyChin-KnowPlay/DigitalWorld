@@ -28,7 +28,6 @@ namespace DigitalWorld.Game
         }
         #endregion
 
-
         #region Logic
         protected override void SetupControls()
         {

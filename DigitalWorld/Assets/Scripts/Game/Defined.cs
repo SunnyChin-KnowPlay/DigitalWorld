@@ -60,6 +60,29 @@
         WaitRecycle,
     }
 
+    /// <summary>
+    /// 伤害类型
+    /// </summary>
+    public enum EDamagerType
+    {
+        /// <summary>
+        /// 物理伤害
+        /// </summary>
+        Physics = 0,
+        /// <summary>
+        /// 魔法伤害
+        /// </summary>
+        Magic,
+        /// <summary>
+        /// 真实伤害
+        /// </summary>
+        Truth,
+        /// <summary>
+        /// 反向伤害，治疗等。
+        /// </summary>
+        Reverse,
+    }
+
     public class Defined
     {
         /// <summary>
