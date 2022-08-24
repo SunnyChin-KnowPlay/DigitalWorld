@@ -93,6 +93,16 @@ namespace DigitalWorld.Utilities
             PlayerPrefs.SetInt(fullKey, value);
         }
 
+        /// <summary>
+        /// 获取项目文件路径 Application.dataPath移除"/Assets"
+        /// </summary>
+        /// <returns></returns>
+        public static string GetProjectDataPath()
+        {
+            string p = Application.dataPath.Replace("/Assets", "");
+            return p;
+        }
+
         public static void ClearDirectory(string path)
         {
             if (!Directory.Exists(path))

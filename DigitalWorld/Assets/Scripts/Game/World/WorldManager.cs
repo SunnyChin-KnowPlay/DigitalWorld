@@ -73,7 +73,7 @@ namespace DigitalWorld.Game
                 _ = unit.GetOrAddComponent<InputBehaviour>();
 
 
-                Logic.Behaviour behaviour = Logic.LogicHelper.AllocateBehaviour("Res/Logic/Behaviours/123.asset");
+                Logic.Behaviour behaviour = Logic.LogicHelper.AllocateBehaviour("Assets/Res/Logic/Behaviours/123.asset");
                 unit.Behaviour.AddBehaviour(behaviour);
             }
 

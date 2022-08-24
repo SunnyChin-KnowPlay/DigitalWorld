@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace DigitalWorld.Asset
 {
@@ -10,7 +11,7 @@ namespace DigitalWorld.Asset
         #region Load Asset
         public static T LoadAsset<T>(string path) where T : UnityEngine.Object
         {
-            var result = Addressables.LoadAssetAsync<T>(path);
+            AsyncOperationHandle<T> result = Addressables.LoadAssetAsync<T>(path);
             return result.WaitForCompletion();
         }
 
