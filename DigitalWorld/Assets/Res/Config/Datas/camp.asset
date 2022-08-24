@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b26a750440eeaf4194747f3ddf6506e, type: 3}
+  m_Name: camp
+  m_EditorClassIdentifier: 
+  bytes: 04000000010000000f000000e58f8be696b94e7063e998b5e890a5020000000f000000e6958ce696b94e7063e998b5e890a5030000000c000000e78ea9e5aeb6e998b5e890a5040000000c000000e6958ce5afb9e998b5e890a5
