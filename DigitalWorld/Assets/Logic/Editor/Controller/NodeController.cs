@@ -508,7 +508,7 @@ namespace DigitalWorld.Logic.Editor
         {
             string filePath = Path.Combine(DigitalWorld.Logic.Utility.TemplateConfigsPath, this.GetItemFileName(item));
             filePath += ".xml";
-            string fullPath = Path.Combine(DigitalWorld.Logic.Utility.GetProjectDataPath(), filePath);
+            string fullPath = Path.Combine(Utilities.Utility.GetProjectDataPath(), filePath);
 
             return fullPath;
         }

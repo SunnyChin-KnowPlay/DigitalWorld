@@ -104,16 +104,6 @@ namespace DigitalWorld.Logic
             return (TextAsset)AssetDatabase.LoadAssetAtPath(fullPath, typeof(TextAsset));
         }
 
-        /// <summary>
-        /// 获取项目文件路径 Application.dataPath移除"/Assets"
-        /// </summary>
-        /// <returns></returns>
-        public static string GetProjectDataPath()
-        {
-            string p = Application.dataPath.Replace("/Assets", "");
-            return p;
-        }
-
         public static void SaveDataToFile(string data, string filePath, FileMode mode = FileMode.Create)
         {
             string folderPath = System.IO.Path.GetDirectoryName(filePath);
