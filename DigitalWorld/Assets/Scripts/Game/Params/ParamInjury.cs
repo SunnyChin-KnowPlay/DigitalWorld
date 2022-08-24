@@ -1,6 +1,4 @@
-﻿
-
-namespace DigitalWorld.Game
+﻿namespace DigitalWorld.Game
 {
     /// <summary>
     /// 受伤参数结构
