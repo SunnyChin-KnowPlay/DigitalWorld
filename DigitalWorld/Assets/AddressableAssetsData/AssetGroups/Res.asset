@@ -17,32 +17,40 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 87e46df60a4671147955f397ce32d61d
   m_SerializeEntries:
-  - m_GUID: ae6be9d8735b329428a37210a9d2a7ed
-    m_Address: Res/UI
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: bbaf918217f261544bf09334b548c615
-    m_Address: Res/Map
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: 5fe2b6b3f9418764f8d9f81da39148cb
-    m_Address: Res/Config
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: e5aa5ea6074c84e46b5c4cd1474a8842
-    m_Address: Res/Tile
+    m_Address: Assets/Res/Tile
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 07d1527261447ed4d817bc53b80eb967
-    m_Address: Res/Shaders
+    m_Address: Assets/Res/Shaders
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: c437655b1edf23a4098ff720d9f2a8cb
-    m_Address: Res/Unit
+  - m_GUID: a3fb870445474fc45bc597b50af5e03a
+    m_Address: Assets/Res/NavMesh
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: bbaf918217f261544bf09334b548c615
+    m_Address: Assets/Res/Map
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: f44d2b2a55b5b0f47b1fe2acfb9d78c0
-    m_Address: Res/Logic
+    m_Address: Assets/Res/Logic
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 5fe2b6b3f9418764f8d9f81da39148cb
+    m_Address: Assets/Res/Config
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ef6a906a873da81488b51637a8b595b6
+    m_Address: Assets/Res/Cameras
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ae6be9d8735b329428a37210a9d2a7ed
+    m_Address: Assets/Res/UI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c437655b1edf23a4098ff720d9f2a8cb
+    m_Address: Assets/Res/Unit
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0

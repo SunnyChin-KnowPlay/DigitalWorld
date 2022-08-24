@@ -78,6 +78,23 @@ namespace DigitalWorld.Game
             }
 
 
+            // 最后添加摄像机
+
+            GameObject mainCameraObj = AssetManager.LoadAsset<GameObject>("Assets/Res/Cameras/BattleMainCamera.prefab");
+            if (null != mainCameraObj)
+            {
+                GameObject obj = GameObject.Instantiate(mainCameraObj);
+                if (null != obj)
+                {
+                    obj.name = "MainCamera";
+                    CameraControl cc = obj.GetOrAddComponent<CameraControl>();
+                    if (null != cc)
+                    {
+                        cc.target = unit.transform;
+                    }
+                }
+            }
+
         }
         #endregion
 
