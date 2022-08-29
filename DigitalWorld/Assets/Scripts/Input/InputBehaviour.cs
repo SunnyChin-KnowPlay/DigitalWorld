@@ -9,20 +9,28 @@ namespace DigitalWorld.Behaviour
         /// 单位控制器
         /// </summary>
         private ControlCharacter unit;
+        private Transform trans;
+
+        public const float mouseDirMoveSpeed = 90;
+        public const float keyboardDirMoveSpeed = 20;
+
+       
+        private Vector3 oldPosition;
 
         private void Awake()
         {
             unit = this.GetComponent<ControlCharacter>();
+            trans = this.transform;
         }
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
 
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             if (null != unit)
             {
@@ -32,23 +40,46 @@ namespace DigitalWorld.Behaviour
                     movingDir += Vector3.forward;
                 }
 
-                if (Input.GetKey(KeyCode.A))
-                {
-                    movingDir += Vector3.left;
-                }
-
                 if (Input.GetKey(KeyCode.S))
                 {
-                    movingDir += Vector3.back;
-                }
-
-                if (Input.GetKey(KeyCode.D))
-                {
-                    movingDir += Vector3.right;
+                    movingDir -= Vector3.forward;
                 }
 
                 unit.Move.ApplyMove(movingDir);
+
+                UpdateDir();
             }
+        }
+
+        private void UpdateDir()
+        {
+
+            if (Input.GetKey(KeyCode.A))
+            {
+                trans.Rotate(Vector3.up, -1 * keyboardDirMoveSpeed * Time.deltaTime);
+            }
+
+            if (Input.GetKey(KeyCode.D))
+            {
+                trans.Rotate(Vector3.up, 1 * keyboardDirMoveSpeed * Time.deltaTime);
+            }
+
+            if(Input.GetMouseButtonDown(1))
+            {
+                this.oldPosition = Input.mousePosition;
+            }
+
+            if (Input.GetMouseButton(1))
+            {
+                Vector3 deltaPostion = Input.mousePosition - this.oldPosition;
+                this.oldPosition = Input.mousePosition;
+
+                //获取鼠标旋转的度数 纵轴
+                float rotationAmount = deltaPostion.x * mouseDirMoveSpeed * Time.deltaTime;
+                trans.Rotate(Vector3.up, rotationAmount);
+            }
+
+           
         }
     }
 
