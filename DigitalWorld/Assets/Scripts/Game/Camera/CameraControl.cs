@@ -13,11 +13,8 @@ namespace DigitalWorld.Game
         public float distance = 15;
 
         public Vector2 distanceClamp = new Vector2(5, 25);
-        /// <summary>
-        /// 反向的视角 从目标摄像摄像机的高度角度
-        /// </summary>
-        public float heightAngleOfView = 45;
         public Vector2 heightAngleClamp = new Vector2(15, 75);
+
         public const float mouseScrollWheelSpeed = 1;
 
         /// <summary>
@@ -25,7 +22,7 @@ namespace DigitalWorld.Game
         /// </summary>
         private Vector3 offset;
         private Vector3 oldMousePosition;
-        public const float mouseHeightAngleMoveSpeed = 90;
+        public const float mouseMoveSpeed = 90;
         /// <summary>
         /// 是否按住了左键
         /// </summary>
@@ -34,7 +31,7 @@ namespace DigitalWorld.Game
         /// <summary>
         /// 左键的旋转欧拉角
         /// </summary>
-        private Vector3 leftMouseEulers;
+        private Vector3 mouseEulers;
 
         protected Vector3 lookAtRotation;
         public float mouseTurnedSpeed;
@@ -45,7 +42,7 @@ namespace DigitalWorld.Game
         private void Start()
         {
             trans = this.transform;
-            leftMouseEulers = Vector3.zero;
+            mouseEulers = new Vector3(90, 45, 0);
         }
 
         void Update()
@@ -59,7 +56,6 @@ namespace DigitalWorld.Game
 
             if (Input.GetMouseButtonDown(0))
             {
-                leftMouseEulers = target.rotation.eulerAngles;
                 isPressingLeftMouse = true;
             }
             if (Input.GetMouseButtonUp(0))
@@ -70,16 +66,21 @@ namespace DigitalWorld.Game
             if (Input.GetMouseButton(0))
             {
                 Vector3 deltaPosition = Input.mousePosition - oldMousePosition;
-                leftMouseEulers += new Vector3(deltaPosition.y, deltaPosition.x, 0);
+                this.oldMousePosition = Input.mousePosition;
+                mouseEulers += mouseMoveSpeed * Time.deltaTime * deltaPosition;
+
+                //this.mouseEulers.x += deltaPosition.x * mouseMoveSpeed * Time.deltaTime;
+                this.mouseEulers.y = Mathf.Clamp(this.mouseEulers.y, this.heightAngleClamp.x, this.heightAngleClamp.y);
 
             }
             else if (Input.GetMouseButton(1))
             {
                 Vector3 deltaPosition = Input.mousePosition - oldMousePosition;
                 this.oldMousePosition = Input.mousePosition;
+                mouseEulers += mouseMoveSpeed * Time.deltaTime * deltaPosition;
 
-                this.heightAngleOfView = Mathf.Clamp(this.heightAngleOfView + deltaPosition.y * mouseHeightAngleMoveSpeed * Time.deltaTime, this.heightAngleClamp.x, this.heightAngleClamp.y);
-                UnityEngine.Debug.Log(heightAngleOfView);
+                this.mouseEulers.y = Mathf.Clamp(this.mouseEulers.y, this.heightAngleClamp.x, this.heightAngleClamp.y);
+                //UnityEngine.Debug.Log(heightAngleOfView);
             }
 
             if (null != target)
@@ -88,12 +89,14 @@ namespace DigitalWorld.Game
 
                 if (isPressingLeftMouse) // 如果是左键过程中 则是直接移动镜头的 
                 {
-                    
+                    offset += distance * Mathf.Tan(mouseEulers.x * Mathf.Deg2Rad) * target.right;
+                    offset += distance * Mathf.Sin(mouseEulers.y * Mathf.Deg2Rad) * target.up;
+                    offset += distance * Mathf.Cos(mouseEulers.y * Mathf.Deg2Rad) * -target.forward;
                 }
                 else
                 {
-                    offset += distance * Mathf.Sin(heightAngleOfView * Mathf.Deg2Rad) * target.up;
-                    offset += distance * Mathf.Cos(heightAngleOfView * Mathf.Deg2Rad) * -target.forward;
+                    offset += distance * Mathf.Sin(mouseEulers.y * Mathf.Deg2Rad) * target.up;
+                    offset += distance * Mathf.Cos(mouseEulers.y * Mathf.Deg2Rad) * -target.forward;
                 }
 
                 trans.position = target.position + offset;
