@@ -14,7 +14,7 @@ namespace DigitalWorld.Behaviour
         public const float mouseDirMoveSpeed = 90;
         public const float keyboardDirMoveSpeed = 20;
 
-       
+
         private Vector3 oldPosition;
 
         private void Awake()
@@ -45,6 +45,16 @@ namespace DigitalWorld.Behaviour
                     movingDir -= Vector3.forward;
                 }
 
+                if (Input.GetKey(KeyCode.A))
+                {
+                    movingDir -= Vector3.right;
+                }
+
+                if (Input.GetKey(KeyCode.D))
+                {
+                    movingDir += Vector3.right;
+                }
+
                 unit.Move.ApplyMove(movingDir);
 
                 UpdateDir();
@@ -53,18 +63,7 @@ namespace DigitalWorld.Behaviour
 
         private void UpdateDir()
         {
-
-            if (Input.GetKey(KeyCode.A))
-            {
-                trans.Rotate(Vector3.up, -1 * keyboardDirMoveSpeed * Time.deltaTime);
-            }
-
-            if (Input.GetKey(KeyCode.D))
-            {
-                trans.Rotate(Vector3.up, 1 * keyboardDirMoveSpeed * Time.deltaTime);
-            }
-
-            if(Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1))
             {
                 this.oldPosition = Input.mousePosition;
             }
@@ -78,8 +77,6 @@ namespace DigitalWorld.Behaviour
                 float rotationAmount = deltaPostion.x * mouseDirMoveSpeed * Time.deltaTime;
                 trans.Rotate(Vector3.up, rotationAmount);
             }
-
-           
         }
     }
 

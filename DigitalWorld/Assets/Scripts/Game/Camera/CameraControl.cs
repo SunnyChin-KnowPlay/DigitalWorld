@@ -10,6 +10,8 @@ namespace DigitalWorld.Game
     public class CameraControl : MonoBehaviour
     {
         public Transform target;
+        protected Transform trans;
+
         public float distance = 15;
 
         public Vector2 distanceClamp = new Vector2(5, 25);
@@ -20,92 +22,70 @@ namespace DigitalWorld.Game
         /// <summary>
         /// 相机和目标的偏移量
         /// </summary>
-        private Vector3 offset;
+        private Vector3 dir;
+        /// <summary>
+        /// 标准方向，就是直后方
+        /// </summary>
+        private Vector3 standardDir;
+
+        /// <summary>
+        /// 最后一次的目标位置
+        /// </summary>
+        private Vector3 lastedTargetPosition;
+
         private Vector3 oldMousePosition;
         public const float mouseMoveSpeed = 90;
-        /// <summary>
-        /// 是否按住了左键
-        /// </summary>
-        private bool isPressingLeftMouse = false;
 
-        /// <summary>
-        /// 左键的旋转欧拉角
-        /// </summary>
-        private Vector3 mouseEulers;
-
-        protected Vector3 lookAtRotation;
-        public float mouseTurnedSpeed;
-
-        protected Transform trans;
-
+        private float standardDirSqrMagnitude = 0;
+        private const float standardDirSqrMagnitudeLimit = 1;
 
         private void Start()
         {
             trans = this.transform;
-            mouseEulers = new Vector3(90, 45, 0);
+            dir = new Vector3(0, 10, -10) * distance;
         }
 
         void Update()
         {
+            this.distance = Mathf.Clamp(this.distance + Input.GetAxis("Mouse ScrollWheel") * mouseScrollWheelSpeed, distanceClamp.x, distanceClamp.y);
+
+            float mag = (target.position - lastedTargetPosition).sqrMagnitude;
+            lastedTargetPosition = target.position;
+
+
+            standardDirSqrMagnitude += mag;
+
+            standardDir = target.position - target.forward * distance - target.up * distance;
+
             if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
             {
                 oldMousePosition = Input.mousePosition;
             }
 
-            this.distance = Mathf.Clamp(this.distance + Input.GetAxis("Mouse ScrollWheel") * mouseScrollWheelSpeed, distanceClamp.x, distanceClamp.y);
-
-            if (Input.GetMouseButtonDown(0))
-            {
-                isPressingLeftMouse = true;
-            }
-            if (Input.GetMouseButtonUp(0))
-            {
-                isPressingLeftMouse = false;
-            }
-
-            if (Input.GetMouseButton(0))
-            {
-                Vector3 deltaPosition = Input.mousePosition - oldMousePosition;
-                this.oldMousePosition = Input.mousePosition;
-                mouseEulers += mouseMoveSpeed * Time.deltaTime * deltaPosition;
-
-                //this.mouseEulers.x += deltaPosition.x * mouseMoveSpeed * Time.deltaTime;
-                this.mouseEulers.y = Mathf.Clamp(this.mouseEulers.y, this.heightAngleClamp.x, this.heightAngleClamp.y);
-
-            }
-            else if (Input.GetMouseButton(1))
-            {
-                Vector3 deltaPosition = Input.mousePosition - oldMousePosition;
-                this.oldMousePosition = Input.mousePosition;
-                mouseEulers += mouseMoveSpeed * Time.deltaTime * deltaPosition;
-
-                this.mouseEulers.y = Mathf.Clamp(this.mouseEulers.y, this.heightAngleClamp.x, this.heightAngleClamp.y);
-                //UnityEngine.Debug.Log(heightAngleOfView);
-            }
-
             if (null != target)
             {
-                offset = Vector3.zero;
+                if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
+                {
+                    Vector3 deltaPosition = Input.mousePosition - oldMousePosition;
+                    this.oldMousePosition = Input.mousePosition;
 
-                if (isPressingLeftMouse) // 如果是左键过程中 则是直接移动镜头的 
-                {
-                    offset += distance * Mathf.Tan(mouseEulers.x * Mathf.Deg2Rad) * target.right;
-                    offset += distance * Mathf.Sin(mouseEulers.y * Mathf.Deg2Rad) * target.up;
-                    offset += distance * Mathf.Cos(mouseEulers.y * Mathf.Deg2Rad) * -target.forward;
-                }
-                else
-                {
-                    offset += distance * Mathf.Sin(mouseEulers.y * Mathf.Deg2Rad) * target.up;
-                    offset += distance * Mathf.Cos(mouseEulers.y * Mathf.Deg2Rad) * -target.forward;
+                    trans.RotateAround(target.position, target.right, mouseMoveSpeed * Time.deltaTime * deltaPosition.y);
+                    trans.RotateAround(target.position, Vector3.up, mouseMoveSpeed * Time.deltaTime * deltaPosition.x);
+                    dir = trans.position - target.position;
+
+                    standardDirSqrMagnitude = 0;
                 }
 
-                trans.position = target.position + offset;
+                UnityEngine.Debug.Log(string.Format("dir:{0}\tstandardDir:{1}", dir, standardDir));
+                UnityEngine.Debug.Log(string.Format("mag:{0}\trate:{1}", mag, standardDirSqrMagnitude / standardDirSqrMagnitudeLimit));
+                Vector3 finalDir = Vector3.Lerp(dir, standardDir, standardDirSqrMagnitude / standardDirSqrMagnitudeLimit);
+                finalDir = dir;
+                trans.position = target.position + finalDir.normalized * distance;
+
+
                 trans.LookAt(target.position);
             }
         }
-
-
     }
-
 }
 
