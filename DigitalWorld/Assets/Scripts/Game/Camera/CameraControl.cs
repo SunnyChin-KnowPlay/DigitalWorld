@@ -20,13 +20,13 @@ namespace DigitalWorld.Game
         public const float mouseScrollWheelSpeed = 1;
 
         /// <summary>
-        /// 相机和目标的偏移量
+        /// 鼠标左键的dir
         /// </summary>
-        private Vector3 dir;
+        private Vector3 leftDir;
         /// <summary>
-        /// 标准方向，就是直后方
+        /// 鼠标右键的相机和目标的偏移量
         /// </summary>
-        private Vector3 standardDir;
+        private Vector3 rightDir;
 
         /// <summary>
         /// 最后一次的目标位置
@@ -34,7 +34,8 @@ namespace DigitalWorld.Game
         private Vector3 lastedTargetPosition;
 
         private Vector3 oldMousePosition;
-        public const float mouseMoveSpeed = 90;
+        public float mouseMoveSpeed = 90;
+
 
         private float standardDirSqrMagnitude = 0;
         private const float standardDirSqrMagnitudeLimit = 1;
@@ -42,7 +43,8 @@ namespace DigitalWorld.Game
         private void Start()
         {
             trans = this.transform;
-            dir = new Vector3(0, 10, -10) * distance;
+            leftDir = new Vector3(0, 10, -10) * distance;
+            rightDir = new Vector3(0, 10, -10) * distance;
         }
 
         void Update()
@@ -52,10 +54,7 @@ namespace DigitalWorld.Game
             float mag = (target.position - lastedTargetPosition).sqrMagnitude;
             lastedTargetPosition = target.position;
 
-
             standardDirSqrMagnitude += mag;
-
-            standardDir = target.position - target.forward * distance - target.up * distance;
 
             if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
             {
@@ -64,24 +63,47 @@ namespace DigitalWorld.Game
 
             if (null != target)
             {
-                if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
+                if (Input.GetMouseButton(0))
                 {
                     Vector3 deltaPosition = Input.mousePosition - oldMousePosition;
                     this.oldMousePosition = Input.mousePosition;
 
                     trans.RotateAround(target.position, target.right, mouseMoveSpeed * Time.deltaTime * deltaPosition.y);
-                    trans.RotateAround(target.position, Vector3.up, mouseMoveSpeed * Time.deltaTime * deltaPosition.x);
-                    dir = trans.position - target.position;
+                    trans.RotateAround(target.position, Vector3.up, this.mouseMoveSpeed * Time.deltaTime * deltaPosition.x);
+
+                    leftDir = trans.position - target.position;
+
+                    float cos = Vector3.Dot(Vector3.up, leftDir) / Vector3.Magnitude(leftDir);
+                    if (cos <= 0 || cos >= 0.99f)
+                    {
+                        trans.RotateAround(target.position, target.right, -mouseMoveSpeed * Time.deltaTime * deltaPosition.y);
+                        leftDir = trans.position - target.position;
+                    }
 
                     standardDirSqrMagnitude = 0;
                 }
 
-                UnityEngine.Debug.Log(string.Format("dir:{0}\tstandardDir:{1}", dir, standardDir));
-                UnityEngine.Debug.Log(string.Format("mag:{0}\trate:{1}", mag, standardDirSqrMagnitude / standardDirSqrMagnitudeLimit));
-                Vector3 finalDir = Vector3.Lerp(dir, standardDir, standardDirSqrMagnitude / standardDirSqrMagnitudeLimit);
-                finalDir = dir;
-                trans.position = target.position + finalDir.normalized * distance;
+                if (Input.GetMouseButton(1))
+                {
+                    Vector3 deltaPosition = Input.mousePosition - oldMousePosition;
+                    this.oldMousePosition = Input.mousePosition;
 
+                    trans.RotateAround(target.position, target.right, mouseMoveSpeed * Time.deltaTime * deltaPosition.y);
+                    trans.RotateAround(target.position, Vector3.up, this.mouseMoveSpeed * Time.deltaTime * deltaPosition.x);
+
+                    leftDir = rightDir = trans.position - target.position;
+
+                    float cos = Vector3.Dot(Vector3.up, rightDir) / Vector3.Magnitude(rightDir);
+                    if (cos <= 0 || cos >= 0.99f)
+                    {
+                        trans.RotateAround(target.position, target.right, -mouseMoveSpeed * Time.deltaTime * deltaPosition.y);
+                        leftDir = rightDir = trans.position - target.position;
+                    }
+                }
+
+
+                Vector3 finalDir = Vector3.Lerp(leftDir, rightDir, standardDirSqrMagnitude / standardDirSqrMagnitudeLimit);
+                trans.position = target.position + finalDir.normalized * distance;
 
                 trans.LookAt(target.position);
             }
