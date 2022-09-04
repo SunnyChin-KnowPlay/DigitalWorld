@@ -1,7 +1,7 @@
 ﻿namespace DigitalWorld.Game
 {
     /// <summary>
-    /// 受伤参数结构
+    /// 伤害参数结构
     /// </summary>
     public struct ParamInjury
     {
@@ -23,6 +23,19 @@
         /// 技能配置ID
         /// </summary>
         public int skillId;
+
+        /// <summary>
+        /// 伤害类型
+        /// </summary>
+        public EDamagerType damageType;
+
+        /// <summary>
+        /// 伤害值
+        /// </summary>
+        public int damage;
+
+
     }
+
 
 }

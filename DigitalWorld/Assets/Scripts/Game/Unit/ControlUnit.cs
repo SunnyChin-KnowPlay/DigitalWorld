@@ -42,6 +42,11 @@ namespace DigitalWorld.Game
         }
         protected WorldManager world;
 
+        /// <summary>
+        /// 功能锁
+        /// 上锁后的功能就会被禁止使用
+        /// </summary>
+        protected int[] forbiddenFunctions = new int[(int)EUnitFunction.Max];
         #endregion
 
         #region Controls
@@ -52,6 +57,9 @@ namespace DigitalWorld.Game
         public ControlSkill Skill => this.controls[ELogicControlType.Skill] as ControlSkill;
         public ControlMove Move => this.controls[ELogicControlType.Move] as ControlMove;
         public ControlBehaviour Behaviour => this.controls[ELogicControlType.Behaviour] as ControlBehaviour;
+        public ControlCalculate Calculate => this.controls[ELogicControlType.Calculate] as ControlCalculate;
+        public ControlSituation Situation => this.controls[ELogicControlType.Situation] as ControlSituation;
+        public ControlTest Test => this.controls[ELogicControlType.Test] as ControlTest;
         #endregion
 
         #region Behaviour
@@ -112,6 +120,22 @@ namespace DigitalWorld.Game
             }
         }
 
+        public virtual void AddControl(ELogicControlType type, ControlLogic control)
+        {
+            if (this.controls.ContainsKey(type))
+            {
+                //TODO:已经包含控制了，先忽略...
+                return;
+            }
+
+            this.controls.Add(type, control);
+        }
+
+        public virtual void RemoveControl(ELogicControlType type)
+        {
+            this.controls.Remove(type);
+        }
+
         protected abstract void SetupControls();
 
         protected virtual void OnSetupControl(ControlLogic c)
@@ -147,6 +171,66 @@ namespace DigitalWorld.Game
         }
         #endregion
 
+        #region Damage
+        /// <summary>
+        /// 处理伤害
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public virtual long ProcessDamage(ref ParamInjury param)
+        {
+
+            int result = Calculate.CalculateDamage(ref param);
+
+            return result;
+        }
+        #endregion
+
+        #region ForbiddenFunction
+        /// <summary>
+        /// 是否禁止了某项功能
+        /// </summary>
+        /// <param name="function">功能枚举</param>
+        /// <returns>true:禁止了|false:允许</returns>
+        public bool IsForbiddenFunction(EUnitFunction function)
+        {
+            return forbiddenFunctions[(int)function] > 0;
+        }
+
+        /// <summary>
+        /// 禁止/锁定功能
+        /// </summary>
+        /// <param name="function"></param>
+        /// <returns></returns>
+        public int ForbidFunction(EUnitFunction function)
+        {
+            forbiddenFunctions[(int)function]++;
+
+            return forbiddenFunctions[(int)function];
+        }
+
+        /// <summary>
+        /// 允许/解锁功能
+        /// </summary>
+        /// <param name="function"></param>
+        /// <returns></returns>
+        public int PermitFunction(EUnitFunction function)
+        {
+            forbiddenFunctions[(int)function] = Mathf.Max(forbiddenFunctions[(int)function] - 1, 0);
+            return forbiddenFunctions[(int)function];
+        }
+
+        /// <summary>
+        /// 清空禁用行动
+        /// </summary>
+        /// <param name="function"></param>
+        /// <returns></returns>
+        public int ClearForbiddenFunction(EUnitFunction function)
+        {
+            forbiddenFunctions[(int)function] = 0;
+            return 0;
+        }
+        #endregion
     }
 
 }

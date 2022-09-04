@@ -10,13 +10,26 @@ namespace DigitalWorld.Game
     public class CameraControl : MonoBehaviour
     {
         #region Params
-        public Transform target;
+        public Transform focused;
+
+        public ControlUnit FocusedUnit
+        {
+            get
+            {
+                if (null == focused)
+                    return null;
+
+                return focused.GetComponent<ControlUnit>();
+            }
+        }
+
         protected Transform trans;
+        protected new Camera camera;
 
         public float distance = 15;
 
         public Vector2 distanceClamp = new Vector2(5, 25);
-        public Vector2 verticalAngleClamp = new Vector2(0, 89);
+        public Vector2 verticalAngleClamp = new Vector2(5, 85);
 
         public const float mouseScrollWheelSpeed = 5;
 
@@ -32,7 +45,7 @@ namespace DigitalWorld.Game
         private Vector3 lastedTargetPosition;
 
         private Vector3 oldMousePosition;
-        public float mouseMoveSpeed = 90;
+        public float mouseMoveSpeed = 1;
 
         private float standardDirSqrMagnitude = 0;
         private const float standardDirSqrMagnitudeLimit = 1;
@@ -41,7 +54,7 @@ namespace DigitalWorld.Game
         #region Common
         private Quaternion GetStandardHorizontalRotation()
         {
-            return Quaternion.Euler(0, target.rotation.eulerAngles.y, 0);
+            return Quaternion.Euler(0, focused.rotation.eulerAngles.y, 0);
         }
 
         private float ClampAngle(float angle, float min, float max)
@@ -49,6 +62,12 @@ namespace DigitalWorld.Game
             return Mathf.Clamp(angle, min, max);
         }
         #endregion
+
+        #region Mono
+        private void Awake()
+        {
+            camera = GetComponent<Camera>();
+        }
 
         private void Start()
         {
@@ -64,10 +83,10 @@ namespace DigitalWorld.Game
 
         private void LateUpdate()
         {
-            if (null != target)
+            if (null != focused)
             {
-                float mag = (target.position - lastedTargetPosition).sqrMagnitude;
-                lastedTargetPosition = target.position;
+                float mag = (focused.position - lastedTargetPosition).sqrMagnitude;
+                lastedTargetPosition = focused.position;
 
                 standardDirSqrMagnitude += mag * 10f;
 
@@ -81,7 +100,7 @@ namespace DigitalWorld.Game
                     Vector3 deltaPosition = Input.mousePosition - oldMousePosition;
                     this.oldMousePosition = Input.mousePosition;
 
-                    inputAngles += mouseMoveSpeed * Time.deltaTime * deltaPosition;
+                    inputAngles += mouseMoveSpeed * deltaPosition;
                     inputAngles = new Vector3(inputAngles.x, ClampAngle(inputAngles.y, verticalAngleClamp.x, verticalAngleClamp.y), 0);
                 }
 
@@ -100,10 +119,36 @@ namespace DigitalWorld.Game
                 quaternion *= Quaternion.Slerp(inputHorizontalRotation, GetStandardHorizontalRotation(), standardDirSqrMagnitude / standardDirSqrMagnitudeLimit);
                 quaternion *= inputVerticalRotation;
 
-                trans.position = target.position + quaternion * -Vector3.forward * distance;
-                trans.LookAt(target.position);
+                trans.position = focused.position + quaternion * -Vector3.forward * distance;
+                trans.LookAt(focused.position);
+
+                UpdateSelect();
             }
         }
+        #endregion
+
+        #region Select
+        private void UpdateSelect()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+
+                bool ret = Physics.Raycast(ray, out RaycastHit hit);
+                if (ret)
+                {
+                    Collider collider = hit.collider;
+                    ControlUnit target = collider.gameObject.GetComponent<ControlUnit>();
+                    if (null != target)
+                    {
+                        ControlSituation situation = this.FocusedUnit.Situation;
+                        situation.SelectTarget(new UnitHandle(target));
+                    }
+                }
+            }
+
+        }
+        #endregion
     }
 }
 

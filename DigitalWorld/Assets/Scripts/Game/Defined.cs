@@ -38,6 +38,14 @@
         /// 战场态势
         /// </summary>
         Situation,
+        /// <summary>
+        /// 计算
+        /// </summary>
+        Calculate,
+        /// <summary>
+        /// 测试控制器
+        /// </summary>
+        Test,
     }
 
     public enum EUnitStatus
@@ -78,9 +86,34 @@
         /// </summary>
         Truth,
         /// <summary>
-        /// 反向伤害，治疗等。
+        /// 反向伤害 - 治疗
         /// </summary>
         Reverse,
+    }
+
+    /// <summary>
+    /// 单元功能锁
+    /// 一旦上锁后，该功能即失效
+    /// </summary>
+    public enum EUnitFunction : int
+    {
+        /// <summary>
+        /// 移动
+        /// </summary>
+        Move = 0,
+        /// <summary>
+        /// 可攻击的
+        /// </summary>
+        Vincible,
+        /// <summary>
+        /// 旋转
+        /// </summary>
+        Rotate,
+        /// <summary>
+        /// 被约束
+        /// </summary>
+        Constrained,
+        Max,
     }
 
     public class Defined

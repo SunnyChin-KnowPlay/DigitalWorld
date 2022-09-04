@@ -62,5 +62,17 @@ namespace DigitalWorld.Game
             this.unit = unit;
         }
         #endregion
+
+        #region Gizmos
+        protected virtual void OnDrawGizmos()
+        {
+            
+        }
+
+        protected virtual void OnDrawGizmosSelected()
+        {
+
+        }
+        #endregion
     }
 }

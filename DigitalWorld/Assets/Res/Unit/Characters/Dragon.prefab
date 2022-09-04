@@ -838,6 +838,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4258366756040210}
   - component: {fileID: 95336232578254584}
+  - component: {fileID: 5343068968050254183}
   m_Layer: 0
   m_Name: Dragon
   m_TagString: Untagged
@@ -860,7 +861,7 @@ Transform:
   - {fileID: 4413721170801358}
   - {fileID: 4472576768877932}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &95336232578254584
 Animator:
@@ -882,6 +883,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &5343068968050254183
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1594767147126006}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2, z: 2}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &1610864841334552
 GameObject:
   m_ObjectHideFlags: 0

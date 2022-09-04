@@ -71,7 +71,7 @@ namespace DigitalWorld.Game
                 unit.LogicPosition = Vector3.zero;
 
                 _ = unit.GetOrAddComponent<InputBehaviour>();
-
+                unit.AddControl(ELogicControlType.Test, unit.GetOrAddComponent<ControlTest>());
 
                 Logic.Behaviour behaviour = Logic.LogicHelper.AllocateBehaviour("Assets/Res/Logic/Behaviours/123.asset");
                 unit.Behaviour.AddBehaviour(behaviour);
@@ -90,7 +90,7 @@ namespace DigitalWorld.Game
                     CameraControl cc = obj.GetOrAddComponent<CameraControl>();
                     if (null != cc)
                     {
-                        cc.target = unit.transform;
+                        cc.focused = unit.transform;
                     }
                 }
             }

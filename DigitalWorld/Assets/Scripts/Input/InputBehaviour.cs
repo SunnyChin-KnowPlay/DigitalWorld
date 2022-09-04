@@ -11,7 +11,7 @@ namespace DigitalWorld.Behaviour
         private ControlCharacter unit;
         private Transform trans;
 
-        public const float mouseDirMoveSpeed = 90;
+        public const float mouseDirMoveSpeed = 1;
         public const float keyboardDirMoveSpeed = 20;
 
 
@@ -74,10 +74,12 @@ namespace DigitalWorld.Behaviour
                 this.oldPosition = Input.mousePosition;
 
                 //获取鼠标旋转的度数 纵轴
-                float rotationAmount = deltaPostion.x * mouseDirMoveSpeed * Time.deltaTime;
+                float rotationAmount = deltaPostion.x * mouseDirMoveSpeed;
                 trans.Rotate(Vector3.up, rotationAmount);
             }
         }
+
+      
     }
 
 }
