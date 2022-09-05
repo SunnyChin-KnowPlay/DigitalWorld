@@ -10,7 +10,7 @@ using System.Threading;
 
 namespace DigitalWorld.Net
 {
-    public class AgentManager : DreamEngine.Singleton<AgentManager>
+    public class AgentManager : DreamEngine.Core.Singleton<AgentManager>
     {
         #region Event
         public delegate void OnProcessProtocolHandle(Protocol p);
@@ -104,7 +104,7 @@ namespace DigitalWorld.Net
                     foreach (var kvp in agents)
                     {
                         kvp.Value.Update();
-                    }        
+                    }
                 }
                 finally
                 {

@@ -26,7 +26,7 @@ namespace DigitalWorld.Game
         /// </summary>
         public CharacterInfo CharacterInfo
         {
-            get { return TableManager.instance.CharacterTable[configId]; }
+            get { return TableManager.Instance.CharacterTable[configId]; }
         }
 
         /// <summary>

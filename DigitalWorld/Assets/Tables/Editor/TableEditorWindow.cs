@@ -62,7 +62,7 @@ namespace DigitalWorld.Table.Editor
                 }
             }
 
-            TableManager m = TableManager.instance;
+            TableManager m = TableManager.Instance;
             m.DecodeXml();
             m.Encode();
 

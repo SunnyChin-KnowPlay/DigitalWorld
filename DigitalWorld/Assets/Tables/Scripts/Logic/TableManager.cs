@@ -8,7 +8,7 @@ namespace DigitalWorld.Table
 {
     public partial class TableManager
     {
-        public TableManager()
+        private TableManager()
         {
             this.OnDecodeTable = OnProcessDecodeTable;
             this.OnDecodeTableWithXml = OnProcessDecodeTableWithXml;

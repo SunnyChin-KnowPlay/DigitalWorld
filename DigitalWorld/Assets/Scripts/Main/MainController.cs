@@ -2,7 +2,7 @@
 
 namespace DigitalWorld
 {
-    public class MainController : DreamEngine.Singleton<MainController>
+    public class MainController : DreamEngine.Core.Singleton<MainController>
     {
         public WorldInfo worldInfo;
 

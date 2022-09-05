@@ -41,7 +41,7 @@ namespace DigitalWorld.Logic.Editor
         private void OnWizardCreate()
         {
             NodeItem exitsNode = null;
-            if (NodeController.instance.CheckItemExits(this.type, id, ref exitsNode))
+            if (NodeController.Instance.CheckItemExits(this.type, id, ref exitsNode))
             {
                 string title = NodeController.GetTitleWithType(type);
                 string v = string.Format("{0}已存在，使用该ID({1})的{0}为({2})", title, id, exitsNode.Name);
@@ -49,7 +49,7 @@ namespace DigitalWorld.Logic.Editor
                 return;
             }
 
-            if (NodeController.instance.CheckItemExits(this.type, itemName, ref exitsNode))
+            if (NodeController.Instance.CheckItemExits(this.type, itemName, ref exitsNode))
             {
                 string title = NodeController.GetTitleWithType(type);
                 string v = string.Format("{0}已存在，使用该名字({1})的{0}为({2})", title, itemName, exitsNode.Name);
@@ -59,7 +59,7 @@ namespace DigitalWorld.Logic.Editor
 
             if (null != addHandle)
             {
-                NodeItem item = NodeController.instance.CreateItem(type);
+                NodeItem item = NodeController.Instance.CreateItem(type);
                 item.Id = id;
                 item.Name = itemName;
                 item.Desc = itemDescription;

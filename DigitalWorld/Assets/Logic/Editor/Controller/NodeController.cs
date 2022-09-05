@@ -28,6 +28,11 @@ namespace DigitalWorld.Logic.Editor
         }
         #endregion
 
+        private NodeController()
+        {
+
+        }
+
         #region Common
         public void GenerateNodesCode()
         {

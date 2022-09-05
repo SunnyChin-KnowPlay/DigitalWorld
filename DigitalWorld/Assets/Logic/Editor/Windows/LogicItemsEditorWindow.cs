@@ -17,7 +17,7 @@ namespace DigitalWorld.Logic.Editor
         {
             get
             {
-                return NodeController.instance;
+                return NodeController.Instance;
             }
         }
 
@@ -249,7 +249,7 @@ namespace DigitalWorld.Logic.Editor
 
         private void OnAddItem(EItemType type)
         {
-            LogicItemCreateWizard.DisplayWizard(type, OnAddItem, NodeController.instance.GetNewId(type));
+            LogicItemCreateWizard.DisplayWizard(type, OnAddItem, NodeController.Instance.GetNewId(type));
         }
 
         private void OnRemoveItem(ReorderableList list)
@@ -278,7 +278,7 @@ namespace DigitalWorld.Logic.Editor
 
 
 
-            bool isDisable = !NodeController.instance.Editing;
+            bool isDisable = !NodeController.Instance.Editing;
             EditorGUI.BeginDisabledGroup(isDisable);
 
             var TextFieldRoundEdge = new GUIStyle("SearchTextField");
@@ -324,7 +324,7 @@ namespace DigitalWorld.Logic.Editor
                 if (GUILayout.Button("Save & Quit"))
                 {
                     SaveAndQuitEdit();
-                    NodeController.instance.GenerateNodesCode();
+                    NodeController.Instance.GenerateNodesCode();
                 }
                 EditorGUI.EndDisabledGroup();
 
@@ -342,7 +342,7 @@ namespace DigitalWorld.Logic.Editor
 
                 if (GUILayout.Button("Generate Codes"))
                 {
-                    NodeController.instance.GenerateNodesCode();
+                    NodeController.Instance.GenerateNodesCode();
                 }
             }
 

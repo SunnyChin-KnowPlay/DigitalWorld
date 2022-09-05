@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace DreamEngine
+namespace DreamEngine.Core
 {
     public class Singleton<T> : MonoBehaviour where T : Singleton<T>
     {

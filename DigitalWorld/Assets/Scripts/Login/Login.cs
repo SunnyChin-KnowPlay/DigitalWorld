@@ -11,7 +11,7 @@ namespace DigitalWorld.Login
         {
         
 
-            TableManager tm = TableManager.instance;
+            TableManager tm = TableManager.Instance;
             tm.Decode();
 
             _ = MainController.Instance;
