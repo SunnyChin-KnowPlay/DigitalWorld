@@ -57,7 +57,8 @@ namespace DigitalWorld.UI.Logic
         #region UI Event
         private void OnClickStartGame()
         {
-            UnityEngine.Debug.Log("Start Game");
+            DreamEngine.Logger.Info("Start Game");
+            //UnityEngine.Debug.Log("Start Game");
 
             MainController mc = MainController.Instance;
             mc.worldInfo = new WorldInfo()
