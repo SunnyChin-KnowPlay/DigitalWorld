@@ -333,14 +333,14 @@ namespace DigitalWorld.Logic.Editor
                     implementTemplate.Initialize();
                     data = implementTemplate.TransformText();
 
-                    DigitalWorld.Logic.Utility.SaveDataToFile(data, implementFullPath);
+                    Logic.Utility.SaveDataToFile(data, implementFullPath);
                 }
             }
         }
 
         private static void ClearAllCodeFiles()
         {
-            DigitalWorld.Utilities.Utility.ClearDirectory(Logic.Utility.GeneratedScriptPath);
+            Utilities.Utility.ClearDirectory(Logic.Utility.GeneratedScriptPath);
         }
 
         public void SetDirty()
@@ -368,7 +368,6 @@ namespace DigitalWorld.Logic.Editor
             {
                 itemsEditings.Add(type, editing);
             }
-
         }
 
         public void StartEdit()

@@ -31,6 +31,10 @@ namespace DigitalWorld.Logic
         /// 基于单位的创建角色，位置使用相对关系
         /// </summary>
 		Game_Unit_CreateCharacter = 3,
+		/// <summary>
+        /// 单位造成伤害
+        /// </summary>
+		Game_Unit_Damage = 4,
 	}
 
 	public static class Defined
@@ -58,6 +62,8 @@ namespace DigitalWorld.Logic
 					return "游戏中的创建对象，位置是基于世界坐标的";
 				case EAction.Game_Unit_CreateCharacter:
 					return "基于单位的创建角色，位置使用相对关系";
+				case EAction.Game_Unit_Damage:
+					return "单位造成伤害";
 				default:
 					return null;
 			}

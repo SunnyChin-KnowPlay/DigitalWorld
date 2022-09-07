@@ -27,6 +27,17 @@ namespace DigitalWorld.Game
 
             this.target = target;
         }
+
+        /// <summary>
+        /// 自动搜索目标
+        /// 先写一个寻找周围单位的逻辑
+        /// 排除掉当前的目标
+        /// 选一个在自己面前的(Dot)最近的目标
+        /// </summary>
+        public virtual void AutoSelectTarget()
+        {
+
+        }
         #endregion
 
 

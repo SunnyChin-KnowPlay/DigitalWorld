@@ -19,8 +19,7 @@ namespace DigitalWorld.Logic.Editor
         #region Save & Load
         public override void Decode(XmlElement node)
         {
-            if (node.HasAttribute("name"))
-                name = node.GetAttribute("name");
+            base.Decode(node);
             if (node.HasAttribute("baseTypeName"))
                 baseTypeName = node.GetAttribute("baseTypeName");
             if (node.HasAttribute("typeName"))
@@ -31,7 +30,7 @@ namespace DigitalWorld.Logic.Editor
 
         public override void Encode(XmlElement node)
         {
-            node.SetAttribute("name", name);
+            base.Encode(node);
             node.SetAttribute("baseTypeName", baseTypeName);
             node.SetAttribute("typeName", typeName);
             node.SetAttribute("desc", desc);
@@ -44,8 +43,9 @@ namespace DigitalWorld.Logic.Editor
             base.OnGUIBody();
 
             name = EditorGUILayout.TextField("name", name);
-
             typeName = EditorGUILayout.TextField("typeName", typeName);
+            System.Type type = NodeField.FindType(NodeField.FindTypeIndex(typeName));
+            baseTypeName = type.BaseType.ToString();
             desc = EditorGUILayout.TextField("desc", desc);
         }
         #endregion
@@ -68,6 +68,7 @@ namespace DigitalWorld.Logic.Editor
             if (base.CloneTo(obj) is NodeField v)
             {
                 v.typeName = this.typeName;
+                v.baseTypeName = this.baseTypeName;
                 v.desc = this.desc;
             }
 

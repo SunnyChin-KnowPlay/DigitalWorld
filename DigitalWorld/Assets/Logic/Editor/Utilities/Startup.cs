@@ -12,8 +12,6 @@ namespace DigitalWorld.Logic.Editor
         /// </summary>
         static Startup()
         {
-            _ = NodeController.Instance;
-
             Listen();
         }
 
