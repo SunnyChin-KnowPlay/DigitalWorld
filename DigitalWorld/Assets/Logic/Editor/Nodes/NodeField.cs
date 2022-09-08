@@ -6,7 +6,7 @@ using System;
 
 namespace DigitalWorld.Logic.Editor
 {
-    internal class NodeField : NodeBase
+    public class NodeField : NodeBase
     {
         #region Params
 

@@ -4,7 +4,7 @@ using System.Xml;
 
 namespace DigitalWorld.Logic.Editor
 {
-    internal abstract class NodeBase : ISerialization
+    public abstract class NodeBase : ISerialization
     {
         #region Event
         public delegate void OnDirtyChangedHandle(bool dirty);

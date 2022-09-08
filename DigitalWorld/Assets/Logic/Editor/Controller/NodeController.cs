@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace DigitalWorld.Logic.Editor
 {
-    internal class NodeController : Singleton<NodeController>
+    public class NodeController
     {
         #region Params
         public Dictionary<EItemType, List<NodeItem>> items = new Dictionary<EItemType, List<NodeItem>>();
@@ -28,7 +28,7 @@ namespace DigitalWorld.Logic.Editor
         }
         #endregion
 
-        private NodeController()
+        public NodeController()
         {
 
         }
@@ -374,7 +374,6 @@ namespace DigitalWorld.Logic.Editor
         {
             if (false == editing)
             {
-                LoadAllItems();
                 editing = true;
             }
         }
@@ -412,6 +411,11 @@ namespace DigitalWorld.Logic.Editor
                     LoadItems(type, this.GetItems(type), text);
                 }
             }
+        }
+
+        public void ClearItems()
+        {
+            items.Clear();
         }
 
         public void SaveAllItems()

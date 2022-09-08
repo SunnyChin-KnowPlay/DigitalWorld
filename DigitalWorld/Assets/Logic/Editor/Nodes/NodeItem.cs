@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace DigitalWorld.Logic.Editor
 {
-    internal abstract class NodeItem : NodeBase
+    public abstract class NodeItem : NodeBase
     {
         #region Params
         public delegate void OnCallbackModifyItem(EItemType type, NodeItem ba);

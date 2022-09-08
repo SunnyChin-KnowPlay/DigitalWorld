@@ -10,14 +10,18 @@ namespace DigitalWorld.Logic.Editor
     {
         #region Params
         private Vector2 scrollPos = Vector2.zero;
-
         private string filter = string.Empty;
+        private NodeController nodeController = null;
 
-        private NodeController C
+        public NodeController NodeController
         {
             get
             {
-                return NodeController.Instance;
+                if (null == nodeController)
+                {
+                    nodeController = new NodeController();
+                }
+                return nodeController;
             }
         }
 
@@ -28,13 +32,13 @@ namespace DigitalWorld.Logic.Editor
         #endregion
 
         #region Common
-        private void StartEdit()
+        private void OnEnable()
         {
-            NodeController c = C;
+            NodeController c = NodeController;
+            c.LoadAllItems();
 
             if (!c.Editing)
                 filter = string.Empty;
-            c.StartEdit();
 
             actionList = new ReorderableList(c.GetItems(EItemType.Action), typeof(NodeItem))
             {
@@ -62,6 +66,25 @@ namespace DigitalWorld.Logic.Editor
                 drawHeaderCallback = OnDrawEventHead,
                 draggable = false
             };
+        }
+
+        private void OnDisable()
+        {
+            NodeController c = NodeController;
+            c.ClearItems();
+
+            actionList = null;
+            propertyList = null;
+            eventList = null;
+        }
+
+        private void StartEdit()
+        {
+            NodeController c = NodeController;
+
+            if (!c.Editing)
+                filter = string.Empty;
+            c.StartEdit();
 
         }
 
@@ -78,15 +101,17 @@ namespace DigitalWorld.Logic.Editor
 
         private void QuitEdit()
         {
-            NodeController c = C;
-
+            NodeController c = NodeController;
             c.StopEdit();
         }
 
         private void SaveAndQuitEdit()
         {
-            NodeController c = C;
+            actionList = null;
+            propertyList = null;
+            eventList = null;
 
+            NodeController c = NodeController;
             c.Save();
         }
         #endregion
@@ -249,7 +274,7 @@ namespace DigitalWorld.Logic.Editor
 
         private void OnAddItem(EItemType type)
         {
-            LogicItemCreateWizard.DisplayWizard(type, OnAddItem, NodeController.Instance.GetNewId(type));
+            LogicItemCreateWizard.DisplayWizard(type, OnAddItem, NodeController.GetNewId(type));
         }
 
         private void OnRemoveItem(ReorderableList list)
@@ -274,11 +299,9 @@ namespace DigitalWorld.Logic.Editor
 
         public void OnGUI()
         {
-            NodeController c = C;
+            NodeController c = NodeController;
 
-
-
-            bool isDisable = !NodeController.Instance.Editing;
+            bool isDisable = !c.Editing;
             EditorGUI.BeginDisabledGroup(isDisable);
 
             var TextFieldRoundEdge = new GUIStyle("SearchTextField");
@@ -324,7 +347,7 @@ namespace DigitalWorld.Logic.Editor
                 if (GUILayout.Button("Save & Quit"))
                 {
                     SaveAndQuitEdit();
-                    NodeController.Instance.GenerateNodesCode();
+                    c.GenerateNodesCode();
                 }
                 EditorGUI.EndDisabledGroup();
 
@@ -342,7 +365,7 @@ namespace DigitalWorld.Logic.Editor
 
                 if (GUILayout.Button("Generate Codes"))
                 {
-                    NodeController.Instance.GenerateNodesCode();
+                    c.GenerateNodesCode();
                 }
             }
 
@@ -366,7 +389,7 @@ namespace DigitalWorld.Logic.Editor
 
         private void OnAddItem(EItemType type, NodeItem ba)
         {
-            C.AddItem(type, ba);
+            NodeController.AddItem(type, ba);
             Focus();
         }
         #endregion
