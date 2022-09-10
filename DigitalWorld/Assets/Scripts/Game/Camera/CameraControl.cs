@@ -138,8 +138,7 @@ namespace DigitalWorld.Game
                 if (ret)
                 {
                     Collider collider = hit.collider;
-                    ControlUnit target = collider.gameObject.GetComponent<ControlUnit>();
-                    if (null != target)
+                    if (collider.gameObject.TryGetComponent<ControlUnit>(out var target))
                     {
                         ControlSituation situation = this.FocusedUnit.Situation;
                         situation.SelectTarget(new UnitHandle(target));

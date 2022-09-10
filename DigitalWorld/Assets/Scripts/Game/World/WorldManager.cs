@@ -25,11 +25,11 @@ namespace DigitalWorld.Game
         /// <summary>
         /// 单位词典
         /// </summary>
-        private readonly Dictionary<uint, ControlUnit> units = new Dictionary<uint, ControlUnit>();
+        private readonly Dictionary<uint, UnitHandle> units = new Dictionary<uint, UnitHandle>();
         /// <summary>
         /// 跑Update用的单位队列
         /// </summary>
-        private readonly List<ControlUnit> runningUnits = new List<ControlUnit>();
+        private readonly List<UnitHandle> runningUnits = new List<UnitHandle>();
 
         /// <summary>
         /// 单位id池
@@ -109,25 +109,32 @@ namespace DigitalWorld.Game
             ControlUnit unit = this.CreateCharacter(data.CharacterInfo.prefabPath);
             if (null != unit)
             {
-                this.RegisterUnit(unit, data);
+                UnitHandle handle = new UnitHandle(unit);
+                this.RegisterUnit(handle, data);
                 return unit;
             }
             return null;
         }
 
-        private void RegisterUnit(ControlUnit unit, UnitData data)
+        private void RegisterUnit(UnitHandle handle, UnitData data)
         {
-            uint uid = GetNewUnitId();
-            unit.Setup(uid, data);
+            if (handle)
+            {
+                ControlUnit unit = handle.Unit;
 
-            if (this.units.ContainsKey(uid))
-            {
-                this.units[uid] = unit;
+                uint uid = GetNewUnitId();
+                unit.Setup(uid, data);
+
+                if (this.units.ContainsKey(uid))
+                {
+                    this.units[uid] = handle;
+                }
+                else
+                {
+                    this.units.Add(unit.Uid, handle);
+                }
             }
-            else
-            {
-                this.units.Add(unit.Uid, unit);
-            }
+
         }
 
         private void UnregisterUnit(ControlUnit unit)
@@ -182,6 +189,44 @@ namespace DigitalWorld.Game
                 {
                     this.UnregisterUnit(unit);
                     unit.Destroy();
+                }
+            }
+        }
+        #endregion
+
+        #region Logic
+        /// <summary>
+        /// 获取除目标外的所有对象
+        /// </summary>
+        /// <param name="targetId">目标ID</param>
+        /// <returns>除targetId外的所有的Unit</returns>
+        public List<UnitHandle> FindOtherUnits(uint targetId)
+        {
+            List<UnitHandle> otherUnits = new List<UnitHandle>();
+
+            foreach (KeyValuePair<uint, UnitHandle> kvp in units)
+            {
+                if (kvp.Key != targetId)
+                {
+                    otherUnits.Add(kvp.Value);
+                }
+            }
+
+            return otherUnits;
+        }
+
+        /// <summary>
+        /// 将筛选出的单位加入队列
+        /// </summary>
+        /// <param name="targetId"></param>
+        /// <param name="list"></param>
+        public void AddOtherUnitsToList(uint targetId, List<UnitHandle> list)
+        {
+            foreach (KeyValuePair<uint, UnitHandle> kvp in units)
+            {
+                if (kvp.Key != targetId)
+                {
+                    list.Add(kvp.Value);
                 }
             }
         }

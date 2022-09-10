@@ -8,7 +8,8 @@ namespace DigitalWorld.Game
 {
     public struct UnitHandle : IEquatable<UnitHandle>
     {
-        public uint uid;
+        public uint Uid => uid;
+        private uint uid;
         private ControlUnit obj;
 
         public ControlUnit Unit => obj;
