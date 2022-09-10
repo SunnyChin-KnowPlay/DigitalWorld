@@ -13,19 +13,19 @@ namespace DigitalWorld.Table
     {
         public override int GetID()
         {
-            return _id;
+            return id;
         }
 
-        private int _id;
+        private int id;
         /// <summary>
         /// 唯一ID
         /// </summary>
-        public int id => _id;
-        private string _name;
+        public int Id => id;
+        private string name;
         /// <summary>
         /// 名字
         /// </summary>
-        public string name => _name;
+        public string Name => name;
 
         public CampInfo()
         {
@@ -36,16 +36,16 @@ namespace DigitalWorld.Table
         {
             base.OnEncode();
 
-            this.Encode(this._id);
-            this.Encode(this._name);
+            this.Encode(this.id);
+            this.Encode(this.name);
         }
 
         protected override void OnEncode(XmlElement element)
         {
             base.OnEncode(element);
 
-            this.Encode(this._id, "id");
-            this.Encode(this._name, "name");
+            this.Encode(this.id, "id");
+            this.Encode(this.name, "name");
         }
         #endregion
 
@@ -54,16 +54,16 @@ namespace DigitalWorld.Table
         {
             base.OnDecode();
 
-            this.Decode(ref this._id);
-            this.Decode(ref this._name);
+            this.Decode(ref this.id);
+            this.Decode(ref this.name);
         }
 
         protected override void OnDecode(XmlElement element)
         {
             base.OnDecode(element);
 
-            this.Decode(ref this._id, "id");
-            this.Decode(ref this._name, "name");
+            this.Decode(ref this.id, "id");
+            this.Decode(ref this.name, "name");
         }
 #endregion
 
@@ -72,8 +72,8 @@ namespace DigitalWorld.Table
         {
             base.OnCalculateSize();
 
-            this.CalculateSize(this._id);
-            this.CalculateSize(this._name);
+            this.CalculateSize(this.id);
+            this.CalculateSize(this.name);
         }
 #endregion
     }

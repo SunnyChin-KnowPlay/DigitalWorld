@@ -13,29 +13,29 @@ namespace DigitalWorld.Table
     {
         public override int GetID()
         {
-            return _id;
+            return id;
         }
 
-        private int _id;
+        private int id;
         /// <summary>
         /// 唯一ID
         /// </summary>
-        public int id => _id;
-        private string _name;
+        public int Id => id;
+        private string name;
         /// <summary>
         /// 地图名字
         /// </summary>
-        public string name => _name;
-        private string _assetPath;
+        public string Name => name;
+        private string assetPath;
         /// <summary>
         /// 地图配置资源路径
         /// </summary>
-        public string assetPath => _assetPath;
-        private int _level;
+        public string AssetPath => assetPath;
+        private int level;
         /// <summary>
         /// 地图等级
         /// </summary>
-        public int level => _level;
+        public int Level => level;
 
         public MapInfo()
         {
@@ -46,20 +46,20 @@ namespace DigitalWorld.Table
         {
             base.OnEncode();
 
-            this.Encode(this._id);
-            this.Encode(this._name);
-            this.Encode(this._assetPath);
-            this.Encode(this._level);
+            this.Encode(this.id);
+            this.Encode(this.name);
+            this.Encode(this.assetPath);
+            this.Encode(this.level);
         }
 
         protected override void OnEncode(XmlElement element)
         {
             base.OnEncode(element);
 
-            this.Encode(this._id, "id");
-            this.Encode(this._name, "name");
-            this.Encode(this._assetPath, "assetPath");
-            this.Encode(this._level, "level");
+            this.Encode(this.id, "id");
+            this.Encode(this.name, "name");
+            this.Encode(this.assetPath, "assetPath");
+            this.Encode(this.level, "level");
         }
         #endregion
 
@@ -68,20 +68,20 @@ namespace DigitalWorld.Table
         {
             base.OnDecode();
 
-            this.Decode(ref this._id);
-            this.Decode(ref this._name);
-            this.Decode(ref this._assetPath);
-            this.Decode(ref this._level);
+            this.Decode(ref this.id);
+            this.Decode(ref this.name);
+            this.Decode(ref this.assetPath);
+            this.Decode(ref this.level);
         }
 
         protected override void OnDecode(XmlElement element)
         {
             base.OnDecode(element);
 
-            this.Decode(ref this._id, "id");
-            this.Decode(ref this._name, "name");
-            this.Decode(ref this._assetPath, "assetPath");
-            this.Decode(ref this._level, "level");
+            this.Decode(ref this.id, "id");
+            this.Decode(ref this.name, "name");
+            this.Decode(ref this.assetPath, "assetPath");
+            this.Decode(ref this.level, "level");
         }
 #endregion
 
@@ -90,10 +90,10 @@ namespace DigitalWorld.Table
         {
             base.OnCalculateSize();
 
-            this.CalculateSize(this._id);
-            this.CalculateSize(this._name);
-            this.CalculateSize(this._assetPath);
-            this.CalculateSize(this._level);
+            this.CalculateSize(this.id);
+            this.CalculateSize(this.name);
+            this.CalculateSize(this.assetPath);
+            this.CalculateSize(this.level);
         }
 #endregion
     }

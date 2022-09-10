@@ -13,39 +13,39 @@ namespace DigitalWorld.Table
     {
         public override int GetID()
         {
-            return _id;
+            return id;
         }
 
-        private int _id;
+        private int id;
         /// <summary>
         /// 唯一ID
         /// </summary>
-        public int id => _id;
-        private string _name;
+        public int Id => id;
+        private string name;
         /// <summary>
         /// 名字
         /// </summary>
-        public string name => _name;
-        private int _hp;
+        public string Name => name;
+        private int hp;
         /// <summary>
         /// 基础血量
         /// </summary>
-        public int hp => _hp;
-        private int _attack;
+        public int Hp => hp;
+        private int attack;
         /// <summary>
         /// 攻击力
         /// </summary>
-        public int attack => _attack;
-        private int _moveSpeed;
+        public int Attack => attack;
+        private int moveSpeed;
         /// <summary>
         /// 移动速度
         /// </summary>
-        public int moveSpeed => _moveSpeed;
-        private string _prefabPath;
+        public int MoveSpeed => moveSpeed;
+        private string prefabPath;
         /// <summary>
         /// 预制件路径
         /// </summary>
-        public string prefabPath => _prefabPath;
+        public string PrefabPath => prefabPath;
 
         public CharacterInfo()
         {
@@ -56,24 +56,24 @@ namespace DigitalWorld.Table
         {
             base.OnEncode();
 
-            this.Encode(this._id);
-            this.Encode(this._name);
-            this.Encode(this._hp);
-            this.Encode(this._attack);
-            this.Encode(this._moveSpeed);
-            this.Encode(this._prefabPath);
+            this.Encode(this.id);
+            this.Encode(this.name);
+            this.Encode(this.hp);
+            this.Encode(this.attack);
+            this.Encode(this.moveSpeed);
+            this.Encode(this.prefabPath);
         }
 
         protected override void OnEncode(XmlElement element)
         {
             base.OnEncode(element);
 
-            this.Encode(this._id, "id");
-            this.Encode(this._name, "name");
-            this.Encode(this._hp, "hp");
-            this.Encode(this._attack, "attack");
-            this.Encode(this._moveSpeed, "moveSpeed");
-            this.Encode(this._prefabPath, "prefabPath");
+            this.Encode(this.id, "id");
+            this.Encode(this.name, "name");
+            this.Encode(this.hp, "hp");
+            this.Encode(this.attack, "attack");
+            this.Encode(this.moveSpeed, "moveSpeed");
+            this.Encode(this.prefabPath, "prefabPath");
         }
         #endregion
 
@@ -82,24 +82,24 @@ namespace DigitalWorld.Table
         {
             base.OnDecode();
 
-            this.Decode(ref this._id);
-            this.Decode(ref this._name);
-            this.Decode(ref this._hp);
-            this.Decode(ref this._attack);
-            this.Decode(ref this._moveSpeed);
-            this.Decode(ref this._prefabPath);
+            this.Decode(ref this.id);
+            this.Decode(ref this.name);
+            this.Decode(ref this.hp);
+            this.Decode(ref this.attack);
+            this.Decode(ref this.moveSpeed);
+            this.Decode(ref this.prefabPath);
         }
 
         protected override void OnDecode(XmlElement element)
         {
             base.OnDecode(element);
 
-            this.Decode(ref this._id, "id");
-            this.Decode(ref this._name, "name");
-            this.Decode(ref this._hp, "hp");
-            this.Decode(ref this._attack, "attack");
-            this.Decode(ref this._moveSpeed, "moveSpeed");
-            this.Decode(ref this._prefabPath, "prefabPath");
+            this.Decode(ref this.id, "id");
+            this.Decode(ref this.name, "name");
+            this.Decode(ref this.hp, "hp");
+            this.Decode(ref this.attack, "attack");
+            this.Decode(ref this.moveSpeed, "moveSpeed");
+            this.Decode(ref this.prefabPath, "prefabPath");
         }
 #endregion
 
@@ -108,12 +108,12 @@ namespace DigitalWorld.Table
         {
             base.OnCalculateSize();
 
-            this.CalculateSize(this._id);
-            this.CalculateSize(this._name);
-            this.CalculateSize(this._hp);
-            this.CalculateSize(this._attack);
-            this.CalculateSize(this._moveSpeed);
-            this.CalculateSize(this._prefabPath);
+            this.CalculateSize(this.id);
+            this.CalculateSize(this.name);
+            this.CalculateSize(this.hp);
+            this.CalculateSize(this.attack);
+            this.CalculateSize(this.moveSpeed);
+            this.CalculateSize(this.prefabPath);
         }
 #endregion
     }

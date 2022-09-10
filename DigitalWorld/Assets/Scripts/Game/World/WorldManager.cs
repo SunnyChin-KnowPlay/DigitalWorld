@@ -106,7 +106,7 @@ namespace DigitalWorld.Game
 
         public ControlUnit RegisterUnit(UnitData data)
         {
-            ControlUnit unit = this.CreateCharacter(data.CharacterInfo.prefabPath);
+            ControlUnit unit = this.CreateCharacter(data.CharacterInfo.PrefabPath);
             if (null != unit)
             {
                 UnitHandle handle = new UnitHandle(unit);

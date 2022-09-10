@@ -41,7 +41,7 @@ namespace DigitalWorld.Game
                 CharacterInfo info = this.CharacterInfo;
                 if (null != info)
                 {
-                    hp = info.hp;
+                    hp = info.Hp;
                 }
 
                 return hp;
@@ -60,7 +60,7 @@ namespace DigitalWorld.Game
                 CharacterInfo info = this.CharacterInfo;
                 if (null != info)
                 {
-                    attack = info.attack;
+                    attack = info.Attack;
                 }
 
                 return attack;
@@ -76,7 +76,7 @@ namespace DigitalWorld.Game
                 CharacterInfo info = this.CharacterInfo;
                 if (null != info)
                 {
-                    moveSpeed = info.moveSpeed;
+                    moveSpeed = info.MoveSpeed;
                 }
 
                 return moveSpeed;
