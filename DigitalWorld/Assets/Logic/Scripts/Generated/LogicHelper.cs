@@ -62,6 +62,7 @@ namespace DigitalWorld.Logic
                 2 => "游戏中的创建对象，位置是基于世界坐标的",
                 3 => "基于单位的创建角色，位置使用相对关系",
                 4 => "单位造成伤害",
+                5 => "播放动画",
   
                 _ => null,
             };
@@ -76,6 +77,7 @@ namespace DigitalWorld.Logic
                 2 => GetNode<Actions.Game.CreateCharacter>(),
                 3 => GetNode<Actions.Game.Unit.CreateCharacter>(),
                 4 => GetNode<Actions.Game.Unit.Damage>(),
+                5 => GetNode<Actions.Game.Unit.PlayAnimator>(),
                 
                 _ => null,
             };

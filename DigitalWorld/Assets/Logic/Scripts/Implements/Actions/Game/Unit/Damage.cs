@@ -3,6 +3,8 @@
  * 默认模板的回调函数会抛出NotImplementedException异常
  * 在创建对应的行动后，建议第一时间实现函数效果。
  */
+using DigitalWorld.Game;
+using DigitalWorld.Logic.Events;
 using System;
 
 namespace DigitalWorld.Logic.Actions.Game.Unit
@@ -18,7 +20,20 @@ namespace DigitalWorld.Logic.Actions.Game.Unit
         {
             base.OnEnter();
 
-            
+            Event ev = this.Trigger.TriggeringEvent;
+            if (ev.Triggering && ev.Target)
+            {
+                ControlUnit triggeringUnit = ev.Triggering.Unit;
+                ControlUnit targetUnit = ev.Target.Unit;
+                ParamInjury param = new ParamInjury
+                {
+                    source = ev.Triggering,
+                    target = ev.Target,
+                    damageType = damageType,
+                    damage = triggeringUnit.Property.Attack.Value * this.attackRatio,
+                };
+                targetUnit.ProcessDamage(ref param);
+            }
         }
 
 

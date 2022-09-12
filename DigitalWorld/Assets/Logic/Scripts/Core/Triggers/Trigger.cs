@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Dream.Core;
+using System.Collections.Generic;
 using System.Xml;
 
 namespace DigitalWorld.Logic
@@ -22,7 +23,17 @@ namespace DigitalWorld.Logic
         /// 要求词典 所有的子节点都可以向其注入结果以供查询
         /// </summary>
         protected Dictionary<int, bool> requirements = new Dictionary<int, bool>();
+        /// <summary>
+        /// 监听的事件
+        /// </summary>
+        public EEvent ListenerEvent => listenerEvent;
+        protected EEvent listenerEvent;
 
+        /// <summary>
+        /// 触发的事件
+        /// </summary>
+        public Events.Event TriggeringEvent => triggeringEvent;
+        protected Events.Event triggeringEvent;
         #endregion
 
         #region Pool
@@ -36,6 +47,22 @@ namespace DigitalWorld.Logic
             base.OnRecycle();
 
             this.requirements.Clear();
+        }
+
+        public override object Clone()
+        {
+            Trigger trigger = ObjectPool<Trigger>.Instance.Allocate();
+            this.CloneTo(trigger);
+            return trigger;
+        }
+
+        public override T CloneTo<T>(T obj)
+        {
+            if (base.CloneTo(obj) is Trigger trigger)
+            {
+                trigger.listenerEvent = this.listenerEvent;
+            }
+            return obj;
         }
         #endregion
 
@@ -86,25 +113,74 @@ namespace DigitalWorld.Logic
                 }
             }
         }
+
+        /// <summary>
+        /// 唤醒
+        /// </summary>
+        /// <param name="ev"></param>
+        public virtual void Invoke(Events.Event ev)
+        {
+            this.triggeringEvent = ev;
+            this.State = EState.Running;
+        }
+
+        /// <summary>
+        /// 打断触发器
+        /// 如果触发器正在运行中的话
+        /// 则让其停止 并且遍历所有的子节点行动，如果有运行中的一并停止
+        /// </summary>
+        public virtual void Break()
+        {
+            if (this.State == EState.Running)
+            {
+                for (int i = 0; i < this._children.Count; ++i)
+                {
+                    if (this._children[i] is NodeState child && child.Enabled && child.State == EState.Running)
+                    {
+                        child.State = EState.Ended;
+                    }
+                }
+            }
+        }
         #endregion
 
         #region Proto
+        protected override void OnCalculateSize()
+        {
+            base.OnCalculateSize();
+
+            this.CalculateSizeEnum(listenerEvent);
+        }
+
+        protected override void OnEncode()
+        {
+            base.OnEncode();
+
+            EncodeEnum(listenerEvent);
+        }
+
+        protected override void OnDecode()
+        {
+            base.OnDecode();
+
+            DecodeEnum(ref listenerEvent);
+        }
+
         protected override void OnEncode(XmlElement element)
         {
             base.OnEncode(element);
+
+            this.EncodeEnum(listenerEvent, "listenerEvent");
         }
 
         protected override void OnDecode(XmlElement element)
         {
             base.OnDecode(element);
+
+            this.DecodeEnum(ref listenerEvent, "listenerEvent");
         }
 
-        protected override void OnCalculateSize()
-        {
-            base.OnCalculateSize();
 
-
-        }
         #endregion
     }
 }

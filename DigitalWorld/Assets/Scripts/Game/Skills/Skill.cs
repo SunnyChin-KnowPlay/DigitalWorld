@@ -1,12 +1,14 @@
-﻿using DigitalWorld.Table;
+﻿using DigitalWorld.Logic;
+using DigitalWorld.Logic.Events;
+using DigitalWorld.Table;
 using Dream.Core;
 
 namespace DigitalWorld.Game
 {
     /// <summary>
-    /// 技能文件
+    /// 技能
     /// </summary>
-    public class Skill : IPooledObject
+    public class Skill : PooledObject
     {
         #region Params
         /// <summary>
@@ -15,42 +17,78 @@ namespace DigitalWorld.Game
         public int SkillId
         {
             get { return skillId; }
-            set { skillId = value; }
         }
         protected int skillId;
 
+        /// <summary>
+        /// 插槽ID
+        /// </summary>
+        public int Slot
+        {
+            get => slot;
+        }
+        protected int slot;
+
         public SkillInfo SkillInfo { get => TableManager.Instance.SkillTable[skillId]; }
 
-        protected IObjectPool pool;
+        /// <summary>
+        /// 触发器
+        /// </summary>
+        public Trigger Trigger { get; protected set; }
+
+        protected ControlSkill ControlSkill { get; private set; }
         #endregion
 
         #region Pool
-        public void OnAllocate()
+        public override void OnAllocate()
         {
-            skillId = 0;
+            base.OnAllocate();
+
+            this.skillId = 0;
+            this.slot = 0;
         }
 
-        public void OnRecycle()
+        public override void OnRecycle()
         {
-            skillId = 0;
-        }
+            base.OnRecycle();
 
-        public virtual void Recycle()
-        {
-            if (null != pool)
+            if (null != Trigger)
             {
-                pool.ApplyRecycle(this);
+                Trigger.Recycle();
+                Trigger = null;
             }
-        }
-
-        public virtual void SetPool(IObjectPool pool)
-        {
-            this.pool = pool;
         }
         #endregion
 
         #region Logic
+        public virtual void Setup(ControlSkill control, int skillId, int slot)
+        {
+            this.ControlSkill = control;
+            this.skillId = skillId;
+            this.slot = slot;
 
+            SkillInfo info = SkillInfo;
+            if (null != info)
+            {
+                Logic.Trigger trigger = Logic.LogicHelper.AllocateTrigger(info.BehaviourAssetPath);
+                this.Trigger = trigger;
+            }
+        }
+
+        /// <summary>
+        /// 执行
+        /// </summary>
+        public virtual void Spell(Event ev)
+        {
+            if (ev.EventId == EEvent.Trigger)
+            {
+                if (Trigger.Clone() is Trigger trigger)
+                {
+                    trigger.Invoke(ev);
+                    ControlSkill.Unit.Trigger.RunTrigger(trigger);
+                }
+            }
+        }
         #endregion
     }
 }

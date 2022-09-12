@@ -66,9 +66,8 @@ namespace DigitalWorld.Game
         #endregion
 
         #region Logic
-        public virtual void AddTrigger(Logic.Trigger behaviour)
+        public virtual void RunTrigger(Logic.Trigger behaviour)
         {
-            behaviour.State = Logic.NodeState.EState.Running;
             this.runningTriggers.Add(behaviour);
         }
 

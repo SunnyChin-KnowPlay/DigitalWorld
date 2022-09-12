@@ -79,11 +79,11 @@ namespace DigitalWorld.Logic
 
         #region Allocate
         /// <summary>
-        /// 分配一个行为
+        /// 分配一个触发器
         /// </summary>
-        /// <param name="path">行为的资产路径</param>
+        /// <param name="path">触发器的资产路径</param>
         /// <returns></returns>
-        public static Trigger AllocateBehaviour(string path)
+        public static Trigger AllocateTrigger(string path)
         {
             ByteAsset asset = AssetManager.LoadAsset<ByteAsset>(path);
             if (null == asset)

@@ -39,6 +39,10 @@ namespace DigitalWorld.Logic
         /// 单位造成伤害
         /// </summary>
 		Game_Unit_Damage = 4,
+		/// <summary>
+        /// 播放动画
+        /// </summary>
+		Game_Unit_PlayAnimator = 5,
 	}
 
 	public static class Defined
@@ -70,6 +74,8 @@ namespace DigitalWorld.Logic
 					return "基于单位的创建角色，位置使用相对关系";
 				case EAction.Game_Unit_Damage:
 					return "单位造成伤害";
+				case EAction.Game_Unit_PlayAnimator:
+					return "播放动画";
 				default:
 					return null;
 			}

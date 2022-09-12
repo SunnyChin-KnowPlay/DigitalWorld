@@ -365,9 +365,7 @@ namespace DigitalWorld.Logic
 
         protected virtual void OnGUIEditing()
         {
-
             OnGUIChildren();
-
         }
 
         protected virtual void OnGUIChildren()

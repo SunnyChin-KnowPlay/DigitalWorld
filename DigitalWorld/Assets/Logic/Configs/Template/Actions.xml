@@ -14,4 +14,7 @@
     <field id="0" name="damageType" baseTypeName="System.Enum" typeName="DigitalWorld.Game.EDamagerType" desc="伤害类型" />
     <field id="0" name="attackRatio" baseTypeName="System.ValueType" typeName="Dream.FixMath.FixFactor" desc="攻击力比率" />
   </action>
+  <action id="5" name="Game.Unit.PlayAnimator" desc="播放动画">
+    <field id="0" name="triggerKey" baseTypeName="System.Object" typeName="System.String" desc="动画控制器的触发键" />
+  </action>
 </data>

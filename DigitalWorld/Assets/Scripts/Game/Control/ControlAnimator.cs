@@ -28,6 +28,11 @@ namespace DigitalWorld.Game
         #endregion
 
         #region Logic
+        public void SetTrigger(string key)
+        {
+            this.animator.SetTrigger(key);
+        }
+
         public void SetSpeed(float speed)
         {
             this.animator.speed = speed;

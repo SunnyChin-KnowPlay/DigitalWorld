@@ -150,9 +150,11 @@ namespace DigitalWorld.Logic
             }
         }
 
-        protected virtual void OnGUIExplore()
+        protected virtual void OnGUIActionExplore()
         {
-            EditorGUILayout.BeginHorizontal();
+            GUIStyle style = new GUIStyle("IN Title");
+            style.padding.left = 0;
+            EditorGUILayout.BeginHorizontal(style);
 
             GUIStyle labelStyle = new GUIStyle(GUI.skin.label)
             {
@@ -176,10 +178,29 @@ namespace DigitalWorld.Logic
             EditorGUILayout.EndHorizontal();
         }
 
+        protected virtual void OnGUIEventExplore()
+        {
+            GUIStyle style = new GUIStyle("IN Title");
+            style.padding.left = 0;
+            EditorGUILayout.BeginHorizontal(style);
+
+            GUIStyle labelStyle = new GUIStyle(GUI.skin.label)
+            {
+                fontStyle = FontStyle.Bold
+            };
+            EditorGUILayout.LabelField("Event Explore", labelStyle, GUILayout.Width(160));
+
+            GUILayout.FlexibleSpace();
+            listenerEvent = (EEvent)EditorGUILayout.EnumPopup(listenerEvent, GUILayout.Width(300));
+
+            EditorGUILayout.EndHorizontal();
+        }
+
         protected override void OnGUIEditing()
         {
-            this.OnGUIExplore();
+            this.OnGUIEventExplore();
 
+            this.OnGUIActionExplore();
             base.OnGUIEditing();
         }
 

@@ -40,7 +40,7 @@ namespace DigitalWorld.Game
                 }
 
 
-                int totalDamage = param.source.Unit.Property.Attack.Value;
+                int totalDamage = param.damage;
                 param.damage = totalDamage;
                 resultDamage = totalDamage;
 

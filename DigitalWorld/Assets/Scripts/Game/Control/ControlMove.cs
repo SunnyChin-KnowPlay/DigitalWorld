@@ -12,15 +12,15 @@ namespace DigitalWorld.Game
         {
             get
             {
-                return this.unit.Property.MoveSpeed;
+                return this.Unit.Property.MoveSpeed;
             }
         }
 
-        protected ControlAnimator animContrl = null;
+        protected ControlAnimator animControl = null;
 
         public Vector3 LogicPos
         {
-            get { return this.unit.LogicPosition; }
+            get { return this.Unit.LogicPosition; }
         }
 
         public Vector3 MovingDir => movingDir;
@@ -42,7 +42,7 @@ namespace DigitalWorld.Game
                 if (value != isMoving)
                 {
                     isMoving = value;
-                    animContrl.SetBool("isMoving", isMoving);
+                    animControl.SetBool("isMoving", isMoving);
                 }
             }
         }
@@ -83,7 +83,7 @@ namespace DigitalWorld.Game
         {
             base.Setup(unit, data);
 
-            this.animContrl = this.unit.Animator;
+            this.animControl = this.Unit.Animator;
         }
 
         /// <summary>
@@ -105,14 +105,14 @@ namespace DigitalWorld.Game
             SetAnimatorSpeed(moveSpeed);
 
             this.trans.Translate(offset);
-            animContrl.SetFloat("z", normalizeDir.z);
+            animControl.SetFloat("z", normalizeDir.z);
         }
 
         private void SetAnimatorSpeed(float speed)
         {
-            if (null != this.animContrl)
+            if (null != this.animControl)
             {
-                this.animContrl.SetSpeed(speed);
+                this.animControl.SetSpeed(speed);
             }
         }
 

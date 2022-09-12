@@ -71,10 +71,19 @@ namespace DigitalWorld.Game
                 unit.LogicPosition = Vector3.zero;
 
                 _ = unit.GetOrAddComponent<InputBehaviour>();
-                unit.AddControl(ELogicControlType.Test, unit.GetOrAddComponent<ControlTest>());
+                ControlTest test = unit.GetOrAddComponent<ControlTest>();
+                unit.AddControl(ELogicControlType.Test, test);
+                test.Setup(unit, unit.Info);
 
-                Logic.Trigger trigger = Logic.LogicHelper.AllocateBehaviour("Assets/Res/Logic/Triggers/123.asset");
-                unit.Trigger.AddTrigger(trigger);
+                Logic.Trigger trigger = Logic.LogicHelper.AllocateTrigger("Assets/Res/Logic/Triggers/123.asset");
+                trigger.Invoke(Logic.Events.Event.CreateTrigger(UnitHandle.Null));
+                unit.Trigger.RunTrigger(trigger);
+
+                SkillInfo skillInfo = TableManager.Instance.SkillTable[100001];
+                if(null != skillInfo)
+                {
+                    unit.Skill.Study(skillInfo, 0);
+                }
             }
 
 

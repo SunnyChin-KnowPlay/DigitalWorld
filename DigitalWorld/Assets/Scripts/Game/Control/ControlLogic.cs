@@ -15,9 +15,15 @@ namespace DigitalWorld.Game
         {
             get { return unit; }
         }
-        protected ControlUnit unit = null;
+        private ControlUnit unit = null;
 
-        protected UnitHandle unitHandle = UnitHandle.Null;
+        public UnitHandle UnitHandle
+        {
+            get
+            {
+                return new UnitHandle(unit);
+            }
+        }
 
         public virtual UnitData Info
         {
