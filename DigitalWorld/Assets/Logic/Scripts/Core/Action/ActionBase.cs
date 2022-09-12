@@ -10,11 +10,11 @@ namespace DigitalWorld.Logic.Actions
     public abstract partial class ActionBase : NodeState
     {
         #region Params
-        public Behaviour Behaviour
+        public Trigger Trigger
         {
             get
             {
-                return this._parent as Behaviour;
+                return this._parent as Trigger;
             }
         }
 
@@ -51,17 +51,17 @@ namespace DigitalWorld.Logic.Actions
         #region Logic
         public virtual bool GetRequirement()
         {
-            Behaviour behaviour = this.Behaviour;
-            if (null == behaviour)
+            Trigger trigger = this.Trigger;
+            if (null == trigger)
                 return CheckRequirement();
 
-            return behaviour.GetRequirement(this.Index);
+            return trigger.GetRequirement(this.Index);
         }
 
         public override bool CheckRequirement()
         {
-            Behaviour behaviour = this.Behaviour;
-            if (this._requirements.Count < 1 || null == behaviour)
+            Trigger trigger = this.Trigger;
+            if (this._requirements.Count < 1 || null == trigger)
                 return base.CheckRequirement();
 
             bool result = true;
@@ -71,7 +71,7 @@ namespace DigitalWorld.Logic.Actions
                 {
                     foreach (Requirement requirement in _requirements)
                     {
-                        bool ret = this.Behaviour.GetRequirement(requirement.nodeName);
+                        bool ret = this.Trigger.GetRequirement(requirement.nodeName);
                         if (ret != requirement.isRequirement)
                         {
                             result = false;
@@ -85,7 +85,7 @@ namespace DigitalWorld.Logic.Actions
                     result = false;
                     foreach (Requirement requirement in _requirements)
                     {
-                        bool ret = this.Behaviour.GetRequirement(requirement.nodeName);
+                        bool ret = this.Trigger.GetRequirement(requirement.nodeName);
                         if (ret == requirement.isRequirement)
                         {
                             result = true;

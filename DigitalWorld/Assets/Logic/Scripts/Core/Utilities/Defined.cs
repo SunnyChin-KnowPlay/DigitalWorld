@@ -48,15 +48,12 @@
         /// 行动
         /// </summary>
         Action = 1 << 1,
-     
+
         /// <summary>
         /// 触发器
         /// </summary>
         Trigger = 1 << 2,
-        /// <summary>
-        /// 行为
-        /// </summary>
-        Behaviour = 1 << 3,
+
     }
 
     /// <summary>
@@ -69,7 +66,7 @@
         Boolean,
         Char,
         SByte,
-        Byte ,
+        Byte,
         Int16,
         UInt16,
         Int32,

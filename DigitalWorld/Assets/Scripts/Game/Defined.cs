@@ -31,9 +31,9 @@
         /// </summary>
         Move,
         /// <summary>
-        /// 行为
+        /// 触发器
         /// </summary>
-        Behaviour,
+        Trigger,
         /// <summary>
         /// 战场态势
         /// </summary>

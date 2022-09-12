@@ -11,7 +11,7 @@ namespace DigitalWorld.Logic
     /// <summary>
     /// 触发器类
     /// </summary>
-    public partial class Behaviour : NodeState
+    public partial class Trigger : NodeState
     {
         #region Params
         public override int Id
@@ -22,7 +22,7 @@ namespace DigitalWorld.Logic
         /// <summary>
         /// 节点类型
         /// </summary>
-        public override ENodeType NodeType => ENodeType.Behaviour;
+        public override ENodeType NodeType => ENodeType.Trigger;
         /// <summary>
         /// 要求词典 所有的子节点都可以向其注入结果以供查询
         /// </summary>

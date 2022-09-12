@@ -83,13 +83,13 @@ namespace DigitalWorld.Logic
         /// </summary>
         /// <param name="path">行为的资产路径</param>
         /// <returns></returns>
-        public static Behaviour AllocateBehaviour(string path)
+        public static Trigger AllocateBehaviour(string path)
         {
             ByteAsset asset = AssetManager.LoadAsset<ByteAsset>(path);
             if (null == asset)
                 return null;
 
-            Behaviour behaviour = ObjectPool<Behaviour>.Instance.Allocate();
+            Trigger behaviour = ObjectPool<Trigger>.Instance.Allocate();
             behaviour.Decode(asset.bytes, 0);
 
             return behaviour;

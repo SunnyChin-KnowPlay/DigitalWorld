@@ -39,7 +39,7 @@ namespace DigitalWorld.Game
                     { ELogicControlType.Animator, this.GetOrAddComponent<ControlAnimator>() },
                     { ELogicControlType.Skill, this.GetOrAddComponent<ControlSkill>() },
                     { ELogicControlType.Move, this.GetOrAddComponent<ControlMove>() },
-                    { ELogicControlType.Behaviour, this.GetOrAddComponent<ControlBehaviour>() },
+                    { ELogicControlType.Trigger, this.GetOrAddComponent<ControlTrigger>() },
                     { ELogicControlType.Situation, this.GetOrAddComponent<ControlSituation>() },
                     { ELogicControlType.Calculate, this.GetOrAddComponent<ControlCalculate>() },
                 };

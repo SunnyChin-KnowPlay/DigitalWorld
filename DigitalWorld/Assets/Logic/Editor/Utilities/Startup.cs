@@ -46,33 +46,33 @@ namespace DigitalWorld.Logic.Editor
                     // 然后看一下是否为文件
                     if (System.IO.File.Exists(path))
                     {
-                        // 这里区别处理一下 看到底是behaviour还是trigger之类的
+                        
 
-                        if (path.Contains(Logic.Utility.BehaviourPath))
+                        if (path.Contains(Logic.Utility.TriggerPath))
                         {
                             // 这里说明是行为
-                            OnSelectedBehaviour(path);
+                            OnSelectedTrigger(path);
                         }
                     }
                 }
             }
         }
 
-        private static void OnSelectedBehaviour(string path)
+        private static void OnSelectedTrigger(string path)
         {
             string relativePath = path.Substring(DigitalWorld.Logic.Utility.ConfigsPath.Length + 1);
             if (string.IsNullOrEmpty(relativePath))
                 return;
 
-            bool ret = LogicBehaviourEditorWindow.CheckHasEditing(relativePath, out LogicBehaviourEditorWindow window);
+            bool ret = LogicTriggerEditorWindow.CheckHasEditing(relativePath, out LogicTriggerEditorWindow window);
             if (ret)
             {
                 window.Focus();
             }
             else
             {
-                Behaviour behaviour = new Behaviour();
-                behaviour.RelativeFolderPath = System.IO.Path.GetDirectoryName(relativePath);
+                Trigger trigger = new Trigger();
+                trigger.RelativeFolderPath = System.IO.Path.GetDirectoryName(relativePath);
                 TextAsset ta = AssetDatabase.LoadAssetAtPath<TextAsset>(path);
 
                 if (null != ta)
@@ -83,12 +83,12 @@ namespace DigitalWorld.Logic.Editor
                     XmlElement root = doc["behaviour"];
                     if (null != root)
                     {
-                        behaviour.DecodeXml(root);
+                        trigger.DecodeXml(root);
                     }
                 }
 
-                window = LogicBehaviourEditorWindow.CreateWindow<LogicBehaviourEditorWindow>(typeof(LogicBehaviourEditorWindow), null);
-                window.Show(behaviour);
+                window = LogicTriggerEditorWindow.CreateWindow<LogicTriggerEditorWindow>(typeof(LogicTriggerEditorWindow), null);
+                window.Show(trigger);
             }
         }
 

@@ -5,16 +5,16 @@ using UnityEngine;
 namespace DigitalWorld.Game
 {
     /// <summary>
-    /// 行为控制器
+    /// 触发器控制器
     /// </summary>
-    public class ControlBehaviour : ControlLogic
+    public class ControlTrigger : ControlLogic
     {
         #region Params
         /// <summary>
         /// 运行中的行为队列
         /// </summary>
-        public List<Logic.Behaviour> RunningBehaviours => runningBehaviours;
-        protected List<Logic.Behaviour> runningBehaviours = new List<Logic.Behaviour>();
+        public List<Logic.Trigger> RunningTriggers => runningTriggers;
+        protected List<Logic.Trigger> runningTriggers = new List<Logic.Trigger>();
         #endregion
 
         #region Mono
@@ -22,14 +22,14 @@ namespace DigitalWorld.Game
         {
             base.Awake();
 
-            this.runningBehaviours.Clear();
+            this.runningTriggers.Clear();
         }
 
         public override void Destroy()
         {
             base.Destroy();
 
-            ClearRunningBehaviours();
+            ClearRunningTriggers();
         }
 
         protected override void Update()
@@ -37,9 +37,9 @@ namespace DigitalWorld.Game
             base.Update();
 
             float delta = Time.deltaTime;
-            for (int i = 0; i < runningBehaviours.Count; ++i)
+            for (int i = 0; i < runningTriggers.Count; ++i)
             {
-                Logic.Behaviour behaviour = runningBehaviours[i];
+                Logic.Trigger behaviour = runningTriggers[i];
                 if (null != behaviour && behaviour.Enabled)
                 {
                     behaviour.Update(delta);
@@ -52,13 +52,13 @@ namespace DigitalWorld.Game
             base.LateUpdate();
 
             //检查运行中的行为队列 是否有行为已经结束了 如果是的话 直接移除
-            for (int i = 0; i < runningBehaviours.Count; ++i)
+            for (int i = 0; i < runningTriggers.Count; ++i)
             {
-                Logic.Behaviour behaviour = runningBehaviours[i];
+                Logic.Trigger behaviour = runningTriggers[i];
                 if (behaviour.State == Logic.NodeState.EState.Ended)
                 {
                     behaviour.Recycle();
-                    this.runningBehaviours.RemoveAt(i);
+                    this.runningTriggers.RemoveAt(i);
                     --i;
                 }
             }
@@ -66,20 +66,20 @@ namespace DigitalWorld.Game
         #endregion
 
         #region Logic
-        public virtual void AddBehaviour(Logic.Behaviour behaviour)
+        public virtual void AddTrigger(Logic.Trigger behaviour)
         {
             behaviour.State = Logic.NodeState.EState.Running;
-            this.runningBehaviours.Add(behaviour);
+            this.runningTriggers.Add(behaviour);
         }
 
-        protected virtual void ClearRunningBehaviours()
+        protected virtual void ClearRunningTriggers()
         {
-            for (int i = 0; i < runningBehaviours.Count; ++i)
+            for (int i = 0; i < runningTriggers.Count; ++i)
             {
-                Logic.Behaviour behaviour = runningBehaviours[i];
+                Logic.Trigger behaviour = runningTriggers[i];
                 behaviour.Recycle();
             }
-            this.runningBehaviours.Clear();
+            this.runningTriggers.Clear();
         }
         #endregion
     }

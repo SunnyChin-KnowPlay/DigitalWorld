@@ -56,7 +56,7 @@ namespace DigitalWorld.Game
         public ControlProperty Property => this.controls[ELogicControlType.Property] as ControlProperty;
         public ControlSkill Skill => this.controls[ELogicControlType.Skill] as ControlSkill;
         public ControlMove Move => this.controls[ELogicControlType.Move] as ControlMove;
-        public ControlBehaviour Behaviour => this.controls[ELogicControlType.Behaviour] as ControlBehaviour;
+        public ControlTrigger Trigger => this.controls[ELogicControlType.Trigger] as ControlTrigger;
         public ControlCalculate Calculate => this.controls[ELogicControlType.Calculate] as ControlCalculate;
         public ControlSituation Situation => this.controls[ELogicControlType.Situation] as ControlSituation;
         public ControlTest Test => this.controls[ELogicControlType.Test] as ControlTest;

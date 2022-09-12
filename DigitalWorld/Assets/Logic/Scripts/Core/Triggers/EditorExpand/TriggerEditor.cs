@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace DigitalWorld.Logic
 {
-    public partial class Behaviour
+    public partial class Trigger
     {
 #if UNITY_EDITOR
         #region Params

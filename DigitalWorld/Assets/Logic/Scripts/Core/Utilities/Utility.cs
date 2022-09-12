@@ -23,7 +23,7 @@ namespace DigitalWorld.Logic
     {
         #region Params
         private const string ConfigsRelativePath = "Configs";
-        private const string BehavioursRelativePath = "Behaviours";
+        private const string TriggersRelativePath = "Triggers";
 
         public const string ProjectNamespace = "DigitalWorld";
 
@@ -34,7 +34,7 @@ namespace DigitalWorld.Logic
         public const string ScriptPath = LogicAssetPath + "/" + "Scripts";
         public const string GeneratedScriptPath = ScriptPath + "/" + "Generated";
         public const string ImplementScriptPath = ScriptPath + "/" + "Implements";
-        public const string BehaviourPath = ConfigsPath + "/" + BehavioursRelativePath;
+        public const string TriggerPath = ConfigsPath + "/" + TriggersRelativePath;
 
         public const string GeneratedTips = @"/**
  * 该文件通过代码生成器生成
@@ -43,7 +43,7 @@ namespace DigitalWorld.Logic
  */";
 
         internal const string LogicExportPath = "Assets/Res/Logic";
-        public const string LogicExportBehaviourPath = LogicExportPath + "/" + BehavioursRelativePath;
+        public const string LogicExportTriggerPath = LogicExportPath + "/" + TriggersRelativePath;
 
         public static Dictionary<string, int> KeyDict = new Dictionary<string, int>();
 

@@ -4,20 +4,20 @@ using UnityEngine;
 
 namespace DigitalWorld.Logic.Editor
 {
-    internal class LogicBehaviourEditorWindow : EditorWindow
+    internal class LogicTriggerEditorWindow : EditorWindow
     {
         #region Params
         private Vector2 fileListScrollViewPos = Vector2.zero;
 
         /// <summary>
-        /// 当前正在编辑的行为
+        /// 当前正在编辑的触发器
         /// </summary>
-        private Behaviour currentBehaviour = null;
+        private Trigger currentTrigger = null;
 
         /// <summary>
-        /// 所有正在编辑的行为
+        /// 所有正在编辑的触发器
         /// </summary>
-        private static Dictionary<string, LogicBehaviourEditorWindow> editingBehaviours = new Dictionary<string, LogicBehaviourEditorWindow>();
+        private readonly static Dictionary<string, LogicTriggerEditorWindow> editingTriggers = new Dictionary<string, LogicTriggerEditorWindow>();
         #endregion
 
         #region Common
@@ -27,11 +27,11 @@ namespace DigitalWorld.Logic.Editor
         /// <param name="relativePath"></param>
         /// <param name="window"></param>
         /// <returns></returns>
-        internal static bool CheckHasEditing(string relativePath, out LogicBehaviourEditorWindow window)
+        internal static bool CheckHasEditing(string relativePath, out LogicTriggerEditorWindow window)
         {
-            if (editingBehaviours.ContainsKey(relativePath))
+            if (editingTriggers.ContainsKey(relativePath))
             {
-                window = editingBehaviours[relativePath];
+                window = editingTriggers[relativePath];
                 return true;
             }
 
@@ -41,9 +41,9 @@ namespace DigitalWorld.Logic.Editor
 
         private void OnDestroy()
         {
-            if (null != this.currentBehaviour)
+            if (null != this.currentTrigger)
             {
-                editingBehaviours.Remove(currentBehaviour.RelativeAssetFilePath);
+                editingTriggers.Remove(currentTrigger.RelativeAssetFilePath);
             }
         }
         #endregion
@@ -54,22 +54,22 @@ namespace DigitalWorld.Logic.Editor
             this.titleContent = new GUIContent(title);
         }
 
-        public void Show(Behaviour behaviour)
+        public void Show(Trigger trigger)
         {
             base.Show();
-            string fileName = System.IO.Path.GetFileNameWithoutExtension(behaviour.RelativeAssetFilePath);
+            string fileName = System.IO.Path.GetFileNameWithoutExtension(trigger.RelativeAssetFilePath);
             this.SetTitle(fileName);
 
-            this.currentBehaviour = behaviour;
-            editingBehaviours.Add(behaviour.RelativeAssetFilePath, this);
+            this.currentTrigger = trigger;
+            editingTriggers.Add(trigger.RelativeAssetFilePath, this);
         }
 
         private void OnGUI()
         {
-            if (null != currentBehaviour)
+            if (null != currentTrigger)
             {
                 fileListScrollViewPos = EditorGUILayout.BeginScrollView(fileListScrollViewPos);
-                this.currentBehaviour.OnGUI();
+                this.currentTrigger.OnGUI();
                 EditorGUILayout.EndScrollView();
 
                 OnGUIBottomMenus();
@@ -85,7 +85,7 @@ namespace DigitalWorld.Logic.Editor
             EditorGUILayout.BeginHorizontal(style);
             if (GUILayout.Button("Save"))
             {
-                this.currentBehaviour.Save();
+                this.currentTrigger.Save();
             }
 
             if (GUILayout.Button("Close"))

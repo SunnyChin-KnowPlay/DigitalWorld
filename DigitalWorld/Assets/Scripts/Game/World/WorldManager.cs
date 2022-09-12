@@ -73,8 +73,8 @@ namespace DigitalWorld.Game
                 _ = unit.GetOrAddComponent<InputBehaviour>();
                 unit.AddControl(ELogicControlType.Test, unit.GetOrAddComponent<ControlTest>());
 
-                Logic.Behaviour behaviour = Logic.LogicHelper.AllocateBehaviour("Assets/Res/Logic/Behaviours/123.asset");
-                unit.Behaviour.AddBehaviour(behaviour);
+                Logic.Trigger trigger = Logic.LogicHelper.AllocateBehaviour("Assets/Res/Logic/Triggers/123.asset");
+                unit.Trigger.AddTrigger(trigger);
             }
 
 

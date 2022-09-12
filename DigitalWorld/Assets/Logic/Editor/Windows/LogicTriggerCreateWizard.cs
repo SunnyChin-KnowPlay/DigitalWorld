@@ -7,7 +7,7 @@ namespace DigitalWorld.Logic.Editor
     /// <summary>
     /// 创建行为
     /// </summary>
-    internal class LogicBehaviourCreateWizard : ScriptableWizard
+    internal class LogicTriggerCreateWizard : ScriptableWizard
     {
         #region Params
         /// <summary>
@@ -22,9 +22,9 @@ namespace DigitalWorld.Logic.Editor
         #endregion
 
         #region Window
-        public static LogicBehaviourCreateWizard DisplayWizard(string path)
+        public static LogicTriggerCreateWizard DisplayWizard(string path)
         {
-            LogicBehaviourCreateWizard window = ScriptableWizard.DisplayWizard<LogicBehaviourCreateWizard>("Create Behaviour");
+            LogicTriggerCreateWizard window = ScriptableWizard.DisplayWizard<LogicTriggerCreateWizard>("Create Trigger");
             if (null != window)
             {
                 window.Show(path);
@@ -47,7 +47,7 @@ namespace DigitalWorld.Logic.Editor
 
             string relativeFilePath = fullPath.Substring(DigitalWorld.Logic.Utility.ConfigsPath.Length + 1);
 
-            Behaviour behaviour = new Behaviour
+            Trigger behaviour = new Trigger
             {
                 Name = this.behaviourName,
                 RelativeFolderPath = relativeFilePath
@@ -58,8 +58,8 @@ namespace DigitalWorld.Logic.Editor
         #endregion
 
         #region Menus
-        [MenuItem("Assets/Logic/Create/Behaviour", priority = 1)]
-        private static void CreateBehaviour()
+        [MenuItem("Assets/Logic/Create/Trigger", priority = 1)]
+        private static void CreateTrigger()
         {
             string selectFolderPath = Utility.GetSelectionFolderPath();
             if (string.IsNullOrEmpty(selectFolderPath))
