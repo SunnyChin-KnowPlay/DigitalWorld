@@ -5,39 +5,7 @@ using System.Xml;
 
 namespace DigitalWorld.Proto.Game
 {
-    /// <summary>
-    /// 属性类型
-    /// </summary>
-    public enum EPropertyType : int
-    {
-
-        /// <summary>
-        /// 血量
-        /// </summary>
-        Hp = 1,
-
-        /// <summary>
-        /// 攻击力
-        /// </summary>
-        Attack = 2,
-
-        /// <summary>
-        /// 移动速度
-        /// </summary>
-        MoveSpeed = 3,
-    }
-    /// <summary>
-    /// 单位类型
-    /// </summary>
-    public enum EUnitType : int
-    {
-
-        /// <summary>
-        /// 角色
-        /// </summary>
-        Character = 1,
-    }
-    /// <summary>
+            /// <summary>
     /// 地图数据
     /// </summary>
     [ProtocolID(0x0101)]
@@ -84,7 +52,7 @@ namespace DigitalWorld.Proto.Game
             return ObjectPool<MapData>.Instance.Allocate();
         }
 
-        #region Encode
+#region Encode
         protected override void OnEncode()
         {
             base.OnEncode();
@@ -100,9 +68,9 @@ namespace DigitalWorld.Proto.Game
             this.Encode(this._mapId, "mapId");
             this.Encode(this._level, "level");
         }
-        #endregion
+#endregion
 
-        #region Decode
+#region Decode
         protected override void OnDecode()
         {
             base.OnDecode();
@@ -118,9 +86,9 @@ namespace DigitalWorld.Proto.Game
             this.Decode(ref this._mapId, "mapId");
             this.Decode(ref this._level, "level");
         }
-        #endregion
+#endregion
 
-        #region Calculate Size
+#region Calculate Size
         protected override void OnCalculateSize()
         {
             base.OnCalculateSize();
@@ -128,7 +96,7 @@ namespace DigitalWorld.Proto.Game
             this.CalculateSize(this._mapId);
             this.CalculateSize(this._level);
         }
-        #endregion
+#endregion
     }
 
 }

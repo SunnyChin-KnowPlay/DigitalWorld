@@ -1,4 +1,4 @@
-﻿using DigitalWorld.Proto.Game;
+﻿using DigitalWorld.Defined.Game;
 using DigitalWorld.Table;
 
 namespace DigitalWorld.Game

@@ -109,32 +109,28 @@ namespace DigitalWorld.Game
             ControlUnit unit = this.CreateCharacter(data.CharacterInfo.PrefabPath);
             if (null != unit)
             {
-                UnitHandle handle = new UnitHandle(unit);
-                this.RegisterUnit(handle, data);
+
+                this.RegisterUnit(unit, data);
                 return unit;
             }
             return null;
         }
 
-        private void RegisterUnit(UnitHandle handle, UnitData data)
+        private void RegisterUnit(ControlUnit unit, UnitData data)
         {
-            if (handle)
+            uint uid = GetNewUnitId();
+            unit.Setup(uid, data);
+
+            UnitHandle handle = new UnitHandle(unit);
+
+            if (this.units.ContainsKey(uid))
             {
-                ControlUnit unit = handle.Unit;
-
-                uint uid = GetNewUnitId();
-                unit.Setup(uid, data);
-
-                if (this.units.ContainsKey(uid))
-                {
-                    this.units[uid] = handle;
-                }
-                else
-                {
-                    this.units.Add(unit.Uid, handle);
-                }
+                this.units[uid] = handle;
             }
-
+            else
+            {
+                this.units.Add(unit.Uid, handle);
+            }
         }
 
         private void UnregisterUnit(ControlUnit unit)

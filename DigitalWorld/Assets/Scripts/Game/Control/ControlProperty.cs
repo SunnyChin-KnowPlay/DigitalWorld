@@ -1,4 +1,4 @@
-﻿using DigitalWorld.Proto.Game;
+﻿using DigitalWorld.Defined.Game;
 using System.Collections.Generic;
 using UnityEngine;
 
