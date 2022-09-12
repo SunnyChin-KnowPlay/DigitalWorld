@@ -61,9 +61,9 @@ namespace Assets.Logic.Editor.Templates
                 {
                     return GetProperty(id);
                 }
-                case ENodeType.Behaviour:
+                case ENodeType.Trigger:
                 {
-                    return GetNode<Behaviour>();
+                    return GetNode<Trigger>();
                 }
                 default:
                     return null;

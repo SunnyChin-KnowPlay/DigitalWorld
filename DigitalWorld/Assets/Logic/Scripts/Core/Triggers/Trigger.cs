@@ -3,11 +3,6 @@ using System.Xml;
 
 namespace DigitalWorld.Logic
 {
-    public enum ETestBBB
-    {
-        None = 0,
-        First = 1,
-    }
     /// <summary>
     /// 触发器类
     /// </summary>
@@ -27,6 +22,7 @@ namespace DigitalWorld.Logic
         /// 要求词典 所有的子节点都可以向其注入结果以供查询
         /// </summary>
         protected Dictionary<int, bool> requirements = new Dictionary<int, bool>();
+
         #endregion
 
         #region Pool

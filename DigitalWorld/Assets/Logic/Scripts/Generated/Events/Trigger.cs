@@ -16,13 +16,13 @@ namespace DigitalWorld.Logic.Events
         #region Construction
 
 		/// <summary>
-        /// 迭代
+        /// 触发
         /// </summary> 
-		public static Event CreateUpdate(UnitHandle triggering, UnitHandle target = default)
+		public static Event CreateTrigger(UnitHandle triggering, UnitHandle target = default)
         {
             Event ev = new Event
             {
-                Id = (int)EEvent.Update,
+                Id = (int)EEvent.Trigger,
                 Triggering = triggering,
                 Target = target,
             };

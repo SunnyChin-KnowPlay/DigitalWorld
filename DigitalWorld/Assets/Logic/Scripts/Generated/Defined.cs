@@ -8,9 +8,13 @@ namespace DigitalWorld.Logic
 	public enum EEvent : int
 	{
 		/// <summary>
-        /// 迭代事件
+        /// 触发
         /// </summary>
-		Update = 0,
+		Trigger = 0,
+		/// <summary>
+        /// 迭代
+        /// </summary>
+		Update = 1,
 	}
 
 	public enum EAction : int
@@ -43,8 +47,10 @@ namespace DigitalWorld.Logic
         {
 			switch (e)
             {
+				case EEvent.Trigger:
+					return "触发";
 				case EEvent.Update:
-					return "迭代事件";
+					return "迭代";
 				default:
 					return null;
 			}

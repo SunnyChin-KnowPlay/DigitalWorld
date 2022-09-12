@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <data>
-  <event id="0" name="Update" desc="迭代事件" />
+  <event id="0" name="Trigger" desc="触发" />
+  <event id="1" name="Update" desc="迭代" />
 </data>
