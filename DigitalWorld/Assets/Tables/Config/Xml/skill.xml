@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<table>
+  <record id="100001" name="怒击" coolDownTime="3500" behaviourAssetPath="Assets/Logic/Configs/Behaviours/Game/Character/100001.asset" castRadius="2000" />
+</table>

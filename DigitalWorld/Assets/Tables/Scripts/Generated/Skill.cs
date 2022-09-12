@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace DigitalWorld.Table
 {
-    /// <summary>
+	    /// <summary>
     /// 技能
     /// </summary>
     public partial class SkillInfo : InfoBase
@@ -31,17 +31,22 @@ namespace DigitalWorld.Table
         /// CD时间，单位：毫秒
         /// </summary>
         public int CoolDownTime => coolDownTime;
-        private List<int> effects;
+        private string behaviourAssetPath;
         /// <summary>
-        /// 效果队列
+        /// 行为资产路径
         /// </summary>
-        public List<int> Effects => effects;
+        public string BehaviourAssetPath => behaviourAssetPath;
+        private int castRadius;
+        /// <summary>
+        /// 施法半径，单位：毫米
+        /// </summary>
+        public int CastRadius => castRadius;
 
         public SkillInfo()
         {
         }
 
-        #region Encode
+#region Encode
         protected override void OnEncode()
         {
             base.OnEncode();
@@ -49,7 +54,8 @@ namespace DigitalWorld.Table
             this.Encode(this.id);
             this.Encode(this.name);
             this.Encode(this.coolDownTime);
-            this.Encode(this.effects);
+            this.Encode(this.behaviourAssetPath);
+            this.Encode(this.castRadius);
         }
 
         protected override void OnEncode(XmlElement element)
@@ -59,11 +65,12 @@ namespace DigitalWorld.Table
             this.Encode(this.id, "id");
             this.Encode(this.name, "name");
             this.Encode(this.coolDownTime, "coolDownTime");
-            this.Encode(this.effects, "effects");
+            this.Encode(this.behaviourAssetPath, "behaviourAssetPath");
+            this.Encode(this.castRadius, "castRadius");
         }
         #endregion
 
-        #region Decode
+#region Decode
         protected override void OnDecode()
         {
             base.OnDecode();
@@ -71,7 +78,8 @@ namespace DigitalWorld.Table
             this.Decode(ref this.id);
             this.Decode(ref this.name);
             this.Decode(ref this.coolDownTime);
-            this.Decode(ref this.effects);
+            this.Decode(ref this.behaviourAssetPath);
+            this.Decode(ref this.castRadius);
         }
 
         protected override void OnDecode(XmlElement element)
@@ -81,11 +89,12 @@ namespace DigitalWorld.Table
             this.Decode(ref this.id, "id");
             this.Decode(ref this.name, "name");
             this.Decode(ref this.coolDownTime, "coolDownTime");
-            this.Decode(ref this.effects, "effects");
+            this.Decode(ref this.behaviourAssetPath, "behaviourAssetPath");
+            this.Decode(ref this.castRadius, "castRadius");
         }
-        #endregion
+#endregion
 
-        #region Calculate Size
+#region Calculate Size
         protected override void OnCalculateSize()
         {
             base.OnCalculateSize();
@@ -93,13 +102,14 @@ namespace DigitalWorld.Table
             this.CalculateSize(this.id);
             this.CalculateSize(this.name);
             this.CalculateSize(this.coolDownTime);
-            this.CalculateSize(this.effects);
+            this.CalculateSize(this.behaviourAssetPath);
+            this.CalculateSize(this.castRadius);
         }
-        #endregion
+#endregion
     }
 
 
-    /// <summary>
+	    /// <summary>
     /// 技能
     /// </summary>
     [TableNameAttibute("skill")]

@@ -35,7 +35,6 @@ namespace DigitalWorld.Table
         public MapTable MapTable { get; private set; } = new MapTable();
         public CampTable CampTable { get; private set; } = new CampTable();
         public SkillTable SkillTable { get; private set; } = new SkillTable();
-        public EffectTable EffectTable { get; private set; } = new EffectTable();
         #endregion
 
         #region Decode
@@ -45,7 +44,6 @@ namespace DigitalWorld.Table
             this.ApplyDecodeTable(MapTable, "map");
             this.ApplyDecodeTable(CampTable, "camp");
             this.ApplyDecodeTable(SkillTable, "skill");
-            this.ApplyDecodeTable(EffectTable, "effect");
         }
 
         public void DecodeXml()
@@ -54,7 +52,6 @@ namespace DigitalWorld.Table
             this.ApplyDecodeTableWithXml(MapTable, "map");
             this.ApplyDecodeTableWithXml(CampTable, "camp");
             this.ApplyDecodeTableWithXml(SkillTable, "skill");
-            this.ApplyDecodeTableWithXml(EffectTable, "effect");
         }
 
         private void ApplyDecodeTable(ByteBuffer table, string tableName)
@@ -81,7 +78,6 @@ namespace DigitalWorld.Table
             this.ApplyEncodeTable(MapTable, "map");
             this.ApplyEncodeTable(CampTable, "camp");
             this.ApplyEncodeTable(SkillTable, "skill");
-            this.ApplyEncodeTable(EffectTable, "effect");
         }
 
         private void ApplyEncodeTable(ByteBuffer table, string tableName)
