@@ -1,11 +1,9 @@
 ﻿using DigitalWorld.Asset;
 using DigitalWorld.Behaviour;
-using DigitalWorld.Proto.Game;
 using DigitalWorld.Table;
 using DigitalWorld.Extension.Unity;
 using DreamEngine.Core;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 
 namespace DigitalWorld.Game
@@ -71,10 +69,8 @@ namespace DigitalWorld.Game
                 unit.LogicPosition = Vector3.zero;
 
                 _ = unit.GetOrAddComponent<InputBehaviour>();
-                ControlTest test = unit.GetOrAddComponent<ControlTest>();
-                unit.AddControl(ELogicControlType.Test, test);
-                test.Setup(unit, unit.Info);
-
+                unit.AddControl(ELogicControlType.Test, unit.GetOrAddComponent<ControlTest>());
+               
                 Logic.Trigger trigger = Logic.LogicHelper.AllocateTrigger("Assets/Res/Logic/Triggers/123.asset");
                 trigger.Invoke(Logic.Events.Event.CreateTrigger(UnitHandle.Null));
                 unit.Trigger.RunTrigger(trigger);

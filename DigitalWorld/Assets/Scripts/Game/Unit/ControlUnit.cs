@@ -128,6 +128,7 @@ namespace DigitalWorld.Game
                 return;
             }
 
+            control.Setup(this, this.Info);
             this.controls.Add(type, control);
         }
 
