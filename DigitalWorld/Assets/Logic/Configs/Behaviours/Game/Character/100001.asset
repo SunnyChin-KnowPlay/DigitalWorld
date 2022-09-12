@@ -1,0 +1,14 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!49 &4900000
+TextAsset:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 100001
+  m_Script: <?xml version="1.0" encoding="UTF-8"?><behaviour _typeName="DigitalWorld.Logic.Behaviour"
+    _enabled="True" _name="100001" _description="" _totalTime="0"><_children><child
+    _typeName="DigitalWorld.Logic.Actions.Game.Unit.Damage" _enabled="True" _name="Damage_0"
+    _description="" _totalTime="0" damageType="Physics" attackRatio="(1500, 1000)"><_children
+    /><_requirements _requirementLogic="And" /></child></_children></behaviour>

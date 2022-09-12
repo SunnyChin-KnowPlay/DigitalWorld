@@ -12,5 +12,6 @@
   </action>
   <action id="4" name="Game.Unit.Damage" desc="单位造成伤害">
     <field id="0" name="damageType" baseTypeName="System.Enum" typeName="DigitalWorld.Game.EDamagerType" desc="伤害类型" />
+    <field id="0" name="attackRatio" baseTypeName="System.ValueType" typeName="Dream.FixMath.FixFactor" desc="攻击力比率" />
   </action>
 </data>

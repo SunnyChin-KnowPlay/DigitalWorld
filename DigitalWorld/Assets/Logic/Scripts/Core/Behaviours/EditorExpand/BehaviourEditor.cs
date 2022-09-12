@@ -228,9 +228,15 @@ namespace DigitalWorld.Logic
             fullPath += ".asset";
             fullPath = System.IO.Path.Combine(Utility.LogicExportPath, fullPath);
 
+            string directorPath = Path.GetDirectoryName(fullPath);
+            if (!Directory.Exists(directorPath))
+            {
+                Directory.CreateDirectory(directorPath);
+            }
+
             AssetDatabase.DeleteAsset(fullPath);
             ByteAsset.CreateAsset(data, fullPath);
-            
+
         }
 
         private void SaveXml()

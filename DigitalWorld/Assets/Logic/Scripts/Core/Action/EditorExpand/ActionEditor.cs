@@ -420,10 +420,10 @@ namespace DigitalWorld.Logic.Actions
             }
             else if (field.FieldType == typeof(FixFactor))
             {
-                FixVector2 v = (FixVector2)field.GetValue(this);
-                Vector2Int vi = new Vector2Int(v.x, v.y);
+                FixFactor v = (FixFactor)field.GetValue(this);
+                Vector2Int vi = new Vector2Int(v.nom, v.den);
                 vi = EditorGUI.Vector2IntField(rect, new GUIContent(""), vi);
-                v = new FixVector2(vi.x, vi.y);
+                v = new FixFactor(vi.x, vi.y);
                 field.SetValue(this, v);
             }
             else if (field.FieldType == typeof(FixVector2))

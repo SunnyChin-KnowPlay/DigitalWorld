@@ -9,7 +9,7 @@ namespace DigitalWorld.Logic
         First = 1,
     }
     /// <summary>
-    /// 行为基类
+    /// 触发器类
     /// </summary>
     public partial class Behaviour : NodeState
     {
