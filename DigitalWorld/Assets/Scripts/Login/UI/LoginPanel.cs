@@ -1,6 +1,7 @@
 ﻿using DigitalWorld.Game;
 using DigitalWorld.Net;
 using DigitalWorld.Proto.Common;
+using DigitalWorld.UI;
 using Dream.Proto;
 using System.Collections;
 using System.Net;
@@ -8,9 +9,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace DigitalWorld.UI.Logic
+namespace DigitalWorld.Login.UI
 {
-    public class LoginControl : PanelControl
+    public class LoginPanel : PanelControl
     {
         public const string path = "Assets/Res/UI/Login/LoginPanel.prefab";
 
@@ -52,7 +53,6 @@ namespace DigitalWorld.UI.Logic
             }
         }
         #endregion
-
 
         #region UI Event
         private void OnClickStartGame()

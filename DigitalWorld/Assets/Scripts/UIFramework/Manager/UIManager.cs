@@ -6,6 +6,9 @@ using UnityEngine.EventSystems;
 
 namespace DigitalWorld.UI
 {
+    /// <summary>
+    /// UI管理器
+    /// </summary>
     public sealed class UIManager : MonoBehaviour
     {
         #region Params
@@ -16,7 +19,7 @@ namespace DigitalWorld.UI
         /// 界面词典 界面有唯一性
         /// key:界面路径
         /// </summary>
-        private Dictionary<string, GameObject> panels = new Dictionary<string, GameObject>();
+        private readonly Dictionary<string, GameObject> panels = new Dictionary<string, GameObject>();
 
         private Transform trans = null;
         #endregion
@@ -81,7 +84,7 @@ namespace DigitalWorld.UI
         }
         #endregion
 
-        #region Behaviour
+        #region Mono
         private void Awake()
         {
             if (null != instance && instance.gameObject != this.gameObject)
@@ -112,36 +115,8 @@ namespace DigitalWorld.UI
         #region Initialize
         private void InitializePanels()
         {
-            if (null == panels)
-                panels = new Dictionary<string, GameObject>();
-            else
-                panels.Clear();
+            panels.Clear();
         }
-
-        //private void InitializeCamera()
-        //{
-        //    Transform root = this.GetComponent<Transform>();
-        //    if (null != root)
-        //    {
-        //        Transform cameraTransform = root.Find("Camera");
-        //        if (null != cameraTransform)
-        //        {
-        //            this.uiCamera = cameraTransform.GetComponent<Camera>();
-        //        }
-        //    }
-        //}
-
-        //private void InitializeEventSystem()
-        //{
-        //    eventSystem = this.GetComponentInChildren<EventSystem>(true);
-        //    if (null == eventSystem)
-        //    {
-        //        GameObject obj = new GameObject("EventSystem");
-        //        eventSystem = obj.AddComponent<EventSystem>();
-        //        obj.AddComponent<StandaloneInputModule>();
-        //        obj.transform.SetParent(this.transform);
-        //    }
-        //}
 
         #endregion
 
@@ -229,8 +204,7 @@ namespace DigitalWorld.UI
         {
             go.transform.SetParent(trans, false);
 
-            Canvas canvas = go.GetComponent<Canvas>();
-            if (null != canvas)
+            if (go.TryGetComponent<Canvas>(out Canvas canvas))
             {
                 canvas.worldCamera = this.uiCamera;
             }
@@ -241,9 +215,7 @@ namespace DigitalWorld.UI
             GameObject go = this.LoadPanel(path);
             if (null != go)
             {
-                //go.transform.SetParent(trans, false);
                 go.SetActive(true);
-
                 SetupPanel(go);
             }
         }
@@ -300,8 +272,6 @@ namespace DigitalWorld.UI
             }
         }
         #endregion
-
-
 
         #region Utility
         /// <summary>

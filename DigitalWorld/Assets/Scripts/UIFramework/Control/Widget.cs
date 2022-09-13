@@ -7,19 +7,25 @@ namespace DigitalWorld.UI
     /// </summary>
     public partial class Widget : MonoBehaviour
     {
+        #region Params
         protected RectTransform rectTransform;
+        #endregion
 
+        #region Mono
         protected virtual void Awake()
         {
             this.rectTransform = this.GetComponent<RectTransform>();
 
             this.BindWidgets();
         }
+        #endregion
 
+        #region Bind
         protected virtual void BindWidgets()
         {
            
         }
+        #endregion
 
         #region Widget
         protected virtual Transform GetTransform(string path)
