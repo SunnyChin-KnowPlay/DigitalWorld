@@ -13,7 +13,9 @@ namespace DigitalWorld.Login.UI
 {
     public class LoginPanel : PanelControl
     {
+        #region Enter
         public const string path = "Assets/Res/UI/Login/LoginPanel.prefab";
+        #endregion
 
         #region Param
 
@@ -57,7 +59,7 @@ namespace DigitalWorld.Login.UI
         #region UI Event
         private void OnClickStartGame()
         {
-            
+
             UnityEngine.Debug.Log("Start Game");
 
             MainController mc = MainController.Instance;
@@ -79,7 +81,7 @@ namespace DigitalWorld.Login.UI
 
             this.Hide();
 
-            WorldManager wm = WorldManager.Instance;
+            _ = WorldManager.Instance;
         }
 
         private void OnClickLogin()
@@ -121,7 +123,7 @@ namespace DigitalWorld.Login.UI
             AckLogin ack = protocol as AckLogin;
             if (null != ack)
             {
-              
+
             }
         }
         #endregion

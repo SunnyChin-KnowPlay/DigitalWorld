@@ -7,7 +7,7 @@ namespace DigitalWorld.Game
     /// <summary>
     /// 战斗相机控制器
     /// </summary>
-    public class CameraControl : MonoBehaviour
+    public class CameraControl : DreamEngine.Core.Singleton<CameraControl>
     {
         #region Params
         public Transform focused;
@@ -24,12 +24,16 @@ namespace DigitalWorld.Game
         }
 
         protected Transform trans;
-        protected new Camera camera;
+        /// <summary>
+        /// 主相机
+        /// </summary>
+        public Camera MainCamera => mainCamera;
+        protected Camera mainCamera;
 
         public float distance = 15;
 
         public Vector2 distanceClamp = new Vector2(5, 25);
-        public Vector2 verticalAngleClamp = new Vector2(5, 85);
+        public Vector2 verticalAngleClamp = new Vector2(-85, 85);
 
         public const float mouseScrollWheelSpeed = 5;
 
@@ -64,9 +68,10 @@ namespace DigitalWorld.Game
         #endregion
 
         #region Mono
-        private void Awake()
+        protected override void Awake()
         {
-            camera = GetComponent<Camera>();
+            base.Awake();
+            mainCamera = GetComponent<Camera>();
         }
 
         private void Start()
@@ -122,31 +127,12 @@ namespace DigitalWorld.Game
                 trans.position = focused.position + quaternion * -Vector3.forward * distance;
                 trans.LookAt(focused.position);
 
-                UpdateSelect();
             }
         }
         #endregion
 
         #region Select
-        private void UpdateSelect()
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                Ray ray = camera.ScreenPointToRay(Input.mousePosition);
 
-                bool ret = Physics.Raycast(ray, out RaycastHit hit);
-                if (ret)
-                {
-                    Collider collider = hit.collider;
-                    if (collider.gameObject.TryGetComponent<ControlUnit>(out var target))
-                    {
-                        ControlSituation situation = this.FocusedUnit.Situation;
-                        situation.SelectTarget(new UnitHandle(target));
-                    }
-                }
-            }
-
-        }
         #endregion
     }
 }

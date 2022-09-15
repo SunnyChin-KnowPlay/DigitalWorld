@@ -5,6 +5,8 @@ using DigitalWorld.Extension.Unity;
 using DreamEngine.Core;
 using System.Collections.Generic;
 using UnityEngine;
+using DigitalWorld.UI;
+using DigitalWorld.Game.UI;
 
 namespace DigitalWorld.Game
 {
@@ -70,36 +72,31 @@ namespace DigitalWorld.Game
 
                 _ = unit.GetOrAddComponent<InputBehaviour>();
                 unit.AddControl(ELogicControlType.Test, unit.GetOrAddComponent<ControlTest>());
-               
+
                 Logic.Trigger trigger = Logic.LogicHelper.AllocateTrigger("Assets/Res/Logic/Triggers/123.asset");
                 trigger.Invoke(Logic.Events.Event.CreateTrigger(UnitHandle.Null));
                 unit.Trigger.RunTrigger(trigger);
 
                 SkillInfo skillInfo = TableManager.Instance.SkillTable[100001];
-                if(null != skillInfo)
+                if (null != skillInfo)
                 {
                     unit.Skill.Study(skillInfo, 0);
                 }
             }
 
 
-            // 最后添加摄像机
-
-            GameObject mainCameraObj = AssetManager.LoadAsset<GameObject>("Assets/Res/Cameras/BattleMainCamera.prefab");
-            if (null != mainCameraObj)
+            // 然后设置摄像机
+            CameraControl cc = CameraControl.Instance;
+            //GameObject mainCameraObj = AssetManager.LoadAsset<GameObject>("Assets/Res/Cameras/BattleMainCamera.prefab");
+            if (null != cc)
             {
-                GameObject obj = GameObject.Instantiate(mainCameraObj);
-                if (null != obj)
-                {
-                    obj.name = "MainCamera";
-                    CameraControl cc = obj.GetOrAddComponent<CameraControl>();
-                    if (null != cc)
-                    {
-                        cc.focused = unit.transform;
-                    }
-                }
+                cc.focused = unit.transform;
             }
 
+            // 然后开启UI
+
+            UIManager uiManager = UIManager.Instance;
+            uiManager.ShowPanel<GamePanel>(GamePanel.path);
         }
         #endregion
 

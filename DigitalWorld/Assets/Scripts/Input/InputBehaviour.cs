@@ -58,6 +58,16 @@ namespace DigitalWorld.Behaviour
                 unit.Move.ApplyMove(movingDir);
 
                 UpdateDir();
+
+                
+            }
+        }
+
+        private void LateUpdate()
+        {
+            if(null != this.unit)
+            {
+                UpdateSelect();
             }
         }
 
@@ -79,7 +89,26 @@ namespace DigitalWorld.Behaviour
             }
         }
 
-      
+        private void UpdateSelect()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                Camera camera = CameraControl.Instance.MainCamera;
+                Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+
+                bool ret = Physics.Raycast(ray, out RaycastHit hit);
+                if (ret)
+                {
+                    Collider collider = hit.collider;
+                    if (collider.gameObject.TryGetComponent<ControlUnit>(out var target))
+                    {
+                        ControlSituation situation = unit.Situation;
+                        situation.SelectTarget(new UnitHandle(target));
+                    }
+                }
+            }
+
+        }
     }
 
 }
