@@ -7,11 +7,14 @@ namespace DigitalWorld.UI
     /// </summary>
     public partial class PanelControl : Widget
     {
+        #region Params
         /// <summary>
         /// 画布 界面控制器必须拥有画布
         /// </summary>
         protected Canvas canvas;
+        #endregion
 
+        #region Mono
         protected override void Awake()
         {
             base.Awake();
@@ -19,6 +22,25 @@ namespace DigitalWorld.UI
             canvas = this.GetComponent<Canvas>();
         }
 
+        protected virtual void OnEnable()
+        {
+
+        }
+
+        protected virtual void OnDisable()
+        {
+
+        }
+        #endregion
+
+        #region Bind
+        protected override void BindWidgets()
+        {
+            base.BindWidgets();
+        }
+        #endregion
+
+        #region Logic
         public void Show()
         {
             if (null == this.gameObject)
@@ -34,26 +56,7 @@ namespace DigitalWorld.UI
 
             this.gameObject.SetActive(false);
         }
-
-        #region Bind
-        protected override void BindWidgets()
-        {
-            base.BindWidgets();
-        }
         #endregion
 
-        #region Enable & Disable
-        protected virtual void OnEnable()
-        {
-
-        }
-
-        protected virtual void OnDisable()
-        {
-
-        }
-        #endregion
-
-        
     }
 }
