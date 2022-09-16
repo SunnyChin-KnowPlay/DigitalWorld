@@ -26,6 +26,15 @@ namespace DigitalWorld.Login.UI
         protected override void Awake()
         {
             base.Awake();
+
+            startButton = this.GetWidgetComponent<Button>("Root/StartButton");
+
+            if (null != startButton)
+            {
+                startButton.onClick.AddListener(OnClickStartGame);
+            }
+
+         
         }
 
         protected override void OnEnable()
@@ -38,21 +47,6 @@ namespace DigitalWorld.Login.UI
         {
             base.OnDisable();
 
-        }
-        #endregion
-
-        #region Bind
-        protected override void BindWidgets()
-        {
-            base.BindWidgets();
-
-
-            startButton = this.GetComponent<Button>("Root/StartButton");
-
-            if (null != startButton)
-            {
-                startButton.onClick.AddListener(OnClickStartGame);
-            }
         }
         #endregion
 

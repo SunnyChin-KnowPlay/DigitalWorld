@@ -35,6 +35,12 @@ namespace DigitalWorld.Game
         /// 单位id池
         /// </summary>
         private uint unitIdPool = 0;
+
+        /// <summary>
+        /// 玩家的单元
+        /// </summary>
+        public UnitHandle PlayerUnit => playerUnit;
+        private UnitHandle playerUnit;
         #endregion
 
         #region Mono
@@ -68,6 +74,7 @@ namespace DigitalWorld.Game
             ControlUnit unit = this.RegisterUnit(unitData);
             if (null != unit)
             {
+                playerUnit = new UnitHandle(unit);
                 unit.LogicPosition = Vector3.zero;
 
                 _ = unit.GetOrAddComponent<InputBehaviour>();

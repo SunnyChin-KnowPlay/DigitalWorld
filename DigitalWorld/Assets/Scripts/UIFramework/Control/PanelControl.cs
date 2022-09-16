@@ -33,13 +33,6 @@ namespace DigitalWorld.UI
         }
         #endregion
 
-        #region Bind
-        protected override void BindWidgets()
-        {
-            base.BindWidgets();
-        }
-        #endregion
-
         #region Logic
         public void Show()
         {

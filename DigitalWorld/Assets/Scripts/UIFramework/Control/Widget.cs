@@ -15,15 +15,6 @@ namespace DigitalWorld.UI
         protected virtual void Awake()
         {
             this.rectTransform = this.GetComponent<RectTransform>();
-
-            this.BindWidgets();
-        }
-        #endregion
-
-        #region Bind
-        protected virtual void BindWidgets()
-        {
-           
         }
         #endregion
 
@@ -33,13 +24,24 @@ namespace DigitalWorld.UI
             return rectTransform.Find(path);
         }
 
-        protected virtual T GetComponent<T>(string path) where T : Component
+        protected virtual T GetWidgetComponent<T>(string path) where T : Component
         {
             Transform t = rectTransform.Find(path);
             if (null == t)
                 return default;
 
             return t.GetComponent<T>();
+        }
+
+        protected virtual T GetOrAddWidgetComponent<T>(string path) where T : Component
+        {
+            Transform t = rectTransform.Find(path);
+            if (null == t)
+                return default;
+
+            if (!t.TryGetComponent<T>(out var c))
+                c = t.gameObject.AddComponent<T>();
+            return c;
         }
         #endregion
     }

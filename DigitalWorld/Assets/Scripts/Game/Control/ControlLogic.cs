@@ -25,7 +25,7 @@ namespace DigitalWorld.Game
             }
         }
 
-        public virtual UnitData Info
+        public virtual UnitData Data
         {
             get { return data; }
         }

@@ -82,6 +82,21 @@ namespace DigitalWorld.Game
                 return moveSpeed;
             }
         }
+
+        /// <summary>
+        /// 名字
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                CharacterInfo info = CharacterInfo;
+                if (null == info)
+                    return string.Empty;
+
+                return info.Name;
+            }
+        }
         #endregion
 
         #region Common
