@@ -51,6 +51,14 @@ namespace DigitalWorld.Game.UI
 
         }
 
+        protected virtual void Update()
+        {
+            if (default == this.unitHandle)
+            {
+                this.Hide();
+            }
+        }
+
         protected virtual void LateUpdate()
         {
             if (unitHandle)
@@ -70,8 +78,15 @@ namespace DigitalWorld.Game.UI
         public virtual void Bind(UnitHandle unit)
         {
             this.unitHandle = unit;
-
-            this.nameText.text = this.unitHandle.Unit.Data.Name;
+            if (unit)
+            {
+                this.Show();
+                this.nameText.text = this.unitHandle.Unit.Data.Name;
+            }
+            else
+            {
+                this.Hide();
+            }
         }
         #endregion
     }

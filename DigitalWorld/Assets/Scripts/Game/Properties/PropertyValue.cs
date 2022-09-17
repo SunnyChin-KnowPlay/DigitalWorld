@@ -1,6 +1,8 @@
 ﻿using Dream.FixMath;
 using System;
 
+using DigitalWorld.Defined.Game;
+
 namespace DigitalWorld.Game
 {
     /// <summary>
@@ -8,6 +10,28 @@ namespace DigitalWorld.Game
     /// </summary>
     public sealed class PropertyValue : IEquatable<PropertyValue>
     {
+        #region Event
+        /// <summary>
+        /// 属性改变代理
+        /// 其中新旧值会经过Clamp处理
+        /// 改变值则是期望值
+        /// 所以newerValue - oldValue可能不等于expectChangeValue
+        /// </summary>
+        /// <param name="propertyType">属性类型</param>
+        /// <param name="oldValue">旧值</param>
+        /// <param name="newerValue">新值</param>
+        /// <param name="expectChangeValue">期望改变值</param>
+        public delegate void OnPropertyChangedHandle(EPropertyType propertyType, int oldValue, int newerValue, int expectChangeValue);
+        public event OnPropertyChangedHandle OnPropertyChanged;
+        #endregion
+
+        #region Params
+        /// <summary>
+        /// 属性类型
+        /// </summary>
+        public EPropertyType PropertyType => propertyType;
+        private readonly EPropertyType propertyType;
+
         /// <summary>
         /// 最小值
         /// </summary>
@@ -87,17 +111,12 @@ namespace DigitalWorld.Game
         {
             get { return this.baseV >= this.maxV; }
         }
+        #endregion
 
-        public PropertyValue()
+        #region Logic
+        public PropertyValue(EPropertyType propertyType, int min = 0, int max = int.MaxValue, int defaultValue = int.MaxValue, int standValue = 0)
         {
-            this.standV = 0;
-            this.baseV = int.MaxValue;
-            this.minV = 0;
-            this.maxV = int.MaxValue;
-        }
-
-        public PropertyValue(int min = 0, int max = int.MaxValue, int defaultValue = int.MaxValue, int standValue = 0)
-        {
+            this.propertyType = propertyType;
             this.standV = standValue;
             this.baseV = defaultValue;
             this.minV = min;
@@ -125,35 +144,64 @@ namespace DigitalWorld.Game
         {
             this.baseV = Math.Clamp(this.baseV, this.minV, this.maxV);
         }
+        #endregion
+
+        #region Event Process
+        private void InvokeChange(int oldValue, int newerValue, int expectChangeValue)
+        {
+            if (null != OnPropertyChanged)
+            {
+                OnPropertyChanged.Invoke(this.propertyType, oldValue, newerValue, expectChangeValue);
+            }
+        }
+        #endregion
 
         #region Operator
         public static PropertyValue operator +(PropertyValue a, int b)
         {
+            int curValue = a.baseV;
+
             a.baseV += b;
             a.Clamp();
+
+            a.InvokeChange(curValue, a.baseV, b);
+
             return a;
         }
 
         public static PropertyValue operator +(PropertyValue a, FixFactor b)
         {
+            int curValue = a.baseV;
+
             int changeV = a.Range * b;
             a.baseV += changeV;
             a.Clamp();
+
+            a.InvokeChange(curValue, a.baseV, changeV);
+
             return a;
         }
 
         public static PropertyValue operator -(PropertyValue a, int b)
         {
+            int curValue = a.baseV;
+
             a.baseV -= b;
             a.Clamp();
+
+            a.InvokeChange(curValue, a.baseV, -b);
             return a;
         }
 
         public static PropertyValue operator -(PropertyValue a, FixFactor b)
         {
+            int curValue = a.baseV;
+
             int changeV = a.Range * b;
             a.baseV -= changeV;
             a.Clamp();
+
+            a.InvokeChange(curValue, a.baseV, -changeV);
             return a;
         }
         #endregion

@@ -1,4 +1,5 @@
 using DigitalWorld.Extension.Unity;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -60,6 +61,7 @@ namespace DigitalWorld.Game
         public ControlCalculate Calculate => this.controls[ELogicControlType.Calculate] as ControlCalculate;
         public ControlSituation Situation => this.controls[ELogicControlType.Situation] as ControlSituation;
         public ControlTest Test => this.controls[ELogicControlType.Test] as ControlTest;
+        public ControlEvent Event => this.controls[ELogicControlType.Event] as ControlEvent;
         #endregion
 
         #region Behaviour
@@ -68,6 +70,11 @@ namespace DigitalWorld.Game
             base.Awake();
             this.world = WorldManager.Instance;
             this.status = EUnitStatus.Idle;
+        }
+
+        protected virtual void OnEnable()
+        {
+            OnBorn();
         }
 
         // Update is called once per frame
@@ -147,9 +154,27 @@ namespace DigitalWorld.Game
 
         #region Logic
         /// <summary>
+        /// 请求死亡
+        /// </summary>
+        public void ApplyDead()
+        {
+            if (status == EUnitStatus.Running)
+            {
+                this.OnDead();
+            }
+        }
+
+        public IEnumerator ApplyFuneral(float duration)
+        {
+            yield return new WaitForSeconds(duration);
+
+            this.OnFuneral();
+        }
+
+        /// <summary>
         /// 当出生时
         /// </summary>
-        public virtual void OnBorn()
+        protected virtual void OnBorn()
         {
             status = EUnitStatus.Running;
         }
@@ -157,10 +182,13 @@ namespace DigitalWorld.Game
         /// <summary>
         /// 死亡时
         /// </summary>
-        public virtual void OnDead()
+        protected virtual void OnDead()
         {
+            this.Animator.SetTrigger("dead");
+
             this.status = EUnitStatus.Dead;
-            this.OnFuneral();
+
+            StartCoroutine(ApplyFuneral(5));
         }
 
         /// <summary>
@@ -178,9 +206,8 @@ namespace DigitalWorld.Game
         /// </summary>
         /// <param name="param"></param>
         /// <returns></returns>
-        public virtual long ProcessDamage(ref ParamInjury param)
+        public virtual int ProcessDamage(ref ParamInjury param)
         {
-
             int result = Calculate.CalculateDamage(ref param);
 
             return result;

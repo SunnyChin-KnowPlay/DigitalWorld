@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enableDynamicUpdate: 1
   enableExtendedColorPicker: 0
-  editorHints: 1
+  editorHints: 0
   selectedTheme: 0
   highlightedColorDark: {r: 0, g: 0.5882353, b: 1, a: 1}
   highlightedColorSecondaryDark: {r: 1, g: 1, b: 1, a: 1}
@@ -27,6 +27,6 @@ MonoBehaviour:
   highlightedColorSecondaryCustom: {r: 1, g: 1, b: 1, a: 1}
   systemFontThin: {fileID: 11400000, guid: 58314e93d8c20b34cb6659ae8aba8827, type: 2}
   systemFontLight: {fileID: 11400000, guid: 2f17e8bb3967fe14093d5fec798fffd9, type: 2}
-  systemFontRegular: {fileID: 11400000, guid: 4bd810f1cbcb0f446a8f5a31453e243f, type: 2}
+  systemFontRegular: {fileID: 11400000, guid: 09506ca158bffeb4fa6e44afd29e4a10, type: 2}
   systemFontSemiBold: {fileID: 11400000, guid: 84dd14695854bbc43a5faa24fcf93d0d, type: 2}
   systemFontBold: {fileID: 11400000, guid: fa328c1ae3ffb6b4583cf371153b0be6, type: 2}

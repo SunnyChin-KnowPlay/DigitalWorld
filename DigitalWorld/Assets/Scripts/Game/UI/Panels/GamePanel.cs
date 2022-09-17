@@ -12,7 +12,14 @@ namespace DigitalWorld.Game.UI
         #endregion
 
         #region Params
+        /// <summary>
+        /// Íæ¼Ò¿ò¼Ü
+        /// </summary>
         private UnitFramework playerUnit;
+        /// <summary>
+        /// Ä¿±ê¿ò¼Ü
+        /// </summary>
+        private UnitFramework targetUnit;
         #endregion
 
         #region Mono
@@ -20,11 +27,56 @@ namespace DigitalWorld.Game.UI
         {
             base.Awake();
 
+
+
             playerUnit = this.GetOrAddWidgetComponent<UnitFramework>("Root/PlayerUnit");
             if (null != playerUnit)
             {
                 playerUnit.Bind(WorldManager.Instance.PlayerUnit);
             }
+
+            targetUnit = this.GetOrAddWidgetComponent<UnitFramework>("Root/TargetUnit");
+        }
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+
+            this.RegisterListeners();
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+
+            this.UnregisterListeners();
+        }
+        #endregion
+
+        #region Listener
+        private void RegisterListeners()
+        {
+            UnitEventManager m = UnitEventManager.Instance;
+
+            m.AddListener(EUnitEventType.Focused, OnUnitFocused);
+        }
+
+        private void UnregisterListeners()
+        {
+            UnitEventManager m = UnitEventManager.Instance;
+
+            if (null != m)
+            {
+                m.RemoveListener(EUnitEventType.Focused, OnUnitFocused);
+            }
+        }
+
+        private void OnUnitFocused(UnitHandle unit, System.EventArgs args)
+        {
+            UnityEngine.Debug.Log("OnUnitFocused");
+
+            EventArgsTarget target = args as EventArgsTarget;
+            targetUnit.Bind(target.Target);
         }
         #endregion
     }

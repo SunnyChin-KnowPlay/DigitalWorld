@@ -20,14 +20,19 @@ namespace DigitalWorld.Game
             attributes.Clear();
 
             PropertyValue av;
-            av = new PropertyValue(0, data.Hp, data.Hp, data.Hp);
+            av = new PropertyValue(EPropertyType.Hp, 0, data.Hp, data.Hp, data.Hp);
             attributes.Add(EPropertyType.Hp, av);
 
-            av = new PropertyValue(0, int.MaxValue, data.Attack, data.Attack);
+            av = new PropertyValue(EPropertyType.Attack, 0, int.MaxValue, data.Attack, data.Attack);
             attributes.Add(EPropertyType.Attack, av);
 
-            av = new PropertyValue(0, int.MaxValue, data.MoveSpeed, speedStandValue);
+            av = new PropertyValue(EPropertyType.MoveSpeed, 0, int.MaxValue, data.MoveSpeed, speedStandValue);
             attributes.Add(EPropertyType.MoveSpeed, av);
+
+            foreach (KeyValuePair<EPropertyType, PropertyValue> kvp in attributes)
+            {
+                kvp.Value.OnPropertyChanged += OnPropertyChanged;
+            }
         }
         #endregion
 
@@ -43,6 +48,28 @@ namespace DigitalWorld.Game
         public PropertyValue Attack { get { return GetValue(EPropertyType.Attack); } }
 
         public PropertyValue MoveSpeed { get { return GetValue(EPropertyType.MoveSpeed); } }
+        #endregion
+
+        #region Listener
+        private void OnPropertyChanged(EPropertyType type, int oldValue, int newerValue, int expectChangeValue)
+        {
+            switch (type)
+            {
+                case EPropertyType.Hp:
+                {
+                    OnPropertyHpChanged(oldValue, newerValue, expectChangeValue);
+                    break;
+                }
+            }
+        }
+
+        private void OnPropertyHpChanged(int oldValue, int newerValue, int expectChangeValue)
+        {
+            if (newerValue <= 0)
+            {
+                this.Unit.ApplyDead();
+            }
+        }
         #endregion
     }
 }

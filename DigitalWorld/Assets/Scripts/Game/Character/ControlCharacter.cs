@@ -9,7 +9,11 @@ namespace DigitalWorld.Game
     public partial class ControlCharacter : ControlUnit
     {
         #region Params
-
+        /// <summary>
+        /// 是否为主控玩家 就是玩家自己
+        /// </summary>
+        public bool IsHost { get => isHost; set => isHost = value; }
+        private bool isHost;
 
         #endregion
 
@@ -42,20 +46,21 @@ namespace DigitalWorld.Game
                     { ELogicControlType.Trigger, this.GetOrAddComponent<ControlTrigger>() },
                     { ELogicControlType.Situation, this.GetOrAddComponent<ControlSituation>() },
                     { ELogicControlType.Calculate, this.GetOrAddComponent<ControlCalculate>() },
+                    { ELogicControlType.Event, this.GetOrAddComponent<ControlEvent>() },
                 };
             }
 
             this.EachAllControls(OnSetupControl);
         }
 
-        public override void OnBorn()
+        protected override void OnBorn()
         {
-
+            base.OnBorn();
         }
 
-        public override void OnDead()
+        protected override void OnDead()
         {
-
+            base.OnDead();
         }
         #endregion
     }

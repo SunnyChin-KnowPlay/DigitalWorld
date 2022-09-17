@@ -13,15 +13,6 @@ namespace DigitalWorld.Game
     public sealed class WorldManager : Singleton<WorldManager>
     {
         #region Params
-        public Camera MainCamera
-        {
-            get
-            {
-                return mainCamera;
-            }
-        }
-        private Camera mainCamera = null;
-
         /// <summary>
         /// 单位词典
         /// </summary>
@@ -48,7 +39,6 @@ namespace DigitalWorld.Game
         {
             base.Awake();
 
-            mainCamera = Camera.main;
         }
 
         private void Start()
@@ -74,6 +64,11 @@ namespace DigitalWorld.Game
             ControlUnit unit = this.RegisterUnit(unitData);
             if (null != unit)
             {
+                ControlCharacter character = unit as ControlCharacter;
+                if (null != character)
+                {
+                    character.IsHost = true;
+                }
                 playerUnit = new UnitHandle(unit);
                 unit.LogicPosition = Vector3.zero;
 

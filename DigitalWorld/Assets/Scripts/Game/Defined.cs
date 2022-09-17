@@ -46,6 +46,10 @@
         /// 测试控制器
         /// </summary>
         Test,
+        /// <summary>
+        /// 事件控制器
+        /// </summary>
+        Event,
     }
 
     public enum EUnitStatus

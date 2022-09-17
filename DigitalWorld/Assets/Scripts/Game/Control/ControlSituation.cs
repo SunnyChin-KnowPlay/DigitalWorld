@@ -28,10 +28,12 @@ namespace DigitalWorld.Game
             if (this.target == target)
             {
                 // 如果选择的是同样的目标的话
+                return;
             }
 
-
             this.target = target;
+
+            this.Unit.Event.Invoke(EUnitEventType.Focused, new EventArgsTarget(this.Target));
         }
 
         /// <summary>

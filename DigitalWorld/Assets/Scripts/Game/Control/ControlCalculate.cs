@@ -47,6 +47,7 @@ namespace DigitalWorld.Game
                 // 这里就把血量减去伤害
                 PropertyValue hpValue = target.Property.Hp;
                 hpValue -= totalDamage;
+
             }
             return resultDamage;
         }
