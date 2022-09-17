@@ -33,23 +33,7 @@ namespace DigitalWorld.UI
         }
         #endregion
 
-        #region Logic
-        public void Show()
-        {
-            if (null == this.gameObject)
-                return;
-
-            this.gameObject.SetActive(true);
-        }
-
-        public void Hide()
-        {
-            if (null == this.gameObject)
-                return;
-
-            this.gameObject.SetActive(false);
-        }
-        #endregion
+       
 
     }
 }
