@@ -74,6 +74,13 @@ namespace DigitalWorld.Game
             mainCamera = GetComponent<Camera>();
         }
 
+        protected override void OnDestroy()
+        {
+            Events.EventManager.Instance?.UnregisterListener(Events.EEventType.Escape, OnUnselectTarget);
+
+            base.OnDestroy();
+        }
+
         private void Start()
         {
             trans = this.transform;
@@ -150,18 +157,36 @@ namespace DigitalWorld.Game
                     Collider collider = hit.collider;
                     if (collider.gameObject.TryGetComponent<ControlUnit>(out var target))
                     {
-
-                        ControlUnit unit = FocusedUnit.Unit;
-                        ControlSituation situation = unit.Situation;
-                        situation.SelectTarget(new UnitHandle(target));
-
+                        SelectTarget(target);
                         return true;
                     }
                 }
             }
             return false;
         }
+
+        private void SelectTarget(ControlUnit target)
+        {
+            ControlUnit unit = FocusedUnit.Unit;
+            ControlSituation situation = unit.Situation;
+            situation.SelectTarget(new UnitHandle(target));
+
+            Events.EventManager.Instance.RegisterListener(Events.EEventType.Escape, OnUnselectTarget, Events.EHandleAddMode.Replace);
+        }
+
+        /// <summary>
+        /// 放弃选择目标
+        /// </summary>
+        /// <param name="args"></param>
+        private void OnUnselectTarget(Events.EEventType type, System.EventArgs args)
+        {
+            ControlUnit unit = FocusedUnit.Unit;
+            ControlSituation situation = unit.Situation;
+            situation.SelectTarget(default);
+        }
         #endregion
+
+
     }
 }
 

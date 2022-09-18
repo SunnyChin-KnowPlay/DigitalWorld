@@ -8,7 +8,7 @@ namespace DigitalWorld.Game.UI
     /// <summary>
     /// µ¥Î»¿ò¼Ü
     /// </summary>
-    public class UnitFramework : Widget
+    public class UnitFramework : Control
     {
         #region Params
         /// <summary>
@@ -42,12 +42,12 @@ namespace DigitalWorld.Game.UI
         {
             base.Awake();
 
-            headImage = GetWidgetComponent<Image>("HeadImage");
-            nameText = GetWidgetComponent<TMP_Text>("NameText");
-            hpBar = GetWidgetComponent<Slider>("HpBar");
-            mpBar = GetWidgetComponent<Slider>("MpBar");
-            hpText = GetWidgetComponent<TMP_Text>("HpBar/ValueText");
-            mpText = GetWidgetComponent<TMP_Text>("MpBar/ValueText");
+            headImage = GetControlComponent<Image>("HeadImage");
+            nameText = GetControlComponent<TMP_Text>("NameText");
+            hpBar = GetControlComponent<Slider>("HpBar");
+            mpBar = GetControlComponent<Slider>("MpBar");
+            hpText = GetControlComponent<TMP_Text>("HpBar/ValueText");
+            mpText = GetControlComponent<TMP_Text>("MpBar/ValueText");
 
         }
 

@@ -7,7 +7,7 @@ namespace DigitalWorld.Game
     public class ControlProperty : ControlLogic
     {
         #region Params
-        private readonly Dictionary<EPropertyType, PropertyValue> attributes = new Dictionary<EPropertyType, PropertyValue>();
+        private readonly Dictionary<EPropertyType, PropertyValue> properties = new Dictionary<EPropertyType, PropertyValue>();
 
         private const int speedStandValue = 1000;
         #endregion
@@ -17,19 +17,19 @@ namespace DigitalWorld.Game
         {
             base.Setup(unit, data);
 
-            attributes.Clear();
+            properties.Clear();
 
             PropertyValue av;
             av = new PropertyValue(EPropertyType.Hp, 0, data.Hp, data.Hp, data.Hp);
-            attributes.Add(EPropertyType.Hp, av);
+            properties.Add(EPropertyType.Hp, av);
 
             av = new PropertyValue(EPropertyType.Attack, 0, int.MaxValue, data.Attack, data.Attack);
-            attributes.Add(EPropertyType.Attack, av);
+            properties.Add(EPropertyType.Attack, av);
 
             av = new PropertyValue(EPropertyType.MoveSpeed, 0, int.MaxValue, data.MoveSpeed, speedStandValue);
-            attributes.Add(EPropertyType.MoveSpeed, av);
+            properties.Add(EPropertyType.MoveSpeed, av);
 
-            foreach (KeyValuePair<EPropertyType, PropertyValue> kvp in attributes)
+            foreach (KeyValuePair<EPropertyType, PropertyValue> kvp in properties)
             {
                 kvp.Value.OnPropertyChanged += OnPropertyChanged;
             }
@@ -39,7 +39,7 @@ namespace DigitalWorld.Game
         #region Get
         public PropertyValue GetValue(EPropertyType type)
         {
-            this.attributes.TryGetValue(type, out PropertyValue value);
+            this.properties.TryGetValue(type, out PropertyValue value);
             return value;
         }
 

@@ -5,7 +5,7 @@ namespace DigitalWorld.UI
     /// <summary>
     /// 界面组件
     /// </summary>
-    public partial class Widget : MonoBehaviour
+    public partial class Control : MonoBehaviour
     {
         #region Params
         protected RectTransform rectTransform;
@@ -24,7 +24,7 @@ namespace DigitalWorld.UI
             return rectTransform.Find(path);
         }
 
-        protected virtual T GetWidgetComponent<T>(string path) where T : Component
+        protected virtual T GetControlComponent<T>(string path) where T : Component
         {
             Transform t = rectTransform.Find(path);
             if (null == t)
@@ -33,7 +33,7 @@ namespace DigitalWorld.UI
             return t.GetComponent<T>();
         }
 
-        protected virtual T GetOrAddWidgetComponent<T>(string path) where T : Component
+        protected virtual T GetOrAddControlComponent<T>(string path) where T : Component
         {
             Transform t = rectTransform.Find(path);
             if (null == t)

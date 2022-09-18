@@ -27,14 +27,14 @@ namespace DigitalWorld.Login.UI
         {
             base.Awake();
 
-            startButton = this.GetWidgetComponent<Button>("Root/StartButton");
+            startButton = this.GetControlComponent<Button>("Root/StartButton");
 
             if (null != startButton)
             {
                 startButton.onClick.AddListener(OnClickStartGame);
             }
 
-         
+
         }
 
         protected override void OnEnable()
@@ -73,7 +73,7 @@ namespace DigitalWorld.Login.UI
             SceneManager.LoadScene("World");
             yield return new WaitForEndOfFrame();
 
-            this.Hide();
+            UIManager.Instance.UnloadAllPanels();
 
             _ = WorldManager.Instance;
         }

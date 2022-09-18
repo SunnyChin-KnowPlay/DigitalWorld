@@ -9,11 +9,11 @@ namespace DigitalWorld.Extension.Unity
             if (null == component)
                 return null;
 
-            T com = component.GetComponent<T>();
-            if (null != com)
-                return com;
+            if (!component.TryGetComponent<T>(out T com))
+            {
+                com = component.gameObject.AddComponent<T>();
+            }
 
-            com = component.gameObject.AddComponent<T>();
             return com;
         }
 
@@ -22,11 +22,10 @@ namespace DigitalWorld.Extension.Unity
             if (null == component)
                 return null;
 
-            T com = component.GetComponent<T>();
-            if (null != com)
-                return com;
-
-            com = component.gameObject.AddComponent<T>();
+            if (!component.TryGetComponent<T>(out var com))
+            {
+                com = component.AddComponent<T>();
+            }
             return com;
         }
     }

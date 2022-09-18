@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using DigitalWorld.UI;
 using DigitalWorld.Game.UI;
+using System.Collections;
+using UnityEngine.SceneManagement;
 
 namespace DigitalWorld.Game
 {
@@ -229,6 +231,28 @@ namespace DigitalWorld.Game
                     list.Add(kvp.Value);
                 }
             }
+        }
+        #endregion
+
+        #region Exit
+        /// <summary>
+        /// 请求退出
+        /// </summary>
+        public void Exit()
+        {
+            StartCoroutine(ApplyExit());
+        }
+
+        private IEnumerator ApplyExit()
+        {
+            UIManager.Instance.UnloadAllPanels();
+
+            SceneManager.LoadScene("Login");
+            yield return new WaitForEndOfFrame();
+
+            
+
+            DestroyInstance();
         }
         #endregion
 

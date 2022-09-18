@@ -6,7 +6,7 @@ namespace DigitalWorld.UI
     /// 界面控制器
     /// </summary>
     [RequireComponent(typeof(Canvas))]
-    public partial class PanelControl : Widget
+    public partial class PanelControl : Control
     {
         #region Params
         /// <summary>
@@ -25,7 +25,8 @@ namespace DigitalWorld.UI
 
         protected virtual void OnEnable()
         {
-
+            // 注册退出事件 
+            Events.EventManager.Instance.RegisterListener(Events.EEventType.Escape, OnEscape);
         }
 
         protected virtual void OnDisable()
@@ -34,7 +35,17 @@ namespace DigitalWorld.UI
         }
         #endregion
 
-
+        #region Events
+        /// <summary>
+        /// 当接收到退出事件时 关闭这个界面
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="args"></param>
+        protected virtual void OnEscape(Events.EEventType type, System.EventArgs args)
+        {
+            this.Hide();
+        }
+        #endregion
 
     }
 }

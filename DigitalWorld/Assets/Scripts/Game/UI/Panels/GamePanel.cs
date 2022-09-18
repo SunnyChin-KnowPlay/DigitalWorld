@@ -8,7 +8,7 @@ namespace DigitalWorld.Game.UI
     public class GamePanel : PanelControl
     {
         #region Enter
-        public const string path = "Assets/Res/UI/Game/GamePanel.prefab";
+        public const string path = "Assets/Res/UI/Game/Panels/GamePanel.prefab";
         #endregion
 
         #region Params
@@ -29,45 +29,47 @@ namespace DigitalWorld.Game.UI
 
 
 
-            playerUnit = this.GetOrAddWidgetComponent<UnitFramework>("Root/PlayerUnit");
+            playerUnit = this.GetOrAddControlComponent<UnitFramework>("Root/PlayerUnit");
             if (null != playerUnit)
             {
                 playerUnit.Bind(WorldManager.Instance.PlayerUnit);
             }
 
-            targetUnit = this.GetOrAddWidgetComponent<UnitFramework>("Root/TargetUnit");
+            targetUnit = this.GetOrAddControlComponent<UnitFramework>("Root/TargetUnit");
         }
 
         protected override void OnEnable()
         {
             base.OnEnable();
 
-            this.RegisterListeners();
+            this.RegisterEventListeners();
+            this.RegisterUnitEventListeners();
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
 
-            this.UnregisterListeners();
+            this.UnregisterEventListeners();
+            this.UnregisterUnitEventListeners();
         }
         #endregion
 
-        #region Listener
-        private void RegisterListeners()
+        #region Unit Events
+        private void RegisterUnitEventListeners()
         {
             UnitEventManager m = UnitEventManager.Instance;
 
-            m.AddListener(EUnitEventType.Focused, OnUnitFocused);
+            m.RegisterListener(EUnitEventType.Focused, OnUnitFocused);
         }
 
-        private void UnregisterListeners()
+        private void UnregisterUnitEventListeners()
         {
             UnitEventManager m = UnitEventManager.Instance;
 
             if (null != m)
             {
-                m.RemoveListener(EUnitEventType.Focused, OnUnitFocused);
+                m.UnregisterListener(EUnitEventType.Focused, OnUnitFocused);
             }
         }
 
@@ -77,6 +79,24 @@ namespace DigitalWorld.Game.UI
 
             EventArgsTarget target = args as EventArgsTarget;
             targetUnit.Bind(target.Target);
+        }
+        #endregion
+
+        #region Events
+        private void RegisterEventListeners()
+        {
+            Events.EventManager.Instance.RegisterListener(Events.EEventType.Escape, OnEscapeToShowSetting);
+        }
+
+        private void UnregisterEventListeners()
+        {
+            Events.EventManager.Instance?.UnregisterListener(Events.EEventType.Escape, OnEscapeToShowSetting);
+        }
+
+        private void OnEscapeToShowSetting(Events.EEventType eventType, System.EventArgs args)
+        {
+            UIManager uiManager = UIManager.Instance;
+            uiManager.ShowPanel<SettingPanel>(SettingPanel.path);
         }
         #endregion
     }

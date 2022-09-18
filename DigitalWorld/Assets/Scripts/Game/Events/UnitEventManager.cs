@@ -23,13 +23,13 @@ namespace DigitalWorld.Game
         #endregion
 
         #region Logic
-        public void AddListener(EUnitEventType type, OnUnitHandle handle)
+        public void RegisterListener(EUnitEventType type, OnUnitHandle handle)
         {
             List<OnUnitHandle> list = GetHandles(type);
             list.Add(handle);
         }
 
-        public void RemoveListener(EUnitEventType type, OnUnitHandle handle)
+        public void UnregisterListener(EUnitEventType type, OnUnitHandle handle)
         {
             List<OnUnitHandle> list = GetHandles(type);
             list.Remove(handle);

@@ -162,6 +162,11 @@ namespace DigitalWorld.UI
             return gameObject;
         }
 
+        public void DestroyPanel(GameObject go)
+        {
+            Destroy(go);
+        }
+
         private GameObject GetPanel(string path)
         {
             this.panels.TryGetValue(path, out GameObject go);
@@ -174,14 +179,34 @@ namespace DigitalWorld.UI
             if (null == go)
             {
                 go = this.CreatePanel(path);
-            }
 
-            if (null != go)
-            {
-                this.panels.Add(path, go);
+                if (null != go)
+                {
+                    this.panels.Add(path, go);
+                }
             }
 
             return go;
+        }
+
+        public void UnloadPanel(string path)
+        {
+            GameObject go = GetPanel(path);
+
+            if (null != go)
+            {
+                this.panels.Remove(path);
+                DestroyPanel(go);
+            }
+        }
+
+        public void UnloadAllPanels()
+        {
+            foreach (var kvp in panels)
+            {
+                DestroyPanel(kvp.Value);
+            }
+            this.panels.Clear();
         }
 
         public async Task<GameObject> LoadPanelAsync(string path)
@@ -190,11 +215,11 @@ namespace DigitalWorld.UI
             if (null == go)
             {
                 go = await this.CreatePanelAsync(path);
-            }
 
-            if (null != go)
-            {
-                this.panels.Add(path, go);
+                if (null != go)
+                {
+                    this.panels.Add(path, go);
+                }
             }
 
             return go;
@@ -226,7 +251,7 @@ namespace DigitalWorld.UI
             if (null == go)
                 return;
 
-            if (!go.TryGetComponent<PanelControl>(out var panel))
+            if (!go.TryGetComponent<PanelControl>(out PanelControl panel))
             {
                 go.AddComponent<TControl>();
             }
@@ -247,8 +272,7 @@ namespace DigitalWorld.UI
             if (null == go)
                 return;
 
-            PanelControl panel = go.GetComponent<PanelControl>();
-            if (null == panel)
+            if (!go.TryGetComponent<PanelControl>(out PanelControl panel))
             {
                 go.AddComponent<TControl>();
             }
