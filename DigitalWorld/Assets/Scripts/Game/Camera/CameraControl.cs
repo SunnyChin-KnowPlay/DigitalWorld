@@ -80,59 +80,87 @@ namespace DigitalWorld.Game
             inputAngles = new Vector3(0, 1, 1) * distance;
         }
 
-        void Update()
-        {
-            float axis = Input.GetAxis("Mouse ScrollWheel");
-            this.distance = Mathf.Clamp(this.distance + axis * mouseScrollWheelSpeed, distanceClamp.x, distanceClamp.y);
-        }
-
         private void LateUpdate()
         {
             if (null != focused)
             {
-                float mag = (focused.position - lastedTargetPosition).sqrMagnitude;
-                lastedTargetPosition = focused.position;
-
-                standardDirSqrMagnitude += mag * 10f;
-
-                if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+                do
                 {
-                    oldMousePosition = Input.mousePosition;
-                }
+                    float mag = (focused.position - lastedTargetPosition).sqrMagnitude;
+                    lastedTargetPosition = focused.position;
 
-                if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
-                {
-                    Vector3 deltaPosition = Input.mousePosition - oldMousePosition;
-                    this.oldMousePosition = Input.mousePosition;
+                    float axis = Input.GetAxis("Mouse ScrollWheel");
+                    this.distance = Mathf.Clamp(this.distance + axis * mouseScrollWheelSpeed, distanceClamp.x, distanceClamp.y);
 
-                    inputAngles += mouseMoveSpeed * deltaPosition;
-                    inputAngles = new Vector3(inputAngles.x, ClampAngle(inputAngles.y, verticalAngleClamp.x, verticalAngleClamp.y), 0);
-                }
+                    standardDirSqrMagnitude += mag * 10f;
 
-                if (Input.GetMouseButton(0))
-                {
-                    standardDirSqrMagnitude = 0;
-                }
-                else if (Input.GetMouseButton(1))
-                {
-                    standardDirSqrMagnitude = standardDirSqrMagnitudeLimit;
-                }
+                    if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+                    {
+                        oldMousePosition = Input.mousePosition;
+                    }
 
-                Quaternion quaternion = Quaternion.identity;
-                Quaternion inputHorizontalRotation = Quaternion.AngleAxis(inputAngles.x, Vector3.up);
-                Quaternion inputVerticalRotation = Quaternion.AngleAxis(inputAngles.y, Vector3.right);
-                quaternion *= Quaternion.Slerp(inputHorizontalRotation, GetStandardHorizontalRotation(), standardDirSqrMagnitude / standardDirSqrMagnitudeLimit);
-                quaternion *= inputVerticalRotation;
+                    if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
+                    {
+                        Vector3 deltaPosition = Input.mousePosition - oldMousePosition;
+                        this.oldMousePosition = Input.mousePosition;
 
-                trans.position = focused.position + quaternion * -Vector3.forward * distance;
-                trans.LookAt(focused.position);
+                        inputAngles += mouseMoveSpeed * deltaPosition;
+                        inputAngles = new Vector3(inputAngles.x, ClampAngle(inputAngles.y, verticalAngleClamp.x, verticalAngleClamp.y), 0);
+                    }
 
+                    if (Input.GetMouseButton(0))
+                    {
+                        standardDirSqrMagnitude = 0;
+                    }
+                    else if (Input.GetMouseButton(1))
+                    {
+                        standardDirSqrMagnitude = standardDirSqrMagnitudeLimit;
+                    }
+
+                    Quaternion quaternion = Quaternion.identity;
+                    Quaternion inputHorizontalRotation = Quaternion.AngleAxis(inputAngles.x, Vector3.up);
+                    Quaternion inputVerticalRotation = Quaternion.AngleAxis(inputAngles.y, Vector3.right);
+                    quaternion *= Quaternion.Slerp(inputHorizontalRotation, GetStandardHorizontalRotation(), standardDirSqrMagnitude / standardDirSqrMagnitudeLimit);
+                    quaternion *= inputVerticalRotation;
+
+                    trans.position = focused.position + quaternion * -Vector3.forward * distance;
+                    trans.LookAt(focused.position);
+
+                    UpdateSelect();
+                } while (false);
             }
         }
         #endregion
 
         #region Select
+        /// <summary>
+        /// Ñ¡Ôñµ¥Î»
+        /// </summary>
+        /// <returns></returns>
+        private bool UpdateSelect()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                Camera camera = MainCamera;
+                Ray ray = camera.ScreenPointToRay(Input.mousePosition);
 
+                bool ret = Physics.Raycast(ray, out RaycastHit hit);
+                if (ret)
+                {
+                    Collider collider = hit.collider;
+                    if (collider.gameObject.TryGetComponent<ControlUnit>(out var target))
+                    {
+
+                        ControlUnit unit = FocusedUnit.Unit;
+                        ControlSituation situation = unit.Situation;
+                        situation.SelectTarget(new UnitHandle(target));
+
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
         #endregion
     }
 }

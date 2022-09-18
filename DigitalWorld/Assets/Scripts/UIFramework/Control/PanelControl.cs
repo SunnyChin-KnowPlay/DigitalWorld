@@ -5,6 +5,7 @@ namespace DigitalWorld.UI
     /// <summary>
     /// 界面控制器
     /// </summary>
+    [RequireComponent(typeof(Canvas))]
     public partial class PanelControl : Widget
     {
         #region Params
@@ -33,7 +34,7 @@ namespace DigitalWorld.UI
         }
         #endregion
 
-       
+
 
     }
 }

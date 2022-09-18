@@ -34,43 +34,38 @@ namespace DigitalWorld.Behaviour
         {
             if (null != unit)
             {
-                Vector3 movingDir = Vector3.zero;
-                if (Input.GetKey(KeyCode.W))
+                do
                 {
-                    movingDir += Vector3.forward;
-                }
+                    Vector3 movingDir = Vector3.zero;
+                    if (Input.GetKey(KeyCode.W))
+                    {
+                        movingDir += Vector3.forward;
+                    }
 
-                if (Input.GetKey(KeyCode.S))
-                {
-                    movingDir -= Vector3.forward;
-                }
+                    if (Input.GetKey(KeyCode.S))
+                    {
+                        movingDir -= Vector3.forward;
+                    }
 
-                if (Input.GetKey(KeyCode.A))
-                {
-                    movingDir -= Vector3.right;
-                }
+                    if (Input.GetKey(KeyCode.A))
+                    {
+                        movingDir -= Vector3.right;
+                    }
 
-                if (Input.GetKey(KeyCode.D))
-                {
-                    movingDir += Vector3.right;
-                }
+                    if (Input.GetKey(KeyCode.D))
+                    {
+                        movingDir += Vector3.right;
+                    }
 
-                unit.Move.ApplyMove(movingDir);
+                    unit.Move.ApplyMove(movingDir);
 
-                UpdateDir();
+                    UpdateDir();
+                } while (false);
 
-                
             }
         }
 
-        private void LateUpdate()
-        {
-            if(null != this.unit)
-            {
-                UpdateSelect();
-            }
-        }
-
+      
         private void UpdateDir()
         {
             if (Input.GetMouseButtonDown(1))
@@ -89,26 +84,6 @@ namespace DigitalWorld.Behaviour
             }
         }
 
-        private void UpdateSelect()
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                Camera camera = CameraControl.Instance.MainCamera;
-                Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-
-                bool ret = Physics.Raycast(ray, out RaycastHit hit);
-                if (ret)
-                {
-                    Collider collider = hit.collider;
-                    if (collider.gameObject.TryGetComponent<ControlUnit>(out var target))
-                    {
-                        ControlSituation situation = unit.Situation;
-                        situation.SelectTarget(new UnitHandle(target));
-                    }
-                }
-            }
-
-        }
     }
 
 }
