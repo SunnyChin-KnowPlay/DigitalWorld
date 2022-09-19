@@ -1,32 +1,30 @@
 ﻿using UnityEngine;
+using DreamEngine.UI;
 
 namespace DigitalWorld.UI
 {
     /// <summary>
     /// 界面组件
     /// </summary>
+    [RequireComponent(typeof(Widget))]
     public partial class Control : MonoBehaviour
     {
         #region Params
-        protected RectTransform rectTransform;
+
+        protected Widget widget;
         #endregion
 
         #region Mono
         protected virtual void Awake()
         {
-            this.rectTransform = this.GetComponent<RectTransform>();
+            this.widget = this.GetComponent<Widget>();
         }
         #endregion
 
-        #region Widget
-        protected virtual Transform GetTransform(string path)
-        {
-            return rectTransform.Find(path);
-        }
-
+        #region Getter
         protected virtual T GetControlComponent<T>(string path) where T : Component
         {
-            Transform t = rectTransform.Find(path);
+            Transform t = widget.GetTransform(path);
             if (null == t)
                 return default;
 
@@ -35,7 +33,7 @@ namespace DigitalWorld.UI
 
         protected virtual T GetOrAddControlComponent<T>(string path) where T : Component
         {
-            Transform t = rectTransform.Find(path);
+            Transform t = widget.GetTransform(path);
             if (null == t)
                 return default;
 
@@ -45,21 +43,15 @@ namespace DigitalWorld.UI
         }
         #endregion
 
-        #region Logic
+        #region Switch
         public void Show()
         {
-            if (null == this.gameObject)
-                return;
-
-            this.gameObject.SetActive(true);
+            widget.Show();
         }
 
         public void Hide()
         {
-            if (null == this.gameObject)
-                return;
-
-            this.gameObject.SetActive(false);
+            widget.Hide();
         }
         #endregion
     }

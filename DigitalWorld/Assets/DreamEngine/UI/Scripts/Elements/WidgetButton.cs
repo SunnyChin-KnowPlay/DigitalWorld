@@ -9,7 +9,7 @@ using UnityEngine.UI;
 namespace DreamEngine.UI
 {
     [ExecuteInEditMode]
-    public class WidgetButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
+    public class WidgetButton : Widget, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
     {
         // Content
         public string buttonText = "Button";
@@ -74,8 +74,9 @@ namespace DreamEngine.UI
         public enum AnimationSolution { Animator, Script }
         public enum RippleUpdateMode { Normal, UnscaledTime }
 
-        void Awake()
+        protected override void Awake()
         {
+            base.Awake();
 #if UNITY_EDITOR
             if (Application.isPlaying == false)
             {
