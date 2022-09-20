@@ -180,6 +180,8 @@ namespace DigitalWorld.Game
         /// <param name="args"></param>
         private void OnUnselectTarget(Events.EEventType type, System.EventArgs args)
         {
+            Events.EventManager.Instance.UnregisterListener(Events.EEventType.Escape, OnUnselectTarget);
+
             ControlUnit unit = FocusedUnit.Unit;
             ControlSituation situation = unit.Situation;
             situation.SelectTarget(default);

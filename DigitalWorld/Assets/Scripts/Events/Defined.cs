@@ -51,18 +51,4 @@ namespace DigitalWorld.Events
         All,
     }
 
-    /// <summary>
-    /// 事件处理机制
-    /// </summary>
-    public enum EEventProcessMode
-    {
-        /// <summary>
-        /// 丢弃
-        /// </summary>
-        Discard,
-        /// <summary>
-        /// 保留
-        /// </summary>
-        Keep,
-    }
 }

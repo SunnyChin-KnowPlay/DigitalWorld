@@ -31,7 +31,7 @@ namespace DigitalWorld.UI
 
         protected virtual void OnDisable()
         {
-
+            Events.EventManager.Instance?.UnregisterListener(Events.EEventType.Escape, OnEscape);
         }
         #endregion
 

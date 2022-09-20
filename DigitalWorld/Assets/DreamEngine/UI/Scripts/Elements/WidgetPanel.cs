@@ -12,6 +12,9 @@ namespace DreamEngine.UI
     {
         #region Params
         private RectTransform root;
+
+        public float showAniamtionDuration = 0.3f;
+        public float hideAniamtionDuration = 0.3f;
         #endregion
 
         #region Mono
@@ -24,45 +27,56 @@ namespace DreamEngine.UI
 
         protected virtual void OnEnable()
         {
+            StopSwitchCoroutines();
+
             this.StartCoroutine(nameof(ApplyEnter));
         }
         #endregion
 
         #region Switch
-        public override void Hide()
+        protected override void OnHide()
         {
-            this.StopCoroutine(nameof(ApplyEnter));
+            StopSwitchCoroutines();
+
             this.StartCoroutine(nameof(ApplyExit));
         }
         #endregion
 
         #region Animation
-        protected override IEnumerator ApplyEnter()
+        private void StopSwitchCoroutines()
+        {
+            this.StopCoroutine(nameof(ApplyEnter));
+            this.StopCoroutine(nameof(ApplyExit));
+        }
+
+        protected virtual IEnumerator ApplyEnter()
         {
             if (!root.TryGetComponent<CanvasGroup>(out var cg))
                 yield break;
 
             float t = 0;
             cg.alpha = t;
-            while (t < 1.0f)
+            while (t < showAniamtionDuration)
             {
-                t += Time.deltaTime * 2;
-                cg.alpha = Mathf.Min(t, 1);
+                t += Time.deltaTime;
+                float a = t / showAniamtionDuration;
+                cg.alpha = Mathf.Min(a, 1);
                 yield return new WaitForEndOfFrame();
             }
         }
 
-        protected override IEnumerator ApplyExit()
+        protected virtual IEnumerator ApplyExit()
         {
             if (!root.TryGetComponent<CanvasGroup>(out var cg))
                 yield break;
 
-            float t = 1;
-            cg.alpha = t;
+            float t = showAniamtionDuration;
+            
             while (t > 0)
             {
-                t -= Time.deltaTime * 2;
-                cg.alpha = Mathf.Min(t, 1);
+                t -= Time.deltaTime;
+                float a = t / showAniamtionDuration;
+                cg.alpha = Mathf.Min(a, 1);
                 yield return new WaitForEndOfFrame();
             }
 

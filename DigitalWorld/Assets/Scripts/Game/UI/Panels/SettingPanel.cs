@@ -36,17 +36,10 @@ namespace DigitalWorld.Game.UI
             SetupMenus();
         }
 
-        private void OnDestroy()
-        {
-            Events.EventManager.Instance?.UnregisterListener(Events.EEventType.Escape, OnEscapeToShowSetting);
-        }
+        #endregion
 
-        protected override void OnDisable()
-        {
-            base.OnDisable();
-
-            Events.EventManager.Instance?.RegisterListener(Events.EEventType.Escape, OnEscapeToShowSetting);
-        }
+        #region Switch
+       
         #endregion
 
         #region Logic
@@ -83,12 +76,7 @@ namespace DigitalWorld.Game.UI
         }
         #endregion
 
-        #region Events
-        private void OnEscapeToShowSetting(Events.EEventType eventType, System.EventArgs args)
-        {
-            this.Show();
-        }
-        #endregion
+      
 
         #region UI Events
         /// <summary>

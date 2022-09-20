@@ -1,4 +1,6 @@
+using DigitalWorld.Events;
 using DigitalWorld.UI;
+using System;
 
 namespace DigitalWorld.Game.UI
 {
@@ -48,6 +50,8 @@ namespace DigitalWorld.Game.UI
 
         protected override void OnDisable()
         {
+
+
             base.OnDisable();
 
             this.UnregisterEventListeners();
@@ -85,15 +89,19 @@ namespace DigitalWorld.Game.UI
         #region Events
         private void RegisterEventListeners()
         {
-            Events.EventManager.Instance.RegisterListener(Events.EEventType.Escape, OnEscapeToShowSetting);
         }
 
         private void UnregisterEventListeners()
         {
-            Events.EventManager.Instance?.UnregisterListener(Events.EEventType.Escape, OnEscapeToShowSetting);
+         
         }
 
-        private void OnEscapeToShowSetting(Events.EEventType eventType, System.EventArgs args)
+        /// <summary>
+        /// Game面板不会退出 收到Escape事件时总是打开设置面板
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="args"></param>
+        protected override void OnEscape(EEventType type, EventArgs args)
         {
             UIManager uiManager = UIManager.Instance;
             uiManager.ShowPanel<SettingPanel>(SettingPanel.path);

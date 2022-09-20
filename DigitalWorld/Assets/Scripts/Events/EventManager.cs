@@ -106,6 +106,7 @@ namespace DigitalWorld.Events
                             if (h == handle)
                             {
                                 handles.RemoveAt(i);
+                                break;
                             }
                         }
                         break;
@@ -118,6 +119,7 @@ namespace DigitalWorld.Events
                             if (h == handle)
                             {
                                 handles.RemoveAt(i);
+                                break;
                             }
                         }
                         break;
@@ -143,34 +145,25 @@ namespace DigitalWorld.Events
             }
         }
 
-        public void Process(EEventType eventType, EEventProcessMode mode = EEventProcessMode.Discard)
+        public void Process(EEventType eventType)
         {
-            Process(eventType, null, mode);
+            Process(eventType, null);
         }
 
         /// <summary>
         /// 处理事件
-        /// 将事件监听的最后一个delegate唤醒处理
+        /// 将事件监听的最后一个(栈顶)delegate唤醒处理
         /// </summary>
         /// <param name="eventType"></param>
         /// <param name="args"></param>
-        /// <param name="mode">模式 如果是用完即丢弃 则在处理之前就将最后一个handle从队列中移除</param>
-        public void Process(EEventType eventType, EventArgs args, EEventProcessMode mode = EEventProcessMode.Discard)
+        public void Process(EEventType eventType, EventArgs args)
         {
             List<OnProcessEventHandle> handles = GetHandles(eventType);
 
             if (null != handles && handles.Count > 0)
             {
                 OnProcessEventHandle handle = handles[^1];
-
-                if (mode == EEventProcessMode.Discard)
-                {
-                    handles.RemoveAt(handles.Count - 1);
-                }
-
                 handle.Invoke(eventType, args);
-
-
             }
         }
 

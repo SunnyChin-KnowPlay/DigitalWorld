@@ -47,11 +47,23 @@ namespace DigitalWorld.UI
         public void Show()
         {
             widget.Show();
+            this.OnShow();
         }
 
         public void Hide()
         {
+            this.OnHide();
             widget.Hide();
+        }
+
+        protected virtual void OnShow()
+        {
+
+        }
+
+        protected virtual void OnHide()
+        {
+
         }
         #endregion
     }

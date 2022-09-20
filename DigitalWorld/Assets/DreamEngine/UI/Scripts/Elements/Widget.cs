@@ -27,28 +27,28 @@ namespace DreamEngine.UI
         #endregion
 
         #region Switch
-        public virtual void Show()
+        public void Show()
+        {
+            this.OnShow();
+        }
+
+        public void Hide()
+        {
+            this.OnHide();
+        }
+
+        protected virtual void OnShow()
         {
             this.gameObject.SetActive(true);
         }
 
-        public virtual void Hide()
+        protected virtual void OnHide()
         {
             this.gameObject.SetActive(false);
         }
         #endregion
 
-        #region Animation
-        protected virtual IEnumerator ApplyEnter()
-        {
-            throw new NotImplementedException();
-        }
 
-        protected virtual IEnumerator ApplyExit()
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
     }
 
 }

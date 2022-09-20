@@ -1,8 +1,10 @@
-﻿using DigitalWorld.Game;
+﻿using DigitalWorld.Events;
+using DigitalWorld.Game;
 using DigitalWorld.Net;
 using DigitalWorld.Proto.Common;
 using DigitalWorld.UI;
 using Dream.Proto;
+using System;
 using System.Collections;
 using System.Net;
 using UnityEngine;
@@ -82,6 +84,18 @@ namespace DigitalWorld.Login.UI
         {
             EndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 55000);
             AgentManager.Instance.Connect(AgentManager.TokenLogin, ep);
+        }
+        #endregion
+
+        #region Event
+        /// <summary>
+        /// Login收到退出时 直接忽略
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="args"></param>
+        protected override void OnEscape(EEventType type, EventArgs args)
+        {
+            
         }
         #endregion
 
