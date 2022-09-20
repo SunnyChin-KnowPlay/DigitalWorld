@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace DigitalWorld.Game
 {
@@ -91,50 +92,55 @@ namespace DigitalWorld.Game
         {
             if (null != focused)
             {
-                do
+                if (!IsUITouching)
                 {
-                    float mag = (focused.position - lastedTargetPosition).sqrMagnitude;
-                    lastedTargetPosition = focused.position;
-
-                    float axis = Input.GetAxis("Mouse ScrollWheel");
-                    this.distance = Mathf.Clamp(this.distance + axis * mouseScrollWheelSpeed, distanceClamp.x, distanceClamp.y);
-
-                    standardDirSqrMagnitude += mag * 10f;
-
-                    if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+                    do
                     {
-                        oldMousePosition = Input.mousePosition;
-                    }
+                        float mag = (focused.position - lastedTargetPosition).sqrMagnitude;
+                        lastedTargetPosition = focused.position;
 
-                    if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
-                    {
-                        Vector3 deltaPosition = Input.mousePosition - oldMousePosition;
-                        this.oldMousePosition = Input.mousePosition;
+                        float axis = Input.GetAxis("Mouse ScrollWheel");
+                        this.distance = Mathf.Clamp(this.distance + axis * mouseScrollWheelSpeed, distanceClamp.x, distanceClamp.y);
 
-                        inputAngles += mouseMoveSpeed * deltaPosition;
-                        inputAngles = new Vector3(inputAngles.x, ClampAngle(inputAngles.y, verticalAngleClamp.x, verticalAngleClamp.y), 0);
-                    }
+                        standardDirSqrMagnitude += mag * 10f;
 
-                    if (Input.GetMouseButton(0))
-                    {
-                        standardDirSqrMagnitude = 0;
-                    }
-                    else if (Input.GetMouseButton(1))
-                    {
-                        standardDirSqrMagnitude = standardDirSqrMagnitudeLimit;
-                    }
+                        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+                        {
+                            oldMousePosition = Input.mousePosition;
+                        }
 
-                    Quaternion quaternion = Quaternion.identity;
-                    Quaternion inputHorizontalRotation = Quaternion.AngleAxis(inputAngles.x, Vector3.up);
-                    Quaternion inputVerticalRotation = Quaternion.AngleAxis(inputAngles.y, Vector3.right);
-                    quaternion *= Quaternion.Slerp(inputHorizontalRotation, GetStandardHorizontalRotation(), standardDirSqrMagnitude / standardDirSqrMagnitudeLimit);
-                    quaternion *= inputVerticalRotation;
+                        if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
+                        {
+                            Vector3 deltaPosition = Input.mousePosition - oldMousePosition;
+                            this.oldMousePosition = Input.mousePosition;
 
-                    trans.position = focused.position + quaternion * -Vector3.forward * distance;
-                    trans.LookAt(focused.position);
+                            inputAngles += mouseMoveSpeed * deltaPosition;
+                            inputAngles = new Vector3(inputAngles.x, ClampAngle(inputAngles.y, verticalAngleClamp.x, verticalAngleClamp.y), 0);
+                        }
 
-                    UpdateSelect();
-                } while (false);
+                        if (Input.GetMouseButton(0))
+                        {
+                            standardDirSqrMagnitude = 0;
+                        }
+                        else if (Input.GetMouseButton(1))
+                        {
+                            standardDirSqrMagnitude = standardDirSqrMagnitudeLimit;
+                        }
+
+                        Quaternion quaternion = Quaternion.identity;
+                        Quaternion inputHorizontalRotation = Quaternion.AngleAxis(inputAngles.x, Vector3.up);
+                        Quaternion inputVerticalRotation = Quaternion.AngleAxis(inputAngles.y, Vector3.right);
+                        quaternion *= Quaternion.Slerp(inputHorizontalRotation, GetStandardHorizontalRotation(), standardDirSqrMagnitude / standardDirSqrMagnitudeLimit);
+                        quaternion *= inputVerticalRotation;
+
+                        trans.position = focused.position + quaternion * -Vector3.forward * distance;
+                        trans.LookAt(focused.position);
+
+                        UpdateSelect();
+
+
+                    } while (false);
+                }
             }
         }
         #endregion
@@ -148,17 +154,21 @@ namespace DigitalWorld.Game
         {
             if (Input.GetMouseButtonDown(0))
             {
-                Camera camera = MainCamera;
-                Ray ray = camera.ScreenPointToRay(Input.mousePosition);
 
-                bool ret = Physics.Raycast(ray, out RaycastHit hit);
-                if (ret)
+                if (!IsUITouching)
                 {
-                    Collider collider = hit.collider;
-                    if (collider.gameObject.TryGetComponent<ControlUnit>(out var target))
+                    Camera camera = MainCamera;
+                    Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+
+                    bool ret = Physics.Raycast(ray, out RaycastHit hit);
+                    if (ret)
                     {
-                        SelectTarget(target);
-                        return true;
+                        Collider collider = hit.collider;
+                        if (collider.gameObject.TryGetComponent<ControlUnit>(out var target))
+                        {
+                            SelectTarget(target);
+                            return true;
+                        }
                     }
                 }
             }
@@ -188,7 +198,19 @@ namespace DigitalWorld.Game
         }
         #endregion
 
-
+        #region Input
+        /// <summary>
+        /// 当前UI是否正在触摸中
+        /// </summary>
+        /// <returns></returns>
+        private static bool IsUITouching
+        {
+            get
+            {
+                return EventSystem.current.IsPointerOverGameObject() || GUIUtility.hotControl != 0;
+            }
+        }
+        #endregion
     }
 }
 

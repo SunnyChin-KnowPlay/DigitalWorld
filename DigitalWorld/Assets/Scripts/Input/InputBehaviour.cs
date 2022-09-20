@@ -1,5 +1,6 @@
 using DigitalWorld.Game;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace DigitalWorld.Behaviour
 {
@@ -65,22 +66,37 @@ namespace DigitalWorld.Behaviour
             }
         }
 
-      
+
         private void UpdateDir()
         {
-            if (Input.GetMouseButtonDown(1))
+            if (!IsUITouching)
             {
-                this.oldPosition = Input.mousePosition;
+                if (Input.GetMouseButtonDown(1))
+                {
+                    this.oldPosition = Input.mousePosition;
+                }
+
+                if (Input.GetMouseButton(1))
+                {
+                    Vector3 deltaPostion = Input.mousePosition - this.oldPosition;
+                    this.oldPosition = Input.mousePosition;
+
+                    //获取鼠标旋转的度数 纵轴
+                    float rotationAmount = deltaPostion.x * mouseDirMoveSpeed;
+                    trans.Rotate(Vector3.up, rotationAmount);
+                }
             }
+        }
 
-            if (Input.GetMouseButton(1))
+        /// <summary>
+        /// 当前UI是否正在触摸中
+        /// </summary>
+        /// <returns></returns>
+        private static bool IsUITouching
+        {
+            get
             {
-                Vector3 deltaPostion = Input.mousePosition - this.oldPosition;
-                this.oldPosition = Input.mousePosition;
-
-                //获取鼠标旋转的度数 纵轴
-                float rotationAmount = deltaPostion.x * mouseDirMoveSpeed;
-                trans.Rotate(Vector3.up, rotationAmount);
+                return EventSystem.current.IsPointerOverGameObject() || GUIUtility.hotControl != 0;
             }
         }
 
