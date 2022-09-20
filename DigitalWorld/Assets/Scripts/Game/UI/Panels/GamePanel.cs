@@ -1,6 +1,7 @@
 using DigitalWorld.Events;
 using DigitalWorld.UI;
 using System;
+using UnityEngine.UI;
 
 namespace DigitalWorld.Game.UI
 {
@@ -29,8 +30,6 @@ namespace DigitalWorld.Game.UI
         {
             base.Awake();
 
-
-
             playerUnit = this.GetOrAddControlComponent<UnitFramework>("Root/PlayerUnit");
             if (null != playerUnit)
             {
@@ -46,16 +45,16 @@ namespace DigitalWorld.Game.UI
 
             this.RegisterEventListeners();
             this.RegisterUnitEventListeners();
+            this.RegisterUIEventListeners();
         }
 
         protected override void OnDisable()
         {
-
-
             base.OnDisable();
 
             this.UnregisterEventListeners();
             this.UnregisterUnitEventListeners();
+            this.UnregisterUIEventListeners();
         }
         #endregion
 
@@ -79,10 +78,37 @@ namespace DigitalWorld.Game.UI
 
         private void OnUnitFocused(UnitHandle unit, System.EventArgs args)
         {
-            UnityEngine.Debug.Log("OnUnitFocused");
-
             EventArgsTarget target = args as EventArgsTarget;
             targetUnit.Bind(target.Target);
+        }
+        #endregion
+
+        #region UI Events
+        private void RegisterUIEventListeners()
+        {
+            Button button = this.GetControlComponent<Button>("Root/SettingButton");
+            if (null != button)
+            {
+                button.onClick.AddListener(OnClickSetting);
+            }
+        }
+
+        private void UnregisterUIEventListeners()
+        {
+            Button button = this.GetControlComponent<Button>("Root/SettingButton");
+            if (null != button)
+            {
+                button.onClick.RemoveListener(OnClickSetting);
+            }
+        }
+
+        /// <summary>
+        /// µ„ª˜…Ë÷√
+        /// </summary>
+        private void OnClickSetting()
+        {
+            UIManager uiManager = UIManager.Instance;
+            uiManager.ShowPanel<SettingPanel>(SettingPanel.path);
         }
         #endregion
 
@@ -93,7 +119,7 @@ namespace DigitalWorld.Game.UI
 
         private void UnregisterEventListeners()
         {
-         
+
         }
 
         /// <summary>
