@@ -19,6 +19,7 @@ namespace DigitalWorld.Events
         /// 处理者队列
         /// </summary>
         private readonly Dictionary<EEventType, List<OnProcessEventHandle>> processors = new Dictionary<EEventType, List<OnProcessEventHandle>>();
+        private List<OnProcessEventHandle> boardcastingHandles = new List<OnProcessEventHandle>();
         #endregion
 
         #region Mono
@@ -138,7 +139,14 @@ namespace DigitalWorld.Events
             List<OnProcessEventHandle> handles = GetHandles(eventType);
             if (null != handles)
             {
-                foreach (OnProcessEventHandle h in handles)
+                boardcastingHandles.Clear();
+                if (boardcastingHandles.Capacity < handles.Count)
+                {
+                    boardcastingHandles.Capacity = handles.Count;
+                }
+                boardcastingHandles.AddRange(handles);
+
+                foreach (OnProcessEventHandle h in boardcastingHandles)
                 {
                     h.Invoke(eventType, args);
                 }
