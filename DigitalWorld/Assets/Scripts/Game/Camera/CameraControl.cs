@@ -40,16 +40,23 @@ namespace DigitalWorld.Game
 
 
         /// <summary>
-        /// 鼠标右键的相机和目标的偏移量
+        /// 鼠标右键的水平旋转量
         /// </summary>
-        private Vector3 inputAngles;
+        private Quaternion inputHorizontalRotation;
+        /// <summary>
+        /// 鼠标右键的垂直旋转量
+        /// </summary>
+        private Quaternion inputVerticalRotation;
 
         /// <summary>
         /// 最后一次的目标位置
         /// </summary>
         private Vector3 lastedTargetPosition;
 
-        private Vector3 oldMousePosition;
+        /// <summary>
+        /// 上一次的触摸位置
+        /// </summary>
+        private Vector3 prevTouchedPosition;
         public float mouseMoveSpeed = 1;
 
         private float standardDirSqrMagnitude = 0;
@@ -85,7 +92,8 @@ namespace DigitalWorld.Game
         private void Start()
         {
             trans = this.transform;
-            inputAngles = new Vector3(0, 1, 1) * distance;
+            inputHorizontalRotation = Quaternion.identity;
+            inputVerticalRotation = Quaternion.Euler(45, 0, 0);
         }
 
         private void LateUpdate()
@@ -104,32 +112,41 @@ namespace DigitalWorld.Game
 
                         standardDirSqrMagnitude += mag * 10f;
 
+                        if (Input.GetMouseButtonDown(1))
+                        {
+                            inputHorizontalRotation = GetStandardHorizontalRotation();
+                        }
+
                         if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
                         {
-                            oldMousePosition = Input.mousePosition;
+                            prevTouchedPosition = Input.mousePosition;
                         }
 
                         if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
                         {
-                            Vector3 deltaPosition = Input.mousePosition - oldMousePosition;
-                            this.oldMousePosition = Input.mousePosition;
+                            Vector3 deltaPosition = Input.mousePosition - prevTouchedPosition;
+                            this.prevTouchedPosition = Input.mousePosition;
 
-                            inputAngles += mouseMoveSpeed * deltaPosition;
-                            inputAngles = new Vector3(inputAngles.x, ClampAngle(inputAngles.y, verticalAngleClamp.x, verticalAngleClamp.y), 0);
-                        }
+                            inputHorizontalRotation *= Quaternion.AngleAxis(deltaPosition.x, Vector3.up);
+                            inputVerticalRotation *= Quaternion.AngleAxis(deltaPosition.y, Vector3.right);
+                           
+                            Vector3 eulerAngles = inputVerticalRotation.eulerAngles;
+                            eulerAngles = new Vector3(eulerAngles.x >= 180 ? eulerAngles.x - 360 : eulerAngles.x, 0, 0);
+                            eulerAngles = new Vector3(Mathf.Clamp(eulerAngles.x, verticalAngleClamp.x, verticalAngleClamp.y), 0, 0);
+                            inputVerticalRotation = Quaternion.Euler(eulerAngles);
 
-                        if (Input.GetMouseButton(0))
-                        {
-                            standardDirSqrMagnitude = 0;
-                        }
-                        else if (Input.GetMouseButton(1))
-                        {
-                            standardDirSqrMagnitude = standardDirSqrMagnitudeLimit;
+                            if (Input.GetMouseButton(0))
+                            {
+                                standardDirSqrMagnitude = 0;
+                            }
+                            else if (Input.GetMouseButton(1))
+                            {
+                                standardDirSqrMagnitude = standardDirSqrMagnitudeLimit;
+                            }
                         }
 
                         Quaternion quaternion = Quaternion.identity;
-                        Quaternion inputHorizontalRotation = Quaternion.AngleAxis(inputAngles.x, Vector3.up);
-                        Quaternion inputVerticalRotation = Quaternion.AngleAxis(inputAngles.y, Vector3.right);
+
                         quaternion *= Quaternion.Slerp(inputHorizontalRotation, GetStandardHorizontalRotation(), standardDirSqrMagnitude / standardDirSqrMagnitudeLimit);
                         quaternion *= inputVerticalRotation;
 
