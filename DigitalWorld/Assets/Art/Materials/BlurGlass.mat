@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BlurGlass
-  m_Shader: {fileID: 4800000, guid: e4fe12c6c5edc7647bd3b3c17cbab4b9, type: 3}
+  m_Shader: {fileID: 4800000, guid: 26a8b63f33f582f4685e7d7c2a6a7336, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -101,7 +101,7 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Shininess: 0.01
-    - _Size: 1
+    - _Size: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SquashAmount: 1
@@ -118,7 +118,7 @@ Material:
     - _ZWrite: 1
     - _blurSizeXY: 10
     m_Colors:
-    - _Color: {r: 0.46226418, g: 0.46226418, b: 0.46226418, a: 0.4745098}
+    - _Color: {r: 1, g: 1, b: 1, a: 0.4745098}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _HueVariation: {r: 1, g: 0.5, b: 0, a: 0.1}
