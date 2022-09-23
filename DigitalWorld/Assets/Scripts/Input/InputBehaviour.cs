@@ -15,7 +15,6 @@ namespace DigitalWorld.Behaviour
         public const float mouseDirMoveSpeed = 1;
         public const float keyboardDirMoveSpeed = 20;
 
-
         private Vector3 oldPosition;
 
         private void Awake()
@@ -37,35 +36,44 @@ namespace DigitalWorld.Behaviour
             {
                 do
                 {
-                    Vector3 movingDir = Vector3.zero;
-                    if (Input.GetKey(KeyCode.W))
-                    {
-                        movingDir += Vector3.forward;
-                    }
-
-                    if (Input.GetKey(KeyCode.S))
-                    {
-                        movingDir -= Vector3.forward;
-                    }
-
-                    if (Input.GetKey(KeyCode.A))
-                    {
-                        movingDir -= Vector3.right;
-                    }
-
-                    if (Input.GetKey(KeyCode.D))
-                    {
-                        movingDir += Vector3.right;
-                    }
-
-                    unit.Move.ApplyMove(movingDir);
-
+                    UpdateMove();
                     UpdateDir();
+
                 } while (false);
 
             }
         }
 
+        private void UpdateFunctions()
+        {
+            
+        }
+
+        private void UpdateMove()
+        {
+            Vector3 movingDir = Vector3.zero;
+            if (Input.GetKey(KeyCode.W))
+            {
+                movingDir += Vector3.forward;
+            }
+
+            if (Input.GetKey(KeyCode.S))
+            {
+                movingDir -= Vector3.forward;
+            }
+
+            if (Input.GetKey(KeyCode.A))
+            {
+                movingDir -= Vector3.right;
+            }
+
+            if (Input.GetKey(KeyCode.D))
+            {
+                movingDir += Vector3.right;
+            }
+
+            unit.Move.ApplyMove(movingDir);
+        }
 
         private void UpdateDir()
         {
