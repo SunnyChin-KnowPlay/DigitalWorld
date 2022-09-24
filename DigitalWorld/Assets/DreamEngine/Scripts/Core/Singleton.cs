@@ -4,7 +4,7 @@ namespace DreamEngine.Core
 {
     public class Singleton<T> : MonoBehaviour where T : Singleton<T>
     {
-        public enum EnumState
+        public enum EState
         {
             None = 0,
             /// <summary>
@@ -19,7 +19,7 @@ namespace DreamEngine.Core
 
         #region Params
         private const string singletonRootName = "Singletons";
-        public static EnumState currentState = EnumState.None;
+        public static EState currentState = EState.None;
         //private static EnumState _st = EDestroySt.E_DST_DESTROYED;
         #endregion
 
@@ -54,7 +54,7 @@ namespace DreamEngine.Core
         /// <returns></returns>
         public static T GetInstance()
         {
-            if (null == instance && currentState == EnumState.None)
+            if (null == instance && currentState == EState.None)
             {
                 System.Type type = typeof(T);
 
@@ -73,7 +73,7 @@ namespace DreamEngine.Core
                             go.transform.SetParent(rootObj.transform);
                         }
 
-                        currentState = EnumState.Living;
+                        currentState = EState.Living;
                     }
                     else
                     {
@@ -82,7 +82,7 @@ namespace DreamEngine.Core
                 }
                 else
                 {
-                    currentState = EnumState.Living;
+                    currentState = EState.Living;
                 }
             }
 
@@ -91,9 +91,9 @@ namespace DreamEngine.Core
 
         public static void DestroyInstance()
         {
-            if (null != instance && currentState == EnumState.Living)
+            if (null != instance && currentState == EState.Living)
             {
-                currentState = EnumState.Destroying;
+                currentState = EState.Destroying;
                 GameObject go = instance.gameObject;
 
                 if (Application.isPlaying)
@@ -105,7 +105,7 @@ namespace DreamEngine.Core
                     GameObject.DestroyImmediate(go);
                 }
 
-                currentState = EnumState.None;
+                currentState = EState.None;
             }
         }
         #endregion

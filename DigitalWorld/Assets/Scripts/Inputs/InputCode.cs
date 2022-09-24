@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace DigitalWorld.Inputs
 {
     /// <summary>
-    /// 输入键盘代码枚举
+    /// 输入代码枚举
     /// </summary>
-    public enum EKeyCode
+    public enum EventCode
     {
         #region 系统总控
         /// <summary>
@@ -24,13 +24,13 @@ namespace DigitalWorld.Inputs
         /// </summary>
         SwitchTargetAuto = 10,
         /// <summary>
-        /// 切换至上一个目标
-        /// </summary>
-        SwitchTargetPrev,
-        /// <summary>
         /// 切换至下一个目标
         /// </summary>
         SwitchTargetNext,
+        /// <summary>
+        /// 切换至上一个目标
+        /// </summary>
+        SwitchTargetPrev,
         #endregion 锁定目标
 
         #region 移动控制
@@ -58,7 +58,7 @@ namespace DigitalWorld.Inputs
         ShortcutGroup1_2,
         ShortcutGroup1_3,
         ShortcutGroup1_4,
-        ShortcutGroup1_5,    
+        ShortcutGroup1_5,
         ShortcutGroup1_6,
         ShortcutGroup1_7,
         ShortcutGroup1_8,

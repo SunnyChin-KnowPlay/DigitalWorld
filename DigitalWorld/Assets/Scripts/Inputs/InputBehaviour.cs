@@ -2,7 +2,7 @@ using DigitalWorld.Game;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace DigitalWorld.Behaviour
+namespace DigitalWorld.Inputs
 {
     public class InputBehaviour : MonoBehaviour
     {
