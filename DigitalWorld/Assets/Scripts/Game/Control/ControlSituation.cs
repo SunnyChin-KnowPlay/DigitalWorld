@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using DigitalWorld.Extension.Unity;
 using System.Collections.Generic;
+using Dream.Core;
+using Dream.FixMath;
 
 namespace DigitalWorld.Game
 {
@@ -17,63 +19,34 @@ namespace DigitalWorld.Game
         protected UnitHandle target;
 
         /// <summary>
-        /// 用于识别目标的队列
+        /// 预选目标队列
         /// </summary>
-        private readonly List<UnitHandle> selectUnits = new List<UnitHandle>();
-        #endregion
-
-        #region Logic
-        public virtual void SelectTarget(UnitHandle target)
-        {
-            if (this.target == target)
-            {
-                // 如果选择的是同样的目标的话
-                return;
-            }
-
-            this.target = target;
-
-            this.Unit.Event.Invoke(EUnitEventType.Focused, new EventArgsTarget(this.Target));
-        }
+        private readonly List<UnitHandle> preselectUnits = new List<UnitHandle>();
 
         /// <summary>
-        /// 自动搜索目标
-        /// 先写一个寻找周围单位的逻辑
-        /// 排除掉当前的目标
-        /// 选一个在自己面前的(Dot)最近的目标
+        /// 当前预选队列索引号
         /// </summary>
-        public virtual void AutoSelectTarget()
+        private int currentPreselectIndex = 0;
+
+        private float TargetNearestSqrDistance
         {
-            WorldManager wm = WorldManager.Instance;
+            get { return 30 * 30; }
+        }
+        #endregion
 
-            selectUnits.Clear();
-            wm.AddOtherUnitsToList(this.Unit.Uid, selectUnits);
-
-            if (this.selectUnits.Count == 0)
-                return;
-
-            if (this.selectUnits.Count == 1)
-            {
-                this.SelectTarget(this.selectUnits[0]);
-                return;
-            }
-
-            // 首先 移除所有不在"正面"的
-            for (int i = this.selectUnits.Count - 1; i >= 0; --i)
-            {
-                bool isInForward = CheckTargetIsInForward(selectUnits[i]);
-                if (!isInForward)
-                {
-                    this.selectUnits.RemoveAt(i);
-                }
-            }
-
-            // 接下来 根据位置进行排序
-            this.selectUnits.Sort(OnSortByDistance);
-
-            this.SelectTarget(this.selectUnits[0]);
+        #region Mono
+        private void OnEnable()
+        {
+            currentPreselectIndex = -1;
         }
 
+        private void OnDisable()
+        {
+            Events.EventManager.Instance?.UnregisterListener(Events.EEventType.Escape, OnUnselectTarget);
+        }
+        #endregion
+
+        #region Listen
         /// <summary>
         /// 根据距离进行排序
         /// </summary>
@@ -82,10 +55,105 @@ namespace DigitalWorld.Game
         /// <returns></returns>
         protected int OnSortByDistance(UnitHandle l, UnitHandle r)
         {
-            float distanceL = (l.Unit.LogicPosition - this.Unit.LogicPosition).sqrMagnitude;
-            float distanceR = (r.Unit.LogicPosition - this.Unit.LogicPosition).sqrMagnitude;
+            int distanceL = Mathf.RoundToInt((l.Unit.LogicPosition - this.Unit.LogicPosition).sqrMagnitude);
+            int distanceR = Mathf.RoundToInt((r.Unit.LogicPosition - this.Unit.LogicPosition).sqrMagnitude);
 
-            return distanceL >= distanceR ? -1 : 1;
+            return distanceL - distanceR;
+        }
+
+        private bool OnFilterNeighboursJudgeUnitHandle(UnitHandle unitHandle)
+        {
+            if (unitHandle == target || unitHandle == this.UnitHandle)
+                return false;
+
+            if (unitHandle.Unit.Status != EUnitStatus.Running)
+                return false;
+
+            float distance = (unitHandle.Unit.LogicPosition - this.Unit.LogicPosition).sqrMagnitude;
+            if (distance > TargetNearestSqrDistance)
+                return false;
+
+            for (int i = 0; i < preselectUnits.Count; ++i)
+            {
+                if (unitHandle == preselectUnits[i])
+                    return false;
+            }
+
+            bool isInForward = CheckTargetIsInForward(unitHandle);
+            if (!isInForward)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 放弃选择目标
+        /// </summary>
+        /// <param name="args"></param>
+        private void OnUnselectTarget(Events.EEventType type, System.EventArgs args)
+        {
+
+            this.SelectTargetInternal(UnitHandle.Null);
+        }
+        #endregion
+
+        #region Logic
+        private void SelectTargetInternal(UnitHandle target)
+        {
+            if (this.target == target)
+            {
+                // 如果选择的是同样的目标的话
+                return;
+            }
+
+            this.target = target;
+            this.Unit.Event.Invoke(EUnitEventType.Focused, new EventArgsTarget(this.Target));
+
+            if (UnitHandle.Null == this.target)
+            {
+                this.currentPreselectIndex = -1;
+                Events.EventManager.Instance.UnregisterListener(Events.EEventType.Escape, OnUnselectTarget);
+            }
+            else
+            {
+                if (Unit.IsPlayerControlling)
+                {
+                    Events.EventManager.Instance.RegisterListener(Events.EEventType.Escape, OnUnselectTarget);
+                }
+
+            }
+        }
+
+        private void SelectTargetInternal(int index)
+        {
+            if (this.preselectUnits.Count < 1)
+            {
+                this.SelectTargetInternal(UnitHandle.Null);
+                return;
+            }
+
+            if (index >= this.preselectUnits.Count)
+            {
+                index = 0;
+            }
+            else if (index < 0)
+            {
+                index = this.preselectUnits.Count - 1;
+            }
+
+            this.currentPreselectIndex = index;
+            UnitHandle target = this.preselectUnits[index];
+
+            if (target.Unit.Status != EUnitStatus.Running)
+            {
+                CalculatePreselects();
+                this.SelectTargetInternal(index);
+            }
+
+            SelectTargetInternal(target);
+
         }
 
         /// <summary>
@@ -101,6 +169,71 @@ namespace DigitalWorld.Game
             ControlUnit unit = target.Unit;
             return Vector3.Dot(this.trans.forward, (unit.LogicPosition - Unit.LogicPosition)) > 0;
         }
+
+        /// <summary>
+        /// 计算预选队列
+        /// </summary>
+        private void CalculatePreselects()
+        {
+            preselectUnits.Clear();
+
+            WorldManager wm = WorldManager.Instance;
+            wm.FilterUnitsToList(this.preselectUnits, OnFilterNeighboursJudgeUnitHandle);
+
+            this.preselectUnits.Sort(OnSortByDistance);
+        }
+
+        public virtual void SelectTarget(UnitHandle target)
+        {
+            int index = -1;
+            for (int i = 0; i < preselectUnits.Count; ++i)
+            {
+                if (target == preselectUnits[i])
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            if (index >= 0)
+            {
+                SelectTargetInternal(index);
+            }
+            else
+            {
+                SelectTargetInternal(target);
+            }
+        }
+
+        public virtual void SelectPrevTarget()
+        {
+            if (this.currentPreselectIndex < 0 || UnitHandle.Null == this.target)
+            {
+                CalculatePreselects();
+            }
+
+            SelectTargetInternal(this.currentPreselectIndex - 1);
+        }
+
+        public virtual void SelectNextTarget()
+        {
+            if (this.currentPreselectIndex < 0 || UnitHandle.Null == this.target)
+            {
+                CalculatePreselects();
+            }
+
+            SelectTargetInternal(this.currentPreselectIndex + 1);
+        }
+
+        /// <summary>
+        /// 自动搜索目标
+        /// 直接寻找队列中的下一个目标
+        /// </summary>
+        public virtual void AutoSelectTarget()
+        {
+            this.SelectNextTarget();
+        }
+
         #endregion
 
 

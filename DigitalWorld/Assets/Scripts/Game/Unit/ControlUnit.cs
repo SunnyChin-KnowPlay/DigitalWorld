@@ -44,6 +44,13 @@ namespace DigitalWorld.Game
         protected WorldManager world;
 
         /// <summary>
+        /// 是否为玩家主控的单位
+        /// </summary>
+        public bool IsPlayerControlling { get => isPlayerControlling; set => isPlayerControlling = value; }
+        protected bool isPlayerControlling;
+
+
+        /// <summary>
         /// 功能锁
         /// 上锁后的功能就会被禁止使用
         /// </summary>

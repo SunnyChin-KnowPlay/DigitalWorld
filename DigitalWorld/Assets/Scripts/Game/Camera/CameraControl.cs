@@ -84,7 +84,7 @@ namespace DigitalWorld.Game
 
         protected override void OnDestroy()
         {
-            Events.EventManager.Instance?.UnregisterListener(Events.EEventType.Escape, OnUnselectTarget);
+        
 
             base.OnDestroy();
         }
@@ -197,22 +197,9 @@ namespace DigitalWorld.Game
             ControlUnit unit = FocusedUnit.Unit;
             ControlSituation situation = unit.Situation;
             situation.SelectTarget(new UnitHandle(target));
-
-            Events.EventManager.Instance.RegisterListener(Events.EEventType.Escape, OnUnselectTarget, Events.EHandleAddMode.Replace);
         }
 
-        /// <summary>
-        /// 放弃选择目标
-        /// </summary>
-        /// <param name="args"></param>
-        private void OnUnselectTarget(Events.EEventType type, System.EventArgs args)
-        {
-            Events.EventManager.Instance.UnregisterListener(Events.EEventType.Escape, OnUnselectTarget);
-
-            ControlUnit unit = FocusedUnit.Unit;
-            ControlSituation situation = unit.Situation;
-            situation.SelectTarget(default);
-        }
+        
         #endregion
 
         #region Input

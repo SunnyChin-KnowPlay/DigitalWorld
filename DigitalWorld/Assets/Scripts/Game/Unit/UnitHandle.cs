@@ -14,7 +14,7 @@ namespace DigitalWorld.Game
 
         public ControlUnit Unit => obj;
 
-        public static UnitHandle Null = default(UnitHandle);
+        public static UnitHandle Null = default;
 
         public UnitHandle(ControlUnit obj)
         {

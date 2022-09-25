@@ -1,13 +1,17 @@
-using DigitalWorld.Game;
+ï»¿using DigitalWorld.Game;
+using DigitalWorld.Inputs;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace DigitalWorld.Inputs
+namespace DigitalWorld.Behaviours
 {
-    public class InputBehaviour : MonoBehaviour
+    /// <summary>
+    /// æ§åˆ¶è¡Œä¸º
+    /// </summary>
+    public class ControlBehaviour : MonoBehaviour
     {
         /// <summary>
-        /// µ¥Î»¿ØÖÆÆ÷
+        /// å•ä½æ§åˆ¶å™¨
         /// </summary>
         private ControlCharacter unit;
         private Transform trans;
@@ -38,6 +42,7 @@ namespace DigitalWorld.Inputs
                 {
                     UpdateMove();
                     UpdateDir();
+                    UpdateFunctions();
 
                 } while (false);
 
@@ -46,28 +51,31 @@ namespace DigitalWorld.Inputs
 
         private void UpdateFunctions()
         {
-
+            if (InputManager.GetKeyUp(EventCode.SwitchTargetAuto))
+            {
+                unit.Situation.AutoSelectTarget();
+            }
         }
 
         private void UpdateMove()
         {
             Vector3 movingDir = Vector3.zero;
-            if (Input.GetKey(InputManager.Instance.GetKeyCode(EventCode.MoveForward)))
+            if (InputManager.GetKey(EventCode.MoveForward))
             {
                 movingDir += Vector3.forward;
             }
 
-            if (Input.GetKey(InputManager.Instance.GetKeyCode(EventCode.MoveBackward)))
+            if (InputManager.GetKey(EventCode.MoveBackward))
             {
                 movingDir -= Vector3.forward;
             }
 
-            if (Input.GetKey(InputManager.Instance.GetKeyCode(EventCode.MoveLeft)))
+            if (InputManager.GetKey(EventCode.MoveLeft))
             {
                 movingDir -= Vector3.right;
             }
 
-            if (Input.GetKey(InputManager.Instance.GetKeyCode(EventCode.MoveRight)))
+            if (InputManager.GetKey(EventCode.MoveRight))
             {
                 movingDir += Vector3.right;
             }
@@ -89,7 +97,7 @@ namespace DigitalWorld.Inputs
                     Vector3 deltaPostion = Input.mousePosition - this.oldPosition;
                     this.oldPosition = Input.mousePosition;
 
-                    //»ñÈ¡Êó±êĞı×ªµÄ¶ÈÊı ×İÖá
+                    //è·å–é¼ æ ‡æ—‹è½¬çš„åº¦æ•° çºµè½´
                     float rotationAmount = deltaPostion.x * mouseDirMoveSpeed;
                     trans.Rotate(Vector3.up, rotationAmount);
                 }
@@ -97,7 +105,7 @@ namespace DigitalWorld.Inputs
         }
 
         /// <summary>
-        /// µ±Ç°UIÊÇ·ñÕıÔÚ´¥ÃşÖĞ
+        /// å½“å‰UIæ˜¯å¦æ­£åœ¨è§¦æ‘¸ä¸­
         /// </summary>
         /// <returns></returns>
         private static bool IsUITouching
@@ -107,8 +115,5 @@ namespace DigitalWorld.Inputs
                 return EventSystem.current.IsPointerOverGameObject() || GUIUtility.hotControl != 0;
             }
         }
-
     }
-
 }
-

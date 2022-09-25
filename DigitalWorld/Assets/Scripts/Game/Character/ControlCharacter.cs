@@ -9,12 +9,7 @@ namespace DigitalWorld.Game
     public partial class ControlCharacter : ControlUnit
     {
         #region Params
-        /// <summary>
-        /// 是否为主控玩家 就是玩家自己
-        /// </summary>
-        public bool IsHost { get => isHost; set => isHost = value; }
-        private bool isHost;
-
+      
         #endregion
 
         #region Behaviour

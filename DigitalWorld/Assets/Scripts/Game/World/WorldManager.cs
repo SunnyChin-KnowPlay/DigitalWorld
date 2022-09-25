@@ -9,11 +9,21 @@ using DigitalWorld.UI;
 using DigitalWorld.Game.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using DigitalWorld.Behaviours;
 
 namespace DigitalWorld.Game
 {
     public sealed class WorldManager : Singleton<WorldManager>
     {
+        #region Delegates
+        /// <summary>
+        /// 验证单位是否需要
+        /// </summary>
+        /// <param name="unit"></param>
+        /// <returns>true:需要|false:不需要</returns>
+        public delegate bool JudgeUnitHandle(UnitHandle unit);
+        #endregion
+
         #region Params
         /// <summary>
         /// 单位词典
@@ -66,15 +76,11 @@ namespace DigitalWorld.Game
             ControlUnit unit = this.RegisterUnit(unitData);
             if (null != unit)
             {
-                ControlCharacter character = unit as ControlCharacter;
-                if (null != character)
-                {
-                    character.IsHost = true;
-                }
+                unit.IsPlayerControlling = true;
                 playerUnit = new UnitHandle(unit);
                 unit.LogicPosition = Vector3.zero;
 
-                _ = unit.GetOrAddComponent<InputBehaviour>();
+                _ = unit.GetOrAddComponent<ControlBehaviour>();
                 unit.AddControl(ELogicControlType.Test, unit.GetOrAddComponent<ControlTest>());
 
                 Logic.Trigger trigger = Logic.LogicHelper.AllocateTrigger("Assets/Res/Logic/Triggers/123.asset");
@@ -232,6 +238,20 @@ namespace DigitalWorld.Game
                 }
             }
         }
+
+        public void FilterUnitsToList(List<UnitHandle> list, JudgeUnitHandle judgeFunction)
+        {
+            if (null == judgeFunction)
+                return;
+
+            foreach (KeyValuePair<uint, UnitHandle> kvp in units)
+            {
+                if (judgeFunction.Invoke(kvp.Value))
+                {
+                    list.Add(kvp.Value);
+                }
+            }
+        }
         #endregion
 
         #region Exit
@@ -250,7 +270,7 @@ namespace DigitalWorld.Game
             SceneManager.LoadScene("Login");
             yield return new WaitForEndOfFrame();
 
-            
+
 
             DestroyInstance();
         }
