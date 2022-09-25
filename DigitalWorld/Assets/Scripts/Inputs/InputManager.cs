@@ -14,7 +14,8 @@ namespace DigitalWorld.Inputs
         /// 事件和输入键位映射词典
         /// </summary>
         private readonly Dictionary<EventCode, KeyCode> eventCodes = new Dictionary<EventCode, KeyCode>();
-        private readonly static System.Type eventCodeType = typeof(EventCode);
+
+        private readonly static System.Type keyCodeType = typeof(KeyCode);
         #endregion
 
         #region Mono
@@ -25,6 +26,20 @@ namespace DigitalWorld.Inputs
             InitializeCodes();
 
             SetDefaultEventCodes();
+        }
+
+        private void Update()
+        {
+            if (Input.anyKeyDown)
+            {
+                foreach (KeyCode keyCode in System.Enum.GetValues(keyCodeType))
+                {
+                    if (Input.GetKeyDown(keyCode))
+                    {
+                        Debug.LogFormat($"InputManager:\"{keyCode}\" is Down");
+                    }
+                }
+            }
         }
 
         private void InitializeCodes()
@@ -38,65 +53,32 @@ namespace DigitalWorld.Inputs
         }
         #endregion
 
-        #region Logic
+        #region Key
         public static bool GetKey(EventCode key)
         {
             return Input.GetKey(Instance.GetKeyCode(key));
         }
 
-        //
-        // 摘要:
-        //     Returns true while the user holds down the key identified by name.
-        //
-        // 参数:
-        //   name:
         public static bool GetKey(string name)
         {
             return Input.GetKey(Instance.GetKeyString(name));
         }
 
-        //
-        // 摘要:
-        //     Returns true during the frame the user releases the key identified by the key
-        //     KeyCode enum parameter.
-        //
-        // 参数:
-        //   key:
         public static bool GetKeyUp(EventCode key)
         {
             return Input.GetKeyUp(Instance.GetKeyCode(key));
         }
 
-        //
-        // 摘要:
-        //     Returns true during the frame the user releases the key identified by name.
-        //
-        // 参数:
-        //   name:
         public static bool GetKeyUp(string name)
         {
             return Input.GetKeyUp(Instance.GetKeyString(name));
         }
 
-        //
-        // 摘要:
-        //     Returns true during the frame the user starts pressing down the key identified
-        //     by the key KeyCode enum parameter.
-        //
-        // 参数:
-        //   key:
         public static bool GetKeyDown(EventCode key)
         {
             return Input.GetKeyDown(Instance.GetKeyCode(key));
         }
 
-        //
-        // 摘要:
-        //     Returns true during the frame the user starts pressing down the key identified
-        //     by name.
-        //
-        // 参数:
-        //   name:
         public static bool GetKeyDown(string name)
         {
             return Input.GetKeyDown(Instance.GetKeyString(name));
@@ -117,6 +99,9 @@ namespace DigitalWorld.Inputs
                 return KeyCode.None;
             return code;
         }
+        #endregion
+
+        #region Logic
 
         public void SetDefaultEventCodes()
         {

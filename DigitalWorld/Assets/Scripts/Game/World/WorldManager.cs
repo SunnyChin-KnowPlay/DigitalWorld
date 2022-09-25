@@ -223,22 +223,6 @@ namespace DigitalWorld.Game
             return otherUnits;
         }
 
-        /// <summary>
-        /// 将筛选出的单位加入队列
-        /// </summary>
-        /// <param name="targetId"></param>
-        /// <param name="list"></param>
-        public void AddOtherUnitsToList(uint targetId, List<UnitHandle> list)
-        {
-            foreach (KeyValuePair<uint, UnitHandle> kvp in units)
-            {
-                if (kvp.Key != targetId)
-                {
-                    list.Add(kvp.Value);
-                }
-            }
-        }
-
         public void FilterUnitsToList(List<UnitHandle> list, JudgeUnitHandle judgeFunction)
         {
             if (null == judgeFunction)

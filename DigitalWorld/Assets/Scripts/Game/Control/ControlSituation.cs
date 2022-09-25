@@ -94,7 +94,6 @@ namespace DigitalWorld.Game
         /// <param name="args"></param>
         private void OnUnselectTarget(Events.EEventType type, System.EventArgs args)
         {
-
             this.SelectTargetInternal(UnitHandle.Null);
         }
         #endregion
@@ -143,17 +142,19 @@ namespace DigitalWorld.Game
                 index = this.preselectUnits.Count - 1;
             }
 
-            this.currentPreselectIndex = index;
+
             UnitHandle target = this.preselectUnits[index];
 
-            if (target.Unit.Status != EUnitStatus.Running)
+            if (index == this.currentPreselectIndex || target.Unit.Status != EUnitStatus.Running)
             {
                 CalculatePreselects();
                 this.SelectTargetInternal(index);
             }
-
-            SelectTargetInternal(target);
-
+            else
+            {
+                this.currentPreselectIndex = index;
+                SelectTargetInternal(target);
+            }
         }
 
         /// <summary>

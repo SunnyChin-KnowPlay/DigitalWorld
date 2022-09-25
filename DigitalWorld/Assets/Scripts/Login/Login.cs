@@ -2,6 +2,7 @@
 using DigitalWorld.UI;
 using DigitalWorld.Login.UI;
 using UnityEngine;
+using DigitalWorld.Inputs;
 
 namespace DigitalWorld.Login
 {
@@ -9,12 +10,13 @@ namespace DigitalWorld.Login
     {
         private void Awake()
         {
-        
+
 
             TableManager tm = TableManager.Instance;
             tm.Decode();
 
             _ = MainController.Instance;
+            _ = InputManager.Instance;
 
             UIManager uiManager = UIManager.Instance;
             uiManager.ShowPanel<LoginPanel>(LoginPanel.path);

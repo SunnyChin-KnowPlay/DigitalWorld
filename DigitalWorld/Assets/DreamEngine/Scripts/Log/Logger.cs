@@ -17,6 +17,10 @@ namespace DreamEngine.Log
         /// 自动记录日志
         /// </summary>
         public bool autoRecordLog = true;
+        /// <summary>
+        /// 自动写入保存日志
+        /// </summary>
+        public bool autoSaveToLocalLog = true;
         #endregion
 
         #region Mono
@@ -29,7 +33,7 @@ namespace DreamEngine.Log
         {
             Application.logMessageReceived -= OnLog;
 
-            if (autoRecordLog)
+            if (autoSaveToLocalLog)
             {
                 this.RecordLogToLogs();
             }
@@ -41,8 +45,11 @@ namespace DreamEngine.Log
         #region Process
         private void OnLog(string condition, string stackTrace, LogType type)
         {
-            Record record = new Record(type, condition, stackTrace, System.DateTime.Now, UnityEngine.Time.time);
-            this.records.Add(record);
+            if (autoRecordLog)
+            {
+                Record record = new Record(type, condition, stackTrace, System.DateTime.Now, UnityEngine.Time.time);
+                this.records.Add(record);
+            }
         }
         #endregion
 
@@ -61,7 +68,7 @@ namespace DreamEngine.Log
             this.EncodeXml(root);
 
             System.DateTime time = System.DateTime.Now;
-            string timeString = time.ToString("yyyy-MM-dd_HH-mm-ss");
+            string timeString = time.ToString("yyyy-MM-dd/yyyy-MM-dd_HH-mm-ss");
 
             string logFullFilePath = string.Empty;
 #if UNITY_EDITOR
@@ -71,9 +78,14 @@ namespace DreamEngine.Log
 #endif
             if (!string.IsNullOrEmpty(logFullFilePath))
             {
+                string directoryPath = System.IO.Path.GetDirectoryName(logFullFilePath);
+                if (!System.IO.Directory.Exists(directoryPath))
+                {
+                    System.IO.Directory.CreateDirectory(directoryPath);
+                }
                 xmlDocument.Save(logFullFilePath);
             }
-           
+
 
         }
 
