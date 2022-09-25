@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using DigitalWorld.Inputs;
 
 namespace DigitalWorld.Events
 {
@@ -19,7 +20,7 @@ namespace DigitalWorld.Events
         /// 处理者队列
         /// </summary>
         private readonly Dictionary<EEventType, List<OnProcessEventHandle>> processors = new Dictionary<EEventType, List<OnProcessEventHandle>>();
-        private List<OnProcessEventHandle> boardcastingHandles = new List<OnProcessEventHandle>();
+        private readonly List<OnProcessEventHandle> boardcastingHandles = new List<OnProcessEventHandle>();
         #endregion
 
         #region Mono
@@ -30,7 +31,7 @@ namespace DigitalWorld.Events
 
         private void Update()
         {
-            if (Input.GetKeyUp(KeyCode.Escape))
+            if (Input.GetKeyUp(InputManager.Instance.GetKeyCode(EventCode.Escape)))
             {
                 this.ApplyEscape();
             }

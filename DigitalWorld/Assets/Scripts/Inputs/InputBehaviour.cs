@@ -46,28 +46,28 @@ namespace DigitalWorld.Inputs
 
         private void UpdateFunctions()
         {
-            
+
         }
 
         private void UpdateMove()
         {
             Vector3 movingDir = Vector3.zero;
-            if (Input.GetKey(KeyCode.W))
+            if (Input.GetKey(InputManager.Instance.GetKeyCode(EventCode.MoveForward)))
             {
                 movingDir += Vector3.forward;
             }
 
-            if (Input.GetKey(KeyCode.S))
+            if (Input.GetKey(InputManager.Instance.GetKeyCode(EventCode.MoveBackward)))
             {
                 movingDir -= Vector3.forward;
             }
 
-            if (Input.GetKey(KeyCode.A))
+            if (Input.GetKey(InputManager.Instance.GetKeyCode(EventCode.MoveLeft)))
             {
                 movingDir -= Vector3.right;
             }
 
-            if (Input.GetKey(KeyCode.D))
+            if (Input.GetKey(InputManager.Instance.GetKeyCode(EventCode.MoveRight)))
             {
                 movingDir += Vector3.right;
             }

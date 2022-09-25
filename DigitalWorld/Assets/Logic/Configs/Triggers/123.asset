@@ -11,7 +11,7 @@ TextAsset:
     _enabled="True" _name="123" _description="" _totalTime="0" listenerEvent="Trigger"><_children><child
     _typeName="DigitalWorld.Logic.Actions.Game.Unit.CreateCharacter" _enabled="True"
     _name="CreateCharacter_0" _description="" _totalTime="0" cfgId="1002" localPosition="(
-    0, 0, 4000)"><_children /><_requirements _requirementLogic="And" /></child><child
+    0, 0, 4)"><_children /><_requirements _requirementLogic="And" /></child><child
     _typeName="DigitalWorld.Logic.Actions.Game.Unit.CreateCharacter" _enabled="True"
     _name="CreateCharacter_1" _description="" _totalTime="0" cfgId="1003" localPosition="(
-    -3000, 0, 4000)"><_children /><_requirements _requirementLogic="And" /></child></_children></behaviour>
+    -3, 0, 4)"><_children /><_requirements _requirementLogic="And" /></child></_children></behaviour>

@@ -429,16 +429,16 @@ namespace DigitalWorld.Logic.Actions
             else if (field.FieldType == typeof(FixVector2))
             {
                 FixVector2 v = (FixVector2)field.GetValue(this);
-                Vector2Int vi = new Vector2Int(v.x, v.y);
-                vi = EditorGUI.Vector2IntField(rect, new GUIContent(""), vi);
+                Vector2 vi = new Vector2(v.X, v.Y);
+                vi = EditorGUI.Vector2Field(rect, new GUIContent(""), vi);
                 v = new FixVector2(vi.x, vi.y);
                 field.SetValue(this, v);
             }
             else if (field.FieldType == typeof(FixVector3))
             {
                 FixVector3 v = (FixVector3)field.GetValue(this);
-                Vector3Int vi = new Vector3Int(v.x, v.y, v.z);
-                vi = EditorGUI.Vector3IntField(rect, new GUIContent(""), vi);
+                Vector3 vi = new Vector3(v.X, v.Y, v.Z);
+                vi = EditorGUI.Vector3Field(rect, new GUIContent(""), vi);
                 v = new FixVector3(vi.x, vi.y, vi.z);
                 field.SetValue(this, v);
             }

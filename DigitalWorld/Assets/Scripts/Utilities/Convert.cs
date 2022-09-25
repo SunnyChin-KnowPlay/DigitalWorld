@@ -8,22 +8,22 @@ namespace DigitalWorld.Utilities
     {
         public static Vector3 ToVector3(FixVector3 value)
         {
-            return new Vector3(value.x / FixDefined.floatPrecision, value.y / FixDefined.floatPrecision, value.z / FixDefined.floatPrecision);
+            return new Vector3(value.X, value.Y, value.Z);
         }
 
         public static Vector3 ToVector3(FixVector2 value)
         {
-            return new Vector3(value.x / FixDefined.floatPrecision, value.y / FixDefined.floatPrecision, 0);
+            return new Vector3(value.X , value.Y, 0);
         }
 
         public static Vector2 ToVector2(FixVector3 value)
         {
-            return new Vector2(value.x / FixDefined.floatPrecision, value.y / FixDefined.floatPrecision);
+            return new Vector2(value.X, value.Y);
         }
 
         public static Vector2 ToVector2(FixVector2 value)
         {
-            return new Vector2(value.x / FixDefined.floatPrecision, value.y / FixDefined.floatPrecision);
+            return new Vector2(value.X, value.Y);
         }
     }
 }

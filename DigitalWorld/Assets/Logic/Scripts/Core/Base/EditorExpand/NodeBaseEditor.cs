@@ -275,8 +275,8 @@ namespace DigitalWorld.Logic
                 else if (field.FieldType == typeof(FixVector3))
                 {
                     FixVector3 v = (FixVector3)field.GetValue(this);
-                    Vector3Int vi = new Vector3Int(v.x, v.y, v.z);
-                    vi = EditorGUILayout.Vector3IntField(new GUIContent(field.Name, this.GetFieldDesc(field.Name)), vi);
+                    Vector3 vi = new Vector3(v.X, v.Y, v.Z);
+                    vi = EditorGUILayout.Vector3Field(new GUIContent(field.Name, this.GetFieldDesc(field.Name)), vi);
                     v = new FixVector3(vi.x, vi.y, vi.z);
                     field.SetValue(this, v);
                 }
@@ -328,8 +328,8 @@ namespace DigitalWorld.Logic
             else if (field.FieldType == typeof(FixVector3))
             {
                 FixVector3 v = (FixVector3)field.GetValue(this);
-                Vector3Int vi = new Vector3Int(v.x, v.y, v.z);
-                vi = EditorGUI.Vector3IntField(rect, new GUIContent(field.Name, this.GetFieldDesc(field.Name)), vi);
+                Vector3 vi = new Vector3(v.X, v.Y, v.Z);
+                vi = EditorGUI.Vector3Field(rect, new GUIContent(field.Name, this.GetFieldDesc(field.Name)), vi);
                 v = new FixVector3(vi.x, vi.y, vi.z);
                 field.SetValue(this, v);
             }
