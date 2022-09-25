@@ -31,7 +31,7 @@ namespace DigitalWorld.Events
 
         private void Update()
         {
-            if (Input.GetKeyUp(InputManager.Instance.GetKeyCode(EventCode.Escape)))
+            if (InputManager.GetKeyUp(EventCode.Escape))
             {
                 this.ApplyEscape();
             }
