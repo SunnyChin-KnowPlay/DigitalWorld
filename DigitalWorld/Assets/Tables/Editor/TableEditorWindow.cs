@@ -30,22 +30,22 @@ namespace DigitalWorld.Table.Editor
             AssetDatabase.Refresh();
         }
 
-        [MenuItem("Table/Generate/Generate Tables")]
-        private static void GenerateTablesWithModel()
+        [MenuItem("Table/Generate/Generate Excels")]
+        private static void GenerateExcels()
         {
-            ExecuteTableGenerate(Utility.GenerateTablesCmd);
+            ExecuteTableGenerate(Utility.GenerateExcelsCmd);
         }
 
-        [MenuItem("Table/Convert/ConvertExcelsToConfig")]
-        private static void ConvertExcelsToConfig()
+        [MenuItem("Table/Convert/ConvertExcelsToXmls")]
+        private static void ConvertExcelsToXmls()
         {
-            ExecuteTableGenerate(Utility.ConvertExcelsToConfigCmd);
+            ExecuteTableGenerate(Utility.ConvertExcelsToXmlsCmd);
         }
 
-        [MenuItem("Table/Convert/ConvertConfigsToExcel")]
-        private static void ConvertConfigsToExcel()
+        [MenuItem("Table/Convert/ConvertXmlsToExcels")]
+        private static void ConvertXmlsToExcels()
         {
-            ExecuteTableGenerate(Utility.ConvertConfigsToExcelCmd);
+            ExecuteTableGenerate(Utility.ConvertXmlsToExcelsCmd);
         }
 
         [MenuItem("Table/Convert/ConvertXmlToBytes")]
@@ -118,7 +118,7 @@ namespace DigitalWorld.Table.Editor
 
             arguments = string.Join(' ', argList.ToArray());
 
-            string processFilePath = Path.Combine(Application.dataPath, "Tables/Editor/TableGenerator.exe");
+            string processFilePath = Path.Combine(Application.dataPath, "Tables/Editor/Plugins/TableGenerator.exe");
 
             Process process = new Process();
             ProcessStartInfo processStartInfo = new ProcessStartInfo(processFilePath)

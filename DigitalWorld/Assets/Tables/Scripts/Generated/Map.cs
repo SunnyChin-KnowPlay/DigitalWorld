@@ -16,26 +16,26 @@ namespace DigitalWorld.Table
             return id;
         }
 
-        private int id;
         /// <summary>
         /// 唯一ID
         /// </summary>
         public int Id => id;
-        private string name;
+        private int id;
         /// <summary>
         /// 地图名字
         /// </summary>
         public string Name => name;
-        private string assetPath;
+        private string name;
         /// <summary>
         /// 地图配置资源路径
         /// </summary>
         public string AssetPath => assetPath;
-        private int level;
+        private string assetPath;
         /// <summary>
         /// 地图等级
         /// </summary>
         public int Level => level;
+        private int level;
 
         public MapInfo()
         {

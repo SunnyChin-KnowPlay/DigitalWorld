@@ -13,10 +13,10 @@ namespace DigitalWorld.Table
         public const string defaultModelPath = "D:/Projects/DigitalWorld/DigitalWorld-Config/Models/models.xml";
 
         public const string excelKey = "Table.Excel";
-        public const string defaultExcelPath = "D:/Projects/DigitalWorld/DigitalWorld-Config/Tables";
+        public const string defaultExcelPath = "D:/Projects/DigitalWorld/DigitalWorld-Config/Excels";
 
         public const string configSrcKey = "Table.Config.Src";
-        public const string defaultConfigSrc = "D:/Projects/DigitalWorld/DigitalWorld-Config/Configs";
+        public const string defaultConfigSrc = "D:/Projects/DigitalWorld/DigitalWorld-Config/Xmls";
 
         public const string configXmlKey = "Table.Config.Xml";
         public const string defaultConfigXml = "Assets/Tables/Config/Xml";
@@ -24,10 +24,10 @@ namespace DigitalWorld.Table
         public const string configDataKey = "Table.Config.Data";
         public const string defaultConfigData = "Assets/Res/Config/Datas";
 
-        public const string GenerateCodesCmd = "GenerateCodesWithModel";
-        public const string GenerateTablesCmd = "GenerateTablesWithModel";
-        public const string ConvertExcelsToConfigCmd = "ConvertExcelsToConfig";
-        public const string ConvertConfigsToExcelCmd = "ConvertConfigsToExcel";
+        public const string GenerateCodesCmd = "GenerateCodesFromModel";
+        public const string GenerateExcelsCmd = "GenerateExcelsFromModel";
+        public const string ConvertExcelsToXmlsCmd = "ConvertExcelsToXmls";
+        public const string ConvertXmlsToExcelsCmd = "ConvertXmlsToExcels";
 
         /// <summary>
         /// 配置的源文件(config中的)路径

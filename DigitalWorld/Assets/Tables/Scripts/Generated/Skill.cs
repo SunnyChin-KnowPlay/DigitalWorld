@@ -16,31 +16,31 @@ namespace DigitalWorld.Table
             return id;
         }
 
-        private int id;
         /// <summary>
         /// 唯一ID
         /// </summary>
         public int Id => id;
-        private string name;
+        private int id;
         /// <summary>
         /// 名字
         /// </summary>
         public string Name => name;
-        private int coolDownTime;
+        private string name;
         /// <summary>
         /// CD时间，单位：毫秒
         /// </summary>
         public int CoolDownTime => coolDownTime;
-        private string behaviourAssetPath;
+        private int coolDownTime;
         /// <summary>
         /// 行为资产路径
         /// </summary>
         public string BehaviourAssetPath => behaviourAssetPath;
-        private int castRadius;
+        private string behaviourAssetPath;
         /// <summary>
         /// 施法半径，单位：毫米
         /// </summary>
         public int CastRadius => castRadius;
+        private int castRadius;
 
         public SkillInfo()
         {

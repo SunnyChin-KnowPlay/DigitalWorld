@@ -16,16 +16,16 @@ namespace DigitalWorld.Table
             return id;
         }
 
-        private int id;
         /// <summary>
         /// 唯一ID
         /// </summary>
         public int Id => id;
-        private string name;
+        private int id;
         /// <summary>
         /// 名字
         /// </summary>
         public string Name => name;
+        private string name;
 
         public CampInfo()
         {

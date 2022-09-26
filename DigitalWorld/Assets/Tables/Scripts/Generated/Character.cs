@@ -16,36 +16,36 @@ namespace DigitalWorld.Table
             return id;
         }
 
-        private int id;
         /// <summary>
         /// 唯一ID
         /// </summary>
         public int Id => id;
-        private string name;
+        private int id;
         /// <summary>
         /// 名字
         /// </summary>
         public string Name => name;
-        private int hp;
+        private string name;
         /// <summary>
         /// 基础血量
         /// </summary>
         public int Hp => hp;
-        private int attack;
+        private int hp;
         /// <summary>
         /// 攻击力
         /// </summary>
         public int Attack => attack;
-        private int moveSpeed;
+        private int attack;
         /// <summary>
         /// 移动速度
         /// </summary>
         public int MoveSpeed => moveSpeed;
-        private string prefabPath;
+        private int moveSpeed;
         /// <summary>
         /// 预制件路径
         /// </summary>
         public string PrefabPath => prefabPath;
+        private string prefabPath;
 
         public CharacterInfo()
         {
