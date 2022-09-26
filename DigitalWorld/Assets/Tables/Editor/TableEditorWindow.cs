@@ -21,7 +21,62 @@ namespace DigitalWorld.Table.Editor
             //Utilities.Utility.SetDefaultString(Utility.configDataKey, Path.Combine(Application.dataPath, Utility.defaultConfigData));
         }
 
+        #region GUI
+        private void OnGUI()
+        {
+            EditorGUILayout.BeginVertical();
+
+            if (GUILayout.Button("Auto Process"))
+            {
+                AutoProcess();
+            }
+
+            if (GUILayout.Button("Generate Codes"))
+            {
+                GenerateCodes();
+            }
+
+            if (GUILayout.Button("Generate Excels"))
+            {
+                GenerateExcels();
+            }
+
+            if (GUILayout.Button("ConvertExcelsToXmls"))
+            {
+                ConvertExcelsToXmls();
+            }
+
+            if (GUILayout.Button("ConvertXmlsToExcels"))
+            {
+                ConvertXmlsToExcels();
+            }
+
+            if (GUILayout.Button("Edit Models"))
+            {
+                EditModels();
+            }
+
+            EditorGUILayout.EndVertical();
+
+        }
+        #endregion
+
         #region MenuItems
+        private static void EditModels()
+        {
+            ModelEditorWindow window = ModelEditorWindow.FocusWindow();
+            if (null != window)
+            {
+                window.titleContent = new GUIContent("Model Editor");
+            }
+        }
+
+        [MenuItem("Table/Editor")]
+        private static void Editor()
+        {
+            EditorWindow.GetWindow<TableEditorWindow>("Table Editor").Show();
+        }
+
         [MenuItem("Table/Generate/Generate Codes")]
         private static void GenerateCodes()
         {

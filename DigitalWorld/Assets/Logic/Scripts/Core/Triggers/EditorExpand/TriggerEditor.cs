@@ -166,7 +166,6 @@ namespace DigitalWorld.Logic
 
             if (Enum.GetValues(typeof(EAction)) != null && Enum.GetValues(typeof(EAction)).Length > 0)
             {
-
                 selectedAction = FindAction(EditorGUILayout.Popup(FindActionIndex(selectedAction), ActionDisplayNames, GUILayout.Width(300)));
 
                 if (GUILayout.Button("Create Action", GUILayout.Width(160)))
@@ -199,8 +198,8 @@ namespace DigitalWorld.Logic
         protected override void OnGUIEditing()
         {
             this.OnGUIEventExplore();
-
             this.OnGUIActionExplore();
+
             base.OnGUIEditing();
         }
 
@@ -269,7 +268,6 @@ namespace DigitalWorld.Logic
 
             XmlElement root = xmlDocument.CreateElement("behaviour");
             xmlDocument.AppendChild(root);
-
 
             this.EncodeXml(root);
 

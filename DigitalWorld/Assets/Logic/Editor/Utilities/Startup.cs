@@ -46,8 +46,6 @@ namespace DigitalWorld.Logic.Editor
                     // 然后看一下是否为文件
                     if (System.IO.File.Exists(path))
                     {
-                        
-
                         if (path.Contains(Logic.Utility.TriggerPath))
                         {
                             // 这里说明是行为
@@ -71,8 +69,10 @@ namespace DigitalWorld.Logic.Editor
             }
             else
             {
-                Trigger trigger = new Trigger();
-                trigger.RelativeFolderPath = System.IO.Path.GetDirectoryName(relativePath);
+                Trigger trigger = new Trigger
+                {
+                    RelativeFolderPath = System.IO.Path.GetDirectoryName(relativePath)
+                };
                 TextAsset ta = AssetDatabase.LoadAssetAtPath<TextAsset>(path);
 
                 if (null != ta)
