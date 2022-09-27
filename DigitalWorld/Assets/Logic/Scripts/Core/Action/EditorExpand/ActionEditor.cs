@@ -335,8 +335,6 @@ namespace DigitalWorld.Logic.Actions
                 Rect separationRect = Rect.MinMaxRect(rect.xMax + 2, rect.yMin, rect.xMax + 4, rect.yMax);
                 EditorGUI.DrawRect(separationRect, Logic.Utility.kSplitLineColor);
 
-
-
                 rect.xMin = rect.xMax + 6;
                 rect.xMax = rect.xMin + width * 0.2f;
 

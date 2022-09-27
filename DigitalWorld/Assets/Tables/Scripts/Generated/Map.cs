@@ -19,23 +19,23 @@ namespace DigitalWorld.Table
         /// <summary>
         /// 唯一ID
         /// </summary>
-        public int Id => id;
-        private int id;
+        public System.Int32 Id => id;
+        private System.Int32 id;
         /// <summary>
         /// 地图名字
         /// </summary>
-        public string Name => name;
-        private string name;
+        public System.String Name => name;
+        private System.String name;
         /// <summary>
         /// 地图配置资源路径
         /// </summary>
-        public string AssetPath => assetPath;
-        private string assetPath;
+        public System.String AssetPath => assetPath;
+        private System.String assetPath;
         /// <summary>
         /// 地图等级
         /// </summary>
-        public int Level => level;
-        private int level;
+        public System.Int32 Level => level;
+        private System.Int32 level;
 
         public MapInfo()
         {

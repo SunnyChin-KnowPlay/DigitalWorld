@@ -19,33 +19,33 @@ namespace DigitalWorld.Table
         /// <summary>
         /// 唯一ID
         /// </summary>
-        public int Id => id;
-        private int id;
+        public System.Int32 Id => id;
+        private System.Int32 id;
         /// <summary>
         /// 名字
         /// </summary>
-        public string Name => name;
-        private string name;
+        public System.String Name => name;
+        private System.String name;
         /// <summary>
         /// 基础血量
         /// </summary>
-        public int Hp => hp;
-        private int hp;
+        public System.Int32 Hp => hp;
+        private System.Int32 hp;
         /// <summary>
         /// 攻击力
         /// </summary>
-        public int Attack => attack;
-        private int attack;
+        public System.Int32 Attack => attack;
+        private System.Int32 attack;
         /// <summary>
         /// 移动速度
         /// </summary>
-        public int MoveSpeed => moveSpeed;
-        private int moveSpeed;
+        public System.Int32 MoveSpeed => moveSpeed;
+        private System.Int32 moveSpeed;
         /// <summary>
         /// 预制件路径
         /// </summary>
-        public string PrefabPath => prefabPath;
-        private string prefabPath;
+        public System.String PrefabPath => prefabPath;
+        private System.String prefabPath;
 
         public CharacterInfo()
         {

@@ -64,10 +64,10 @@ namespace DigitalWorld.Table.Editor
         #region MenuItems
         private static void EditModels()
         {
-            ModelEditorWindow window = ModelEditorWindow.FocusWindow();
+            ModelsEditorWindow window = ModelsEditorWindow.FocusWindow();
             if (null != window)
             {
-                window.titleContent = new GUIContent("Model Editor");
+                window.titleContent = new GUIContent("Models Editor");
             }
         }
 
