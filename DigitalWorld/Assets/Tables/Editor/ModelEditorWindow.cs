@@ -10,7 +10,8 @@ namespace DigitalWorld.Table.Editor
         #region Params
         private static ModelsEditorWindow window = null;
 
-        private List<NodeModel> models = new List<NodeModel>();
+        private readonly List<NodeModel> models = new List<NodeModel>();
+        private Vector2 scrollViewPosition;
         #endregion
 
         #region Window
@@ -33,7 +34,19 @@ namespace DigitalWorld.Table.Editor
         #region Mono
         private void OnEnable()
         {
-            string fullPath = Utility.defaultModelPath;
+            Load();
+        }
+
+        private void OnDisable()
+        {
+            window = null;
+        }
+        #endregion
+
+        #region Logic
+        private void Load()
+        {
+            string fullPath = Table.Utility.ModelPath;
 
             XmlDocument xmlDocument = new XmlDocument();
             xmlDocument.Load(fullPath);
@@ -51,27 +64,114 @@ namespace DigitalWorld.Table.Editor
             }
         }
 
-        private void OnDisable()
+        private void Save()
         {
-            window = null;
+            XmlDocument xmlDocument = new XmlDocument();
+
+            XmlDeclaration dec = xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
+            xmlDocument.AppendChild(dec);
+
+            XmlElement root = xmlDocument.CreateElement("models");
+            if (null != root)
+            {
+                xmlDocument.AppendChild(root);
+
+                root.SetAttribute("namespace", Table.Utility.defaultNamespaceName);
+
+                foreach (NodeModel model in models)
+                {
+                    XmlElement ele = xmlDocument.CreateElement("model");
+                    model.Serialize(ele);
+
+                    root.AppendChild(ele);
+                }
+
+                string fullPath = Table.Utility.ModelPath;
+                xmlDocument.Save(fullPath);
+            }
+        }
+
+        private void ForeachSetEditing(bool isEditing)
+        {
+            for (int i = 0; i < this.models.Count; ++i)
+            {
+                models[i].IsEditing = isEditing;
+            }
         }
         #endregion
 
         #region GUI
         private void OnGUI()
         {
-            EditorGUILayout.BeginVertical();
+            OnGUITitle();
+
+            scrollViewPosition = EditorGUILayout.BeginScrollView(scrollViewPosition);
 
             for (int i = 0; i < models.Count; ++i)
             {
                 NodeModel model = models[i];
                 model.OnGUI();
             }
-
-            EditorGUILayout.EndVertical();
+            EditorGUILayout.EndScrollView();
 
             GUILayout.FlexibleSpace();
 
+            OnGUIBottom();
+        }
+
+        private void OnGUIBottom()
+        {
+            GUIStyle style = new GUIStyle("IN Title");
+            style.padding.left = 0;
+            EditorGUILayout.BeginHorizontal(style);
+
+            GUILayout.FlexibleSpace();
+
+            if (GUILayout.Button("Save"))
+            {
+                Save();
+            }
+
+            if (GUILayout.Button("Close"))
+            {
+                this.Close();
+            }
+
+            EditorGUILayout.EndHorizontal();
+        }
+
+        private void OnGUITitle()
+        {
+            GUIStyle style = new GUIStyle("IN Title");
+            style.padding.left = 0;
+
+            EditorGUILayout.BeginHorizontal(style);
+            GUIStyle labelStyle = new GUIStyle(GUI.skin.label)
+            {
+                fontStyle = FontStyle.Bold
+            };
+            EditorGUILayout.LabelField("Models", labelStyle);
+
+            GUILayout.FlexibleSpace();
+
+            OnGUITitleMenus();
+
+            EditorGUILayout.EndHorizontal();
+        }
+
+
+
+        private void OnGUITitleMenus()
+        {
+            if (GUILayout.Button("OpenAll"))
+            {
+                ForeachSetEditing(true);
+            }
+
+            if (GUILayout.Button("CloseAll"))
+            {
+                ForeachSetEditing(false);
+            }
 
         }
         #endregion

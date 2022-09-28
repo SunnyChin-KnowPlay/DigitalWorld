@@ -18,7 +18,8 @@ namespace DigitalWorld.Table.Editor
         {
             base.Serialize(root);
 
-          
+            string typeName = Type.FullName;
+            root.SetAttribute("type", typeName);
         }
 
         public override void Deserialize(XmlElement root)

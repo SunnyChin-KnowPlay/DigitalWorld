@@ -24,11 +24,7 @@ namespace DigitalWorld.Table
         public const string configDataKey = "Table.Config.Data";
         public const string defaultConfigData = "Assets/Res/Config/Datas";
 
-        public const string GenerateCodesCmd = "GenerateCodesFromModel";
-        public const string GenerateExcelsCmd = "GenerateExcelsFromModel";
-        public const string ConvertExcelsToXmlsCmd = "ConvertExcelsToXmls";
-        public const string ConvertXmlsToExcelsCmd = "ConvertXmlsToExcels";
-
+        public const string defaultNamespaceName = "DigitalWorld.Table";
         /// <summary>
         /// 配置的源文件(config中的)路径
         /// </summary>

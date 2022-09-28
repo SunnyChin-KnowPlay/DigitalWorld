@@ -73,6 +73,24 @@ namespace DigitalWorld.Logic
         }
 
 #if UNITY_EDITOR
+        public static GUIStyle StyleD__MenuIconButton
+        {
+            get
+            {
+                GUIStyle style = EditorStyles.iconButton;
+                style.margin.top = 4;
+                return style;
+            }
+        }
+
+        public static GUIContent GUIContentD__Menu
+        {
+            get
+            {
+                return EditorGUIUtility.IconContent("d__Menu");
+            }
+        }
+
         /// <summary>
         /// 拷贝节点缓冲器
         /// </summary>

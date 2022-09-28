@@ -21,8 +21,8 @@ namespace DigitalWorld.Table.Editor
         protected static System.Type[] typeArray = null;
         protected static string[] typeDisplayArray = null;
 
-        public bool IsEditing => isEditing;
-        protected bool isEditing = true;
+        public bool IsEditing { get => isEditing; set => isEditing = value; }
+        protected bool isEditing = false;
         #endregion
 
         #region GUI
@@ -44,31 +44,12 @@ namespace DigitalWorld.Table.Editor
         /// </summary>
         public virtual void OnGUITitle()
         {
-            GUIStyle style = new GUIStyle("IN Title");
-            style.padding.left = 0;
-
-            Color color = GUI.backgroundColor;
-            GUI.backgroundColor = new Color32(160, 160, 160, 255);
-
-            using EditorGUILayout.HorizontalScope h = new EditorGUILayout.HorizontalScope(style);
-            GUI.backgroundColor = color;
-
-            isEditing = EditorGUILayout.Toggle("", isEditing, EditorStyles.foldout, GUILayout.Width(12));
-
-
-            this.OnGUIName();
-
-            GUILayout.FlexibleSpace();
-
-            if (GUI.Button(h.rect, GUIContent.none, EditorStyles.whiteLabel))
-            {
-                OnClickTitle(h);
-            }
+            
         }
 
         protected virtual void OnGUIEditing()
         {
-           
+
         }
 
         public void OnGUI()
