@@ -157,7 +157,7 @@ namespace DigitalWorld.Logic.Actions
 
         protected override void OnGUITitleMenus()
         {
-            if (GUILayout.Button("Menu"))
+            if (GUILayout.Button(Utility.GUIContentD__Menu, Utility.StyleD__MenuIconButton))
             {
                 OnClickMenu();
             }

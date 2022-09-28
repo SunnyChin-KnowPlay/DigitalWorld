@@ -153,12 +153,12 @@ namespace DigitalWorld.Logic.Editor
                 rect.xMax = rect.xMin + width * 0.4f;
                 EditorGUI.LabelField(rect, string.Format("{0}", item.Desc), labelStyle);
 
-                rect.xMin = width - 40;
+                rect.xMin = width - 12;
                 rect.xMax = width;
 
                 EditorGUI.BeginDisabledGroup(!selected);
 
-                bool ret = GUI.Button(rect, new GUIContent("Edit"));
+                bool ret = GUI.Button(rect, Logic.Utility.GUIContentD__Menu, Logic.Utility.StyleD__MenuIconButton);
                 if (ret)
                 {
                     OnEditItem(item);
@@ -211,19 +211,17 @@ namespace DigitalWorld.Logic.Editor
                 EditorGUI.LabelField(rect, string.Format("{0}", item.Desc), labelStyle);
 
 
-                rect.xMin = width - 40;
+                rect.xMin = width - 12;
                 rect.xMax = width;
                 EditorGUI.BeginDisabledGroup(!selected);
 
-                bool ret = GUI.Button(rect, new GUIContent("Edit"));
+                bool ret = GUI.Button(rect, Logic.Utility.GUIContentD__Menu, Logic.Utility.StyleD__MenuIconButton);
                 if (ret)
                 {
                     OnEditItem(item);
                 }
 
                 EditorGUI.EndDisabledGroup();
-
-
 
                 EditorGUI.DrawRect(lineRect, Logic.Utility.kSplitLineColor);
 
@@ -255,9 +253,9 @@ namespace DigitalWorld.Logic.Editor
                 rect.width = width / 2 - 2;
                 EditorGUI.LabelField(rect, string.Format("{0} - {1}", item.Name, item.Desc));
 
-                rect.xMin = width - 40;
+                rect.xMin = width - 12;
                 rect.xMax = width;
-                bool ret = GUI.Button(rect, new GUIContent("Edit"));
+                bool ret = GUI.Button(rect, Logic.Utility.GUIContentD__Menu, Logic.Utility.StyleD__MenuIconButton);
                 if (ret)
                 {
                     OnEditItem(item);
