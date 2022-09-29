@@ -2,6 +2,7 @@ using DigitalWorld.Utilities;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Xml;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,51 +11,95 @@ namespace DigitalWorld.Table.Editor
     [InitializeOnLoad]
     public class TableEditorWindow : EditorWindow
     {
+        #region Params
+        private readonly List<NodeModel> models = new List<NodeModel>();
+        #endregion
+
+        #region Construction
         static TableEditorWindow()
         {
-            //PlayerPrefs.DeleteAll();
 
-            //Utilities.Utility.SetDefaultString(Utility.outputCodeKey, Path.Combine(Application.dataPath, Utility.defaultOutPutCodePath));
-            //Utilities.Utility.SetDefaultString(Utility.modelKey, Utility.defaultModelPath);
-            //Utilities.Utility.SetDefaultString(Utility.excelKey, Utility.defaultExcelPath);
-            //Utilities.Utility.SetDefaultString(Utility.configXmlKey, Path.Combine(Application.dataPath, Utility.defaultConfigXml));
-            //Utilities.Utility.SetDefaultString(Utility.configDataKey, Path.Combine(Application.dataPath, Utility.defaultConfigData));
         }
+        #endregion
+
+        #region Logic
+        private void Load()
+        {
+            this.models.Clear();
+
+            string fullPath = Table.Utility.ModelPath;
+
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.Load(fullPath);
+            XmlElement root = xmlDocument["models"];
+            if (null != root)
+            {
+                foreach (var node in root.ChildNodes)
+                {
+                    XmlElement childEle = node as XmlElement;
+
+                    NodeModel model = new NodeModel();
+                    model.Deserialize(childEle);
+                    this.models.Add(model);
+                }
+            }
+        }
+        #endregion
+
+        #region Mono
+        private void OnFocus()
+        {
+            Load();
+        }
+        #endregion
 
         #region GUI
         private void OnGUI()
         {
+            Rect position = this.position;
+
             EditorGUILayout.BeginVertical();
 
-            if (GUILayout.Button("Auto Process"))
-            {
-                AutoProcess();
-            }
+            EditorGUILayout.BeginHorizontal();
 
-            if (GUILayout.Button("Generate Codes"))
+         
+            if (GUILayout.Button("Generate Codes", GUILayout.Width(position.width * 0.5f)))
             {
                 GenerateCodes();
             }
 
-            if (GUILayout.Button("Generate Excels"))
+            if (GUILayout.Button("Generate Excels", GUILayout.Width(position.width * 0.5f)))
             {
                 GenerateExcels();
             }
+            EditorGUILayout.EndHorizontal();
 
-            if (GUILayout.Button("ConvertExcelsToXmls"))
+            EditorGUILayout.BeginHorizontal();
+
+            if (GUILayout.Button("ConvertExcelsToXmls", GUILayout.Width(position.width * 0.5f)))
             {
                 ConvertExcelsToXmls();
             }
 
-            if (GUILayout.Button("ConvertXmlsToExcels"))
+            if (GUILayout.Button("ConvertXmlsToExcels", GUILayout.Width(position.width * 0.5f)))
             {
                 ConvertXmlsToExcels();
             }
+            EditorGUILayout.EndHorizontal();
 
-            if (GUILayout.Button("Edit Models"))
+            EditorGUILayout.BeginHorizontal();
+
+
+            if (GUILayout.Button("Auto Process", GUILayout.Width(position.width * 0.5f)))
+            {
+                AutoProcess();
+            }
+
+            if (GUILayout.Button("Edit Models", GUILayout.Width(position.width * 0.5f)))
             {
                 EditModels();
             }
+            EditorGUILayout.EndHorizontal();
 
             EditorGUILayout.EndVertical();
 
