@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Xml;
 using UnityEditor;
+using UnityEditorInternal;
 using UnityEngine;
 
 namespace DigitalWorld.Table.Editor
@@ -13,6 +14,7 @@ namespace DigitalWorld.Table.Editor
     {
         #region Params
         private readonly List<NodeModel> models = new List<NodeModel>();
+        protected ReorderableList reorderableModelsList;
         #endregion
 
         #region Construction
@@ -43,6 +45,31 @@ namespace DigitalWorld.Table.Editor
                     this.models.Add(model);
                 }
             }
+
+            reorderableModelsList = new ReorderableList(this.models, typeof(NodeField))
+            {
+                drawElementCallback = OnDrawFieldElement,
+                drawHeaderCallback = OnDrawFieldHead,
+
+                displayAdd = false,
+                displayRemove = false,
+                draggable = false,
+            };
+        }
+
+        private void ExcelToXml(string name)
+        {
+
+            Utility.ExecuteTableGenerate(Utility.ConvertExcelToXmlCmd, name);
+
+        }
+
+        private void XmlToExcel(string name)
+        {
+
+            Utility.ExecuteTableGenerate(Utility.ConvertXmlToExcelCmd, name);
+
+
         }
         #endregion
 
@@ -56,53 +83,128 @@ namespace DigitalWorld.Table.Editor
         #region GUI
         private void OnGUI()
         {
-            Rect position = this.position;
+            OnGUIButtons();
 
+            OnGUIModels();
+        }
+
+        protected void OnDrawFieldElement(Rect rect, int index, bool selected, bool focused)
+        {
+            float width = rect.width;
+            if (index < models.Count)
+            {
+                NodeModel item = models[index];
+
+                rect.y += 2;
+                rect.height = EditorGUIUtility.singleLineHeight;
+
+                GUIStyle labelStyle = new GUIStyle(GUI.skin.textField);
+
+                rect.xMax = rect.xMin + width * 0.2f;
+                EditorGUI.LabelField(rect, item.Name, labelStyle);
+
+                rect.xMin = rect.xMax + 4;
+                rect.xMax = rect.xMin + width * 0.38f;
+
+                EditorGUI.LabelField(rect, item.Description, labelStyle);
+
+                EditorGUI.BeginDisabledGroup(!selected);
+
+                rect.xMax = width;
+                rect.xMin = rect.xMax - width * 0.2f;
+
+                if (GUI.Button(rect, "ExcelToXml"))
+                {
+                    ExcelToXml(item.Name);
+                }
+
+                rect.xMax = rect.xMin - 4;
+                rect.xMin = rect.xMax - width * 0.2f;
+
+                if (GUI.Button(rect, "XmlToExcel"))
+                {
+                    XmlToExcel(item.Name);
+                }
+
+                EditorGUI.EndDisabledGroup();
+            }
+            else
+            {
+                models.RemoveAt(index);
+            }
+        }
+
+
+
+        protected void OnDrawFieldHead(Rect rect)
+        {
+            float width = rect.width;
+
+            rect.height = EditorGUIUtility.singleLineHeight;
+
+            GUIStyle labelStyle = new GUIStyle(GUI.skin.label)
+            {
+                fontStyle = FontStyle.Bold,
+
+            };
+
+            rect.xMax = rect.xMin + width * 0.2f;
+            EditorGUI.LabelField(rect, "Table Name", labelStyle);
+
+            rect.xMin = rect.xMax + 4;
+            rect.xMax = rect.xMin + width * 0.2f;
+
+            EditorGUI.LabelField(rect, "Table Desc", labelStyle);
+        }
+
+        private void OnGUIModels()
+        {
             EditorGUILayout.BeginVertical();
 
+            reorderableModelsList.DoLayoutList();
+
+            EditorGUILayout.EndVertical();
+        }
+
+        private void OnGUIButtons()
+        {
             EditorGUILayout.BeginHorizontal();
 
-         
-            if (GUILayout.Button("Generate Codes", GUILayout.Width(position.width * 0.5f)))
+            EditorGUILayout.BeginVertical();
+            if (GUILayout.Button("Generate Codes"))
             {
                 GenerateCodes();
             }
 
-            if (GUILayout.Button("Generate Excels", GUILayout.Width(position.width * 0.5f)))
-            {
-                GenerateExcels();
-            }
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.BeginHorizontal();
-
-            if (GUILayout.Button("ConvertExcelsToXmls", GUILayout.Width(position.width * 0.5f)))
+            if (GUILayout.Button("ConvertExcelsToXmls"))
             {
                 ConvertExcelsToXmls();
             }
 
-            if (GUILayout.Button("ConvertXmlsToExcels", GUILayout.Width(position.width * 0.5f)))
-            {
-                ConvertXmlsToExcels();
-            }
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.BeginHorizontal();
-
-
-            if (GUILayout.Button("Auto Process", GUILayout.Width(position.width * 0.5f)))
+            if (GUILayout.Button("Auto Process"))
             {
                 AutoProcess();
             }
+            EditorGUILayout.EndVertical();
 
-            if (GUILayout.Button("Edit Models", GUILayout.Width(position.width * 0.5f)))
+            EditorGUILayout.BeginVertical();
+            if (GUILayout.Button("Generate Excels"))
+            {
+                GenerateExcels();
+            }
+
+            if (GUILayout.Button("ConvertXmlsToExcels"))
+            {
+                ConvertXmlsToExcels();
+            }
+
+            if (GUILayout.Button("Edit Models"))
             {
                 EditModels();
             }
-            EditorGUILayout.EndHorizontal();
-
             EditorGUILayout.EndVertical();
 
+            EditorGUILayout.EndHorizontal();
         }
         #endregion
 

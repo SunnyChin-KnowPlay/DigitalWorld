@@ -14,6 +14,7 @@ namespace DigitalWorld.Table.Editor
         protected List<NodeField> fieldList = new List<NodeField>();
         #endregion
 
+        #region Construction
         internal NodeModel()
         {
             reorderableFieldsList = new ReorderableList(this.fieldList, typeof(NodeField))
@@ -27,6 +28,7 @@ namespace DigitalWorld.Table.Editor
                 draggable = false,
             };
         }
+        #endregion
 
         #region GUI
         private void OnAddField()

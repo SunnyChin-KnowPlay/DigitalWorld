@@ -196,8 +196,10 @@ namespace DigitalWorld.Logic
                 return;
 
             string title = string.Format("{0}.{1:000}", "Node", _index);
-            GUIStyle style = new GUIStyle(GUI.skin.button);
-            style.alignment = TextAnchor.MiddleCenter;
+            GUIStyle style = new GUIStyle(GUI.skin.button)
+            {
+                alignment = TextAnchor.MiddleCenter
+            };
 
             if (GUILayout.Button(title, style, GUILayout.Width(72)))
             {
@@ -346,8 +348,6 @@ namespace DigitalWorld.Logic
 
                 field.SetValue(this, v);
             }
-
-
         }
 
         protected bool OnGUICustomEditingField(FieldInfo info)
@@ -372,17 +372,14 @@ namespace DigitalWorld.Logic
         {
             if (this._children.Count > 0)
             {
-
                 EditorGUILayout.BeginVertical();
                 for (int i = 0; i < this._children.Count; ++i)
                 {
-
                     NodeBase node = this._children[i];
                     if (null != node)
                     {
                         node.OnGUI();
                     }
-
                 }
                 EditorGUILayout.EndVertical();
 
