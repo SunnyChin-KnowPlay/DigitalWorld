@@ -31,7 +31,7 @@ namespace DigitalWorld.Game
         }
         #endregion
 
-        #region Behaviour
+        #region Mono
         protected virtual void Awake()
         {
             trans = this.GetComponent<Transform>();
@@ -52,10 +52,7 @@ namespace DigitalWorld.Game
 
         }
 
-        /// <summary>
-        /// 释放
-        /// </summary>
-        public virtual void Destroy()
+        protected virtual void OnDestroy()
         {
 
         }

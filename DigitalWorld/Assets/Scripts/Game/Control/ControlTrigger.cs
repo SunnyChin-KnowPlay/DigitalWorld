@@ -25,18 +25,18 @@ namespace DigitalWorld.Game
             this.runningTriggers.Clear();
         }
 
-        public override void Destroy()
+        protected override void OnDestroy()
         {
-            base.Destroy();
-
             ClearRunningTriggers();
+
+            base.OnDestroy();
         }
 
         protected override void Update()
         {
             base.Update();
 
-            float delta = Time.deltaTime;
+            int delta = Dream.FixMath.Utility.GetMillisecond(Time.deltaTime);
             for (int i = 0; i < runningTriggers.Count; ++i)
             {
                 Logic.Trigger behaviour = runningTriggers[i];

@@ -7,7 +7,7 @@
         /// </summary>
         int Id { get; }
 
-        void Update(float delta);
+        void Update(int delta);
 
         /// <summary>
         /// 是否激活的

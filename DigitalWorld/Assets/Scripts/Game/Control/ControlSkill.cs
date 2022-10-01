@@ -2,6 +2,7 @@
 using DigitalWorld.Table;
 using Dream.Core;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace DigitalWorld.Game
 {
@@ -16,6 +17,33 @@ namespace DigitalWorld.Game
         #endregion
 
         #region Logic
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            foreach (KeyValuePair<int, Skill> kvp in skills)
+            {
+                kvp.Value.Recycle();
+            }
+            skills.Clear();
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+
+            int delta = Dream.FixMath.Utility.GetMillisecond(Time.deltaTime);
+            this.OnUpdate(delta);
+        }
+
+        protected virtual void OnUpdate(int delta)
+        {
+            foreach (KeyValuePair<int, Skill> kvp in skills)
+            {
+                kvp.Value.Update(delta);
+            }
+        }
+
         /// <summary>
         /// 学习技能
         /// </summary>
@@ -28,7 +56,7 @@ namespace DigitalWorld.Game
             skills.Add(slot, skill);
         }
 
-        public virtual void Spell(int slot, Event ev)
+        public virtual void Spell(int slot, Logic.Events.Event ev)
         {
             bool ret = this.skills.TryGetValue(slot, out Skill skill);
             if (ret)

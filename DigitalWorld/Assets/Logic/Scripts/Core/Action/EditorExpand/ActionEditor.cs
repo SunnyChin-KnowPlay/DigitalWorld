@@ -141,47 +141,7 @@ namespace DigitalWorld.Logic.Actions
         }
         #endregion
 
-        #region GUI
-        protected override void OnGUIName()
-        {
-            base.OnGUIName();
-        }
-
-        protected override void OnGUIEditing()
-        {
-            base.OnGUIEditing();
-
-            OnGUIEditingRequirementsInfo();
-            OnGUIEditingPropertiesInfo();
-        }
-
-        protected override void OnGUITitleMenus()
-        {
-            if (GUILayout.Button(Utility.GUIContentD__Menu, Utility.StyleD__MenuIconButton))
-            {
-                OnClickMenu();
-            }
-        }
-
-        protected override void OnGUITitleInfo()
-        {
-            base.OnGUITitleInfo();
-        }
-
-        protected virtual void OnGUIEditingRequirementsInfo()
-        {
-            this.CalculateBrotherNames();
-
-            reorderableRequirementList.DoLayoutList();
-            reorderableRequirementList.displayAdd = CheckDisplayAdd();
-        }
-
-        protected virtual void OnGUIEditingPropertiesInfo()
-        {
-            reorderablePropertiesList.DoLayoutList();
-        }
-
-
+        #region Logic
         /// <summary>
         /// 检查要求是否已经使用了?
         /// </summary>
@@ -245,6 +205,59 @@ namespace DigitalWorld.Logic.Actions
             }
 
             return false;
+        }
+        #endregion
+
+        #region GUI
+        protected override void OnGUIName()
+        {
+            base.OnGUIName();
+        }
+
+        protected override void OnGUIEditing()
+        {
+            base.OnGUIEditing();
+
+            OnGUIEditingPropertiesInfo();
+            OnGUIEditingRequirementsInfo();
+        }
+
+        protected override void OnGUITitleMenus()
+        {
+            if (GUILayout.Button(Utility.GUIContentD__Menu, Utility.StyleD__MenuIconButton))
+            {
+                OnClickMenu();
+            }
+        }
+
+        protected override void OnGUITitleInfo()
+        {
+            base.OnGUITitleInfo();
+
+            this.OnGUITotalTime();
+        }
+
+        protected virtual void OnGUITotalTime()
+        {
+            GUIStyle labelStyle = new GUIStyle(GUI.skin.label)
+            {
+                fontStyle = FontStyle.Bold
+            };
+            EditorGUILayout.LabelField(new GUIContent("TotalTime:"), labelStyle, GUILayout.Width(70));
+            _totalTime = EditorGUILayout.IntField(_totalTime, GUILayout.Width(120));
+        }
+
+        protected virtual void OnGUIEditingRequirementsInfo()
+        {
+            this.CalculateBrotherNames();
+
+            reorderableRequirementList.DoLayoutList();
+            reorderableRequirementList.displayAdd = CheckDisplayAdd();
+        }
+
+        protected virtual void OnGUIEditingPropertiesInfo()
+        {
+            reorderablePropertiesList.DoLayoutList();
         }
         #endregion
 
@@ -470,7 +483,7 @@ namespace DigitalWorld.Logic.Actions
             bool isDisable;
 
             GenericMenu menu = new GenericMenu();
-           
+
             menu.AddItem(new GUIContent("Remove"), false, (object userData) =>
             {
                 this.OnClickRemove();

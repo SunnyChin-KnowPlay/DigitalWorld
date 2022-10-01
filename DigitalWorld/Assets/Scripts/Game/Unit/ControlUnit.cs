@@ -93,7 +93,7 @@ namespace DigitalWorld.Game
         /// <summary>
         /// É¾³ý¶ÔÏó
         /// </summary>
-        public override void Destroy()
+        public void Destroy()
         {
             if (Application.isPlaying)
             {

@@ -10,6 +10,7 @@ namespace DigitalWorld.Logic.Actions
     public abstract partial class ActionBase : NodeState
     {
         #region Params
+        public override ENodeType NodeType => ENodeType.Action;
         public Trigger Trigger
         {
             get
@@ -25,10 +26,13 @@ namespace DigitalWorld.Logic.Actions
         }
         protected ECheckLogic _requirementLogic;
 
-        public override ENodeType NodeType => ENodeType.Action;
-
         public List<Requirement> Requirements => _requirements;
         protected List<Requirement> _requirements = new List<Requirement>();
+
+        /// <summary>
+        /// 启动时间
+        /// </summary>
+        protected int startTime;
         #endregion
 
         #region Pool
@@ -99,7 +103,7 @@ namespace DigitalWorld.Logic.Actions
             return result;
         }
 
-        protected override void OnUpdate(float delta)
+        protected override void OnUpdate(int delta)
         {
             if (this.State == EState.Idle)
             {

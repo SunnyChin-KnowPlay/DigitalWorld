@@ -115,17 +115,38 @@ namespace DigitalWorld.Logic
         {
             GUIStyle style = new GUIStyle("IN Title");
             style.padding.left = 0;
+            using EditorGUILayout.HorizontalScope h = new EditorGUILayout.HorizontalScope(style);
 
-            EditorGUILayout.BeginHorizontal(style);
-
-            this._enabled = EditorGUILayout.Toggle(_enabled, GUILayout.Width(18));
+            //EditorGUILayout.BeginHorizontal(style);
 
             this.OnGUIName();
+            this.OnGUITotalTime();
+
             GUILayout.FlexibleSpace();
 
             OnGUITopMenus();
+        }
 
-            EditorGUILayout.EndHorizontal();
+        /// <summary>
+        /// 绘制运行时间
+        /// </summary>
+        protected virtual void OnGUITotalTime()
+        {
+            GUIStyle labelStyle = new GUIStyle(GUI.skin.label)
+            {
+                fontStyle = FontStyle.Bold
+            };
+            EditorGUILayout.LabelField(new GUIContent("TotalTime:"), labelStyle, GUILayout.Width(70));
+            _totalTime = EditorGUILayout.IntField(_totalTime, GUILayout.Width(120));
+        }
+
+        protected override void OnGUIName()
+        {
+            GUIStyle labelStyle = new GUIStyle(GUI.skin.label)
+            {
+                fontStyle = FontStyle.Bold
+            };
+            EditorGUILayout.LabelField(_name, labelStyle, GUILayout.MaxWidth(100));
         }
 
         /// <summary>
@@ -166,9 +187,16 @@ namespace DigitalWorld.Logic
 
             if (Enum.GetValues(typeof(EAction)) != null && Enum.GetValues(typeof(EAction)).Length > 0)
             {
-                selectedAction = FindAction(EditorGUILayout.Popup(FindActionIndex(selectedAction), ActionDisplayNames, GUILayout.Width(300)));
+                selectedAction = FindAction(EditorGUILayout.Popup(FindActionIndex(selectedAction), ActionDisplayNames, GUILayout.Width(500)));
 
-                if (GUILayout.Button("Create Action", GUILayout.Width(160)))
+                labelStyle = new GUIStyle(GUI.skin.button)
+                {
+                    fontStyle = FontStyle.Bold,
+                    alignment = TextAnchor.MiddleCenter,
+                };
+                labelStyle.hover.textColor = new Color32(32, 240, 22, 255);
+
+                if (GUILayout.Button("Create Action", labelStyle, GUILayout.Width(160)))
                 {
                     OnClickCreateAction();
                 }

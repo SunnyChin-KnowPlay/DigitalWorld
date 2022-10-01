@@ -153,11 +153,11 @@ namespace DigitalWorld.Logic
         /// <summary>
         /// 已激活的持续时间
         /// </summary>
-        public float EnabledDurationTime
+        public int EnabledDurationTime
         {
             get { return _enabledDurationTime; }
         }
-        protected float _enabledDurationTime = 0;
+        protected int _enabledDurationTime = 0;
 
         /// <summary>
         /// 描述信息
@@ -568,7 +568,7 @@ namespace DigitalWorld.Logic
         /// 迭代
         /// </summary>
         /// <param name="delta"></param>
-        public void Update(float delta)
+        public void Update(int delta)
         {
             _enabledDurationTime += delta;
 
@@ -580,12 +580,12 @@ namespace DigitalWorld.Logic
         /// 才会进入迭代回调
         /// </summary>
         /// <param name="delta"></param>
-        protected virtual void OnUpdate(float delta)
+        protected virtual void OnUpdate(int delta)
         {
-            UpdateChildren(delta);
+            this.UpdateChildren(delta);
         }
 
-        protected virtual void UpdateChildren(float delta)
+        protected virtual void UpdateChildren(int delta)
         {
             for (int i = 0; i < this._children.Count; ++i)
             {

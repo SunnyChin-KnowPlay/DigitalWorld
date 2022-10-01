@@ -134,8 +134,8 @@ namespace DigitalWorld.Logic
 
             this.OnGUIEnabled();
             this.OnGUIIndex();
-            this.OnGUITitleTypeName();
             this.OnGUIName();
+            this.OnGUITitleTypeName();
             this.OnGUITitleInfo();
 
             GUILayout.FlexibleSpace();
@@ -186,7 +186,7 @@ namespace DigitalWorld.Logic
 
         protected virtual void OnGUIEnabled()
         {
-            this._enabled = EditorGUILayout.Toggle(this._enabled, GUILayout.Width(12));   
+            this._enabled = EditorGUILayout.Toggle(this._enabled, GUILayout.Width(12));
         }
 
         protected virtual void OnGUIIndex()
@@ -200,6 +200,10 @@ namespace DigitalWorld.Logic
             {
                 alignment = TextAnchor.MiddleCenter
             };
+            if (!this.Enabled)
+            {
+                style.normal.textColor = new Color32(160, 160, 160, 255);
+            }
 
             if (GUILayout.Button(title, style, GUILayout.Width(72)))
             {

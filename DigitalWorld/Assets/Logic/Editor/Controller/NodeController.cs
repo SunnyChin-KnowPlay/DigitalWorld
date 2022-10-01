@@ -15,11 +15,7 @@ namespace DigitalWorld.Logic.Editor
         public Dictionary<EItemType, List<NodeItem>> items = new Dictionary<EItemType, List<NodeItem>>();
         private readonly Dictionary<EItemType, bool> itemsEditings = new Dictionary<EItemType, bool>();
 
-        public bool editing = false;
-        public bool Editing
-        {
-            get { return editing; }
-        }
+
 
         private bool dirty = false;
         public bool IsDirty
@@ -370,33 +366,10 @@ namespace DigitalWorld.Logic.Editor
             }
         }
 
-        public void StartEdit()
-        {
-            if (false == editing)
-            {
-                editing = true;
-            }
-        }
-
-        public void StopEdit()
-        {
-            if (editing)
-            {
-                editing = false;
-                dirty = false;
-            }
-        }
-
         public void Save()
         {
-            if (editing)
-            {
-                SaveAllItems();
-
-                AssetDatabase.Refresh();
-
-                this.StopEdit();
-            }
+            SaveAllItems();
+            AssetDatabase.Refresh();
         }
 
         public void LoadAllItems()

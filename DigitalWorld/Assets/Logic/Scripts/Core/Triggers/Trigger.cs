@@ -97,7 +97,7 @@ namespace DigitalWorld.Logic
         /// 遍历所有子节点时，先记录其requirement，以供后续查询
         /// </summary>
         /// <param name="delta"></param>
-        protected override void UpdateChildren(float delta)
+        protected override void UpdateChildren(int delta)
         {
             for (int i = 0; i < this._children.Count; ++i)
             {

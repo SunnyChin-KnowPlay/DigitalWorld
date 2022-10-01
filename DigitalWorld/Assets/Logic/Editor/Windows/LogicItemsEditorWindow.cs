@@ -37,9 +37,6 @@ namespace DigitalWorld.Logic.Editor
             NodeController c = NodeController;
             c.LoadAllItems();
 
-            if (!c.Editing)
-                filter = string.Empty;
-
             actionList = new ReorderableList(c.GetItems(EItemType.Action), typeof(NodeItem))
             {
                 drawElementCallback = OnDrawActionElement,
@@ -78,16 +75,6 @@ namespace DigitalWorld.Logic.Editor
             eventList = null;
         }
 
-        private void StartEdit()
-        {
-            NodeController c = NodeController;
-
-            if (!c.Editing)
-                filter = string.Empty;
-            c.StartEdit();
-
-        }
-
         private ReorderableList GetList(EItemType type)
         {
             return type switch
@@ -99,18 +86,8 @@ namespace DigitalWorld.Logic.Editor
             };
         }
 
-        private void QuitEdit()
+        private void Save()
         {
-            NodeController c = NodeController;
-            c.StopEdit();
-        }
-
-        private void SaveAndQuitEdit()
-        {
-            actionList = null;
-            propertyList = null;
-            eventList = null;
-
             NodeController c = NodeController;
             c.Save();
         }
@@ -299,8 +276,6 @@ namespace DigitalWorld.Logic.Editor
         {
             NodeController c = NodeController;
 
-            bool isDisable = !c.Editing;
-            EditorGUI.BeginDisabledGroup(isDisable);
 
             var TextFieldRoundEdge = new GUIStyle("SearchTextField");
             filter = EditorGUILayout.TextField(filter, TextFieldRoundEdge);
@@ -332,41 +307,36 @@ namespace DigitalWorld.Logic.Editor
 
             EditorGUILayout.EndScrollView();
 
-            EditorGUI.EndDisabledGroup();
             GUILayout.FlexibleSpace();
 
-            bool editing = c.Editing;
             EditorGUILayout.BeginHorizontal();
 
-            if (editing)
+
+            EditorGUILayout.BeginVertical();
+            EditorGUI.BeginDisabledGroup(!c.IsDirty);
+
+            if (GUILayout.Button("Save"))
             {
-                EditorGUI.BeginDisabledGroup(!c.IsDirty);
-
-                if (GUILayout.Button("Save & Quit"))
-                {
-                    SaveAndQuitEdit();
-                    c.GenerateNodesCode();
-                }
-                EditorGUI.EndDisabledGroup();
-
-                if (GUILayout.Button("Quit"))
-                {
-                    QuitEdit();
-                }
+                Save();
+                c.GenerateNodesCode();
             }
-            else
+            EditorGUI.EndDisabledGroup();
+            EditorGUILayout.EndVertical();
+
+            EditorGUILayout.BeginVertical();
+            if (GUILayout.Button("Quit"))
             {
-                if (GUILayout.Button("Start Edit"))
-                {
-                    StartEdit();
-                }
-
-                if (GUILayout.Button("Generate Codes"))
-                {
-                    c.GenerateNodesCode();
-                }
+                this.Close();
             }
+            EditorGUILayout.EndVertical();
 
+
+            //EditorGUILayout.BeginVertical();
+            //if (GUILayout.Button("Generate Codes"))
+            //{
+            //    c.GenerateNodesCode();
+            //}
+            //EditorGUILayout.EndVertical();
 
             EditorGUILayout.EndHorizontal();
         }

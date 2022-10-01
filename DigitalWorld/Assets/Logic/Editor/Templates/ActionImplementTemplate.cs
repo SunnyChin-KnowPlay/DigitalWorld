@@ -75,7 +75,7 @@ namespace Assets.Logic.Editor.Templates
         /// 如果是瞬时类行动 则建议忽视该函数 留空
         /// </summary>
         /// <param name=""delta""></param>
-        protected override void OnUpdate(float delta)
+        protected override void OnUpdate(int delta)
         {
             base.OnUpdate(delta);
 

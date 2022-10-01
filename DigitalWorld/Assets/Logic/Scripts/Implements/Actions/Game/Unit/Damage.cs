@@ -20,6 +20,13 @@ namespace DigitalWorld.Logic.Actions.Game.Unit
         {
             base.OnEnter();
 
+            
+        }
+
+        protected override void OnExit()
+        {
+            base.OnExit();
+
             Event ev = this.Trigger.TriggeringEvent;
             if (ev.Triggering && ev.Target)
             {
@@ -35,7 +42,5 @@ namespace DigitalWorld.Logic.Actions.Game.Unit
                 targetUnit.ProcessDamage(ref param);
             }
         }
-
-
     }
 }

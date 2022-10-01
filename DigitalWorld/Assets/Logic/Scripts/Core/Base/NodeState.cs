@@ -40,20 +40,20 @@ namespace DigitalWorld.Logic
         /// <summary>
         /// 运行的时间
         /// </summary>
-        public float RunningTime
+        public int RunningTime
         {
             get { return _runningTime; }
         }
-        protected float _runningTime = 0;
+        protected int _runningTime = 0;
 
         /// <summary>
         /// 总运行时长
         /// </summary>
-        public float TotalTime
+        public int TotalTime
         {
             get { return _totalTime; }
         }
-        private float _totalTime = 0;
+        protected int _totalTime = 0;
         #endregion
 
         #region Pool
@@ -103,9 +103,9 @@ namespace DigitalWorld.Logic
         {
             switch (this.State)
             {
-                case EState.Idle:
+                case EState.Ended:
                 {
-                    if (lastState == EState.Ended)
+                    if (lastState == EState.Running)
                     {
                         this.OnExit();
                     }
@@ -130,7 +130,7 @@ namespace DigitalWorld.Logic
         /// 才会进入迭代回调
         /// </summary>
         /// <param name="delta"></param>
-        protected override void OnUpdate(float delta)
+        protected override void OnUpdate(int delta)
         {
             if (this._state == EState.Running)
             {
@@ -147,11 +147,11 @@ namespace DigitalWorld.Logic
         /// 常规循环
         /// </summary>
         /// <param name="delta"></param>
-        protected virtual void OnRunning(float delta)
+        protected virtual void OnRunning(int delta)
         {
             this.UpdateChildren(delta);
 
-            this._runningTime = System.MathF.Min(this._runningTime + delta, this._totalTime);
+            this._runningTime = System.Math.Min(this._runningTime + delta, this._totalTime);
         }
 
         protected virtual void OnEnter()
@@ -161,7 +161,13 @@ namespace DigitalWorld.Logic
 
         protected virtual void OnExit()
         {
-
+            for (int i = 0; i < this._children.Count; ++i)
+            {
+                if (this._children[i] is NodeState child && null != child && child.Enabled && child.State == EState.Running)
+                {
+                    child.OnExit();
+                }
+            }
         }
         #endregion
 
