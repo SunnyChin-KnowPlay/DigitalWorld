@@ -22,6 +22,14 @@ namespace DigitalWorld.UI
         private readonly Dictionary<string, GameObject> panels = new Dictionary<string, GameObject>();
 
         private Transform trans = null;
+
+        private Canvas canvas;
+        /// <summary>
+        /// 画布组
+        /// 整体开关界面就控制组的alpha
+        /// 以及是否接受触摸事件
+        /// </summary>
+        private CanvasGroup canvasGroup;
         #endregion
 
         #region Instance
@@ -101,6 +109,8 @@ namespace DigitalWorld.UI
             }
 
             trans = this.GetComponent<Transform>();
+            canvas = this.GetComponent<Canvas>();
+            canvasGroup = this.GetComponent<CanvasGroup>();
 
             this.InitializePanels();
 

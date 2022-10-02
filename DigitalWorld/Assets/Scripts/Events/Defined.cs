@@ -15,6 +15,11 @@ namespace DigitalWorld.Events
         /// Esc
         /// </summary>
         Escape = 0,
+
+        /// <summary>
+        /// 布告板通知
+        /// </summary>
+        Notice_Board,
     }
 
     /// <summary>

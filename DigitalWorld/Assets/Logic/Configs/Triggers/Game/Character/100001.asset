@@ -10,7 +10,7 @@ TextAsset:
   m_Script: <?xml version="1.0" encoding="UTF-8"?><behaviour _typeName="DigitalWorld.Logic.Trigger"
     _enabled="True" _name="100001" _description="" _totalTime="3000" listenerEvent="Trigger"><_children><child
     _typeName="DigitalWorld.Logic.Actions.Game.Unit.Damage" _enabled="True" _name="Damage_0"
-    _description="" _totalTime="500" damageType="Physics" attackRatio="(1500, 1000)"><_children
+    _description="" _totalTime="500" damageType="Physics" attackRatio="(5000, 1000)"><_children
     /><_requirements _requirementLogic="And" /></child><child _typeName="DigitalWorld.Logic.Actions.Game.Unit.PlayAnimator"
     _enabled="True" _name="PlayAnimator_0" _description="" _totalTime="0" triggerKey="attack1"><_children
     /><_requirements _requirementLogic="And" /></child></_children></behaviour>

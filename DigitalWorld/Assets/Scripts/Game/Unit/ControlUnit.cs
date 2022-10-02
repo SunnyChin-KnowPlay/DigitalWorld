@@ -215,7 +215,7 @@ namespace DigitalWorld.Game
         /// <returns></returns>
         public virtual int ProcessDamage(ref ParamInjury param)
         {
-            int result = Calculate.CalculateDamage(ref param);
+            int result = Calculate.CalculateInjury(ref param);
 
             return result;
         }

@@ -9,6 +9,7 @@ namespace DreamEngine.UI
     public class Widget : MonoBehaviour
     {
         #region Params
+        public RectTransform RectTransform => rectTransform;
         protected RectTransform rectTransform;
         #endregion
 
@@ -23,6 +24,11 @@ namespace DreamEngine.UI
         public virtual Transform GetTransform(string path)
         {
             return rectTransform.Find(path);
+        }
+
+        public virtual RectTransform GetRectTransform(string path)
+        {
+            return GetTransform(path) as RectTransform;
         }
         #endregion
 
@@ -45,6 +51,26 @@ namespace DreamEngine.UI
         protected virtual void OnHide()
         {
             this.gameObject.SetActive(false);
+        }
+
+        /// <summary>
+        /// ÑÓ³Ù¹Ø±Õ
+        /// </summary>
+        /// <param name="duration">ºÄÊ± Ãë</param>
+        public void DelayHide(float duration)
+        {
+            StopCoroutine(nameof(ApplyDelayHide));
+            StartCoroutine(ApplyDelayHide(duration));
+        }
+
+        protected virtual IEnumerator ApplyDelayHide(float duration)
+        {
+            if (duration > 0)
+            {
+                yield return new WaitForSeconds(duration);
+            }
+
+            this.Hide();
         }
         #endregion
 

@@ -102,8 +102,7 @@ namespace DigitalWorld.Game
 
             Vector3 normalizeDir = MovingNormalizeDir;
             Vector3 offset = delta * moveSpeed * normalizeDir;
-            SetAnimatorSpeed(moveSpeed);
-
+            
             this.trans.Translate(offset);
             animControl.SetFloat("z", normalizeDir.z);
         }

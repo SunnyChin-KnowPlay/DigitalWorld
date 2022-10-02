@@ -11,8 +11,16 @@ namespace DigitalWorld.Game
     /// </summary>
     public class ControlCalculate : ControlLogic
     {
+        #region Params
+        /// <summary>
+        /// 最后一位伤害者
+        /// </summary>
+        public UnitHandle LastedInjurer => lastedInjurer;
+        private UnitHandle lastedInjurer;
+        #endregion
+
         #region Logic
-        public virtual int CalculateDamage(ref ParamInjury param)
+        public virtual int CalculateInjury(ref ParamInjury param)
         {
             int resultDamage = 0;
 
@@ -33,12 +41,13 @@ namespace DigitalWorld.Game
             {
                 // 这里的所有伤害都是正向的，即会对目标造成伤害的
                 // 首先，判定目标是否免疫伤害
-                if (IsImmunityDamage(ref param))
+                if (IsImmunityInjury(ref param))
                 {
                     // 如果免疫伤害 则直接return 0
                     return 0;
                 }
 
+                lastedInjurer = param.source;
 
                 int totalDamage = param.damage;
                 param.damage = totalDamage;
@@ -57,7 +66,7 @@ namespace DigitalWorld.Game
         /// </summary>
         /// <param name="param"></param>
         /// <returns></returns>
-        private static bool IsImmunityDamage(ref ParamInjury param)
+        private static bool IsImmunityInjury(ref ParamInjury param)
         {
             UnitHandle handle = param.target;
 

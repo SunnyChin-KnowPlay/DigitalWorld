@@ -10,6 +10,7 @@ using DigitalWorld.Game.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using DigitalWorld.Behaviours;
+using DigitalWorld.Notices.UI;
 
 namespace DigitalWorld.Game
 {
@@ -107,6 +108,7 @@ namespace DigitalWorld.Game
 
             UIManager uiManager = UIManager.Instance;
             uiManager.ShowPanel<GamePanel>(GamePanel.path);
+            uiManager.ShowPanel<NoticePanel>(NoticePanel.path);
         }
         #endregion
 

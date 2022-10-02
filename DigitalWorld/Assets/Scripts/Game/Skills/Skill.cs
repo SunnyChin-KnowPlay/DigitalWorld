@@ -118,6 +118,7 @@ namespace DigitalWorld.Game
             }
 
             Cooldown(this.SkillInfo.CoolDownTime);
+
             if (ev.EventId == EEvent.Trigger)
             {
                 if (Trigger.Clone() is Trigger trigger)

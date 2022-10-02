@@ -1,15 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.AI;
+﻿using System.Collections.Generic;
 using DigitalWorld.Extension.Unity;
+using DigitalWorld.Events;
 
 namespace DigitalWorld.Game
 {
     public partial class ControlCharacter : ControlUnit
     {
         #region Params
-      
+
         #endregion
 
         #region Behaviour
@@ -56,6 +54,19 @@ namespace DigitalWorld.Game
         protected override void OnDead()
         {
             base.OnDead();
+
+            UnitHandle lastedInjurer = this.Calculate.LastedInjurer;
+            if (default != lastedInjurer) // 如果有击杀者
+            {
+                if (lastedInjurer != this.UnitHandle) // 排除自杀
+                {
+                    if (lastedInjurer.Unit.IsPlayerControlling) // 如果击杀者是玩家主控的角色的话
+                    {
+                        string message = string.Format($"{lastedInjurer.Unit.Data.Name}击杀了{this.Data.Name}");
+                        EventManager.Instance.Invoke(EEventType.Notice_Board, new EventArgsNotice(message, 5f));
+                    }
+                }
+            }
         }
         #endregion
     }
