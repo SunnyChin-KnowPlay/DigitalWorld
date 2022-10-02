@@ -20,17 +20,13 @@ namespace DigitalWorld.Logic
 	public enum EAction : int
 	{
 		/// <summary>
-        /// 空行动
-        /// </summary>
-		None = 0,
-		/// <summary>
-        /// 杀掉角色
-        /// </summary>
-		Game_Unit_KillCharacter = 1,
-		/// <summary>
         /// 游戏中的创建对象，位置是基于世界坐标的
         /// </summary>
 		Game_CreateCharacter = 2,
+		/// <summary>
+        /// 清空事件中的所有目标
+        /// </summary>
+		Game_Unit_ClearTargets = 6,
 		/// <summary>
         /// 基于单位的创建角色，位置使用相对关系
         /// </summary>
@@ -40,9 +36,17 @@ namespace DigitalWorld.Logic
         /// </summary>
 		Game_Unit_Damage = 4,
 		/// <summary>
+        /// 杀掉角色
+        /// </summary>
+		Game_Unit_KillCharacter = 1,
+		/// <summary>
         /// 播放动画
         /// </summary>
 		Game_Unit_PlayAnimator = 5,
+		/// <summary>
+        /// 空行动
+        /// </summary>
+		None = 0,
 	}
 
 	public static class Defined
@@ -64,18 +68,20 @@ namespace DigitalWorld.Logic
         {
 			switch (e)
             {
-				case EAction.None:
-					return "空行动";
-				case EAction.Game_Unit_KillCharacter:
-					return "杀掉角色";
 				case EAction.Game_CreateCharacter:
 					return "游戏中的创建对象，位置是基于世界坐标的";
+				case EAction.Game_Unit_ClearTargets:
+					return "清空事件中的所有目标";
 				case EAction.Game_Unit_CreateCharacter:
 					return "基于单位的创建角色，位置使用相对关系";
 				case EAction.Game_Unit_Damage:
 					return "单位造成伤害";
+				case EAction.Game_Unit_KillCharacter:
+					return "杀掉角色";
 				case EAction.Game_Unit_PlayAnimator:
 					return "播放动画";
+				case EAction.None:
+					return "空行动";
 				default:
 					return null;
 			}

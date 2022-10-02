@@ -399,9 +399,9 @@ namespace DigitalWorld.Logic.Editor
             }
         }
 
-        private int OnSortItem(NodeItem l, NodeItem r)
+        private int OnSortItemByName(NodeItem l, NodeItem r)
         {
-            return l.Id.CompareTo(r.Id);
+            return l.Name.CompareTo(r.Name);
         }
 
         public NodeItem CreateItem(EItemType type, bool isListen = true)
@@ -446,6 +446,8 @@ namespace DigitalWorld.Logic.Editor
                     item.Decode(element);
                     list.Add(item);
                 }
+
+                list.Sort(OnSortItemByName);
             }
         }
 
@@ -482,7 +484,7 @@ namespace DigitalWorld.Logic.Editor
             var items = this.GetItems(type);
             items.Add(item);
 
-            items.Sort(OnSortItem);
+            items.Sort(OnSortItemByName);
         }
 
         private string GetFilePath(EItemType item)
@@ -496,38 +498,29 @@ namespace DigitalWorld.Logic.Editor
 
         private string GetItemFileName(EItemType item)
         {
-            switch (item)
+            return item switch
             {
-                case EItemType.Action:
-                    return "Actions";
-                case EItemType.Property:
-                    return "Properties";
-                case EItemType.Event:
-                    return "Events";
-                default:
-                    return null;
-            }
+                EItemType.Action => "Actions",
+                EItemType.Property => "Properties",
+                EItemType.Event => "Events",
+                _ => null,
+            };
         }
 
         private string GetXmlElementName(EItemType item)
         {
-            switch (item)
+            return item switch
             {
-                case EItemType.Action:
-                    return "action";
-                case EItemType.Property:
-                    return "property";
-                case EItemType.Event:
-                    return "event";
-                default:
-                    return null;
-            }
+                EItemType.Action => "action",
+                EItemType.Property => "property",
+                EItemType.Event => "event",
+                _ => null,
+            };
         }
 
         public List<NodeItem> GetItems(EItemType item)
         {
-            List<NodeItem> list = null;
-            this.items.TryGetValue(item, out list);
+            this.items.TryGetValue(item, out List<NodeItem> list);
             if (null == list)
             {
                 list = new List<NodeItem>();
@@ -607,20 +600,13 @@ namespace DigitalWorld.Logic.Editor
 
         public static string GetTitleWithType(EItemType item)
         {
-            switch (item)
+            return item switch
             {
-                case EItemType.Action:
-                    return "Action";
-
-                case EItemType.Property:
-                    return "Property";
-
-                case EItemType.Event:
-                    return "Event";
-
-                default:
-                    return null;
-            }
+                EItemType.Action => "Action",
+                EItemType.Property => "Property",
+                EItemType.Event => "Event",
+                _ => null,
+            };
         }
 
 

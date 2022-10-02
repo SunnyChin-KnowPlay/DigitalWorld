@@ -20,7 +20,7 @@ namespace DigitalWorld.Logic.Actions.Game.Unit
         {
             base.OnEnter();
 
-            Event ev = this.Trigger.TriggeringEvent;
+            Events.EventHandler ev = this.Trigger.TriggeringEventHandler;
             UnitHandle handle = ev.Triggering;
             if (handle)
             {

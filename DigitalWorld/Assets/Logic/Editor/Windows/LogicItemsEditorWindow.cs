@@ -116,17 +116,17 @@ namespace DigitalWorld.Logic.Editor
                 rect.xMax = rect.xMin + 60;
                 EditorGUI.LabelField(rect, item.Id.ToString(), labelStyle);
 
-                Rect separationRect = Rect.MinMaxRect(rect.xMax + 2, rect.yMin, rect.xMax + 4, rect.yMax);
+                Rect separationRect = Rect.MinMaxRect(rect.xMax + 3, rect.yMin, rect.xMax + 5, rect.yMax);
                 EditorGUI.DrawRect(separationRect, Logic.Utility.kSplitLineColor);
 
-                rect.xMin = rect.xMax + 4;
+                rect.xMin = rect.xMax + 8;
                 rect.xMax = rect.xMin + width * 0.3f;
                 EditorGUI.LabelField(rect, string.Format("{0}", item.Name), labelStyle);
 
-                separationRect = Rect.MinMaxRect(rect.xMax + 2, rect.yMin, rect.xMax + 4, rect.yMax);
+                separationRect = Rect.MinMaxRect(rect.xMax + 3, rect.yMin, rect.xMax + 5, rect.yMax);
                 EditorGUI.DrawRect(separationRect, Logic.Utility.kSplitLineColor);
 
-                rect.xMin = rect.xMax + 4;
+                rect.xMin = rect.xMax + 8;
                 rect.xMax = rect.xMin + width * 0.4f;
                 EditorGUI.LabelField(rect, string.Format("{0}", item.Desc), labelStyle);
 
@@ -173,17 +173,17 @@ namespace DigitalWorld.Logic.Editor
                 rect.xMax = rect.xMin + 60;
                 EditorGUI.LabelField(rect, item.Id.ToString(), labelStyle);
 
-                Rect separationRect = Rect.MinMaxRect(rect.xMax + 2, rect.yMin, rect.xMax + 4, rect.yMax);
+                Rect separationRect = Rect.MinMaxRect(rect.xMax + 3, rect.yMin, rect.xMax + 5, rect.yMax);
                 EditorGUI.DrawRect(separationRect, Logic.Utility.kSplitLineColor);
 
-                rect.xMin = rect.xMax + 4;
+                rect.xMin = rect.xMax + 8;
                 rect.xMax = rect.xMin + width * 0.3f;
                 EditorGUI.LabelField(rect, string.Format("{0}", item.Name), labelStyle);
 
-                separationRect = Rect.MinMaxRect(rect.xMax + 2, rect.yMin, rect.xMax + 4, rect.yMax);
+                separationRect = Rect.MinMaxRect(rect.xMax + 3, rect.yMin, rect.xMax + 5, rect.yMax);
                 EditorGUI.DrawRect(separationRect, Logic.Utility.kSplitLineColor);
 
-                rect.xMin = rect.xMax + 4;
+                rect.xMin = rect.xMax + 8;
                 rect.xMax = rect.xMin + width * 0.4f;
                 EditorGUI.LabelField(rect, string.Format("{0}", item.Desc), labelStyle);
 
@@ -259,7 +259,27 @@ namespace DigitalWorld.Logic.Editor
 
         private void OnDrawActionHead(Rect rect)
         {
-            EditorGUI.LabelField(rect, "Actions");
+            float width = rect.width;
+
+
+            GUIStyle labelStyle = new GUIStyle(GUI.skin.label)
+            {
+                fontStyle = FontStyle.Bold,
+
+            };
+
+            rect.xMin += 6;
+            rect.height = EditorGUIUtility.singleLineHeight;
+            rect.xMax = rect.xMin + 60;
+            EditorGUI.LabelField(rect, "Id", labelStyle);
+
+            rect.xMin = rect.xMax + 8;
+            rect.xMax = rect.xMin + width * 0.3f;
+            EditorGUI.LabelField(rect, "Name", labelStyle);
+
+            rect.xMin = rect.xMax + 8;
+            rect.xMax = rect.xMin + width * 0.4f;
+            EditorGUI.LabelField(rect, "Description", labelStyle);
         }
 
         private void OnDrawPropertyHead(Rect rect)
@@ -269,7 +289,27 @@ namespace DigitalWorld.Logic.Editor
 
         private void OnDrawEventHead(Rect rect)
         {
-            EditorGUI.LabelField(rect, "Events");
+            float width = rect.width;
+
+
+            GUIStyle labelStyle = new GUIStyle(GUI.skin.label)
+            {
+                fontStyle = FontStyle.Bold,
+
+            };
+
+            rect.xMin += 6;
+            rect.height = EditorGUIUtility.singleLineHeight;
+            rect.xMax = rect.xMin + 60;
+            EditorGUI.LabelField(rect, "Id", labelStyle);
+
+            rect.xMin = rect.xMax + 8;
+            rect.xMax = rect.xMin + width * 0.3f;
+            EditorGUI.LabelField(rect, "Name", labelStyle);
+
+            rect.xMin = rect.xMax + 8;
+            rect.xMax = rect.xMin + width * 0.4f;
+            EditorGUI.LabelField(rect, "Description", labelStyle);
         }
 
         public void OnGUI()

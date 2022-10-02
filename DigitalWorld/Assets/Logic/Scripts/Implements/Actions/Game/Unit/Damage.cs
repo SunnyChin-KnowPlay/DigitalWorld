@@ -19,23 +19,21 @@ namespace DigitalWorld.Logic.Actions.Game.Unit
         protected override void OnEnter()
         {
             base.OnEnter();
-
-            
         }
 
         protected override void OnExit()
         {
             base.OnExit();
 
-            Event ev = this.Trigger.TriggeringEvent;
-            if (ev.Triggering && ev.Target)
+            Events.EventHandler ev = this.Trigger.TriggeringEventHandler;
+            if (ev.Triggering && ev.MainTarget)
             {
                 ControlUnit triggeringUnit = ev.Triggering.Unit;
-                ControlUnit targetUnit = ev.Target.Unit;
+                ControlUnit targetUnit = ev.MainTarget.Unit;
                 ParamInjury param = new ParamInjury
                 {
                     source = ev.Triggering,
-                    target = ev.Target,
+                    target = ev.MainTarget,
                     damageType = damageType,
                     damage = triggeringUnit.Property.Attack.Value * this.attackRatio,
                 };

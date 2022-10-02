@@ -57,12 +57,13 @@ namespace DigitalWorld.Logic
         {
             return id switch
             {
-                0 => "空行动",
-                1 => "杀掉角色",
                 2 => "游戏中的创建对象，位置是基于世界坐标的",
+                6 => "清空事件中的所有目标",
                 3 => "基于单位的创建角色，位置使用相对关系",
                 4 => "单位造成伤害",
+                1 => "杀掉角色",
                 5 => "播放动画",
+                0 => "空行动",
   
                 _ => null,
             };
@@ -72,12 +73,13 @@ namespace DigitalWorld.Logic
         {
             return id switch
             {
-                0 => GetNode<Actions.None>(),
-                1 => GetNode<Actions.Game.Unit.KillCharacter>(),
                 2 => GetNode<Actions.Game.CreateCharacter>(),
+                6 => GetNode<Actions.Game.Unit.ClearTargets>(),
                 3 => GetNode<Actions.Game.Unit.CreateCharacter>(),
                 4 => GetNode<Actions.Game.Unit.Damage>(),
+                1 => GetNode<Actions.Game.Unit.KillCharacter>(),
                 5 => GetNode<Actions.Game.Unit.PlayAnimator>(),
+                0 => GetNode<Actions.None>(),
                 
                 _ => null,
             };

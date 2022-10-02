@@ -1,4 +1,5 @@
-﻿using Dream.Core;
+﻿using DigitalWorld.Logic.Events;
+using Dream.Core;
 using System.Collections.Generic;
 using System.Xml;
 
@@ -32,8 +33,8 @@ namespace DigitalWorld.Logic
         /// <summary>
         /// 触发的事件
         /// </summary>
-        public Events.Event TriggeringEvent => triggeringEvent;
-        protected Events.Event triggeringEvent;
+        public Events.EventHandler TriggeringEventHandler => triggeringEventHandler;
+        protected Events.EventHandler triggeringEventHandler;
         #endregion
 
         #region Pool
@@ -45,6 +46,12 @@ namespace DigitalWorld.Logic
         public override void OnRecycle()
         {
             base.OnRecycle();
+
+            if (null != triggeringEventHandler)
+            {
+                triggeringEventHandler.Recycle();
+                triggeringEventHandler = null;
+            }
 
             this.requirements.Clear();
         }
@@ -120,8 +127,24 @@ namespace DigitalWorld.Logic
         /// <param name="ev"></param>
         public virtual void Invoke(Events.Event ev)
         {
-            this.triggeringEvent = ev;
-            this.State = EState.Running;
+            if (ev.EventId == this.ListenerEvent)
+            {
+                this.triggeringEventHandler = ObjectPool<EventHandler>.Instance.Allocate();
+                this.triggeringEventHandler.Event = ev;
+
+                this.State = EState.Running;
+            }
+        }
+
+        protected override void OnExit()
+        {
+            base.OnExit();
+
+            if (null != triggeringEventHandler)
+            {
+                triggeringEventHandler.Recycle();
+                triggeringEventHandler = null;
+            }
         }
 
         /// <summary>
@@ -133,13 +156,14 @@ namespace DigitalWorld.Logic
         {
             if (this.State == EState.Running)
             {
-                for (int i = 0; i < this._children.Count; ++i)
-                {
-                    if (this._children[i] is NodeState child && child.Enabled && child.State == EState.Running)
-                    {
-                        child.State = EState.Ended;
-                    }
-                }
+                this.State = EState.Ended;
+                //for (int i = 0; i < this._children.Count; ++i)
+                //{
+                //    if (this._children[i] is NodeState child && child.Enabled && child.State == EState.Running)
+                //    {
+                //        child.State = EState.Ended;
+                //    }
+                //}
             }
         }
         #endregion
