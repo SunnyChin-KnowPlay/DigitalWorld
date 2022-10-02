@@ -1,4 +1,5 @@
 ﻿using DigitalWorld.Asset;
+using DreamEngine.UI;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -132,11 +133,11 @@ namespace DigitalWorld.UI
 
         #region Panel
         /// <summary>
-        /// 创建界面
+        /// 创建UI节点
         /// </summary>
         /// <param name="path">界面在资源文件夹下的路径</param>
         /// <returns></returns>
-        public GameObject CreatePanel(string path)
+        public GameObject CreateWidget(string path)
         {
             GameObject gameObject = null;
             string fullPath = path;
@@ -154,7 +155,18 @@ namespace DigitalWorld.UI
             return gameObject;
         }
 
-        public async Task<GameObject> CreatePanelAsync(string path)
+        public T CreateWidget<T>(string path) where T : Control
+        {
+            GameObject go = CreateWidget(path);
+            if (null == go)
+                return null;
+
+            if (!go.TryGetComponent<T>(out T widget))
+                widget = go.AddComponent<T>();
+            return widget;
+        }
+
+        public async Task<GameObject> CreateWidgetAsync(string path)
         {
             GameObject gameObject = null;
             string fullPath = path;
@@ -170,6 +182,18 @@ namespace DigitalWorld.UI
             }
 
             return gameObject;
+        }
+
+        public async Task<T> CreateWidgetAsync<T>(string path) where T : Control
+        {
+            GameObject go = await CreateWidgetAsync(path);
+
+            if (null == go)
+                return null;
+
+            if (!go.TryGetComponent<T>(out T widget))
+                widget = go.AddComponent<T>();
+            return widget;
         }
 
         public void DestroyPanel(GameObject go)
@@ -188,7 +212,7 @@ namespace DigitalWorld.UI
             GameObject go = GetPanel(path);
             if (null == go)
             {
-                go = this.CreatePanel(path);
+                go = this.CreateWidget(path);
 
                 if (null != go)
                 {
@@ -224,7 +248,7 @@ namespace DigitalWorld.UI
             GameObject go = GetPanel(path);
             if (null == go)
             {
-                go = await this.CreatePanelAsync(path);
+                go = await this.CreateWidgetAsync(path);
 
                 if (null != go)
                 {
@@ -235,7 +259,7 @@ namespace DigitalWorld.UI
             return go;
         }
 
-        private void SetupPanel(GameObject go)
+        public void SetupPanel(GameObject go)
         {
             go.transform.SetParent(trans, false);
 

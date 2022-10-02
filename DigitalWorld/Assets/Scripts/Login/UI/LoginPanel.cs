@@ -55,7 +55,6 @@ namespace DigitalWorld.Login.UI
         #region UI Event
         private void OnClickStartGame()
         {
-
             UnityEngine.Debug.Log("Start Game");
 
             MainController mc = MainController.Instance;
@@ -67,12 +66,11 @@ namespace DigitalWorld.Login.UI
 
 
             StartCoroutine(Func());
-
         }
 
         private IEnumerator Func()
         {
-            SceneManager.LoadScene("World");
+            yield return SceneManager.LoadSceneAsync("World");
             yield return new WaitForEndOfFrame();
 
             UIManager.Instance.UnloadAllPanels();

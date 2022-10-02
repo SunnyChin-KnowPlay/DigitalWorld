@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DreamEngine.UI;
+using UnityEngine;
 
 namespace DigitalWorld.UI
 {
@@ -13,6 +14,11 @@ namespace DigitalWorld.UI
         /// 画布 界面控制器必须拥有画布
         /// </summary>
         protected Canvas canvas;
+
+        /// <summary>
+        /// panel组件
+        /// </summary>
+        public WidgetPanel Panel => widget as WidgetPanel;
         #endregion
 
         #region Mono

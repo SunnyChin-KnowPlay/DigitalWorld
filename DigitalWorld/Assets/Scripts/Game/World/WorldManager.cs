@@ -45,18 +45,26 @@ namespace DigitalWorld.Game
         /// </summary>
         public UnitHandle PlayerUnit => playerUnit;
         private UnitHandle playerUnit;
+
+        private HudPanel hudPanel;
         #endregion
 
         #region Mono
         protected override void Awake()
         {
             base.Awake();
-
+            this.Setup();
         }
 
-        private void Start()
+        protected override void OnDestroy()
         {
-            this.Setup();
+            if (null != hudPanel)
+            {
+                GameObject.Destroy(hudPanel.gameObject);
+                hudPanel = null;
+            }
+
+            base.OnDestroy();
         }
 
         private void Update()
@@ -105,10 +113,17 @@ namespace DigitalWorld.Game
             }
 
             // 然后开启UI
+            SetupUI();
+        }
 
+        private void SetupUI()
+        {
             UIManager uiManager = UIManager.Instance;
             uiManager.ShowPanel<GamePanel>(GamePanel.path);
             uiManager.ShowPanel<NoticePanel>(NoticePanel.path);
+            hudPanel = uiManager.CreateWidget<HudPanel>("Assets/Res/UI/Elements/Panel/Panel.prefab");
+            hudPanel.gameObject.name = "HudPanel";
+            uiManager.SetupPanel(hudPanel.gameObject);
         }
         #endregion
 
@@ -205,6 +220,12 @@ namespace DigitalWorld.Game
         #endregion
 
         #region Logic
+        public UnitHandle GetUnit(uint targetId)
+        {
+            this.units.TryGetValue(targetId, out UnitHandle unit);
+            return unit;
+        }
+
         /// <summary>
         /// 获取除目标外的所有对象
         /// </summary>

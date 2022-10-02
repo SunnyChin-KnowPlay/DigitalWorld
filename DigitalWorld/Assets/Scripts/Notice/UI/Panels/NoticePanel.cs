@@ -42,6 +42,21 @@ namespace DigitalWorld.Notices.UI
             noticesRectTransform = GetControlComponent<RectTransform>("Root/Notices");
         }
 
+        private void OnDestroy()
+        {
+            for (int i = 0; i < runningNotices.Count; ++i)
+            {
+                GameObject.Destroy(runningNotices[i].gameObject);
+            }
+            runningNotices.Clear();
+
+            while (noticesStack.Count > 0)
+            {
+                GameObject go = noticesStack.Pop();
+                GameObject.Destroy(go);
+            }
+        }
+
         private void LateUpdate()
         {
             for (int i = 0; i < this.runningNotices.Count; ++i)

@@ -31,6 +31,7 @@ namespace DreamEngine.UI
     public class WidgetPanel : Widget
     {
         #region Params
+        public RectTransform Root => root;
         private RectTransform root;
 
         /// <summary>
@@ -176,7 +177,7 @@ namespace DreamEngine.UI
                         cg.alpha = Mathf.Min(alphaAnimationCurve.Evaluate(t), 1);
                     }
 
-                    if (hasFunctionBlur )
+                    if (hasFunctionBlur)
                     {
                         image.material.SetFloat("_Size", blurAnimationCurve.Evaluate(t));
                     }

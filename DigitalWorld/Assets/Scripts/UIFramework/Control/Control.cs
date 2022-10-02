@@ -10,8 +10,19 @@ namespace DigitalWorld.UI
     public partial class Control : MonoBehaviour
     {
         #region Params
-
+        /// <summary>
+        /// 组件
+        /// </summary>
+        public Widget Widget => widget;
         protected Widget widget;
+
+        public Canvas Canvas
+        {
+            get
+            {
+                return GetComponentInParent<Canvas>();
+            }
+        }
         #endregion
 
         #region Mono
