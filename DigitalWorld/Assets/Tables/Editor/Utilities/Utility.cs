@@ -19,12 +19,6 @@ namespace DigitalWorld.Table.Editor
 
         #region Common
 
-        /*
-        * args[0] = "D:/Projects/DigitalWorld/DigitalWorld-Config/Configs";
-                   args[1] = "D:/Projects/DigitalWorld/DigitalWorld-Config/Tables";
-                   args[2] = "D:/Projects/DigitalWorld/DigitalWorld-Config/Models/models.xml";
-                   args[3] = "D:/Projects/DigitalWorld/DigitalWorld/DigitalWorld/Assets/Tables/Scripts/Generated";
-        */
         public static void ExecuteTableGenerate(string cmd, string param = null)
         {
             if (string.IsNullOrEmpty(cmd))
