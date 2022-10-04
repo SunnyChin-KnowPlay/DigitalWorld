@@ -153,8 +153,14 @@ namespace DigitalWorld.Table.Editor
 
             rect.xMin = rect.xMax + 4;
             rect.xMax = rect.xMin + width * 0.2f;
-
             EditorGUI.LabelField(rect, "Table Desc", labelStyle);
+
+            rect.xMax = width;
+            rect.xMin = rect.xMax - width * 0.2f;
+
+            rect.xMax = rect.xMin - 4;
+            rect.xMin = rect.xMax - width * 0.2f;
+            EditorGUI.LabelField(rect, "Convert", labelStyle);
         }
 
         private void OnGUIModels()
@@ -171,7 +177,7 @@ namespace DigitalWorld.Table.Editor
             EditorGUILayout.BeginHorizontal();
 
             EditorGUILayout.BeginVertical();
-            
+
             if (GUILayout.Button("ConvertExcelsToXmls"))
             {
                 ConvertExcelsToXmls();
@@ -184,7 +190,7 @@ namespace DigitalWorld.Table.Editor
             EditorGUILayout.EndVertical();
 
             EditorGUILayout.BeginVertical();
-           
+
             if (GUILayout.Button("ConvertXmlsToExcels"))
             {
                 ConvertXmlsToExcels();
