@@ -31,13 +31,12 @@ namespace DigitalWorld.UI
 
         protected virtual void OnEnable()
         {
-            // 注册退出事件 
-            Events.EventManager.Instance.RegisterListener(Events.EEventType.Escape, OnEscape);
+            
         }
 
         protected virtual void OnDisable()
         {
-            Events.EventManager.Instance?.UnregisterListener(Events.EEventType.Escape, OnEscape);
+          
         }
         #endregion
 

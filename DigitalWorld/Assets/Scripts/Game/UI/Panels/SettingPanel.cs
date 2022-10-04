@@ -36,16 +36,29 @@ namespace DigitalWorld.Game.UI
             SetupMenus();
         }
 
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+
+            Events.EventManager.Instance.RegisterListener(Events.EEventType.Escape, OnEscape);
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+
+            Events.EventManager.Instance?.UnregisterListener(Events.EEventType.Escape, OnEscape);
+        }
         #endregion
 
         #region Switch
-       
+
         #endregion
 
         #region Logic
         private void SetupMenus()
         {
-            GameObject assetObject = AssetManager.LoadAsset<GameObject>("Assets/Res/UI/Elements/Button.prefab");
+            GameObject assetObject = AssetManager.LoadAsset<GameObject>("Assets/Res/UI/Elements/Button/MainButton.prefab");
 
             GameObject go;
             go = CreateMenuButton(assetObject, "图像", OnClickMenuGraphics);

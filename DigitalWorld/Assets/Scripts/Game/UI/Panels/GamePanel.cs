@@ -115,11 +115,13 @@ namespace DigitalWorld.Game.UI
         #region Events
         private void RegisterEventListeners()
         {
+            // ×¢²áÍË³öÊÂ¼ş 
+            Events.EventManager.Instance.RegisterListener(Events.EEventType.Escape, OnEscape);
         }
 
         private void UnregisterEventListeners()
         {
-
+            Events.EventManager.Instance?.UnregisterListener(Events.EEventType.Escape, OnEscape);
         }
 
         /// <summary>

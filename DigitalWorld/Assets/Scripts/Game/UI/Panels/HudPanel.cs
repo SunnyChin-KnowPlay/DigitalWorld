@@ -43,8 +43,6 @@ namespace DigitalWorld.Game.UI
                 updateDuration = 1f;
                 UpdatePlaters();
 
-
-
             }
         }
 
