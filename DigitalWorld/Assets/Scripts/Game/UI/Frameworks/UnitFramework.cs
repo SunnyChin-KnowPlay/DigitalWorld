@@ -67,6 +67,10 @@ namespace DigitalWorld.Game.UI
                 this.hpBar.value = property.Hp.FactorInRange.SingleFloat;
                 this.hpText.text = string.Format($"{property.Hp.Value}/{property.Hp.MaxV}");
             }
+            else
+            {
+                this.Hide();
+            }
         }
         #endregion
 
