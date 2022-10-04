@@ -103,6 +103,8 @@ namespace DigitalWorld.Table.Editor
         #region GUI
         private void OnGUI()
         {
+            OnGUIButtons();
+
             OnGUITitle();
 
             scrollViewPosition = EditorGUILayout.BeginScrollView(scrollViewPosition);
@@ -117,6 +119,31 @@ namespace DigitalWorld.Table.Editor
             GUILayout.FlexibleSpace();
 
             OnGUIBottom();
+        }
+
+        private void OnGUIButtons()
+        {
+            EditorGUILayout.BeginHorizontal();
+
+            EditorGUILayout.BeginVertical();
+            if (GUILayout.Button("Generate Codes"))
+            {
+                GenerateCodes();
+            }
+
+
+            EditorGUILayout.EndVertical();
+
+            EditorGUILayout.BeginVertical();
+            if (GUILayout.Button("Generate Excels"))
+            {
+                GenerateExcels();
+            }
+
+
+            EditorGUILayout.EndVertical();
+
+            EditorGUILayout.EndHorizontal();
         }
 
         private void OnGUIBottom()
@@ -173,6 +200,20 @@ namespace DigitalWorld.Table.Editor
                 ForeachSetEditing(false);
             }
 
+        }
+        #endregion
+
+        #region Listen
+        private static void GenerateCodes()
+        {
+            Utility.ExecuteTableGenerate(Utility.GenerateCodesCmd);
+
+            AssetDatabase.Refresh();
+        }
+
+        private static void GenerateExcels()
+        {
+            Utility.ExecuteTableGenerate(Utility.GenerateExcelsCmd);
         }
         #endregion
     }

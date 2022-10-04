@@ -9,50 +9,56 @@ namespace DigitalWorld.Game.UI
     public class HudControl : Control
     {
         #region Params
-        /// <summary>
-        /// 唯一ID
-        /// </summary>
-        public uint Uid
-        {
-            get => uid;
-            set
-            {
-                if (uid != value)
-                {
-                    this.uid = value;
-                    SetupUnit();
-                }
-            }
-        }
-        private uint uid;
 
-        public UnitHandle Unit => unit;
-        protected UnitHandle unit;
+
+        public UnitHandle Unit => unitHandle;
+        protected UnitHandle unitHandle;
         #endregion
 
         #region Mono
-        private void LateUpdate()
+        protected virtual void LateUpdate()
         {
-            if (unit == default || !unit.Unit.IsRunning)
+            if (unitHandle == default || !unitHandle.Unit.IsRunning)
             {
                 // 到这里说明对象已经
                 this.Hide();
             }
             else
             {
-                Camera mainCamera = CameraControl.Instance.MainCamera;
-                Vector3 screenPoint = mainCamera.WorldToScreenPoint(Unit.Unit.LogicPosition);
+                Canvas canvas = Canvas;
+                if (null != canvas)
+                {
+                    Camera mainCamera = CameraControl.Instance.MainCamera;
+                    Vector3 worldPos = Unit.Unit.LogicPosition + Utilities.Convert.ToVector3(Unit.Unit.Data.ScaleSize);
+                    Vector3 screenPoint = mainCamera.WorldToScreenPoint(worldPos);
 
-                Vector3 uiWorldPoint = Canvas.worldCamera.ScreenToWorldPoint(screenPoint);
-                this.Widget.RectTransform.position = uiWorldPoint;
+                    Vector3 uiWorldPoint = Canvas.worldCamera.ScreenToWorldPoint(screenPoint);
+                    this.Widget.RectTransform.position = uiWorldPoint;
+                }
+                else
+                {
+                    this.Hide();
+                }
             }
         }
         #endregion
 
         #region Logic
-        private void SetupUnit()
+        /// <summary>
+        /// 绑定单位
+        /// </summary>
+        /// <param name="unit"></param>
+        public virtual void Bind(UnitHandle unit)
         {
-            unit = WorldManager.Instance.GetUnit(uid);
+            this.unitHandle = unit;
+            if (unit)
+            {
+                this.Show();
+            }
+            else
+            {
+                this.Hide();
+            }
         }
         #endregion
     }

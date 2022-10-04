@@ -18,6 +18,8 @@ namespace DigitalWorld.Game.UI
         private readonly static List<uint> keys = new List<uint>();
 
         private float updateDuration = 0;
+
+        private const float platerMaxDistance = 50;
         #endregion
 
         #region Mono
@@ -35,26 +37,14 @@ namespace DigitalWorld.Game.UI
         private void LateUpdate()
         {
             updateDuration -= Time.deltaTime;
+
             if (updateDuration <= 0)
             {
                 updateDuration = 1f;
+                UpdatePlaters();
 
-                keys.Clear();
-                keys.AddRange(platers.Keys);
 
-                for (int i = 0; i < keys.Count; ++i)
-                {
-                    if (platers.TryGetValue(keys[i], out PlaterControl control))
-                    {
-                        if (!control.gameObject.activeSelf)
-                        {
-                            platers.Remove(keys[i]);
-                            RecycleHudControl(control, platerStack);
-                        }
-                    }
-                }
 
-                
             }
         }
 
@@ -74,6 +64,55 @@ namespace DigitalWorld.Game.UI
         #endregion
 
         #region Logic
+        private void UpdatePlaters()
+        {
+            RecyclePlaters();
+            ScanNewPlaters();
+        }
+
+        private void RecyclePlaters()
+        {
+            keys.Clear();
+            keys.AddRange(platers.Keys);
+
+            for (int i = 0; i < keys.Count; ++i)
+            {
+                if (platers.TryGetValue(keys[i], out PlaterControl control))
+                {
+                    if (!control.gameObject.activeSelf)
+                    {
+                        platers.Remove(keys[i]);
+                        RecycleHudControl(control, platerStack);
+                    }
+                }
+            }
+        }
+
+        private void ScanNewPlaters()
+        {
+            Dictionary<uint, UnitHandle> units = WorldManager.Instance.Units;
+            Camera mainCamera = CameraControl.Instance.MainCamera;
+
+            foreach (var kvp in units)
+            {
+                UnitHandle unitHandle = kvp.Value;
+
+                if (this.platers.ContainsKey(unitHandle.Uid))
+                    continue; // 说明已经有了 忽略
+
+                Vector3 screenPoint = mainCamera.WorldToScreenPoint(unitHandle.Unit.LogicPosition);
+                Ray ray = mainCamera.ScreenPointToRay(screenPoint);
+                bool ret = Physics.Raycast(ray, platerMaxDistance, 1 << LayerMask.NameToLayer("Unit"));
+                if (ret)
+                {
+                    PlaterControl control = AllocateHudControl<PlaterControl>(platerStack, PlaterControl.path);
+                    control.Widget.RectTransform.SetParent(this.transform, false);
+                    control.Bind(unitHandle);
+                    platers.Add(unitHandle.Uid, control);
+                }
+            }
+        }
+
         private void RecycleHudControl(HudControl control, Stack<GameObject> stack)
         {
             RectTransform rt = control.Widget.RectTransform;

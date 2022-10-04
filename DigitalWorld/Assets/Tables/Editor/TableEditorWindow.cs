@@ -171,11 +171,7 @@ namespace DigitalWorld.Table.Editor
             EditorGUILayout.BeginHorizontal();
 
             EditorGUILayout.BeginVertical();
-            if (GUILayout.Button("Generate Codes"))
-            {
-                GenerateCodes();
-            }
-
+            
             if (GUILayout.Button("ConvertExcelsToXmls"))
             {
                 ConvertExcelsToXmls();
@@ -188,11 +184,7 @@ namespace DigitalWorld.Table.Editor
             EditorGUILayout.EndVertical();
 
             EditorGUILayout.BeginVertical();
-            if (GUILayout.Button("Generate Excels"))
-            {
-                GenerateExcels();
-            }
-
+           
             if (GUILayout.Button("ConvertXmlsToExcels"))
             {
                 ConvertXmlsToExcels();
@@ -224,33 +216,16 @@ namespace DigitalWorld.Table.Editor
             EditorWindow.GetWindow<TableEditorWindow>("Table Editor").Show();
         }
 
-        [MenuItem("Table/Generate/Generate Codes")]
-        private static void GenerateCodes()
-        {
-            Utility.ExecuteTableGenerate(Utility.GenerateCodesCmd);
-
-            AssetDatabase.Refresh();
-        }
-
-        [MenuItem("Table/Generate/Generate Excels")]
-        private static void GenerateExcels()
-        {
-            Utility.ExecuteTableGenerate(Utility.GenerateExcelsCmd);
-        }
-
-        [MenuItem("Table/Convert/ConvertExcelsToXmls")]
         private static void ConvertExcelsToXmls()
         {
             Utility.ExecuteTableGenerate(Utility.ConvertExcelsToXmlsCmd);
         }
 
-        [MenuItem("Table/Convert/ConvertXmlsToExcels")]
         private static void ConvertXmlsToExcels()
         {
             Utility.ExecuteTableGenerate(Utility.ConvertXmlsToExcelsCmd);
         }
 
-        [MenuItem("Table/Convert/ConvertXmlToBytes")]
         private static void ConvertXmlToBytes()
         {
             string bytesDirectory = Utilities.Utility.GetString(Table.Utility.configDataKey, Path.Combine(Utilities.Utility.GetProjectDataPath(), Table.Utility.defaultConfigData));
@@ -271,7 +246,6 @@ namespace DigitalWorld.Table.Editor
             AssetDatabase.Refresh();
         }
 
-        [MenuItem("Table/CopyXmlFromConfig")]
         private static void CopyXmlFromConfig()
         {
             string targetPath = Utilities.Utility.GetString(Table.Utility.configXmlKey, Path.Combine(Utilities.Utility.GetProjectDataPath(), Table.Utility.defaultConfigXml));
@@ -281,11 +255,8 @@ namespace DigitalWorld.Table.Editor
             AssetDatabase.Refresh();
         }
 
-        [MenuItem("Table/Auto Process")]
         private static void AutoProcess()
         {
-            GenerateCodes();
-
             CopyXmlFromConfig();
             ConvertXmlToBytes();
         }

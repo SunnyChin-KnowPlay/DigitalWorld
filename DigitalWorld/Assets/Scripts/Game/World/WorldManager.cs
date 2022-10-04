@@ -29,6 +29,7 @@ namespace DigitalWorld.Game
         /// <summary>
         /// 单位词典
         /// </summary>
+        public Dictionary<uint, UnitHandle> Units => units;
         private readonly Dictionary<uint, UnitHandle> units = new Dictionary<uint, UnitHandle>();
         /// <summary>
         /// 跑Update用的单位队列
@@ -188,6 +189,8 @@ namespace DigitalWorld.Game
 
             if (null == gameObject)
                 return null;
+
+            gameObject.layer = LayerMask.NameToLayer("Unit");
 
             ControlUnit unitControl = gameObject.GetComponent<ControlUnit>();
             if (null == unitControl)

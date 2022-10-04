@@ -21,8 +21,9 @@ namespace DigitalWorld.Login
 
             UIManager uiManager = UIManager.Instance;
             uiManager.ShowPanel<LoginPanel>(LoginPanel.path);
-           
 
+            System.Type type = System.Type.GetType("Dream.FixMath.FixVector3");
+            int x = 1;
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using DigitalWorld.Defined.Game;
 using DigitalWorld.Table;
+using Dream.FixMath;
+using UnityEngine;
 
 namespace DigitalWorld.Game
 {
@@ -24,7 +26,7 @@ namespace DigitalWorld.Game
         /// <summary>
         /// 角色信息
         /// </summary>
-        public CharacterInfo CharacterInfo
+        public Table.CharacterInfo CharacterInfo
         {
             get { return TableManager.Instance.CharacterTable[configId]; }
         }
@@ -38,7 +40,7 @@ namespace DigitalWorld.Game
             {
                 int hp = 0;
 
-                CharacterInfo info = this.CharacterInfo;
+                Table.CharacterInfo info = this.CharacterInfo;
                 if (null != info)
                 {
                     hp = info.Hp;
@@ -57,7 +59,7 @@ namespace DigitalWorld.Game
             {
                 int attack = 0;
 
-                CharacterInfo info = this.CharacterInfo;
+                Table.CharacterInfo info = this.CharacterInfo;
                 if (null != info)
                 {
                     attack = info.Attack;
@@ -73,7 +75,7 @@ namespace DigitalWorld.Game
             {
                 int moveSpeed = 0;
 
-                CharacterInfo info = this.CharacterInfo;
+                Table.CharacterInfo info = this.CharacterInfo;
                 if (null != info)
                 {
                     moveSpeed = info.MoveSpeed;
@@ -90,11 +92,22 @@ namespace DigitalWorld.Game
         {
             get
             {
-                CharacterInfo info = CharacterInfo;
+                Table.CharacterInfo info = CharacterInfo;
                 if (null == info)
                     return string.Empty;
 
                 return info.Name;
+            }
+        }
+
+        public FixVector3 ScaleSize
+        {
+            get
+            {
+                Table.CharacterInfo info = CharacterInfo;
+                if (null == info)
+                    return new FixVector3(0, 0, 0);
+                return info.ScaleSize;
             }
         }
         #endregion

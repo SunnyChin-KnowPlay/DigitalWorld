@@ -46,6 +46,11 @@ namespace DigitalWorld.Table
         /// </summary>
         public System.String PrefabPath => prefabPath;
         private System.String prefabPath;
+        /// <summary>
+        /// 角色的尺寸
+        /// </summary>
+        public Dream.FixMath.FixVector3 ScaleSize => scaleSize;
+        private Dream.FixMath.FixVector3 scaleSize;
 
         public CharacterInfo()
         {
@@ -62,6 +67,7 @@ namespace DigitalWorld.Table
             this.Encode(this.attack);
             this.Encode(this.moveSpeed);
             this.Encode(this.prefabPath);
+            this.Encode(this.scaleSize);
         }
 
         protected override void OnEncode(XmlElement element)
@@ -74,6 +80,7 @@ namespace DigitalWorld.Table
             this.Encode(this.attack, "attack");
             this.Encode(this.moveSpeed, "moveSpeed");
             this.Encode(this.prefabPath, "prefabPath");
+            this.Encode(this.scaleSize, "scaleSize");
         }
         #endregion
 
@@ -88,6 +95,7 @@ namespace DigitalWorld.Table
             this.Decode(ref this.attack);
             this.Decode(ref this.moveSpeed);
             this.Decode(ref this.prefabPath);
+            this.Decode(ref this.scaleSize);
         }
 
         protected override void OnDecode(XmlElement element)
@@ -100,6 +108,7 @@ namespace DigitalWorld.Table
             this.Decode(ref this.attack, "attack");
             this.Decode(ref this.moveSpeed, "moveSpeed");
             this.Decode(ref this.prefabPath, "prefabPath");
+            this.Decode(ref this.scaleSize, "scaleSize");
         }
 #endregion
 
@@ -114,6 +123,7 @@ namespace DigitalWorld.Table
             this.CalculateSize(this.attack);
             this.CalculateSize(this.moveSpeed);
             this.CalculateSize(this.prefabPath);
+            this.CalculateSize(this.scaleSize);
         }
 #endregion
     }
