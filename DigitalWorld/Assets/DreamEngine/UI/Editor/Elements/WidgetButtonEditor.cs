@@ -23,7 +23,7 @@ namespace DreamEditor.UI
 
         public override void OnInspectorGUI()
         {
-          
+
             DreamUIEditorHandler.DrawComponentHeader(customSkin, "Button Top Header");
 
             GUIContent[] toolbarTabs = new GUIContent[3];
@@ -42,6 +42,7 @@ namespace DreamEditor.UI
 
             GUILayout.EndHorizontal();
 
+            var title = serializedObject.FindProperty("title");
             var buttonIcon = serializedObject.FindProperty("buttonIcon");
             var buttonText = serializedObject.FindProperty("buttonText");
             var hoverSound = serializedObject.FindProperty("hoverSound");
@@ -49,6 +50,7 @@ namespace DreamEditor.UI
             var normalText = serializedObject.FindProperty("normalText");
             var highlightedText = serializedObject.FindProperty("highlightedText");
             var pressedText = serializedObject.FindProperty("pressedText");
+            var titleText = serializedObject.FindProperty("titleText");
             var normalIcon = serializedObject.FindProperty("normalIcon");
             var highlightedIcon = serializedObject.FindProperty("highlightedIcon");
             var pressedIcon = serializedObject.FindProperty("pressedIcon");
@@ -59,6 +61,7 @@ namespace DreamEditor.UI
             var useHoverSound = serializedObject.FindProperty("useHoverSound");
             var useClickSound = serializedObject.FindProperty("useClickSound");
             var enableIcon = serializedObject.FindProperty("enableIcon");
+            var enableTitle = serializedObject.FindProperty("enableTitle");
             var useRipple = serializedObject.FindProperty("useRipple");
             var renderOnTop = serializedObject.FindProperty("renderOnTop");
             var centered = serializedObject.FindProperty("centered");
@@ -110,6 +113,13 @@ namespace DreamEditor.UI
                         if (buttonTarget.highlightedText != null) { buttonTarget.highlightedText.text = buttonText.stringValue; }
                     }
 
+                    if (enableTitle.boolValue == true)
+                    {
+                        DreamUIEditorHandler.DrawProperty(title, customSkin, "Title Text");
+
+                        if (buttonTarget.titleText != null) { buttonTarget.titleText.text = title.stringValue; }
+                    }
+
                     if (enableButtonSounds.boolValue == true && useHoverSound.boolValue == true)
                         DreamUIEditorHandler.DrawProperty(hoverSound, customSkin, "Hover Sound");
 
@@ -136,6 +146,11 @@ namespace DreamEditor.UI
                         DreamUIEditorHandler.DrawProperty(normalIcon, customSkin, "Normal Icon");
                         DreamUIEditorHandler.DrawProperty(highlightedIcon, customSkin, "Highlighted Icon");
                         DreamUIEditorHandler.DrawProperty(pressedIcon, customSkin, "Pressed Icon");
+                    }
+
+                    if (enableTitle.boolValue == true)
+                    {
+                        DreamUIEditorHandler.DrawProperty(titleText, customSkin, "Title Text");
                     }
 
                     if (enableButtonSounds.boolValue == true)
@@ -165,6 +180,7 @@ namespace DreamEditor.UI
                     useCustomContent.boolValue = DreamUIEditorHandler.DrawToggle(useCustomContent.boolValue, customSkin, "Use Custom Content");
                     autoFitContent.boolValue = DreamUIEditorHandler.DrawToggle(autoFitContent.boolValue, customSkin, "Auto Fit Content");
                     enableIcon.boolValue = DreamUIEditorHandler.DrawToggle(enableIcon.boolValue, customSkin, "Enable Icon");
+                    enableTitle.boolValue = DreamUIEditorHandler.DrawToggle(enableTitle.boolValue, customSkin, "Enable Title");
                     enableButtonSounds.boolValue = DreamUIEditorHandler.DrawToggle(enableButtonSounds.boolValue, customSkin, "Enable Button Sounds");
 
                     if (enableButtonSounds.boolValue == true)

@@ -13,6 +13,7 @@ namespace DreamEngine.UI
     {
         // Content
         public string buttonText = "Button";
+        public string title = "Title";
         public Sprite buttonIcon;
         public AudioClip hoverSound;
         public AudioClip clickSound;
@@ -22,6 +23,7 @@ namespace DreamEngine.UI
         public TextMeshProUGUI normalText;
         public TextMeshProUGUI highlightedText;
         public TextMeshProUGUI pressedText;
+        public TextMeshProUGUI titleText;
         public Image normalIcon;
         public Image highlightedIcon;
         public Image pressedIcon;
@@ -45,6 +47,7 @@ namespace DreamEngine.UI
         public bool useRipple = true;
         public bool useHoverEffect = false;
         public bool autoFitContent = true;
+        public bool enableTitle = false;
 
         // Ripple
         public RippleUpdateMode rippleUpdateMode = RippleUpdateMode.UnscaledTime;
