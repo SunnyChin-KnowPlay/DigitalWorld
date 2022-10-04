@@ -122,16 +122,6 @@ namespace DigitalWorld.Table.Editor
 
             GUILayout.FlexibleSpace();
 
-            if (GUILayout.Button("ExcelToXml"))
-            {
-                ExcelToXml();
-            }
-
-            if (GUILayout.Button("XmlToExcel"))
-            {
-                XmlToExcel();
-            }
-
             if (GUI.Button(h.rect, GUIContent.none, EditorStyles.whiteLabel))
             {
                 OnClickTitle(h);
@@ -147,24 +137,7 @@ namespace DigitalWorld.Table.Editor
         #endregion
 
         #region Logic
-        private void ExcelToXml()
-        {
-            string content = string.Format($"确定要将\"{Name}\"的Excel表格导出到Xml配置吗？");
-            if (EditorUtility.DisplayDialog("ExcelToXml", content, "导出", "取消"))
-            {
-                Utility.ExecuteTableGenerate(Utility.ConvertExcelToXmlCmd, this.Name);
-            }
-        }
-
-        private void XmlToExcel()
-        {
-            string content = string.Format($"确定要将\"{Name}\"的Xml配置导入到Excel表格吗？");
-            if (EditorUtility.DisplayDialog("ExcelToXml", content, "导入", "取消"))
-            {
-                Utility.ExecuteTableGenerate(Utility.ConvertXmlToExcelCmd, this.Name);
-            }
-
-        }
+       
         #endregion
 
         #region Serialize

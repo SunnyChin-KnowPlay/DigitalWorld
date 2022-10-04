@@ -27,7 +27,7 @@ namespace DigitalWorld.Table.Editor
             base.Deserialize(root);
 
             string typeName = root.GetAttribute("type");
-            Type = System.Type.GetType(typeName);
+            Type = Utility.GetType(typeName);
         }
         #endregion
 

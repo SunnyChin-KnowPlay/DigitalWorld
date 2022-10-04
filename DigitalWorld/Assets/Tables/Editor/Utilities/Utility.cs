@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using UnityEngine;
 
 namespace DigitalWorld.Table.Editor
@@ -145,6 +146,22 @@ namespace DigitalWorld.Table.Editor
                 File.Copy(files[i], fullTarPath);
             }
 
+        }
+
+        public static System.Type GetType(string typeName)
+        {
+            Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
+            foreach (Assembly asm in assemblies)
+            {
+                System.Type[] types = asm.GetTypes();
+                foreach (System.Type type in types)
+                {
+                    if (type.FullName == typeName)
+                        return type;
+                }
+            }
+
+            return null;
         }
         #endregion
     }
