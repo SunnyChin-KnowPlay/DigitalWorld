@@ -133,6 +133,7 @@ namespace DreamEngine.UI
             if (normalText != null) { normalText.text = buttonText; }
             if (highlightedText != null) { highlightedText.text = buttonText; }
             if (pressedText != null) { pressedText.text = buttonText; }
+            if (titleText != null) { titleText.text = title; }
             if (enableIcon == true)
             {
                 if (normalIcon != null) { normalIcon.sprite = buttonIcon; }

@@ -13,6 +13,7 @@ namespace DigitalWorld.Inputs
         /// <summary>
         /// 事件和输入键位映射词典
         /// </summary>
+        public Dictionary<EventCode, KeyCode> EventCodes => eventCodes;
         private readonly Dictionary<EventCode, KeyCode> eventCodes = new Dictionary<EventCode, KeyCode>();
 
         private readonly static System.Type keyCodeType = typeof(KeyCode);
@@ -98,6 +99,14 @@ namespace DigitalWorld.Inputs
             if (!ret)
                 return KeyCode.None;
             return code;
+        }
+
+        public void SetKeyCode(EventCode ec, KeyCode kc)
+        {
+            if (this.eventCodes.ContainsKey(ec))
+                this.eventCodes[ec] = kc;
+            else
+                this.eventCodes.Add(ec, kc);
         }
         #endregion
 

@@ -5,14 +5,27 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using DreamEngine.UI;
 using DigitalWorld.Extension.Unity;
+using System.Collections.Generic;
 
-namespace DigitalWorld.Game.UI
+namespace DigitalWorld.Game.UI.Settings
 {
     /// <summary>
     /// 设置界面
     /// </summary>
     public class SettingPanel : PanelControl
     {
+        #region Defined
+        private enum SettingNode
+        {
+            /// <summary>
+            /// 图像
+            /// </summary>
+            Graphics = 0,
+            Control,
+            ToLogin,
+        }
+        #endregion
+
         #region Enter
         public const string path = "Assets/Res/UI/Game/Panels/SettingPanel.prefab";
         #endregion
@@ -23,7 +36,10 @@ namespace DigitalWorld.Game.UI
         /// </summary>
         private RectTransform menuTransform;
 
+        private RectTransform graphicsTransform;
+        private RectTransform controlTransform;
 
+        private readonly Dictionary<SettingNode, RectTransform> contents = new Dictionary<SettingNode, RectTransform>();
         #endregion
 
         #region Mono
@@ -32,6 +48,14 @@ namespace DigitalWorld.Game.UI
             base.Awake();
 
             menuTransform = this.GetControlComponent<RectTransform>("Root/Menus");
+
+            graphicsTransform = this.Widget.GetRectTransform("Root/View/GraphicsContent");
+            controlTransform = this.Widget.GetRectTransform("Root/View/ControlContent");
+
+            graphicsTransform.gameObject.AddComponent<SettingGraphics>();
+            controlTransform.gameObject.AddComponent<SettingControl>();
+
+          
 
             SetupMenus();
         }
@@ -51,10 +75,6 @@ namespace DigitalWorld.Game.UI
         }
         #endregion
 
-        #region Switch
-
-        #endregion
-
         #region Logic
         private void SetupMenus()
         {
@@ -69,6 +89,10 @@ namespace DigitalWorld.Game.UI
 
             go = CreateMenuButton(assetObject, "回到登录", OnClickToLogin);
             go.transform.SetParent(menuTransform, false);
+
+            contents.Add(SettingNode.Graphics, graphicsTransform);
+            contents.Add(SettingNode.Control, controlTransform);
+
         }
 
         private GameObject CreateMenuButton(GameObject assetObj, string text, UnityAction action)
@@ -87,9 +111,17 @@ namespace DigitalWorld.Game.UI
 
             return go;
         }
+
+        private void ShowContent(SettingNode node)
+        {
+            foreach (var kvp in contents)
+            {
+                kvp.Value.gameObject.SetActive(kvp.Key == node);
+            }
+        }
         #endregion
 
-      
+
 
         #region UI Events
         /// <summary>
@@ -97,7 +129,7 @@ namespace DigitalWorld.Game.UI
         /// </summary>
         private void OnClickMenuGraphics()
         {
-
+            ShowContent(SettingNode.Graphics);
         }
 
         /// <summary>
@@ -105,7 +137,7 @@ namespace DigitalWorld.Game.UI
         /// </summary>
         private void OnClickMenuControls()
         {
-
+            ShowContent(SettingNode.Control);
         }
 
         /// <summary>

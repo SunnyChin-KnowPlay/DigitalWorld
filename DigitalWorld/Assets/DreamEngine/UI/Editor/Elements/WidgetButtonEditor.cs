@@ -97,8 +97,14 @@ namespace DreamEditor.UI
 
                         if (useCustomContent.boolValue == false)
                         {
-                            if (buttonTarget.normalIcon != null) { buttonTarget.normalIcon.sprite = buttonTarget.buttonIcon; }
-                            if (buttonTarget.highlightedIcon != null) { buttonTarget.highlightedIcon.sprite = buttonTarget.buttonIcon; }
+                            if (buttonTarget.normalIcon != null)
+                            {
+                                buttonTarget.normalIcon.sprite = buttonTarget.buttonIcon;
+                            }
+                            if (buttonTarget.highlightedIcon != null)
+                            {
+                                buttonTarget.highlightedIcon.sprite = buttonTarget.buttonIcon;
+                            }
                         }
 
                         else if (useCustomContent.boolValue == false && buttonTarget.normalIcon == null)
@@ -109,15 +115,24 @@ namespace DreamEditor.UI
                     {
                         DreamUIEditorHandler.DrawProperty(buttonText, customSkin, "Button Text");
 
-                        if (buttonTarget.normalText != null) { buttonTarget.normalText.text = buttonText.stringValue; }
-                        if (buttonTarget.highlightedText != null) { buttonTarget.highlightedText.text = buttonText.stringValue; }
+                        if (buttonTarget.normalText != null)
+                        {
+                            buttonTarget.normalText.text = buttonText.stringValue;
+                        }
+                        if (buttonTarget.highlightedText != null)
+                        {
+                            buttonTarget.highlightedText.text = buttonText.stringValue;
+                        }
                     }
 
                     if (enableTitle.boolValue == true)
                     {
                         DreamUIEditorHandler.DrawProperty(title, customSkin, "Title Text");
 
-                        if (buttonTarget.titleText != null) { buttonTarget.titleText.text = title.stringValue; }
+                        if (buttonTarget.titleText != null)
+                        {
+                            buttonTarget.titleText.text = title.stringValue;
+                        }
                     }
 
                     if (enableButtonSounds.boolValue == true && useHoverSound.boolValue == true)

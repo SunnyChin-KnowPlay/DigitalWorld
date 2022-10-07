@@ -1,4 +1,5 @@
 using DigitalWorld.Events;
+using DigitalWorld.Game.UI.Settings;
 using DigitalWorld.UI;
 using System;
 using UnityEngine.UI;

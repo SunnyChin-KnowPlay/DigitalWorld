@@ -42,6 +42,19 @@ namespace DigitalWorld.UI
             return t.GetComponent<T>();
         }
 
+        protected virtual bool TryGetControlComponent<T>(string path, out T component) where T : Component
+        {
+            Transform t = widget.GetTransform(path);
+            if (null == t)
+            {
+                component = null;
+                return false;
+            }
+
+
+            return t.TryGetComponent<T>(out component);
+        }
+
         protected virtual T GetOrAddControlComponent<T>(string path) where T : Component
         {
             Transform t = widget.GetTransform(path);

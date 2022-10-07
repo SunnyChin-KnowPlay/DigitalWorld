@@ -35,8 +35,6 @@ namespace DigitalWorld.Login.UI
             {
                 startButton.onClick.AddListener(OnClickStartGame);
             }
-
-
         }
 
         protected override void OnEnable()

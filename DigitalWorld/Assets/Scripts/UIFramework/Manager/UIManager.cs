@@ -300,25 +300,29 @@ namespace DigitalWorld.UI
             SetupPanel(go);
         }
 
-        public void ShowPanel<TControl>(string path) where TControl : PanelControl
+        public TControl ShowPanel<TControl>(string path) where TControl : PanelControl
         {
+            TControl control = null;
             GameObject go = this.LoadPanel(path);
             if (null == go)
-                return;
+                return control;
 
             if (!go.TryGetComponent<PanelControl>(out PanelControl panel))
             {
-                go.AddComponent<TControl>();
+                control = go.AddComponent<TControl>();
             }
             else if (panel.GetType() != typeof(TControl))
             {
                 GameObject.Destroy(panel);
-                go.AddComponent<TControl>();
+                control = go.AddComponent<TControl>();
             }
 
             go.SetActive(true);
-
             SetupPanel(go);
+
+            control = go.GetComponent<TControl>();
+
+            return control;
         }
 
         public void HidePanel(string path)
