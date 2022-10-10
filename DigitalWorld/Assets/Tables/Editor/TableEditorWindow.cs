@@ -134,8 +134,6 @@ namespace DigitalWorld.Table.Editor
             }
         }
 
-
-
         protected void OnDrawFieldHead(Rect rect)
         {
             float width = rect.width;

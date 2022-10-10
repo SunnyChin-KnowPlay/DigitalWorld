@@ -133,6 +133,50 @@ namespace DigitalWorld.Inputs
             eventCodes[EventCode.ShortcutGroup1_8] = KeyCode.Alpha8;
             eventCodes[EventCode.ShortcutGroup1_9] = KeyCode.Alpha9;
         }
+
+        public string GetEventCodeText(EventCode ec)
+        {
+            return ec switch
+            {
+                EventCode.Escape => "Esc",
+                EventCode.SwitchTargetAuto => "自动切换目标",
+                EventCode.SwitchTargetNext => "切换下一个目标",
+                EventCode.SwitchTargetPrev => "切换上一个目标",
+                EventCode.MoveForward => "前进",
+                EventCode.MoveBackward => "后退",
+                EventCode.MoveLeft => "左移",
+                EventCode.MoveRight => "右移",
+                EventCode.ShortcutGroup1_0 => "快捷键1",
+                EventCode.ShortcutGroup1_1 => "快捷键2",
+                EventCode.ShortcutGroup1_2 => "快捷键3",
+                EventCode.ShortcutGroup1_3 => "快捷键4",
+                EventCode.ShortcutGroup1_4 => "快捷键5",
+                EventCode.ShortcutGroup1_5 => "快捷键6",
+                EventCode.ShortcutGroup1_6 => "快捷键7",
+                EventCode.ShortcutGroup1_7 => "快捷键8",
+                EventCode.ShortcutGroup1_8 => "快捷键9",
+                EventCode.ShortcutGroup1_9 => "快捷键10",
+                EventCode.ShortcutGroup2_0 => "扩展快捷键1组1",
+                EventCode.ShortcutGroup2_1 => "扩展快捷键1组2",
+                EventCode.ShortcutGroup2_2 => "扩展快捷键1组3",
+                EventCode.ShortcutGroup2_3 => "扩展快捷键1组4",
+                EventCode.ShortcutGroup2_4 => "扩展快捷键1组5",
+                EventCode.ShortcutGroup2_5 => "扩展快捷键1组6",
+                EventCode.ShortcutGroup2_6 => "扩展快捷键1组7",
+                EventCode.ShortcutGroup2_7 => "扩展快捷键1组8",
+                EventCode.ShortcutGroup2_8 => "扩展快捷键1组9",
+                EventCode.ShortcutGroup2_9 => "扩展快捷键1组10",
+                _ => "未定义",
+            };
+            //switch (ec)
+            //{
+            //    case EventCode.Escape:
+            //    {
+            //        return "Esc";
+            //    }
+            //}
+
+        }
         #endregion
     }
 }

@@ -42,8 +42,7 @@ namespace DigitalWorld.Game.UI.Settings
         public void Setup(EventCode ec)
         {
             eventCode = ec;
-            button.title = ec.ToString();
-
+            button.title = InputManager.Instance.GetEventCodeText(ec);
 
             KeyCode kc = InputManager.Instance.GetKeyCode(eventCode);
             lastKeyCode = kc;
