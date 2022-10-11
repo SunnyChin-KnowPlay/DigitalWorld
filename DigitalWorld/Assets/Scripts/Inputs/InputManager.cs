@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using DreamEngine.Core;
 using System.Collections.Generic;
+using System.Xml;
 
 namespace DigitalWorld.Inputs
 {
@@ -26,7 +27,9 @@ namespace DigitalWorld.Inputs
 
             InitializeCodes();
 
-            SetDefaultEventCodes();
+            DeserializeKeyCodes();
+
+            SerializeKeyCodes();
         }
 
         private void Update()
@@ -111,27 +114,39 @@ namespace DigitalWorld.Inputs
         #endregion
 
         #region Logic
+        private KeyCode GetDefaultKeyCode(EventCode ec)
+        {
+            return ec switch
+            {
+                EventCode.Escape => KeyCode.Escape,
+                EventCode.SwitchTargetAuto => KeyCode.Tab,
+                EventCode.SwitchTargetNext => KeyCode.None,
+                EventCode.SwitchTargetPrev => KeyCode.None,
+                EventCode.MoveForward => KeyCode.W,
+                EventCode.MoveBackward => KeyCode.S,
+                EventCode.MoveLeft => KeyCode.A,
+                EventCode.MoveRight => KeyCode.D,
+                EventCode.ShortcutGroup1_0 => KeyCode.Alpha1,
+                EventCode.ShortcutGroup1_1 => KeyCode.Alpha2,
+                EventCode.ShortcutGroup1_2 => KeyCode.Alpha3,
+                EventCode.ShortcutGroup1_3 => KeyCode.Alpha4,
+                EventCode.ShortcutGroup1_4 => KeyCode.Alpha5,
+                EventCode.ShortcutGroup1_5 => KeyCode.Alpha6,
+                EventCode.ShortcutGroup1_6 => KeyCode.Alpha7,
+                EventCode.ShortcutGroup1_7 => KeyCode.Alpha8,
+                EventCode.ShortcutGroup1_8 => KeyCode.Alpha9,
+                EventCode.ShortcutGroup1_9 => KeyCode.Alpha0,
+
+                _ => KeyCode.None,
+            };
+        }
 
         public void SetDefaultEventCodes()
         {
-            eventCodes[EventCode.Escape] = KeyCode.Escape;
-            eventCodes[EventCode.SwitchTargetAuto] = KeyCode.Tab;
-
-            eventCodes[EventCode.MoveForward] = KeyCode.W;
-            eventCodes[EventCode.MoveBackward] = KeyCode.S;
-            eventCodes[EventCode.MoveLeft] = KeyCode.A;
-            eventCodes[EventCode.MoveRight] = KeyCode.D;
-
-            eventCodes[EventCode.ShortcutGroup1_0] = KeyCode.Alpha0;
-            eventCodes[EventCode.ShortcutGroup1_1] = KeyCode.Alpha1;
-            eventCodes[EventCode.ShortcutGroup1_2] = KeyCode.Alpha2;
-            eventCodes[EventCode.ShortcutGroup1_3] = KeyCode.Alpha3;
-            eventCodes[EventCode.ShortcutGroup1_4] = KeyCode.Alpha4;
-            eventCodes[EventCode.ShortcutGroup1_5] = KeyCode.Alpha5;
-            eventCodes[EventCode.ShortcutGroup1_6] = KeyCode.Alpha6;
-            eventCodes[EventCode.ShortcutGroup1_7] = KeyCode.Alpha7;
-            eventCodes[EventCode.ShortcutGroup1_8] = KeyCode.Alpha8;
-            eventCodes[EventCode.ShortcutGroup1_9] = KeyCode.Alpha9;
+            foreach (EventCode ec in System.Enum.GetValues(typeof(EventCode)))
+            {
+                eventCodes[ec] = GetDefaultKeyCode(ec);
+            }
         }
 
         public string GetEventCodeText(EventCode ec)
@@ -168,15 +183,65 @@ namespace DigitalWorld.Inputs
                 EventCode.ShortcutGroup2_9 => "快捷键2组10",
                 _ => "未定义",
             };
-            //switch (ec)
-            //{
-            //    case EventCode.Escape:
-            //    {
-            //        return "Esc";
-            //    }
-            //}
 
         }
+        #endregion
+
+        #region Serialization
+        public void SerializeKeyCodes()
+        {
+            XmlDocument doc = new XmlDocument();
+
+            XmlDeclaration dec = doc.CreateXmlDeclaration("1.0", "UTF-8", null);
+            doc.AppendChild(dec);
+
+            XmlElement root = doc.CreateElement("customEventCodes");
+            doc.AppendChild(root);
+
+            foreach (EventCode ec in System.Enum.GetValues(typeof(EventCode)))
+            {
+                XmlElement ele = doc.CreateElement("event");
+                ele.SetAttribute("eventCode", ec.ToString());
+                ele.SetAttribute("keyCode", GetKeyCode(ec).ToString());
+                root.AppendChild(ele);
+            }
+
+            System.IO.StringWriter sw = new System.IO.StringWriter();
+            doc.Save(sw);
+
+            string ret = sw.ToString();
+            Utilities.Utility.SetString("Input.KeyCodes", ret);
+        }
+
+        public void DeserializeKeyCodes()
+        {
+            string ret = Utilities.Utility.GetString("Input.KeyCodes", string.Empty);
+            if (string.IsNullOrEmpty(ret))
+            {
+                SetDefaultEventCodes();
+            }
+            else
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(ret);
+
+                XmlElement root = doc["customEventCodes"];
+                if (null != root)
+                {
+                    foreach (var node in root.ChildNodes)
+                    {
+                        XmlElement childEle = node as XmlElement;
+
+                        EventCode ec = (EventCode)System.Enum.Parse(typeof(EventCode), childEle.GetAttribute("eventCode"));
+                        KeyCode kc = (KeyCode)System.Enum.Parse(typeof(KeyCode), childEle.GetAttribute("keyCode"));
+
+                        SetKeyCode(ec, kc);
+                    }
+                }
+            }
+        }
+
+
         #endregion
     }
 }
