@@ -10,6 +10,8 @@ namespace DigitalWorld.Game.UI.Settings
     {
         #region Params
         private WidgetListView listView;
+
+
         #endregion
 
         #region Mono
@@ -29,6 +31,12 @@ namespace DigitalWorld.Game.UI.Settings
                 sc.Setup(ec);
                 listView.AddItemToBottom(go);
             }
+
+            if (this.TryGetControlComponent<WidgetButton>("ResetButton", out WidgetButton resetButton))
+            {
+                resetButton.onClick.AddListener(OnClickReset);
+            }
+
         }
 
         #endregion
@@ -45,6 +53,11 @@ namespace DigitalWorld.Game.UI.Settings
             }
 
             Debug.Log("SettingControl:OnClickTitle the eventCodes is:\t" + ec);
+        }
+
+        private void OnClickReset()
+        {
+            InputManager.Instance.SetDefaultEventCodes();
         }
         #endregion
     }

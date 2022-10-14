@@ -59,7 +59,7 @@ namespace DigitalWorld.Game.UI.Settings
         public void Setup(EventCode ec)
         {
             this.eventCode = ec;
-            titleText.text = string.Format("设置{0}按键", InputManager.Instance.GetEventCodeText(ec));
+            titleText.text = string.Format("设置\"{0}\"按键", InputManager.Instance.GetEventCodeText(ec));
 
             KeyCode kc = InputManager.Instance.GetKeyCode(ec);
             keyCodeText.text = kc.ToString();

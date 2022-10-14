@@ -28,8 +28,6 @@ namespace DigitalWorld.Inputs
             InitializeCodes();
 
             DeserializeKeyCodes();
-
-            SerializeKeyCodes();
         }
 
         private void Update()
@@ -107,9 +105,18 @@ namespace DigitalWorld.Inputs
         public void SetKeyCode(EventCode ec, KeyCode kc)
         {
             if (this.eventCodes.ContainsKey(ec))
-                this.eventCodes[ec] = kc;
+            {
+                if (this.eventCodes[ec] != kc)
+                {
+                    this.eventCodes[ec] = kc;
+                    this.SerializeKeyCodes();
+                }
+            }
             else
+            {
                 this.eventCodes.Add(ec, kc);
+                this.SerializeKeyCodes();
+            }
         }
         #endregion
 
@@ -147,6 +154,7 @@ namespace DigitalWorld.Inputs
             {
                 eventCodes[ec] = GetDefaultKeyCode(ec);
             }
+            SerializeKeyCodes();
         }
 
         public string GetEventCodeText(EventCode ec)

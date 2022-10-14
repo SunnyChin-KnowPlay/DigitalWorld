@@ -55,7 +55,10 @@ namespace DigitalWorld.Game.UI.Settings
             graphicsTransform.gameObject.AddComponent<SettingGraphics>();
             controlTransform.gameObject.AddComponent<SettingControl>();
 
-          
+            if (this.TryGetControlComponent<WidgetButton>("Root/CloseButton", out WidgetButton closeButton))
+            {
+                closeButton.onClick.AddListener(OnClickClose);
+            }
 
             SetupMenus();
         }
@@ -81,13 +84,13 @@ namespace DigitalWorld.Game.UI.Settings
             GameObject assetObject = AssetManager.LoadAsset<GameObject>("Assets/Res/UI/Elements/Button/MainButton.prefab");
 
             GameObject go;
-            go = CreateMenuButton(assetObject, "图像", OnClickMenuGraphics);
+            go = CreateMenuButton(assetObject, "Graphics", "图像", OnClickMenuGraphics);
             go.transform.SetParent(menuTransform, false);
 
-            go = CreateMenuButton(assetObject, "控制", OnClickMenuControls);
+            go = CreateMenuButton(assetObject, "Controls", "控制", OnClickMenuControls);
             go.transform.SetParent(menuTransform, false);
 
-            go = CreateMenuButton(assetObject, "回到登录", OnClickToLogin);
+            go = CreateMenuButton(assetObject, "ReturnToLogin", "<color=#CD2A2DFF>回到登录</color>", OnClickToLogin);
             go.transform.SetParent(menuTransform, false);
 
             contents.Add(SettingNode.Graphics, graphicsTransform);
@@ -95,10 +98,10 @@ namespace DigitalWorld.Game.UI.Settings
 
         }
 
-        private GameObject CreateMenuButton(GameObject assetObj, string text, UnityAction action)
+        private GameObject CreateMenuButton(GameObject assetObj, string name, string text, UnityAction action)
         {
             GameObject go = GameObject.Instantiate(assetObj);
-            go.name = text;
+            go.name = name;
 
             if (go.TryGetComponent<WidgetButton>(out WidgetButton wb))
             {
@@ -146,6 +149,11 @@ namespace DigitalWorld.Game.UI.Settings
         private void OnClickToLogin()
         {
             WorldManager.Instance.Exit();
+        }
+
+        private void OnClickClose()
+        {
+            this.Hide();
         }
         #endregion
     }

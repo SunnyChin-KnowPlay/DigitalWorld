@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace DreamEngine.UI
 {
-    [ExecuteInEditMode]
     public class Widget : MonoBehaviour
     {
         #region Params

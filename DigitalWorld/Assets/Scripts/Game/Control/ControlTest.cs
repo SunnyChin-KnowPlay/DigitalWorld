@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DigitalWorld.Inputs;
+using UnityEngine;
 
 namespace DigitalWorld.Game
 {
@@ -19,8 +20,8 @@ namespace DigitalWorld.Game
         {
             base.Update();
 
-            // 先用R键来测试技能
-            if (Input.GetKeyUp(KeyCode.R))
+            // 技能快捷键0
+            if (InputManager.GetKeyUp(EventCode.ShortcutGroup1_0))
             {
                 // 必须有目标才能用技能
                 if (this.Unit.Situation.Target)
