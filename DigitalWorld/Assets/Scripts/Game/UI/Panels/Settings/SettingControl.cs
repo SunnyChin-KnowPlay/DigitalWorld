@@ -36,7 +36,6 @@ namespace DigitalWorld.Game.UI.Settings
             {
                 resetButton.onClick.AddListener(OnClickReset);
             }
-
         }
 
         #endregion
@@ -44,7 +43,6 @@ namespace DigitalWorld.Game.UI.Settings
         #region Listen
         private void OnClickTitle(EventCode ec)
         {
-
             UIManager uiManager = UIManager.Instance;
             SettingEventCodePanel settingPanel = uiManager.ShowPanel<SettingEventCodePanel>(SettingEventCodePanel.Path);
             if (null != settingPanel)
