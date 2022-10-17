@@ -96,6 +96,29 @@
     }
 
     /// <summary>
+    /// 伤害目标类型枚举
+    /// </summary>
+    public enum EDamageTargetType
+    {
+        /// <summary>
+        /// 无目标的
+        /// </summary>
+        None = 0,
+        /// <summary>
+        /// 主目标
+        /// </summary>
+        Main = 1 << 0,
+        /// <summary>
+        /// AOE的附带目标
+        /// </summary>
+        Incidental = 1 << 1,
+        /// <summary>
+        /// 主目标和附带目标
+        /// </summary>
+        Total = Main | Incidental,
+    }
+
+    /// <summary>
     /// 单元功能锁
     /// 一旦上锁后，该功能即失效
     /// </summary>
