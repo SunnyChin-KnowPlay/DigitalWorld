@@ -1,0 +1,167 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ parameter name="className" type="System.String"#>
+<#@ parameter name="valueType" type="System.String"#>
+<#@ parameter name="id" type="System.Int32"#>
+<#@ parameter name="desc" type="System.String"#>
+<#@ parameter name="usingNamespaces" type="System.String[]"#>
+<#@ parameter name="namespaceName" type="System.String"#>
+<#@ parameter name="serializeFunc" type="System.String"#>
+<#@ parameter name="deserializeFunc" type="System.String"#>
+<#@ parameter name="calculateFunc" type="System.String"#>
+<#@ parameter name="modelNames" type="System.String[]"#>
+<#@ parameter name="modelDescs" type="System.String[]"#>
+<#@ parameter name="tips" type="System.String"#>
+<#= tips #>
+<#
+	for (int i = 0; i < usingNamespaces.Length; ++i)
+	{
+#>
+using <#= usingNamespaces[i] #>;
+<#
+	}
+#>
+#if UNITY_EDITOR
+using System.Xml;
+#endif
+
+namespace <#= namespaceName #>
+{
+	/// <summary>
+    /// <#= desc #>
+    /// </summary>
+    public sealed partial class Property<#= className #> : PropertyTemplate<<#= valueType #>>
+    {
+        public enum EPropertyModel
+        {
+<#
+            for (int i = 0; i < modelNames.Length; ++i)
+			{
+#>
+            /// <summary>
+            /// <#= modelDescs[i] #>
+            /// </summary>        
+            <#= modelNames[i] #>,
+<#
+            }
+#>
+        }
+
+        #region Params
+        public override int Id => <#= id #>;
+
+        public override <#= valueType #> Value
+        {
+            get => _value;
+            set => _value = value;
+        }
+        private <#= valueType #> _value;
+        #endregion
+
+        #region Model
+        public static PropertyTemplate<<#= valueType #>> AllocateProperty(EPropertyModel model)
+        {
+            switch (model)
+            {
+<#
+                for (int i = 0; i < modelNames.Length; ++i)
+                {
+#>
+                case EPropertyModel.<#= modelNames[i] #>:
+                {
+                    if (Application.isPlaying)
+                    {
+                        return ObjectPool<Property<#= modelNames[i] #>>.Instance.Allocate();
+                    }
+                    return new Property<#= modelNames[i] #>();
+                }
+<#
+                }
+#>
+                default:
+                {
+                    if (Application.isPlaying)
+                    {
+                        return ObjectPool<Property<#= className #>>.Instance.Allocate();
+                    }
+                    return new Property<#= className #>();
+                }
+            }
+        }
+        #endregion
+
+        #region Clone
+        public override object Clone()
+        {
+            Property<#= className #> v = null;
+            if (Application.isPlaying)
+            {
+                v = Dream.Core.ObjectPool<Property<#= className #>>.Instance.Allocate();
+            }
+            else
+            {
+                v = new Property<#= className #>();
+            }
+
+            if (null != v)
+            {
+                this.CloneTo(v);
+            }
+
+            return v;
+        }
+
+        public override TObj CloneTo<TObj>(TObj obj)
+        {
+            if (base.CloneTo(obj) is Property<#= className #> p)
+            {
+                p._value = this._value;
+            }
+            return obj;
+        }
+        #endregion
+
+        #region Serialization
+        protected override void OnCalculateSize()
+        {
+            base.OnCalculateSize();
+
+            <#= calculateFunc #>(this._value);
+        }
+
+        protected override void OnEncode()
+        {
+            base.OnEncode();
+
+            <#= serializeFunc #>(this._value);
+        }
+
+        protected override void OnDecode()
+        {
+            base.OnDecode();
+
+            <#= deserializeFunc #>(ref this._value);
+        }
+
+#if UNITY_EDITOR
+        protected override void OnEncode(XmlElement element)
+        {
+            base.OnEncode(element);
+
+            <#= serializeFunc #>(this._value, "_value");
+            
+        }
+
+        protected override void OnDecode(XmlElement element)
+        {
+            base.OnDecode(element);
+
+            <#= deserializeFunc #>(ref this._value, "_value");
+        }
+#endif
+        #endregion
+    }
+}

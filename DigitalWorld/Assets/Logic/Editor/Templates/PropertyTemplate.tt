@@ -9,6 +9,14 @@
 <#@ parameter name="desc" type="System.String"#>
 <#@ parameter name="usingNamespaces" type="System.String[]"#>
 <#@ parameter name="namespaceName" type="System.String"#>
+<#@ parameter name="types" type="System.String[]"#>
+<#@ parameter name="varNames" type="System.String[]"#>
+<#@ parameter name="descripts" type="System.String[]"#>
+<#@ parameter name="serializeFuncs" type="System.String[]"#>
+<#@ parameter name="deserializeFuncs" type="System.String[]"#>
+<#@ parameter name="calculateFuncs" type="System.String[]"#>
+<#@ parameter name="tips" type="System.String"#>
+<#= tips #>
 <#
 	for (int i = 0; i < usingNamespaces.Length; ++i)
 	{
@@ -17,6 +25,10 @@ using <#= usingNamespaces[i] #>;
 <#
 	}
 #>
+using System.Collections.Generic;
+#if UNITY_EDITOR
+using System.Xml;
+#endif
 
 namespace <#= namespaceName #>
 {
@@ -25,8 +37,35 @@ namespace <#= namespaceName #>
     /// </summary>
     public partial class <#= className #> : PropertyTemplate<<#= valueType #>>
     {
-        public override int Id => <#= id #>;
+        #region Params
+        public override int Id => <#= id #>;       
 
+<#
+        for (int i = 0; i < types.Length; ++i)
+        {
+#>
+        public <#= types[i] #> <#= varNames[i] #> = default;
+<#
+        }
+#>
+        #endregion
+
+        #region Pool
+        public override void OnRecycle()
+        {
+            base.OnRecycle();
+<#
+			for (int i = 0; i < types.Length; ++i)
+			{
+#>
+			<#= varNames[i] #> = default;
+<#
+			}
+#>
+        }
+        #endregion
+
+        #region Clone
         public override object Clone()
         {
             <#= className #> v = null;
@@ -46,5 +85,140 @@ namespace <#= namespaceName #>
 
             return v;
         }
+
+        public override T CloneTo<T>(T obj)
+        {
+            if (base.CloneTo(obj) is <#= className #> v)
+            {
+<#
+				for (int i = 0; i < types.Length; ++i)
+				{
+#>
+				v.<#= varNames[i] #> = this.<#= varNames[i] #>;
+<#
+				}
+#>
+            }
+            return obj;
+        }
+        #endregion
+
+        #region Editor
+#if UNITY_EDITOR
+        private static Dictionary<string, string> fieldDescs = new Dictionary<string, string>();
+
+        private static Dictionary<string, string> FieldDescs
+        {
+            get
+            {
+                if (null == fieldDescs)
+                    fieldDescs = new Dictionary<string, string>();
+
+                if (fieldDescs.Count < 1)
+                {
+<#
+		            for (int i = 0; i < varNames.Length; ++i)
+		            {
+#>
+                    fieldDescs.Add("<#= varNames[i] #>", "<#= descripts[i] #>");
+<#
+		            }
+#>
+                }
+
+                return fieldDescs;
+            }
+        }
+
+		protected override string GetFieldDesc(string fieldName)
+        {
+            Dictionary<string, string> descs = FieldDescs;
+            string v = string.Empty;
+            descs.TryGetValue(fieldName, out v);
+            return v;
+        }
+
+        public override string Desc
+        {
+            get
+            {
+                return "<#= desc #>";
+            }
+        }
+#endif
+		#endregion
+
+        #region Serializion
+		protected override void OnCalculateSize()
+        {
+            base.OnCalculateSize();
+<#
+			for (int i = 0; i < types.Length; ++i)
+			{
+#>	
+			<#= calculateFuncs[i] #>(this.<#= varNames[i] #>);
+<#
+			}
+#>  
+        }
+
+		protected override void OnEncode()
+        {
+            base.OnEncode();
+<#
+			for (int i = 0; i < types.Length; ++i)
+			{
+#>
+			<#= serializeFuncs[i] #>(this.<#= varNames[i] #>);
+<#
+			}
+#>          
+        }
+
+        protected override void OnDecode()
+        {
+            base.OnDecode();
+			
+<#
+			for (int i = 0; i < types.Length; ++i)
+			{
+#>
+			<#= deserializeFuncs[i] #>(ref this.<#= varNames[i] #>);
+<#
+			}
+#>
+        }
+		
+#if UNITY_EDITOR
+        protected override void OnDecode(XmlElement node)
+        {
+            base.OnDecode(node);
+			
+<#
+			for (int i = 0; i < types.Length; ++i)
+			{
+#>
+			<#= deserializeFuncs[i] #>(ref this.<#= varNames[i] #>, "<#= varNames[i] #>");
+<#
+			}
+#>
+        }
+
+        protected override void OnEncode(XmlElement node)
+        {
+			base.OnEncode(node);
+<#
+			for (int i = 0; i < types.Length; ++i)
+			{
+#>
+			<#= serializeFuncs[i] #>(this.<#= varNames[i] #>, "<#= varNames[i] #>");
+<#
+			}
+#>
+        }
+
+
+#endif
+		#endregion
     }
 }

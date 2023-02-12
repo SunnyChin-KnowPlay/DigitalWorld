@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
+using System;
 
 namespace DigitalWorld.Logic.Editor
 {
@@ -77,13 +76,17 @@ namespace DigitalWorld.Logic.Editor
 
         private ReorderableList GetList(EItemType type)
         {
-            return type switch
+            switch (type)
             {
-                EItemType.Action => actionList,
-                EItemType.Property => propertyList,
-                EItemType.Event => eventList,
-                _ => null,
-            };
+                case EItemType.Action:
+                    return actionList;
+                case EItemType.Property:
+                    return propertyList;
+                case EItemType.Event:
+                    return eventList;
+                default:
+                    return null;
+            }
         }
 
         private void Save()
@@ -91,8 +94,8 @@ namespace DigitalWorld.Logic.Editor
             NodeController c = NodeController;
             c.Save();
         }
-        #endregion
 
+        #endregion
 
         #region GUI
         private void OnDrawActionElement(Rect rect, int index, bool selected, bool focused)
@@ -127,7 +130,7 @@ namespace DigitalWorld.Logic.Editor
                 EditorGUI.DrawRect(separationRect, Logic.Utility.kSplitLineColor);
 
                 rect.xMin = rect.xMax + 8;
-                rect.xMax = rect.xMin + width * 0.4f;
+                rect.xMax = rect.xMin + width * 0.3f;
                 EditorGUI.LabelField(rect, string.Format("{0}", item.Desc), labelStyle);
 
                 rect.xMin = width - 12;
@@ -184,7 +187,7 @@ namespace DigitalWorld.Logic.Editor
                 EditorGUI.DrawRect(separationRect, Logic.Utility.kSplitLineColor);
 
                 rect.xMin = rect.xMax + 8;
-                rect.xMax = rect.xMin + width * 0.4f;
+                rect.xMax = rect.xMin + width * 0.3f;
                 EditorGUI.LabelField(rect, string.Format("{0}", item.Desc), labelStyle);
 
 
@@ -216,35 +219,64 @@ namespace DigitalWorld.Logic.Editor
             float width = rect.width;
             if (index < propertyList.list.Count)
             {
+                GUIStyle labelStyle = new GUIStyle("minibutton")
+                {
+                    alignment = TextAnchor.MiddleLeft,
+                };
+
                 Rect lineRect = Rect.MinMaxRect(parentRect.xMin + 4, parentRect.yMax - 2, parentRect.xMax - 4, parentRect.yMax);
 
-                NodeItem item = propertyList.list[index] as NodeItem;
+                NodeProperty item = propertyList.list[index] as NodeProperty;
 
                 rect.y += 2;
                 rect.height = EditorGUIUtility.singleLineHeight;
                 rect.xMax = rect.xMin + 60;
-                EditorGUI.LabelField(rect, item.Id.ToString());
+                EditorGUI.LabelField(rect, item.Id.ToString(), labelStyle);
 
+                Rect separationRect = Rect.MinMaxRect(rect.xMax + 3, rect.yMin, rect.xMax + 5, rect.yMax);
+                EditorGUI.DrawRect(separationRect, Logic.Utility.kSplitLineColor);
 
-                rect.xMin = rect.xMax + 4;
-                rect.width = width / 2 - 2;
-                EditorGUI.LabelField(rect, string.Format("{0} - {1}", item.Name, item.Desc));
+                rect.xMin = rect.xMax + 8;
+                rect.xMax = rect.xMin + width * 0.3f;
+                EditorGUI.LabelField(rect, string.Format("{0}", item.Name), labelStyle);
+
+                separationRect = Rect.MinMaxRect(rect.xMax + 3, rect.yMin, rect.xMax + 5, rect.yMax);
+                EditorGUI.DrawRect(separationRect, Logic.Utility.kSplitLineColor);
+
+                rect.xMin = rect.xMax + 8;
+                rect.xMax = rect.xMin + width * 0.3f;
+                EditorGUI.LabelField(rect, string.Format("{0}", item.ValueType), labelStyle);
+
+                separationRect = Rect.MinMaxRect(rect.xMax + 3, rect.yMin, rect.xMax + 5, rect.yMax);
+                EditorGUI.DrawRect(separationRect, Logic.Utility.kSplitLineColor);
+
+                rect.xMin = rect.xMax + 8;
+                rect.xMax = rect.xMin + width * 0.3f;
+                EditorGUI.LabelField(rect, string.Format("{0}", item.Desc), labelStyle);
+
 
                 rect.xMin = width - 12;
                 rect.xMax = width;
+                EditorGUI.BeginDisabledGroup(!selected);
+
                 bool ret = GUI.Button(rect, Logic.Utility.GUIContentD__Menu, Logic.Utility.StyleD__MenuIconButton);
                 if (ret)
                 {
                     OnEditItem(item);
                 }
 
+                EditorGUI.EndDisabledGroup();
+
                 EditorGUI.DrawRect(lineRect, Logic.Utility.kSplitLineColor);
 
             }
             else
             {
-                actionList.list.RemoveAt(index);
+                propertyList.list.RemoveAt(index);
             }
+
+
+
         }
 
         private void OnAddItem(EItemType type)
@@ -264,7 +296,7 @@ namespace DigitalWorld.Logic.Editor
 
             GUIStyle labelStyle = new GUIStyle(GUI.skin.label)
             {
-                fontStyle = FontStyle.Bold,
+                //fontStyle = FontStyle.Bold,
 
             };
 
@@ -278,13 +310,37 @@ namespace DigitalWorld.Logic.Editor
             EditorGUI.LabelField(rect, "Name", labelStyle);
 
             rect.xMin = rect.xMax + 8;
-            rect.xMax = rect.xMin + width * 0.4f;
+            rect.xMax = rect.xMin + width * 0.3f;
             EditorGUI.LabelField(rect, "Description", labelStyle);
         }
 
         private void OnDrawPropertyHead(Rect rect)
         {
-            EditorGUI.LabelField(rect, "Properties");
+            float width = rect.width;
+
+
+            GUIStyle labelStyle = new GUIStyle(GUI.skin.label)
+            {
+                //fontStyle = FontStyle.Bold,
+
+            };
+
+            rect.xMin += 6;
+            rect.height = EditorGUIUtility.singleLineHeight;
+            rect.xMax = rect.xMin + 60;
+            EditorGUI.LabelField(rect, "Id", labelStyle);
+
+            rect.xMin = rect.xMax + 8;
+            rect.xMax = rect.xMin + width * 0.3f;
+            EditorGUI.LabelField(rect, "Name", labelStyle);
+
+            rect.xMin = rect.xMax + 8;
+            rect.xMax = rect.xMin + width * 0.3f;
+            EditorGUI.LabelField(rect, "ValueType", labelStyle);
+
+            rect.xMin = rect.xMax + 8;
+            rect.xMax = rect.xMin + 100f;
+            EditorGUI.LabelField(rect, "Description", labelStyle);
         }
 
         private void OnDrawEventHead(Rect rect)
@@ -294,7 +350,7 @@ namespace DigitalWorld.Logic.Editor
 
             GUIStyle labelStyle = new GUIStyle(GUI.skin.label)
             {
-                fontStyle = FontStyle.Bold,
+                //fontStyle = FontStyle.Bold,
 
             };
 
@@ -308,7 +364,7 @@ namespace DigitalWorld.Logic.Editor
             EditorGUI.LabelField(rect, "Name", labelStyle);
 
             rect.xMin = rect.xMax + 8;
-            rect.xMax = rect.xMin + width * 0.4f;
+            rect.xMax = rect.xMin + width * 0.3f;
             EditorGUI.LabelField(rect, "Description", labelStyle);
         }
 
@@ -324,16 +380,21 @@ namespace DigitalWorld.Logic.Editor
 
             foreach (EItemType type in Enum.GetValues(typeof(EItemType)))
             {
-                GUIStyle style = new GUIStyle("IN Title");
+                GUIStyle style = new GUIStyle("OL Title");
                 style.padding.left = 0;
 
-                EditorGUILayout.BeginHorizontal(style);
+                bool v = false;
+                using (EditorGUILayout.HorizontalScope h = new EditorGUILayout.HorizontalScope(style))
+                {
+                    v = c.GetItemsEditing(type);
+                    v = EditorGUILayout.Foldout(v, NodeController.GetTitleWithType(type));
 
-                bool v = c.GetItemsEditing(type);
-                v = EditorGUILayout.Foldout(v, NodeController.GetTitleWithType(type));
-                c.SetItemsEditing(type, v);
-
-                EditorGUILayout.EndHorizontal();
+                    if (GUI.Button(h.rect, GUIContent.none, EditorStyles.whiteLabel))
+                    {
+                        v = !v;
+                    }
+                    c.SetItemsEditing(type, v);
+                }
 
                 if (v)
                 {
@@ -346,21 +407,18 @@ namespace DigitalWorld.Logic.Editor
             }
 
             EditorGUILayout.EndScrollView();
-
             GUILayout.FlexibleSpace();
 
+
             EditorGUILayout.BeginHorizontal();
-
-
             EditorGUILayout.BeginVertical();
-            EditorGUI.BeginDisabledGroup(!c.IsDirty);
 
             if (GUILayout.Button("Save"))
             {
                 Save();
                 c.GenerateNodesCode();
             }
-            EditorGUI.EndDisabledGroup();
+
             EditorGUILayout.EndVertical();
 
             EditorGUILayout.BeginVertical();
@@ -369,14 +427,6 @@ namespace DigitalWorld.Logic.Editor
                 this.Close();
             }
             EditorGUILayout.EndVertical();
-
-
-            //EditorGUILayout.BeginVertical();
-            //if (GUILayout.Button("Generate Codes"))
-            //{
-            //    c.GenerateNodesCode();
-            //}
-            //EditorGUILayout.EndVertical();
 
             EditorGUILayout.EndHorizontal();
         }

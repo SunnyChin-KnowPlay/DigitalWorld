@@ -1,4 +1,6 @@
-﻿using System.Xml;
+﻿using System;
+using System.Collections.Generic;
+using System.Xml;
 
 namespace DigitalWorld.Logic
 {
@@ -6,26 +8,7 @@ namespace DigitalWorld.Logic
     {
         #region Params
         /// <summary>
-        /// 运行状态枚举
-        /// </summary>
-        public enum EState
-        {
-            /// <summary>
-            /// 待机中
-            /// </summary>
-            Idle = 0,
-            /// <summary>
-            /// 运行中
-            /// </summary>
-            Running,
-            /// <summary>
-            /// 已结束
-            /// </summary>
-            Ended,
-        }
-
-        /// <summary>
-        /// 运行状态
+        /// 状态
         /// </summary>
         public EState State
         {
@@ -35,7 +18,17 @@ namespace DigitalWorld.Logic
                 ToState(value);
             }
         }
-        private EState _state;
+        private EState _state = EState.Idle;
+
+        public bool IsRunning
+        {
+            get => _state == EState.Running;
+        }
+
+        public bool IsEnded
+        {
+            get => _state == EState.Succeeded || _state == EState.Failed;
+        }
 
         /// <summary>
         /// 运行的时间
@@ -47,13 +40,38 @@ namespace DigitalWorld.Logic
         protected int _runningTime = 0;
 
         /// <summary>
-        /// 总运行时长
+        /// 总时长
+        /// 如果本节点的总时长是可计算的，则重载此属性并返回预估的总时长
         /// </summary>
-        public int TotalTime
+        public virtual int TotalTime
         {
-            get { return _totalTime; }
+            get => 0;
         }
-        protected int _totalTime = 0;
+
+        /// <summary>
+        /// 运行次数，每次进到RunningState时，这个就会加一
+        /// </summary>
+        public int RunningCount => _runningCount;
+        private int _runningCount = 0;
+
+        protected List<Requirement> _requirements = new List<Requirement>();
+
+        /// <summary>
+        /// 检测逻辑
+        /// </summary>
+        public ECheckLogic RequirementLogic
+        {
+            get => _requirementLogic;
+            set => _requirementLogic = value;
+        }
+        protected ECheckLogic _requirementLogic = ECheckLogic.And;
+
+        /// <summary>
+        /// 运行模式
+        /// </summary>
+        public EMotionMode MotionMode { get => _motionMode; }
+        private EMotionMode _motionMode;
+
         #endregion
 
         #region Pool
@@ -61,21 +79,31 @@ namespace DigitalWorld.Logic
         {
             base.OnAllocate();
 
-            this._state = EState.Idle;
+            this.State = EState.Idle;
+            this._requirementLogic = ECheckLogic.And;
+            this._motionMode = EMotionMode.Once;
             this._runningTime = 0;
-            this._totalTime = 0;
+            this._runningCount = 0;
         }
 
-        public override object Clone()
+        public override void OnRecycle()
         {
-            throw new System.NotImplementedException();
+            base.OnRecycle();
+
+            _requirements.Clear();
+
         }
 
         public override T CloneTo<T>(T obj)
         {
             if (base.CloneTo(obj) is NodeState node)
             {
-                node._totalTime = this._totalTime;
+                node._requirementLogic = this._requirementLogic;
+                node._requirements.Clear();
+                foreach (var req in this._requirements)
+                {
+                    node._requirements.Add(req.Clone() as Requirement);
+                }
             }
             return obj;
         }
@@ -103,27 +131,37 @@ namespace DigitalWorld.Logic
         {
             switch (this.State)
             {
-                case EState.Ended:
+                case EState.Succeeded:
                 {
                     if (lastState == EState.Running)
                     {
                         this.OnExit();
                     }
-                    this._runningTime = 0;
+                    break;
+                }
+                case EState.Failed:
+                {
+                    if (lastState == EState.Running)
+                    {
+                        this.OnExit();
+                    }
                     break;
                 }
                 case EState.Running:
                 {
-                    this._runningTime = 0;
-                    if (lastState == EState.Idle)
+                    this.OnEnter();
+                    break;
+                }
+                case EState.Idle:
+                {
+                    if (lastState == EState.Running)
                     {
-                        this.OnEnter();
+                        this.OnExit();
                     }
                     break;
                 }
             }
         }
-
 
         /// <summary>
         /// 仅当激活时
@@ -132,14 +170,22 @@ namespace DigitalWorld.Logic
         /// <param name="delta"></param>
         protected override void OnUpdate(int delta)
         {
+            if (this.IsEnded)
+            {
+                if (this.MotionMode == EMotionMode.Loop)
+                {
+                    this.State = EState.Idle;
+                }
+                else if (this.MotionMode == EMotionMode.Repeat)
+                {
+                    this.State = EState.Running;
+                }
+            }
+
             if (this._state == EState.Running)
             {
+                this._runningTime += delta;
                 OnRunning(delta);
-
-                if (this._runningTime >= this._totalTime)
-                {
-                    this.State = EState.Ended;
-                }
             }
         }
 
@@ -150,24 +196,118 @@ namespace DigitalWorld.Logic
         protected virtual void OnRunning(int delta)
         {
             this.UpdateChildren(delta);
-
-            this._runningTime = System.Math.Min(this._runningTime + delta, this._totalTime);
         }
 
         protected virtual void OnEnter()
         {
+            this._runningTime = 0;
+            this._runningCount += 1;
 
+            UnityEngine.Debug.Log(string.Format("StateNode Enter, Name is:{0}", this.Name));
         }
 
         protected virtual void OnExit()
         {
+            UnityEngine.Debug.Log(string.Format("StateNode Exit, Name is:{0}", this.Name));
+
             for (int i = 0; i < this._children.Count; ++i)
             {
-                if (this._children[i] is NodeState child && null != child && child.Enabled && child.State == EState.Running)
+                if (this._children[i] is NodeState child && null != child && child.Enabled)
                 {
-                    child.OnExit();
+                    child.State = EState.Idle;
                 }
             }
+        }
+
+        /// <summary>
+        /// 检查是否符合运行要求
+        /// </summary>
+        /// <returns></returns>
+        public virtual bool CheckRequirement()
+        {
+            if (null == this.Parent)
+            {
+                // 没有父节点的话 肯定是符合要求的
+                return true;
+            }
+
+            bool ret = true;
+            ECheckLogic checkLogic = this._requirementLogic;
+            switch (checkLogic)
+            {
+                case ECheckLogic.And:
+                {
+                    ret = true;
+
+                    foreach (Requirement req in _requirements)
+                    {
+                        if (FindNodeByRequirement(req) is NodeState node)
+                        {
+                            if (!node.HasState(req.requirementState))
+                            {
+                                ret = false;
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                }
+                case ECheckLogic.Or:
+                {
+                    if (_requirements.Count > 0)
+                    {
+                        ret = false;
+
+                        foreach (Requirement req in _requirements)
+                        {
+                            if (FindNodeByRequirement(req) is NodeState node)
+                            {
+                                if (node.HasState(req.requirementState))
+                                {
+                                    ret = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    break;
+                }
+            }
+
+            return ret;
+        }
+
+        protected NodeBase FindNodeByRequirement(Requirement requirement)
+        {
+            NodeBase node = null;
+            switch (requirement.locationMode)
+            {
+                case ELocationMode.Previous:
+                {
+                    node = this.Parent.GetChild(this.Index - 1);
+                    break;
+                }
+                case ELocationMode.Next:
+                {
+                    node = this.Parent.GetChild(this.Index + 1);
+                    break;
+                }
+                case ELocationMode.Name:
+                {
+                    node = this.Parent.Find(requirement.nodeName);
+                    break;
+                }
+            }
+            return node;
+        }
+
+        /// <summary>
+        /// 是否存在状态
+        /// </summary>
+        /// <returns></returns>
+        public bool HasState(EState state)
+        {
+            return (this._state & state) == state;
         }
         #endregion
 
@@ -176,35 +316,82 @@ namespace DigitalWorld.Logic
         {
             base.OnEncode();
 
-            this.Encode(this._totalTime);
+            this.EncodeEnum(this._requirementLogic);
+            this.Encode(this._requirements);
+            this.EncodeEnum(this._motionMode);
         }
 
         protected override void OnEncode(XmlElement element)
         {
             base.OnEncode(element);
 
-            this.Encode(this._totalTime, "_totalTime");
+            XmlDocument doc = element.OwnerDocument;
+
+            XmlElement requirementsEle = doc.CreateElement("_requirements");
+            requirementsEle.SetAttribute("_requirementLogic", this._requirementLogic.ToString());
+            foreach (Requirement requirement in this._requirements)
+            {
+                XmlElement requirementEle = doc.CreateElement("requirement");
+                requirementEle.SetAttribute("mode", requirement.locationMode.ToString());
+                requirementEle.SetAttribute("key", requirement.nodeName);
+                requirementEle.SetAttribute("value", requirement.requirementState.ToString());
+                requirementsEle.AppendChild(requirementEle);
+            }
+            element.AppendChild(requirementsEle);
+
+            this.EncodeEnum(this._motionMode, "_motionMode");
         }
 
         protected override void OnDecode()
         {
             base.OnDecode();
 
-            this.Decode(ref this._totalTime);
+            this.DecodeEnum(ref this._requirementLogic);
+            this.Decode(ref this._requirements);
+            this.DecodeEnum(ref this._motionMode);
         }
 
         protected override void OnDecode(XmlElement element)
         {
             base.OnDecode(element);
 
-            this.Decode(ref this._totalTime, "_totalTime");
+            XmlElement requirementsEle = element["_requirements"];
+            if (null != requirementsEle)
+            {
+                if (requirementsEle.HasAttribute("_requirementLogic"))
+                {
+                    string checkLogicStr = requirementsEle.GetAttribute("_requirementLogic");
+                    Enum.TryParse(checkLogicStr, true, out _requirementLogic);
+                }
+
+                foreach (object node in requirementsEle.ChildNodes)
+                {
+                    XmlElement requirementEle = node as XmlElement;
+
+                    bool ret = Enum.TryParse(requirementEle.GetAttribute("mode"), true, out ELocationMode locationMode);
+                    string key = requirementEle.GetAttribute("key");
+                    ret = Enum.TryParse(requirementEle.GetAttribute("value"), true, out EState state);
+
+                    Requirement requirement = new Requirement()
+                    {
+                        locationMode = locationMode,
+                        nodeName = key,
+                        requirementState = state,
+                    };
+                    this._requirements.Add(requirement);
+                }
+            }
+
+            this.DecodeEnum(ref this._motionMode, "_motionMode");
         }
 
         protected override void OnCalculateSize()
         {
             base.OnCalculateSize();
 
-            this.CalculateSize(this._totalTime);
+            this.CalculateSizeEnum(this._requirementLogic);
+            this.CalculateSize(this._requirements);
+            this.CalculateSizeEnum(this._motionMode);
         }
         #endregion
     }

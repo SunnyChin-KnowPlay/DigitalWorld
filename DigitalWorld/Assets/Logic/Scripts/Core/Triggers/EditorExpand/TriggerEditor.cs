@@ -1,7 +1,6 @@
 ﻿#if UNITY_EDITOR
 using DigitalWorld.Asset;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using UnityEditor;
@@ -22,8 +21,15 @@ namespace DigitalWorld.Logic
             get => relativeFolderPath;
             set
             {
-                string path = value.Replace('\\', '/');
-                relativeFolderPath = path;
+                if (!string.IsNullOrEmpty(value))
+                {
+                    string path = value.Replace('\\', '/');
+                    relativeFolderPath = path;
+                }
+                else
+                {
+                    relativeFolderPath = value;
+                }
             }
         }
         public string RelativeAssetFilePath
@@ -37,198 +43,86 @@ namespace DigitalWorld.Logic
         }
         private string relativeFolderPath;
 
-        internal override bool IsEditing => true;
-
-        protected EAction selectedAction;
-
-        public static string[] ActionDisplayNames
+        public override bool IsEditing
         {
             get
             {
-                if (null == actionDisplayNames)
-                {
-                    List<string> actionNames = new List<string>();
-
-                    EAction[] actionArray = ActionArray;
-                    for (int i = 0; i < actionArray.Length; ++i)
-                    {
-                        string name = actionArray[i].ToString().Replace('_', '/');
-                        name += string.Format(" - {0}", LogicHelper.GetActionDesc((int)actionArray[i]));
-                        actionNames.Add(name);
-                    }
-
-                    actionDisplayNames = actionNames.ToArray();
-                }
-                return actionDisplayNames;
+                if (this.IsRoot)
+                    return true;
+                return base.IsEditing;
             }
         }
-        private static string[] actionDisplayNames = null;
-
-        public static EAction[] ActionArray
-        {
-            get
-            {
-                if (null == actionArray)
-                {
-                    List<EAction> actionList = new List<EAction>();
-                    foreach (EAction i in System.Enum.GetValues(typeof(EAction)))
-                    {
-                        actionList.Add(i);
-                    }
-
-                    actionArray = actionList.ToArray();
-                }
-                return actionArray;
-            }
-        }
-        private static EAction[] actionArray = null;
-
-        public static EAction FindAction(int index)
-        {
-            if (index < 0 || index >= ActionArray.Length)
-                return ActionArray[0];
-
-            return ActionArray[index];
-        }
-
-        public static int FindActionIndex(EAction v)
-        {
-            int index = 0;
-
-            EAction[] types = ActionArray;
-
-            for (int i = 0; i < types.Length; ++i)
-            {
-                if (types[i] == v)
-                {
-                    index = i;
-                    break;
-                }
-            }
-            return index;
-        }
-
         #endregion
 
         #region GUI
-        public override void OnGUITitle()
+        protected override void OnGUIChildrenTitle()
         {
-            GUIStyle style = new GUIStyle("IN Title");
+            base.OnGUIChildrenTitle();
+
+            this.OnGUIActionExplore();
+        }
+
+        protected override void OnGUITitleContent()
+        {
+            this.OnGUIEventExplore();
+            base.OnGUITitleContent();
+        }
+
+        protected void OnGUIActionExplore()
+        {
+            GUIStyle style = new GUIStyle("OL Title");
             style.padding.left = 0;
-            using EditorGUILayout.HorizontalScope h = new EditorGUILayout.HorizontalScope(style);
 
-            //EditorGUILayout.BeginHorizontal(style);
+            Color color = GUI.backgroundColor;
 
-            this.OnGUIName();
-            this.OnGUITotalTime();
-
-            GUILayout.FlexibleSpace();
-
-            OnGUITopMenus();
-        }
-
-        /// <summary>
-        /// 绘制运行时间
-        /// </summary>
-        protected virtual void OnGUITotalTime()
-        {
-            GUIStyle labelStyle = new GUIStyle(GUI.skin.label)
+            using (EditorGUILayout.HorizontalScope h = new EditorGUILayout.HorizontalScope(style))
             {
-                fontStyle = FontStyle.Bold
-            };
-            EditorGUILayout.LabelField(new GUIContent("TotalTime:"), labelStyle, GUILayout.Width(70));
-            _totalTime = EditorGUILayout.IntField(_totalTime, GUILayout.Width(120));
-        }
-
-        protected override void OnGUIName()
-        {
-            GUIStyle labelStyle = new GUIStyle(GUI.skin.label)
-            {
-                fontStyle = FontStyle.Bold
-            };
-            EditorGUILayout.LabelField(_name, labelStyle, GUILayout.MaxWidth(100));
-        }
-
-        /// <summary>
-        /// 顶部操作菜单
-        /// </summary>
-        private void OnGUITopMenus()
-        {
-            if (GUILayout.Button("OpenAll", GUILayout.Width(79)))
-            {
-                for (int i = 0; i < this._children.Count; ++i)
-                {
-                    this._children[i].IsEditing = true;
-                }
-            }
-
-            if (GUILayout.Button("CloseAll", GUILayout.Width(79)))
-            {
-                for (int i = 0; i < this._children.Count; ++i)
-                {
-                    this._children[i].IsEditing = false;
-                }
-            }
-        }
-
-        protected virtual void OnGUIActionExplore()
-        {
-            GUIStyle style = new GUIStyle("IN Title");
-            style.padding.left = 0;
-            EditorGUILayout.BeginHorizontal(style);
-
-            GUIStyle labelStyle = new GUIStyle(GUI.skin.label)
-            {
-                fontStyle = FontStyle.Bold
-            };
-            EditorGUILayout.LabelField("Action Explore", labelStyle, GUILayout.Width(160));
-
-            GUILayout.FlexibleSpace();
-
-            if (Enum.GetValues(typeof(EAction)) != null && Enum.GetValues(typeof(EAction)).Length > 0)
-            {
-                selectedAction = FindAction(EditorGUILayout.Popup(FindActionIndex(selectedAction), ActionDisplayNames, GUILayout.Width(500)));
-
-                labelStyle = new GUIStyle(GUI.skin.button)
+                GUIStyle labelStyle = new GUIStyle(GUI.skin.label)
                 {
                     fontStyle = FontStyle.Bold,
-                    alignment = TextAnchor.MiddleCenter,
                 };
-                labelStyle.hover.textColor = new Color32(32, 240, 22, 255);
+                labelStyle.normal.textColor = this.GetNodeColor(typeof(Actions.ActionBase)) * 2f;
 
-                if (GUILayout.Button("Create Action", labelStyle, GUILayout.Width(160)))
+                EditorGUILayout.LabelField("Action Explore", labelStyle, GUILayout.Width(160));
+
+                GUILayout.FlexibleSpace();
+
+                if (Enum.GetValues(typeof(EAction)) != null && Enum.GetValues(typeof(EAction)).Length > 0)
                 {
-                    OnClickCreateAction();
+                    selectedAction = FindAction(EditorGUILayout.Popup(FindActionIndex(selectedAction), ActionDisplayNames, GUILayout.Width(500)));
+
+                    labelStyle = new GUIStyle(GUI.skin.button)
+                    {
+                        //fontStyle = FontStyle.Bold,
+                        alignment = TextAnchor.MiddleCenter,
+                    };
+                    labelStyle.hover.textColor = this.GetNodeColor(typeof(Actions.ActionBase)) * 2f;
+
+                    if (GUILayout.Button("Create Action", labelStyle, GUILayout.Width(160)))
+                    {
+                        OnClickCreateAction();
+                    }
                 }
             }
 
-            EditorGUILayout.EndHorizontal();
+            GUI.backgroundColor = color;
         }
 
         protected virtual void OnGUIEventExplore()
         {
-            GUIStyle style = new GUIStyle("IN Title");
-            style.padding.left = 0;
-            EditorGUILayout.BeginHorizontal(style);
+            GUIStyle labelStyle = new GUIStyle(GUI.skin.label);
 
-            GUIStyle labelStyle = new GUIStyle(GUI.skin.label)
+            EditorGUILayout.LabelField("Event Listening", labelStyle, GUILayout.Width(100));
+
+            if (Enum.GetValues(typeof(EEvent)) != null && Enum.GetValues(typeof(EEvent)).Length > 0)
             {
-                fontStyle = FontStyle.Bold
-            };
-            EditorGUILayout.LabelField("Event Explore", labelStyle, GUILayout.Width(160));
-
-            GUILayout.FlexibleSpace();
-            listenerEvent = (EEvent)EditorGUILayout.EnumPopup(listenerEvent, GUILayout.Width(300));
-
-            EditorGUILayout.EndHorizontal();
-        }
-
-        protected override void OnGUIEditing()
-        {
-            this.OnGUIEventExplore();
-            this.OnGUIActionExplore();
-
-            base.OnGUIEditing();
+                GUIStyle popStyle = new GUIStyle("MiniPopup")
+                {
+                    //fontStyle = FontStyle.Bold
+                    margin = new RectOffset(3, 3, 0, 0),
+                };
+                _listenerEvent = FindEvent(EditorGUILayout.Popup(FindEventIndex(_listenerEvent), EventDisplayNames, popStyle, GUILayout.Width(300)));
+            }
         }
 
         private void OnClickCreateAction()
@@ -242,29 +136,6 @@ namespace DigitalWorld.Logic
         #endregion
 
         #region Common
-        private bool CheckCanSave()
-        {
-            //Utility.uidDict.Clear();
-
-            //foreach (var v in triggers)
-            //{
-            //    v.AddUidToDict();
-            //}
-
-            //foreach (var v in steps)
-            //{
-            //    v.AddUidToDict();
-            //}
-
-            //string errIndex = null;
-            //if (Utility.CheckUidRepeated(ref errIndex))
-            //{
-            //    string body = string.Format("当前包含重复的key，无法保存 key是{0}", errIndex);
-            //    bool ret = EditorUtility.DisplayDialog("错误", body, "确定");
-            //    return false;
-            //}
-            return true;
-        }
 
         private void SaveStream()
         {
@@ -274,7 +145,7 @@ namespace DigitalWorld.Logic
 
             string fullPath = System.IO.Path.Combine(RelativeFolderPath, this.Name);
             fullPath += ".asset";
-            fullPath = System.IO.Path.Combine(Utility.LogicExportPath, fullPath);
+            fullPath = System.IO.Path.Combine(Utility.LogicResPath, fullPath);
 
             string directorPath = Path.GetDirectoryName(fullPath);
             if (!Directory.Exists(directorPath))
@@ -294,7 +165,7 @@ namespace DigitalWorld.Logic
             XmlDeclaration dec = xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
             xmlDocument.AppendChild(dec);
 
-            XmlElement root = xmlDocument.CreateElement("behaviour");
+            XmlElement root = xmlDocument.CreateElement("node");
             xmlDocument.AppendChild(root);
 
             this.EncodeXml(root);
@@ -314,9 +185,14 @@ namespace DigitalWorld.Logic
         {
             if (!string.IsNullOrEmpty(RelativeFolderPath))
             {
-                bool ret = this.CheckCanSave();
-                if (!ret)
-                    return;
+                try
+                {
+                    this.CheckCanSave();
+                }
+                catch (System.Exception e)
+                {
+                    UnityEngine.Debug.LogException(e);
+                }
 
                 SaveXml();
                 SaveStream();

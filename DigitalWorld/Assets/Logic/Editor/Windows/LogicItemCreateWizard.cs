@@ -1,4 +1,5 @@
 ﻿using UnityEditor;
+using DigitalWorld.Logic.Editor;
 using static DigitalWorld.Logic.Editor.NodeItem;
 
 namespace DigitalWorld.Logic.Editor
@@ -11,6 +12,10 @@ namespace DigitalWorld.Logic.Editor
         public int id;
         public string itemName;
         public string itemDescription;
+        /// <summary>
+        /// 属性专用的
+        /// </summary>
+        private string valueType;
         #endregion
 
         #region Window
@@ -27,7 +32,7 @@ namespace DigitalWorld.Logic.Editor
         #endregion
 
         #region Common
-        public void Show(EItemType type, OnCallbackModifyItem callback, int id)
+        public virtual void Show(EItemType type, OnCallbackModifyItem callback, int id)
         {
             this.addHandle = callback;
             this.type = type;
@@ -37,8 +42,21 @@ namespace DigitalWorld.Logic.Editor
         #endregion
 
         #region OnGUI
+        protected override bool DrawWizardGUI()
+        {
+            bool flag = base.DrawWizardGUI();
+            switch (this.type)
+            {
+                case EItemType.Property:
+                {
+                    this.valueType = NodeProperty.FindTypeName(EditorGUILayout.Popup("valueType", NodeProperty.FindTypeIndex(this.valueType), NodeField.TypeDisplayArray));
+                    break;
+                }
+            }
+            return flag;
+        }
 
-        private void OnWizardCreate()
+        protected virtual void OnWizardCreate()
         {
             NodeItem exitsNode = null;
 
@@ -66,6 +84,18 @@ namespace DigitalWorld.Logic.Editor
                 item.Id = id;
                 item.Name = itemName;
                 item.Desc = itemDescription;
+
+                switch (this.type)
+                {
+                    case EItemType.Property:
+                    {
+                        if (item is NodeProperty property)
+                        {
+                            property.ValueType = this.valueType;
+                        }
+                        break;
+                    }
+                }
 
                 addHandle.Invoke(this.type, item);
             }

@@ -1,7 +1,8 @@
-﻿using DigitalWorld.Logic.Events;
-using Dream.Core;
+﻿using Dream.Core;
 using System.Collections.Generic;
 using System.Xml;
+using System.Linq;
+using DigitalWorld.Logic.Events;
 
 namespace DigitalWorld.Logic
 {
@@ -20,21 +21,24 @@ namespace DigitalWorld.Logic
         /// 节点类型
         /// </summary>
         public override ENodeType NodeType => ENodeType.Trigger;
-        /// <summary>
-        /// 要求词典 所有的子节点都可以向其注入结果以供查询
-        /// </summary>
-        protected Dictionary<int, bool> requirements = new Dictionary<int, bool>();
+
         /// <summary>
         /// 监听的事件
         /// </summary>
-        public EEvent ListenerEvent => listenerEvent;
-        protected EEvent listenerEvent;
+        public EEvent ListenerEvent => _listenerEvent;
+        protected EEvent _listenerEvent;
 
         /// <summary>
         /// 触发的事件
         /// </summary>
         public Events.EventHandler TriggeringEventHandler => triggeringEventHandler;
         protected Events.EventHandler triggeringEventHandler;
+
+        /// <summary>
+        /// 副本节点队列
+        /// 如果MotionMode为Multiple 则将节点启动并加入队列。
+        /// </summary>
+        protected readonly List<NodeState> _duplicates = new List<NodeState>();
         #endregion
 
         #region Pool
@@ -53,7 +57,11 @@ namespace DigitalWorld.Logic
                 triggeringEventHandler = null;
             }
 
-            this.requirements.Clear();
+            foreach (NodeState node in _duplicates)
+            {
+                node.Recycle();
+            }
+            _duplicates.Clear();
         }
 
         public override object Clone()
@@ -67,73 +75,70 @@ namespace DigitalWorld.Logic
         {
             if (base.CloneTo(obj) is Trigger trigger)
             {
-                trigger.listenerEvent = this.listenerEvent;
+                trigger._listenerEvent = this._listenerEvent;
             }
             return obj;
         }
         #endregion
 
         #region Logic
-        protected void SetRequirement(int index, bool v)
+        protected override void OnUpdate(int delta)
         {
-            if (this.requirements.ContainsKey(index))
+            for (int i = 0; i < this._duplicates.Count; ++i)
             {
-                this.requirements[index] = v;
-            }
-            else
-            {
-                this.requirements.Add(index, v);
-            }
-        }
-
-        public bool GetRequirement(int index)
-        {
-            this.requirements.TryGetValue(index, out bool ret);
-            return ret;
-        }
-
-        public bool GetRequirement(string key)
-        {
-            NodeBase node = this.FindChild(key);
-            if (null != node)
-                return GetRequirement(node.Index);
-            return false;
-        }
-
-        /// <summary>
-        /// 遍历所有子节点时，先记录其requirement，以供后续查询
-        /// </summary>
-        /// <param name="delta"></param>
-        protected override void UpdateChildren(int delta)
-        {
-            for (int i = 0; i < this._children.Count; ++i)
-            {
-                NodeBase child = this._children[i];
-                if (child.Enabled)
+                NodeState duplicate = _duplicates[i];
+                if (null != duplicate)
                 {
-                    this.SetRequirement(child.Index, child.CheckRequirement());
-                    child.Update(delta);
-                }
-                else
-                {
-                    this.SetRequirement(child.Index, true);
+                    duplicate.Update(delta);
+
+                    // 如果副本执行结束了 则回收
+                    if (duplicate.IsEnded)
+                    {
+                        this._duplicates.RemoveAt(--i);
+                        duplicate.Recycle();
+                    }
                 }
             }
+
+            base.OnUpdate(delta);
         }
 
         /// <summary>
         /// 唤醒
+        /// 如果MotionMode为Duplicate的话，则直接生成副本运行。
         /// </summary>
         /// <param name="ev"></param>
         public virtual void Invoke(Events.Event ev)
         {
-            if (ev.EventId == this.ListenerEvent)
+            if (this.CheckRequirement())
             {
-                this.triggeringEventHandler = ObjectPool<EventHandler>.Instance.Allocate();
-                this.triggeringEventHandler.Event = ev;
+                if (ev.EventId == this.ListenerEvent)
+                {
+                    if (this.MotionMode == EMotionMode.Duplicate)
+                    {
+                        if (this.Clone() is Trigger obj)
+                        {
+                            obj.triggeringEventHandler = ObjectPool<EventHandler>.Instance.Allocate();
+                            obj.triggeringEventHandler.Event = ev;
 
-                this.State = EState.Running;
+                            obj.State = EState.Running;
+                            this._duplicates.Add(obj);
+                        }
+                    }
+                    else
+                    {
+                        if (this.State == EState.Idle)
+                        {
+                            this.triggeringEventHandler = ObjectPool<EventHandler>.Instance.Allocate();
+                            this.triggeringEventHandler.Event = ev;
+
+                            this.State = EState.Running;
+                        }
+                    }
+                }
+
             }
+
         }
 
         protected override void OnExit()
@@ -145,6 +150,12 @@ namespace DigitalWorld.Logic
                 triggeringEventHandler.Recycle();
                 triggeringEventHandler = null;
             }
+
+            foreach (NodeState node in _duplicates)
+            {
+                node.Recycle();
+            }
+            _duplicates.Clear();
         }
 
         /// <summary>
@@ -156,14 +167,23 @@ namespace DigitalWorld.Logic
         {
             if (this.State == EState.Running)
             {
-                this.State = EState.Ended;
-                //for (int i = 0; i < this._children.Count; ++i)
-                //{
-                //    if (this._children[i] is NodeState child && child.Enabled && child.State == EState.Running)
-                //    {
-                //        child.State = EState.Ended;
-                //    }
-                //}
+                this.State = EState.Failed;
+            }
+        }
+
+        public override int TotalTime
+        {
+            get
+            {
+                int time = 0;
+                foreach (NodeState nodeState in _children.Cast<NodeState>())
+                {
+                    if (null != nodeState)
+                    {
+                        time += nodeState.TotalTime;
+                    }
+                }
+                return time;
             }
         }
         #endregion
@@ -173,35 +193,35 @@ namespace DigitalWorld.Logic
         {
             base.OnCalculateSize();
 
-            this.CalculateSizeEnum(listenerEvent);
+            this.CalculateSizeEnum(_listenerEvent);
         }
 
         protected override void OnEncode()
         {
             base.OnEncode();
 
-            EncodeEnum(listenerEvent);
+            EncodeEnum(_listenerEvent);
         }
 
         protected override void OnDecode()
         {
             base.OnDecode();
 
-            DecodeEnum(ref listenerEvent);
+            DecodeEnum(ref _listenerEvent);
         }
 
         protected override void OnEncode(XmlElement element)
         {
             base.OnEncode(element);
 
-            this.EncodeEnum(listenerEvent, "listenerEvent");
+            this.EncodeEnum(_listenerEvent, "_listenerEvent");
         }
 
         protected override void OnDecode(XmlElement element)
         {
             base.OnDecode(element);
 
-            this.DecodeEnum(ref listenerEvent, "listenerEvent");
+            this.DecodeEnum(ref _listenerEvent, "_listenerEvent");
         }
 
 

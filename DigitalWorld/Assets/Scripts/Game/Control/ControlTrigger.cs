@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DigitalWorld.Logic;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -55,7 +56,7 @@ namespace DigitalWorld.Game
             for (int i = 0; i < runningTriggers.Count; ++i)
             {
                 Logic.Trigger behaviour = runningTriggers[i];
-                if (behaviour.State == Logic.NodeState.EState.Ended)
+                if (behaviour.IsEnded)
                 {
                     behaviour.Recycle();
                     this.runningTriggers.RemoveAt(i);

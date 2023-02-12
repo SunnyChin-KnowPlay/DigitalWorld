@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Xml;
+﻿using System.Xml;
 using UnityEditor;
 
 namespace DigitalWorld.Logic.Editor
 {
     internal class NodeProperty : NodeItem
     {
+        #region Params
         /// <summary>
         /// 值类型
         /// </summary>
+        public string ValueType { get => valueType; set => valueType = value; }
         protected string valueType;
+        #endregion
 
         #region Clone
         public override object Clone()
@@ -30,7 +31,6 @@ namespace DigitalWorld.Logic.Editor
         }
         #endregion
 
-
         #region Common
         public override string GetTitle()
         {
@@ -44,14 +44,12 @@ namespace DigitalWorld.Logic.Editor
         {
             base.OnGUIParams(editing);
 
-            if (editing)
-            {
-                EditorGUILayout.LabelField("valueType", this.valueType);
-            }
-            else
-            {
-                this.valueType = NodeProperty.FindTypeName(EditorGUILayout.Popup("valueType", NodeProperty.FindTypeIndex(this.valueType), NodeField.TypeDisplayArray));
-            }
+        }
+
+        public override void OnGUIBody()
+        {
+            this.valueType = NodeProperty.FindTypeName(EditorGUILayout.Popup("valueType", NodeProperty.FindTypeIndex(this.valueType), NodeField.TypeDisplayArray));
+            base.OnGUIBody();
         }
         #endregion
 

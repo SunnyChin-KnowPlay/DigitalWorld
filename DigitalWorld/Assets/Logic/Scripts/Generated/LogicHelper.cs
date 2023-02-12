@@ -21,31 +21,17 @@ namespace DigitalWorld.Logic
                 {
                     return GetAction(id);
                 }
-                case ENodeType.Property:
-                {
-                    return GetProperty(id);
-                }
                 case ENodeType.Trigger:
                 {
                     return GetNode<Trigger>();
                 }
+                case ENodeType.Property:
+                {
+                    return GetProperty(id);
+                }
                 default:
                     return null;
             }
-        }
-
-        public static PropertyBase GetProperty(int id)
-        {
-            return id switch
-            {
- 
-                _ => null,
-            };
-        }
-
-        public static T GetProperty<T>(int id) where T : PropertyBase
-        {
-            return GetProperty(id) as T;
         }
 
         /// <summary>
@@ -55,34 +41,100 @@ namespace DigitalWorld.Logic
         /// <returns></returns>
         public static string GetActionDesc(int id)
         {
-            return id switch
+            switch (id)
             {
-                2 => "游戏中的创建对象，位置是基于世界坐标的",
-                6 => "清空事件中的所有目标",
-                3 => "基于单位的创建角色，位置使用相对关系",
-                4 => "单位造成伤害",
-                1 => "杀掉角色",
-                5 => "播放动画",
-                0 => "空行动",
-  
-                _ => null,
-            };
+                case 0:
+                    return "出生怪物";
+                case 2:
+                    return "检测2个int32的值";
+                case 1:
+                    return "设置状态";
+                case 3:
+                    return "注册任务";
+                case 4:
+                    return "注销任务";
+
+                default:
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// 通过事件ID获取对应的注释
+        /// </summary>
+        /// <param name="id">事件ID</param>
+        /// <returns></returns>
+        public static string GetEventDesc(int id)
+        {
+            switch (id)
+            {
+                case 5:
+                    return "角色出生";
+                case 6:
+                    return "角色死亡";
+                case 4:
+                    return "游戏结束";
+                case 2:
+                    return "游戏初始化";
+                case 3:
+                    return "游戏启动";
+                case 0:
+                    return "触发";
+                case 1:
+                    return "迭代";
+
+                default:
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// 通过ID来获取对应的注释
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public static string GetPropertyDesc(int id)
+        {
+            switch (id)
+            {
+                case 11:
+                    return "任务进度";
+                case 8:
+                    return "节点的运行次数";
+                case 10:
+                    return "怪物数量上限";
+                case 9:
+                    return "怪物数量";
+                case 3:
+                    return "布尔型变量";
+                case 7:
+                    return "阵营变量";
+                case 1:
+                    return "浮点型小数变量";
+                case 0:
+                    return "Int32型变量";
+                case 4:
+                    return "1维向量变量";
+                case 5:
+                    return "2维向量变量";
+                case 6:
+                    return "3维数组变量";
+                case 2:
+                    return "字符串型变量";
+
+                default:
+                    return null;
+            }
         }
 
         public static Actions.ActionBase GetAction(int id)
         {
-            return id switch
-            {
-                2 => GetNode<Actions.Game.CreateCharacter>(),
-                6 => GetNode<Actions.Game.Unit.ClearTargets>(),
-                3 => GetNode<Actions.Game.Unit.CreateCharacter>(),
-                4 => GetNode<Actions.Game.Unit.Damage>(),
-                1 => GetNode<Actions.Game.Unit.KillCharacter>(),
-                5 => GetNode<Actions.Game.Unit.PlayAnimator>(),
-                0 => GetNode<Actions.None>(),
-                
-                _ => null,
-            };
+            return null;
+        }
+
+        public static Properties.PropertyBase GetProperty(int id)
+        {
+            return null;
         }
     }
 }

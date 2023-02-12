@@ -9,9 +9,13 @@
 <#@ parameter name="actionDescs" type="System.String[]"#>
 <#@ parameter name="propertyEnums" type="System.String[]"#>
 <#@ parameter name="propertyNames" type="System.String[]"#>
+<#@ parameter name="propertyDescs" type="System.String[]"#>
+<#@ parameter name="eventEnums" type="System.String[]"#>
+<#@ parameter name="eventDescs" type="System.String[]"#>
 <#@ parameter name="tips" type="System.String"#>
+<#@ parameter name="namespaceName" type="System.String"#>
 <#= tips #>
-namespace DigitalWorld.Logic
+namespace <#= namespaceName #>
 {
     public static partial class <#= className #>
     {
@@ -29,38 +33,17 @@ namespace DigitalWorld.Logic
                 {
                     return GetAction(id);
                 }
-                case ENodeType.Property:
-                {
-                    return GetProperty(id);
-                }
                 case ENodeType.Trigger:
                 {
                     return GetNode<Trigger>();
                 }
+                case ENodeType.Property:
+                {
+                    return GetProperty(id);
+                }
                 default:
                     return null;
             }
-        }
-
-        public static PropertyBase GetProperty(int id)
-        {
-            return id switch
-            {
-<#
-                for (int i = 0; i < propertyEnums.Length; ++i)
-                {
-#>
-                <#= propertyEnums[i] #> => GetNode<<#= propertyNames[i] #>>(),
-<#
-                }
-#> 
-                _ => null,
-            };
-        }
-
-        public static T GetProperty<T>(int id) where T : PropertyBase
-        {
-            return GetProperty(id) as T;
         }
 
         /// <summary>
@@ -70,34 +53,102 @@ namespace DigitalWorld.Logic
         /// <returns></returns>
         public static string GetActionDesc(int id)
         {
-            return id switch
+            switch (id)
             {
 <#
                 for (int i = 0; i < actionEnums.Length; ++i)
                 {
 #>
-                <#= actionEnums[i] #> => "<#= actionDescs[i] #>",
+                case <#= actionEnums[i] #>:
+                    return "<#= actionDescs[i] #>";
 <#
                 }
 #>  
-                _ => null,
-            };
+                default:
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// 通过事件ID获取对应的注释
+        /// </summary>
+        /// <param name="id">事件ID</param>
+        /// <returns></returns>
+        public static string GetEventDesc(int id)
+        {
+            switch (id)
+            {
+<#
+                for (int i = 0; i < eventEnums.Length; ++i)
+                {
+#>
+                case <#= eventEnums[i] #>:
+                    return "<#= eventDescs[i] #>";
+<#
+                }
+#>  
+                default:
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// 通过ID来获取对应的注释
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public static string GetPropertyDesc(int id)
+        {
+            switch (id)
+            {
+<#
+                for (int i = 0; i < propertyEnums.Length; ++i)
+                {
+#>
+                case <#= propertyEnums[i] #>:
+                    return "<#= propertyDescs[i] #>";
+<#
+                }
+#>  
+                default:
+                    return null;
+            }
         }
 
         public static Actions.ActionBase GetAction(int id)
         {
-            return id switch
+            switch (id)
             {
 <#
                 for (int i = 0; i < actionEnums.Length; ++i)
                 {
 #>
-                <#= actionEnums[i] #> => GetNode<<#= actionNames[i] #>>(),
+                case <#= actionEnums[i] #>:
+                    return GetNode<<#= actionNames[i] #>>();
 <#
                 }
-#>                
-                _ => null,
-            };
+#>  
+                default:
+                    return null;
+            }
+        }
+
+        public static Properties.PropertyBase GetProperty(int id)
+        {
+            switch (id)
+            {
+<#
+                for (int i = 0; i < propertyEnums.Length; ++i)
+                {
+#>
+                case <#= propertyEnums[i] #>:
+                    return GetNode<<#= propertyNames[i] #>>();
+<#
+                }
+#>  
+                default:
+                    return null;
+            }
         }
     }
 }

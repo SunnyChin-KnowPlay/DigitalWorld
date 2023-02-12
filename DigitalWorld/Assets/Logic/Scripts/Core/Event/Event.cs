@@ -53,7 +53,7 @@ namespace DigitalWorld.Logic.Events
             {
                 string v = string.Format("Triggering ID:<color=#32D22FFF>{0}</color>", handle.Unit.Uid);
                 EditorGUILayout.LabelField(v);
-               
+
                 if (GUILayout.Button(new GUIContent("Select Target"), GUILayout.MaxHeight(18)))
                 {
                     if (null != handle.Unit.gameObject)

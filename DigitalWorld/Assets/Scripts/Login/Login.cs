@@ -3,7 +3,6 @@ using DigitalWorld.UI;
 using DigitalWorld.Login.UI;
 using UnityEngine;
 using DigitalWorld.Inputs;
-using DigitalWorld.Notices.UI;
 
 namespace DigitalWorld.Login
 {
@@ -21,9 +20,6 @@ namespace DigitalWorld.Login
 
             UIManager uiManager = UIManager.Instance;
             uiManager.ShowPanel<LoginPanel>(LoginPanel.path);
-
-            System.Type type = System.Type.GetType("Dream.FixMath.FixVector3");
-            int x = 1;
         }
     }
 }

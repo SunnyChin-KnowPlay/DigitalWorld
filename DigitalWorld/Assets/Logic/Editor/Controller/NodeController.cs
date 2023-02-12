@@ -1,9 +1,9 @@
 ﻿using Assets.Logic.Editor.Templates;
-using Dream.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
+using System.Xml.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -34,15 +34,15 @@ namespace DigitalWorld.Logic.Editor
         {
             ClearAllCodeFiles();
 
-            var text = DigitalWorld.Logic.Utility.LoadTemplateConfig("Events");
+            var text = Utility.LoadTemplateConfig("Events");
             XmlDocument eventDoc = new XmlDocument();
             eventDoc.LoadXml(text.text);
 
-            text = DigitalWorld.Logic.Utility.LoadTemplateConfig("Actions");
+            text = Utility.LoadTemplateConfig("Actions");
             XmlDocument actionDoc = new XmlDocument();
             actionDoc.LoadXml(text.text);
 
-            text = DigitalWorld.Logic.Utility.LoadTemplateConfig("Properties");
+            text = Utility.LoadTemplateConfig("Properties");
             XmlDocument propertyDoc = new XmlDocument();
             propertyDoc.LoadXml(text.text);
 
@@ -102,8 +102,8 @@ namespace DigitalWorld.Logic.Editor
             string data = tmp.TransformText();
 
             string fileName = "Defined.cs";
-            string targetPath = Path.Combine(DigitalWorld.Logic.Utility.GeneratedScriptPath, fileName);
-            DigitalWorld.Logic.Utility.SaveDataToFile(data, targetPath);
+            string targetPath = Path.Combine(Utility.GeneratedScriptPath, fileName);
+            Utility.SaveDataToFile(data, targetPath);
         }
 
         private static void GenerateHelper(XmlDocument ev, XmlDocument act, XmlDocument property)
@@ -147,6 +147,7 @@ namespace DigitalWorld.Logic.Editor
             {
                 names.Clear();
                 ids.Clear();
+                descs.Clear();
 
                 root = property["data"];
                 foreach (var node in root.ChildNodes)
@@ -158,19 +159,38 @@ namespace DigitalWorld.Logic.Editor
 
                     names.Add(fullName);
                     ids.Add(e.GetAttribute("id"));
-
+                    descs.Add(e.GetAttribute("desc"));
                 }
                 tmp.Session["tips"] = Logic.Utility.GeneratedTips;
                 tmp.Session["propertyNames"] = names.ToArray();
                 tmp.Session["propertyEnums"] = ids.ToArray();
+                tmp.Session["propertyDescs"] = descs.ToArray();
+            }
+
+            if (null != ev)
+            {
+                descs.Clear();
+                ids.Clear();
+
+                root = ev["data"];
+                foreach (var node in root.ChildNodes)
+                {
+                    e = (XmlElement)node;
+
+                    descs.Add(e.GetAttribute("desc"));
+                    ids.Add(e.GetAttribute("id"));
+                }
+                tmp.Session["eventEnums"] = ids.ToArray();
+                tmp.Session["eventDescs"] = descs.ToArray();
+                tmp.Session["namespaceName"] = Utility.LogicNamespace;
             }
 
             tmp.Initialize();
             string data = tmp.TransformText();
 
             string fileName = string.Format("{0}.cs", className, ".cs");
-            string targetPath = System.IO.Path.Combine(DigitalWorld.Logic.Utility.GeneratedScriptPath, fileName);
-            DigitalWorld.Logic.Utility.SaveDataToFile(data, targetPath);
+            string targetPath = System.IO.Path.Combine(Logic.Utility.GeneratedScriptPath, fileName);
+            Logic.Utility.SaveDataToFile(data, targetPath);
         }
 
         private static void GenerateEvent(XmlDocument xmlDocument)
@@ -179,7 +199,7 @@ namespace DigitalWorld.Logic.Editor
 
             string fileName = null;
 
-            EventTemplate tmp = null;
+            EventTemplate tmp;
             foreach (var node in root.ChildNodes)
             {
                 XmlElement element = (XmlElement)node;
@@ -188,18 +208,18 @@ namespace DigitalWorld.Logic.Editor
                     Session = new Dictionary<string, object>
                     {
                         ["tips"] = Logic.Utility.GeneratedTips,
-                        ["eventName"] = element.GetAttribute("name"),
-                        ["namespaceName"] = Logic.Utility.CombineName(Logic.Utility.LogicEventNamespace, Logic.Utility.GetDirectoryFileName(Logic.Utility.GetNamespaceName(element.GetAttribute("name")))),
+                        ["eventName"] = Utility.GetStandardizationEnumName(element.GetAttribute("name")),
+                        ["namespaceName"] = Logic.Utility.LogicEventNamespace,
                         ["desc"] = element.GetAttribute("desc"),
                     }
                 };
                 tmp.Initialize();
                 string data = tmp.TransformText();
 
-                fileName = System.IO.Path.Combine(Logic.Utility.EventName, element.GetAttribute("name")) + ".cs";
+                fileName = System.IO.Path.Combine(Logic.Utility.EventName, Utility.GetDirectoryFileName(element.GetAttribute("name"))) + ".cs";
 
-                string targetPath = System.IO.Path.Combine(DigitalWorld.Logic.Utility.GeneratedScriptPath, fileName);
-                DigitalWorld.Logic.Utility.SaveDataToFile(data, targetPath);
+                string targetPath = System.IO.Path.Combine(Logic.Utility.GeneratedScriptPath, fileName);
+                Logic.Utility.SaveDataToFile(data, targetPath);
             }
         }
 
@@ -207,36 +227,126 @@ namespace DigitalWorld.Logic.Editor
         {
             XmlElement root = xmlDocument["data"];
 
-            string fileName = null;
-            PropertyTemplate tmp = null;
+            List<string> names = new List<string>();
+            List<string> types = new List<string>();
+            List<string> descs = new List<string>();
+
+            List<string> serializeFuncs = new List<string>();
+            List<string> deserializeFuncs = new List<string>();
+            List<string> calculateFuncs = new List<string>();
+
+            Dictionary<string, List<string>> properties = new Dictionary<string, List<string>>();
+
+            string fileName;
 
             foreach (var node in root.ChildNodes)
             {
                 XmlElement element = (XmlElement)node;
 
-                fileName = System.IO.Path.Combine(Logic.Utility.PropertyName, Logic.Utility.GetDirectoryFileName(element.GetAttribute("name"))) + ".cs";
+                names.Clear();
+                types.Clear();
 
-                tmp = new PropertyTemplate
+                descs.Clear();
+                serializeFuncs.Clear();
+                deserializeFuncs.Clear();
+                calculateFuncs.Clear();
+
+                XmlElement fieldElement = element["fields"];
+                if (null != fieldElement)
+                {
+                    foreach (var a in fieldElement.ChildNodes)
+                    {
+                        XmlElement attr = (XmlElement)a;
+                        names.Add(attr.GetAttribute("name"));
+                        types.Add(attr.GetAttribute("typeName"));
+                        descs.Add(attr.GetAttribute("desc"));
+
+                        System.Type baseType = Type.GetType(attr.GetAttribute("baseTypeName"));
+                        serializeFuncs.Add(baseType == typeof(Enum) ? "EncodeEnum" : "Encode");
+                        deserializeFuncs.Add(baseType == typeof(Enum) ? "DecodeEnum" : "Decode");
+                        calculateFuncs.Add(baseType == typeof(Enum) ? "CalculateSizeEnum" : "CalculateSize");
+                    }
+                }
+
+                fileName = Path.Combine(Logic.Utility.PropertyName, Logic.Utility.GetDirectoryFileName(element.GetAttribute("name"))) + ".cs";
+                string className = Utility.GetSelfName(element.GetAttribute("name"));
+                string valueTypeName = element.GetAttribute("valueType");
+
+                properties.TryGetValue(valueTypeName, out List<string> list);
+                if (null == list)
+                {
+                    list = new List<string>();
+                    properties.Add(valueTypeName, list);
+                }
+                if (null != list)
+                {
+                    list.Add(element.GetAttribute("name"));
+                }
+
+                PropertyTemplate tmp = new PropertyTemplate
                 {
                     Session = new Dictionary<string, object>
                     {
                         ["tips"] = Logic.Utility.GeneratedTips,
                         ["id"] = int.Parse(element.GetAttribute("id")),
-                        ["className"] = element.GetAttribute("name"),
+                        ["className"] = className,
                         ["desc"] = element.GetAttribute("desc"),
-                        ["valueType"] = element.GetAttribute("valueType"),
-                        ["usingNamespaces"] = DigitalWorld.Logic.Utility.usingNamespaces,
+                        ["valueType"] = valueTypeName,
+
+                        ["types"] = types.ToArray(),
+                        ["varNames"] = names.ToArray(),
+                        ["descripts"] = descs.ToArray(),
+                        ["usingNamespaces"] = Logic.Utility.usingNamespaces,
+                        ["serializeFuncs"] = serializeFuncs.ToArray(),
+                        ["deserializeFuncs"] = deserializeFuncs.ToArray(),
+                        ["calculateFuncs"] = calculateFuncs.ToArray(),
                         ["namespaceName"] = Logic.Utility.CombineName(Logic.Utility.LogicPropertyNamespace, Logic.Utility.GetNamespaceName(element.GetAttribute("name"))),
                     }
                 };
 
-
                 tmp.Initialize();
                 string data = tmp.TransformText();
 
-                string targetPath = System.IO.Path.Combine(DigitalWorld.Logic.Utility.GeneratedScriptPath, fileName);
-                DigitalWorld.Logic.Utility.SaveDataToFile(data, targetPath);
+                string targetPath = System.IO.Path.Combine(Logic.Utility.GeneratedScriptPath, fileName);
+                Logic.Utility.SaveDataToFile(data, targetPath);
+
+                // 这里是生成实现文件的模板 首先判断一下 实现文件是否已经存在 没有的情况下利用模板进行生成
+                string implementFullPath = Path.Combine(Logic.Utility.ImplementScriptPath, fileName);
+                if (!File.Exists(implementFullPath))
+                {
+                    PropertyImplementTemplate implementTemplate = new PropertyImplementTemplate
+                    {
+                        Session = new Dictionary<string, object>
+                        {
+                            ["className"] = className,
+                            ["valueType"] = valueTypeName,
+                            ["namespaceName"] = Logic.Utility.CombineName(Logic.Utility.LogicPropertyNamespace, Logic.Utility.GetNamespaceName(element.GetAttribute("name"))),
+                        }
+                    };
+
+                    implementTemplate.Initialize();
+                    data = implementTemplate.TransformText();
+
+                    Logic.Utility.SaveDataToFile(data, implementFullPath);
+                }
             }
+
+            PropertyHelperTemplate helperTmp = new PropertyHelperTemplate
+            {
+                Session = new Dictionary<string, object>
+                {
+                    ["properties"] = properties,
+                    ["namespaceName"] = Utility.LogicNamespace,
+                }
+            };
+
+            helperTmp.Initialize();
+            string helperData = helperTmp.TransformText();
+
+            fileName = string.Format("Properties/{0}.cs", "PropertyHelper");
+            string helperTargetPath = System.IO.Path.Combine(Logic.Utility.GeneratedScriptPath, fileName);
+            Logic.Utility.SaveDataToFile(helperData, helperTargetPath);
+
         }
 
         private static void GenerateActions(XmlDocument xmlDocument)
@@ -245,13 +355,17 @@ namespace DigitalWorld.Logic.Editor
             XmlElement root = xmlDocument["data"];
 
             List<string> names = new List<string>();
+            List<string> capitalNames = new List<string>();
 
+            List<string> standardTypes = new List<string>();
             List<string> types = new List<string>();
             List<string> descs = new List<string>();
             List<string> values = new List<string>();
             List<string> serializeFuncs = new List<string>();
             List<string> deserializeFuncs = new List<string>();
             List<string> calculateFuncs = new List<string>();
+            List<string> propertyTypes = new List<string>();
+            List<string> propertyNames = new List<string>();
 
             string fileName;
             ActionTemplate generatedTemplate;
@@ -263,27 +377,51 @@ namespace DigitalWorld.Logic.Editor
                 XmlElement element = (XmlElement)node;
 
                 names.Clear();
+                capitalNames.Clear();
                 types.Clear();
+                standardTypes.Clear();
 
                 descs.Clear();
                 values.Clear();
                 serializeFuncs.Clear();
                 deserializeFuncs.Clear();
                 calculateFuncs.Clear();
+                propertyTypes.Clear();
+                propertyNames.Clear();
 
-                foreach (var a in element.ChildNodes)
+                XmlElement fieldElement = element["fields"];
+                if (null != fieldElement)
                 {
-                    XmlElement attr = (XmlElement)a;
-                    names.Add(attr.GetAttribute("name"));
-                    types.Add(attr.GetAttribute("typeName"));
-                    descs.Add(attr.GetAttribute("desc"));
-                    values.Add(string.Format("default({0})", attr.GetAttribute("typeName")));
+                    foreach (var a in fieldElement.ChildNodes)
+                    {
+                        XmlElement attr = (XmlElement)a;
+                        names.Add(attr.GetAttribute("name"));
+                        capitalNames.Add(attr.GetAttribute("name").ToUpperFirst());
+                        types.Add(attr.GetAttribute("typeName"));
+                        standardTypes.Add(Utility.GetStandardizationEnumName(attr.GetAttribute("typeName")));
+                        descs.Add(attr.GetAttribute("desc"));
+                        values.Add(string.Format("default({0})", attr.GetAttribute("typeName")));
 
-                    System.Type baseType = Type.GetType(attr.GetAttribute("baseTypeName"));
-                    serializeFuncs.Add(baseType == typeof(Enum) ? "EncodeEnum" : "Encode");
-                    deserializeFuncs.Add(baseType == typeof(Enum) ? "DecodeEnum" : "Decode");
-                    calculateFuncs.Add(baseType == typeof(Enum) ? "CalculateSizeEnum" : "CalculateSize");
+                        System.Type baseType = Type.GetType(attr.GetAttribute("baseTypeName"));
+                        serializeFuncs.Add(baseType == typeof(Enum) ? "EncodeEnum" : "Encode");
+                        deserializeFuncs.Add(baseType == typeof(Enum) ? "DecodeEnum" : "Decode");
+                        calculateFuncs.Add(baseType == typeof(Enum) ? "CalculateSizeEnum" : "CalculateSize");
+                    }
                 }
+
+                XmlElement propertyElement = element["properties"];
+                if (null != propertyElement)
+                {
+                    foreach (var a in propertyElement.ChildNodes)
+                    {
+                        XmlElement attr = (XmlElement)a;
+
+                        propertyNames.Add("Property_" + attr.GetAttribute("name"));
+                        propertyTypes.Add(string.Format("{0}", attr.GetAttribute("valueType")));
+                    }
+                }
+
+
                 fileName = Path.Combine(Logic.Utility.ActionName, Logic.Utility.GetDirectoryFileName(element.GetAttribute("name"))) + ".cs";
 
                 generatedTemplate = new ActionTemplate
@@ -296,25 +434,29 @@ namespace DigitalWorld.Logic.Editor
                         ["namespaceName"] = Logic.Utility.CombineName(Logic.Utility.LogicActionNamespace, Logic.Utility.GetNamespaceName(element.GetAttribute("name"))),
                         ["desc"] = element.GetAttribute("desc"),
 
+                        ["standardTypes"] = standardTypes.ToArray(),
                         ["types"] = types.ToArray(),
+                        ["capitalVarNames"] = capitalNames.ToArray(),
                         ["varNames"] = names.ToArray(),
                         ["descripts"] = descs.ToArray(),
                         ["defaultValues"] = values.ToArray(),
-                        ["usingNamespaces"] = DigitalWorld.Logic.Utility.usingNamespaces,
+                        ["usingNamespaces"] = Logic.Utility.usingNamespaces,
                         ["serializeFuncs"] = serializeFuncs.ToArray(),
                         ["deserializeFuncs"] = deserializeFuncs.ToArray(),
-                        ["calculateFuncs"] = calculateFuncs.ToArray()
+                        ["calculateFuncs"] = calculateFuncs.ToArray(),
+                        ["propertyNames"] = propertyNames.ToArray(),
+                        ["propertyTypes"] = propertyTypes.ToArray(),
                     }
                 };
 
                 generatedTemplate.Initialize();
                 string data = generatedTemplate.TransformText();
 
-                string targetPath = System.IO.Path.Combine(DigitalWorld.Logic.Utility.GeneratedScriptPath, fileName);
-                DigitalWorld.Logic.Utility.SaveDataToFile(data, targetPath);
+                string targetPath = System.IO.Path.Combine(Logic.Utility.GeneratedScriptPath, fileName);
+                Logic.Utility.SaveDataToFile(data, targetPath);
 
                 // 这里是生成实现文件的模板 首先判断一下 实现文件是否已经存在 没有的情况下利用模板进行生成
-                string implementFullPath = Path.Combine(DigitalWorld.Logic.Utility.ImplementScriptPath, fileName);
+                string implementFullPath = Path.Combine(Logic.Utility.ImplementScriptPath, fileName);
                 if (!File.Exists(implementFullPath))
                 {
                     implementTemplate = new ActionImplementTemplate
@@ -336,7 +478,7 @@ namespace DigitalWorld.Logic.Editor
 
         private static void ClearAllCodeFiles()
         {
-            Utilities.Utility.ClearDirectory(Logic.Utility.GeneratedScriptPath);
+            Utility.ClearDirectory(Logic.Utility.GeneratedScriptPath);
         }
 
         public void SetDirty()
@@ -380,7 +522,7 @@ namespace DigitalWorld.Logic.Editor
                 string name = GetItemFileName(type);
                 if (!string.IsNullOrEmpty(name))
                 {
-                    var text = DigitalWorld.Logic.Utility.LoadTemplateConfig(name);
+                    var text = Logic.Utility.LoadTemplateConfig(name);
                     LoadItems(type, this.GetItems(type), text);
                 }
             }
@@ -472,6 +614,12 @@ namespace DigitalWorld.Logic.Editor
             doc.AppendChild(root);
 
             string fullPath = GetFilePath(type);
+            string directoryName = Path.GetDirectoryName(fullPath);
+            if (!Directory.Exists(directoryName))
+            {
+                Directory.CreateDirectory(directoryName);
+            }
+
             if (System.IO.File.Exists(fullPath))
             {
                 System.IO.File.Delete(fullPath);
@@ -489,34 +637,43 @@ namespace DigitalWorld.Logic.Editor
 
         private string GetFilePath(EItemType item)
         {
-            string filePath = Path.Combine(DigitalWorld.Logic.Utility.TemplateConfigsPath, this.GetItemFileName(item));
+            string filePath = Path.Combine(Logic.Utility.TemplateConfigsPath, this.GetItemFileName(item));
             filePath += ".xml";
-            string fullPath = Path.Combine(Utilities.Utility.GetProjectDataPath(), filePath);
+            string fullPath = Path.Combine(Utility.GetProjectDataPath(), filePath);
 
             return fullPath;
         }
 
         private string GetItemFileName(EItemType item)
         {
-            return item switch
+            switch (item)
             {
-                EItemType.Action => "Actions",
-                EItemType.Property => "Properties",
-                EItemType.Event => "Events",
-                _ => null,
-            };
+                case EItemType.Action:
+                    return "Actions";
+                case EItemType.Property:
+                    return "Properties";
+                case EItemType.Event:
+                    return "Events";
+                default:
+                    return null;
+            }
         }
 
         private string GetXmlElementName(EItemType item)
         {
-            return item switch
+            switch (item)
             {
-                EItemType.Action => "action",
-                EItemType.Property => "property",
-                EItemType.Event => "event",
-                _ => null,
-            };
+                case EItemType.Action:
+                    return "action";
+                case EItemType.Property:
+                    return "property";
+                case EItemType.Event:
+                    return "event";
+                default:
+                    return null;
+            }
         }
+
 
         public List<NodeItem> GetItems(EItemType item)
         {
@@ -600,16 +757,18 @@ namespace DigitalWorld.Logic.Editor
 
         public static string GetTitleWithType(EItemType item)
         {
-            return item switch
+            switch (item)
             {
-                EItemType.Action => "Action",
-                EItemType.Property => "Property",
-                EItemType.Event => "Event",
-                _ => null,
-            };
+                case EItemType.Action:
+                    return "Action";
+                case EItemType.Property:
+                    return "Property";
+                case EItemType.Event:
+                    return "Event";
+                default:
+                    return null;
+            }
         }
-
-
         #endregion
 
         #region Listen
@@ -618,8 +777,6 @@ namespace DigitalWorld.Logic.Editor
             if (dirty)
                 this.dirty = true;
         }
-
-
         #endregion
 
 

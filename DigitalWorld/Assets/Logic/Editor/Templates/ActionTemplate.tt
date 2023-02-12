@@ -12,6 +12,8 @@
 <#@ parameter name="defaultValues" type="System.String[]"#>
 <#@ parameter name="calculateFuncs" type="System.String[]"#>
 <#@ parameter name="namespaceName" type="System.String"#>
+<#@ parameter name="propertyTypes" type="System.String[]"#>
+<#@ parameter name="propertyNames" type="System.String[]"#>
 <#@ parameter name="tips" type="System.String"#>
 <#= tips #>
 <#
@@ -34,14 +36,18 @@ namespace <#= namespaceName #>
     /// </summary>
 	public partial class <#= className #> : ActionBase
 	{
-#region Common
-		public override int Id
+		#region Properties
+<#
+		for (int i = 0; i < propertyTypes.Length; ++i)
 		{
-			get
-			{
-				return <#= id #>;
-			}
+#>
+		public PropertyTemplate<<#= propertyTypes[i] #>> <#= propertyNames[i] #> => GetChild(<#= i #>) as PropertyTemplate<<#= propertyTypes[i] #>>;
+<#		
 		}
+#>       
+        #endregion
+
+		#region Fields
 <#
 		for (int i = 0; i < types.Length; ++i)
 		{
@@ -53,6 +59,44 @@ namespace <#= namespaceName #>
 <#
 		}
 #>
+		#endregion
+		
+		#region Common
+		public override int Id
+		{
+			get
+			{
+				return <#= id #>;
+			}
+		}
+
+#if UNITY_EDITOR
+		/// <summary>
+        /// 当被编辑器创建时的回调
+        /// </summary>
+        public override void OnCreate()
+        {
+			base.OnCreate();
+            Type[] types = null;
+
+<#
+			for (int i = 0; i < propertyTypes.Length; ++i)
+			{
+#>
+			types = Properties.PropertyHelper.GetPropertyTypes(typeof(<#= propertyTypes[i] #>));
+            if (null != types && types.Length > 0)
+            {
+				if (System.Activator.CreateInstance(types[0]) is Properties.PropertyBase pb)
+                {
+					pb.Name = "<#= propertyNames[i] #>";
+                    pb.SetParent(this);
+                }
+            }
+<#
+			}
+#>  
+        }
+#endif
 
 		public override void OnAllocate()
         {
@@ -109,33 +153,41 @@ namespace <#= namespaceName #>
             }
             return obj;
         }
-#endregion
+		#endregion
 
-#region Editor
+		#region Editor
 #if UNITY_EDITOR
-        private static Dictionary<string, string> descs = new Dictionary<string, string>();
+        private static Dictionary<string, string> fieldDescs = new Dictionary<string, string>();
 
-        private static Dictionary<string, string> Descs
+        private static Dictionary<string, string> FieldDescs
         {
             get
             {
-                if (null == descs)
-                    descs = new Dictionary<string, string>();
+                if (null == fieldDescs)
+                    fieldDescs = new Dictionary<string, string>();
 
-                if (descs.Count < 1)
+                if (fieldDescs.Count < 1)
                 {
 <#
 		            for (int i = 0; i < varNames.Length; ++i)
 		            {
 #>
-                    descs.Add("<#= varNames[i] #>", "<#= descripts[i] #>");
+                    fieldDescs.Add("<#= varNames[i] #>", "<#= descripts[i] #>");
 <#
 		            }
 #>
                 }
 
-                return descs;
+                return fieldDescs;
             }
+        }
+
+		protected override string GetFieldDesc(string fieldName)
+        {
+            Dictionary<string, string> descs = FieldDescs;
+            string v = string.Empty;
+            descs.TryGetValue(fieldName, out v);
+            return v;
         }
 
         public override string Desc
@@ -145,25 +197,17 @@ namespace <#= namespaceName #>
                 return "<#= desc #>";
             }
         }
-
-        protected override string GetFieldDesc(string fieldName)
-        {
-            Dictionary<string, string> descs = Descs;
-            string v = string.Empty;
-            descs.TryGetValue(fieldName, out v);
-            return v;
-        }
 #endif
-#endregion
+		#endregion
 
-#region Serializion
+		#region Serializion
 		protected override void OnCalculateSize()
         {
             base.OnCalculateSize();
 <#
 			for (int i = 0; i < types.Length; ++i)
 			{
-#>	
+#>
 			<#= calculateFuncs[i] #>(this.<#= varNames[i] #>);
 <#
 			}
@@ -227,6 +271,6 @@ namespace <#= namespaceName #>
 
 
 #endif
-#endregion
+		#endregion
 	}
 }

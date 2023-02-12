@@ -1,7 +1,7 @@
-﻿using Dream.Core;
-using Dream.Proto;
+﻿using Dream.Proto;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 
 namespace DigitalWorld.Logic
@@ -9,11 +9,15 @@ namespace DigitalWorld.Logic
     /// <summary>
     /// 逻辑根节点
     /// </summary>
-    public abstract partial class NodeBase : ByteBuffer, INode, IComparable
+    [Serializable]
+    public abstract partial class NodeBase : ByteBuffer, INode, IComparable, ICloneable
     {
         #region Event
         public delegate void OnDirtyChangedHandle(bool dirty);
         public event OnDirtyChangedHandle OnDirtyChanged;
+
+        public delegate void OnGlobalSelectChangedHandle(NodeBase node, int lastedSelected);
+        public event OnGlobalSelectChangedHandle OnGlobalSelectChanged;
         #endregion
 
         #region Params
@@ -40,6 +44,48 @@ namespace DigitalWorld.Logic
             set { _maxIndex = value; }
         }
         protected int _maxIndex = 0;
+
+        public int GlobalIndex
+        {
+            get
+            {
+                return this._globalIndex;
+            }
+            set
+            {
+                if (this._globalIndex == value)
+                    return;
+
+                this._globalIndex = value;
+            }
+        }
+        protected int _globalIndex = 0;
+
+        public int MaxGlobalIndex
+        {
+            get { return _maxGlobalIndex; }
+            set { _maxGlobalIndex = value; }
+        }
+        protected int _maxGlobalIndex = 0;
+
+        /// <summary>
+        /// 最后一次选择的全局索引号
+        /// </summary>
+        public int LastedSelectedGlobalIndex
+        {
+            get => _lastedSelectedGlobalIndex;
+            set
+            {
+                if (_lastedSelectedGlobalIndex != value)
+                {
+                    _lastedSelectedGlobalIndex = value;
+                }
+#if UNITY_EDITOR
+                lastedSelectedFieldInfo = null;
+#endif
+            }
+        }
+        private int _lastedSelectedGlobalIndex = -1;
 
         public NodeBase Parent => _parent;
         protected NodeBase _parent;
@@ -107,7 +153,7 @@ namespace DigitalWorld.Logic
                 if (!typeName.Contains('.'))
                     return typeName;
 
-                return typeName[(typeName.LastIndexOf('.') + 1)..];
+                return typeName.Substring(typeName.LastIndexOf('.') + 1);
             }
         }
 
@@ -128,7 +174,7 @@ namespace DigitalWorld.Logic
                 if (!typeName.Contains(Utility.LogicNamespace))
                     return typeName;
 
-                return typeName[(typeName.IndexOf(Utility.LogicNamespace) + Utility.LogicNamespace.Length + 1)..];
+                return typeName.Substring(typeName.IndexOf(Utility.LogicNamespace) + Utility.LogicNamespace.Length + 1);
             }
         }
 
@@ -186,8 +232,7 @@ namespace DigitalWorld.Logic
         /// </summary>
         public virtual bool IsDirty
         {
-            get
-            { return _dirty; }
+            get => _dirty;
         }
         protected bool _dirty = false;
         #endregion
@@ -228,6 +273,10 @@ namespace DigitalWorld.Logic
                 }
             }
 
+#if UNITY_EDITOR
+            this.EditorCloneTo(obj);
+#endif
+
             return obj;
         }
         #endregion
@@ -237,6 +286,7 @@ namespace DigitalWorld.Logic
         {
             this._children.Add(node);
 
+            this.SetDirty();
             this.ResetChildrenIndex();
         }
 
@@ -244,12 +294,16 @@ namespace DigitalWorld.Logic
         {
             this._children.Insert(index, node);
 
+            this.SetDirty();
             this.ResetChildrenIndex();
         }
 
         protected virtual void RemoveChild(NodeBase node)
         {
             this._children.Remove(node);
+
+            this.SetDirty();
+            this.ResetChildrenIndex();
         }
 
         public virtual void SetParent(NodeBase parent, int index = -1)
@@ -293,7 +347,7 @@ namespace DigitalWorld.Logic
             for (int i = 0; i < int.MaxValue; ++i)
             {
                 string name = string.Format("{0}_{1}", this.SelfTypeName, i);
-                NodeBase node = _parent.FindChild(name);
+                NodeBase node = _parent.Find(name);
                 if (null == node) // 找不到 则说明名字可以用
                 {
                     this._name = name;
@@ -346,8 +400,27 @@ namespace DigitalWorld.Logic
 
                 _children[i].ResetChildrenIndex();
             }
+
+            NodeBase root = this.Root;
+            if (null != root)
+            {
+                root.ResetGlobalIndex();
+#if UNITY_EDITOR
+                root.AutoSelect(0);
+#endif
+            }
         }
 
+        private void ResetGlobalIndex()
+        {
+#if UNITY_EDITOR
+            this.GlobalNodes.Clear();
+#endif
+            int globalIndex = 0;
+            this.SetGlobalIndex(ref globalIndex);
+
+            this.MaxGlobalIndex = globalIndex;
+        }
 
         /// <summary>
         /// 获取自己同级的邻居队列
@@ -392,9 +465,49 @@ namespace DigitalWorld.Logic
 
         public NodeBase GetChild(int index)
         {
-            if (this._children.Count < 1 || this._children.Count >= index)
-                throw new ArgumentOutOfRangeException();
+            if (this._children.Count < 1 || index >= this._children.Count)
+                return null;
+
             return this._children[index];
+        }
+
+        public NodeBase GetNeighbour(int indexOffset)
+        {
+            if (null != this.Parent)
+            {
+                if (indexOffset < 0)
+                {
+                    if (this.Index > 0)
+                    {
+                        return this._parent.GetChild(this.Index - 1);
+                    }
+                }
+                else
+                {
+                    if (this.Index < this._parent.Children.Count - 1)
+                    {
+                        return this._parent.GetChild(this.Index + 1);
+                    }
+                }
+            }
+            return null;
+        }
+
+        private void SetGlobalIndex(ref int index)
+        {
+            this._globalIndex = index++;
+            NodeBase root = this.Root;
+            if (null != root)
+            {
+#if UNITY_EDITOR
+                root.GlobalNodes.Add(this._globalIndex, this);
+#endif
+            }
+
+            foreach (NodeBase child in _children)
+            {
+                child.SetGlobalIndex(ref index);
+            }
         }
 
         /// <summary>
@@ -402,14 +515,89 @@ namespace DigitalWorld.Logic
         /// </summary>
         /// <param name="name">子节点名</param>
         /// <returns></returns>
+        [Obsolete("FindChild has been deprecated. Use Find instead.")]
         public NodeBase FindChild(string name)
         {
-            for (int i = 0; i < this._children.Count; ++i)
+            return Find(name);
+        }
+
+        /// <summary>
+        /// 通过名字来寻找节点
+        /// </summary>
+        /// <param name="name">节点名</param>
+        /// <returns>找不到的话则返回null</returns>
+        public NodeBase Find(string name)
+        {
+            foreach (NodeBase child in _children)
             {
-                if (this._children[i]._name == name)
-                    return this._children[i];
+                if (child.Name == name)
+                    return child;
             }
             return null;
+        }
+
+
+
+        /// <summary>
+        /// 检查自自己开始往根节点的所有节点中，是否有类型是T的派生类或者为T的
+        /// 如果有 则返回这个基点
+        /// </summary>
+        /// <typeparam name="T">NodeTypeClass</typeparam>
+        /// <param name="node">从哪个节点开始往上找</param>
+        /// <returns></returns>
+        public static T GetNodeToRoot<T>(NodeBase node) where T : NodeBase
+        {
+            if (null == node)
+                return null;
+
+            Type nodeType = node.GetType();
+            Type type = typeof(T);
+            if (type == nodeType || node.GetType().IsSubclassOf(typeof(T)))
+                return node as T;
+
+            return GetNodeToRoot<T>(node.Parent);
+        }
+
+        /// <summary>
+        /// 层级数，从根节点往下数看是到了第几层
+        /// </summary>
+        public int LayerCount
+        {
+            get => GetLayerCount(this, 0);
+        }
+
+        protected static int GetLayerCount(NodeBase node, int layerCount)
+        {
+            if (null == node || null == node.Parent)
+                return layerCount;
+
+            return GetLayerCount(node.Parent, layerCount + 1);
+        }
+
+        /// <summary>
+        /// 打开所有的子节点
+        /// </summary>
+        public void OpenChildren()
+        {
+#if UNITY_EDITOR
+            foreach (NodeBase child in _children)
+            {
+                child.IsEditing = true;
+            }
+#endif
+        }
+
+        /// <summary>
+        /// 关闭所有的子节点
+        /// </summary>
+        public void CloseChildren()
+        {
+#if UNITY_EDITOR
+            foreach (NodeBase child in _children)
+            {
+                child.IsEditing = false;
+            }
+#endif
         }
         #endregion
 
@@ -486,7 +674,7 @@ namespace DigitalWorld.Logic
             XmlElement childrenEle = doc.CreateElement("_children");
             for (int i = 0; i < _children.Count; ++i)
             {
-                XmlElement childEle = doc.CreateElement("child");
+                XmlElement childEle = doc.CreateElement("node");
                 _children[i].EncodeXml(childEle);
                 childrenEle.AppendChild(childEle);
             }
@@ -522,7 +710,6 @@ namespace DigitalWorld.Logic
                 }
             }
         }
-
 
         public static bool ParseType(XmlElement element, out Type type)
         {
@@ -561,6 +748,15 @@ namespace DigitalWorld.Logic
             Decode(buffer, ref pos, ref id);
             return true;
         }
+
+        public virtual void Preprocess()
+        {
+            for (int i = 0; i < this._children.Count; ++i)
+            {
+                NodeBase node = _children[i];
+                node.Preprocess();
+            }
+        }
         #endregion
 
         #region Logic
@@ -576,6 +772,15 @@ namespace DigitalWorld.Logic
         }
 
         /// <summary>
+        /// 延迟到帧末时的迭代更新处理
+        /// </summary>
+        /// <param name="delta"></param>
+        public void LateUpdate(int delta)
+        {
+            OnLateUpdate(delta);
+        }
+
+        /// <summary>
         /// 仅当激活时
         /// 才会进入迭代回调
         /// </summary>
@@ -583,6 +788,11 @@ namespace DigitalWorld.Logic
         protected virtual void OnUpdate(int delta)
         {
             this.UpdateChildren(delta);
+        }
+
+        protected virtual void OnLateUpdate(int delta)
+        {
+            this.LateUpdateChildren(delta);
         }
 
         protected virtual void UpdateChildren(int delta)
@@ -597,13 +807,30 @@ namespace DigitalWorld.Logic
             }
         }
 
-        /// <summary>
-        /// 检测要求条件
-        /// </summary>
-        /// <returns>true:可以执行</returns>
-        public virtual bool CheckRequirement()
+        protected virtual void LateUpdateChildren(int delta)
         {
+            for (int i = 0; i < this._children.Count; ++i)
+            {
+                NodeBase child = this._children[i];
+                if (child.Enabled)
+                {
+                    child.LateUpdate(delta);
+                }
+            }
+        }
 
+        /// <summary>
+        /// 判定子节点的名字是否可使用
+        /// </summary>
+        /// <param name="name">期望的名字</param>
+        /// <returns>true:可使用|false:不可使用</returns>
+        protected virtual bool JudgeChildNameCanUse(string name)
+        {
+            foreach (var child in this._children)
+            {
+                if (child.Name == name)
+                    return false;
+            }
             return true;
         }
         #endregion
@@ -620,6 +847,13 @@ namespace DigitalWorld.Logic
             }
 
             throw new ArgumentException("Arg_MustBeNodeBase");
+        }
+        #endregion
+
+        #region Exception
+        protected void ThrowException(string message)
+        {
+            throw new NodeException(this, message);
         }
         #endregion
     }
