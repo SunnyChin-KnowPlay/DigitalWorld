@@ -41,31 +41,6 @@ namespace DigitalWorld.Logic.Properties
         }
         #endregion
 
-        #region Serialzation
-        protected override void OnCalculateSize()
-        {
-            base.OnCalculateSize();
-        }
-
-        protected override void OnDecode()
-        {
-            base.OnDecode();
-        }
-
-        protected override void OnDecode(XmlElement element)
-        {
-            base.OnDecode(element);
-        }
-
-        protected override void OnEncode()
-        {
-            base.OnEncode();
-        }
-
-        protected override void OnEncode(XmlElement element)
-        {
-            base.OnEncode(element);
-        }
-        #endregion
+        
     }
 }

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Xml;
+using System.Xml.Serialization;
+using UnityEngine.UIElements.Experimental;
 
 namespace DigitalWorld.Logic
 {
@@ -311,87 +314,25 @@ namespace DigitalWorld.Logic
         }
         #endregion
 
-        #region Proto
-        protected override void OnEncode()
+        #region Serialization
+        protected NodeState(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         {
-            base.OnEncode();
-
-            this.EncodeEnum(this._requirementLogic);
-            this.Encode(this._requirements);
-            this.EncodeEnum(this._motionMode);
+            this._requirementLogic = (ECheckLogic)info.GetValue("_requirementLogic", typeof(ECheckLogic));
+            this._requirements = (List<Requirement>)info.GetValue("_requirements", typeof(List<Requirement>));
+            this._motionMode = (EMotionMode)info.GetValue("_motionMode", typeof(EMotionMode));
         }
 
-        protected override void OnEncode(XmlElement element)
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            base.OnEncode(element);
+            base.GetObjectData(info, context);
 
-            XmlDocument doc = element.OwnerDocument;
+            info.AddValue("_requirementLogic", _requirementLogic);
+            info.AddValue("_requirements", _requirements);
+            info.AddValue("_motionMode", _motionMode);
 
-            XmlElement requirementsEle = doc.CreateElement("_requirements");
-            requirementsEle.SetAttribute("_requirementLogic", this._requirementLogic.ToString());
-            foreach (Requirement requirement in this._requirements)
-            {
-                XmlElement requirementEle = doc.CreateElement("requirement");
-                requirementEle.SetAttribute("mode", requirement.locationMode.ToString());
-                requirementEle.SetAttribute("key", requirement.nodeName);
-                requirementEle.SetAttribute("value", requirement.requirementState.ToString());
-                requirementsEle.AppendChild(requirementEle);
-            }
-            element.AppendChild(requirementsEle);
-
-            this.EncodeEnum(this._motionMode, "_motionMode");
-        }
-
-        protected override void OnDecode()
-        {
-            base.OnDecode();
-
-            this.DecodeEnum(ref this._requirementLogic);
-            this.Decode(ref this._requirements);
-            this.DecodeEnum(ref this._motionMode);
-        }
-
-        protected override void OnDecode(XmlElement element)
-        {
-            base.OnDecode(element);
-
-            XmlElement requirementsEle = element["_requirements"];
-            if (null != requirementsEle)
-            {
-                if (requirementsEle.HasAttribute("_requirementLogic"))
-                {
-                    string checkLogicStr = requirementsEle.GetAttribute("_requirementLogic");
-                    Enum.TryParse(checkLogicStr, true, out _requirementLogic);
-                }
-
-                foreach (object node in requirementsEle.ChildNodes)
-                {
-                    XmlElement requirementEle = node as XmlElement;
-
-                    bool ret = Enum.TryParse(requirementEle.GetAttribute("mode"), true, out ELocationMode locationMode);
-                    string key = requirementEle.GetAttribute("key");
-                    ret = Enum.TryParse(requirementEle.GetAttribute("value"), true, out EState state);
-
-                    Requirement requirement = new Requirement()
-                    {
-                        locationMode = locationMode,
-                        nodeName = key,
-                        requirementState = state,
-                    };
-                    this._requirements.Add(requirement);
-                }
-            }
-
-            this.DecodeEnum(ref this._motionMode, "_motionMode");
-        }
-
-        protected override void OnCalculateSize()
-        {
-            base.OnCalculateSize();
-
-            this.CalculateSizeEnum(this._requirementLogic);
-            this.CalculateSize(this._requirements);
-            this.CalculateSizeEnum(this._motionMode);
+            // 二进制的序列化已经写好了
+            // 
         }
         #endregion
     }

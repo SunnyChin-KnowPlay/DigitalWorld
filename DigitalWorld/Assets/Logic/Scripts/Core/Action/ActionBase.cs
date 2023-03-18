@@ -1,7 +1,9 @@
 ﻿using System.Xml;
+using System.Xml.Serialization;
 
 namespace DigitalWorld.Logic.Actions
 {
+    
     public abstract partial class ActionBase : NodeState
     {
         #region Params
@@ -52,30 +54,7 @@ namespace DigitalWorld.Logic.Actions
         #endregion
 
         #region Serialization
-        protected override void OnDecode()
-        {
-            base.OnDecode();
-        }
-
-        protected override void OnDecode(XmlElement element)
-        {
-            base.OnDecode(element);
-        }
-
-        protected override void OnEncode()
-        {
-            base.OnEncode();
-        }
-
-        protected override void OnEncode(XmlElement element)
-        {
-            base.OnEncode(element);
-        }
-
-        protected override void OnCalculateSize()
-        {
-            base.OnCalculateSize();
-        }
+        
         #endregion
     }
 }

@@ -4,9 +4,11 @@ using DigitalWorld.Logic.Properties;
 using Dream.FixMath;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Xml;
+using System.Xml.Serialization;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
@@ -31,7 +33,6 @@ namespace DigitalWorld.Logic
 
         #region Params
         protected static Color standTitleBackgroundColor = new Color(160 / 255f, 160 / 255f, 160 / 255f, 255 / 255f);
-
         protected static Color standEvenBackgroundColor = new Color(160 / 255f, 160 / 255f, 160 / 255f, 255 / 255f);
         protected static Color standOddBackgroundColor = new Color(220 / 255f, 220 / 255f, 220 / 255f, 255 / 255f);
 
@@ -40,6 +41,7 @@ namespace DigitalWorld.Logic
             get => LastedSelectedNode == this;
         }
 
+        [Newtonsoft.Json.JsonIgnore]
         /// <summary>
         /// 最后一次选择的节点
         /// </summary>
@@ -54,6 +56,7 @@ namespace DigitalWorld.Logic
         public static FieldInfo LastedSelectedFieldInfo => lastedSelectedFieldInfo;
         private static FieldInfo lastedSelectedFieldInfo = null;
 
+        [Newtonsoft.Json.JsonIgnore]
         public virtual Color TitleBackgroundColor
         {
             get
@@ -62,6 +65,7 @@ namespace DigitalWorld.Logic
             }
         }
 
+        [Newtonsoft.Json.JsonIgnore]
         public Color StandBackgroundColor
         {
             get => this._index % 2 == 0 ? standEvenBackgroundColor : standOddBackgroundColor;
@@ -98,6 +102,7 @@ namespace DigitalWorld.Logic
         /// 是否正在编辑中
         /// </summary>
         public virtual bool IsEditing { get => _isEditing; set => _isEditing = value; }
+        [XmlIgnore]
         protected bool _isEditing = true;
 
         /// <summary>
@@ -111,6 +116,7 @@ namespace DigitalWorld.Logic
             }
         }
 
+        [Newtonsoft.Json.JsonIgnore]
         protected Vector2 fieldScrollPos;
 
         /// <summary>
@@ -132,12 +138,35 @@ namespace DigitalWorld.Logic
                 return fieldInfos;
             }
         }
+        [Newtonsoft.Json.JsonIgnore]
         protected List<FieldInfo> fieldInfos = null;
+        [Newtonsoft.Json.JsonIgnore]
         protected readonly List<string> brotherNames = new List<string>();
+        [Newtonsoft.Json.JsonIgnore]
         protected ReorderableList reorderableFieldList;
+        protected ReorderableList RreorderableFieldList
+        {
+            get
+            {
+                if (null == reorderableFieldList)
+                {
+                    reorderableFieldList = new ReorderableList(this.FieldInfos, typeof(FieldInfo))
+                    {
+                        drawElementCallback = OnDrawFieldElement,
+                        drawHeaderCallback = OnDrawFieldHead,
+                        onSelectCallback = OnFieldSelectCallback,
+                        displayAdd = false,
+                        displayRemove = false,
+                        draggable = false,
+                        footerHeight = 0,
+                    };
+                }
+                return reorderableFieldList;
+            }
+        }
 
         private static GameObject bufferGameObject = null;
-
+        [Newtonsoft.Json.JsonIgnore]
         protected Dictionary<int, NodeBase> GlobalNodes
         {
             get
@@ -149,24 +178,16 @@ namespace DigitalWorld.Logic
                 return globalNodes;
             }
         }
+        [Newtonsoft.Json.JsonIgnore]
         private Dictionary<int, NodeBase> globalNodes = null;
-
+        [Newtonsoft.Json.JsonIgnore]
         protected Rect lastedGUILayoutRect = Rect.zero;
         #endregion
 
         #region Logic
         public NodeBase()
         {
-            reorderableFieldList = new ReorderableList(this.FieldInfos, typeof(FieldInfo))
-            {
-                drawElementCallback = OnDrawFieldElement,
-                drawHeaderCallback = OnDrawFieldHead,
-                onSelectCallback = OnFieldSelectCallback,
-                displayAdd = false,
-                displayRemove = false,
-                draggable = false,
-                footerHeight = 0,
-            };
+
 
             _isEditing = Utility.NodeDefaultEditing;
         }
@@ -448,16 +469,13 @@ namespace DigitalWorld.Logic
         /// <returns></returns>
         public string Copy()
         {
-            XmlDocument doc = new XmlDocument();
 
-            XmlElement root = doc.CreateElement("node");
-            doc.AppendChild(root);
-            XmlElement element = doc.CreateElement("node");
-            root.AppendChild(element);
-
-            this.EncodeXml(element);
-
-            return root.InnerXml;
+            using (TextWriter writer = new StringWriter())
+            {
+                XmlSerializer xmlSerializer = new XmlSerializer(this.GetType());
+                xmlSerializer.Serialize(writer, this);
+                return writer.ToString();
+            }
         }
 
         /// <summary>
@@ -468,22 +486,12 @@ namespace DigitalWorld.Logic
         {
             try
             {
-                XmlDocument doc = new XmlDocument();
-                doc.LoadXml(data);
-
-                if (null != doc.DocumentElement)
+                using (TextReader reader = new StringReader(data))
                 {
-                    XmlElement element = doc.DocumentElement;
-
-                    if (element.HasAttribute("_typeName"))
+                    XmlSerializer xmlSerializer = new XmlSerializer(this.GetType());
+                    if (xmlSerializer.Deserialize(reader) is NodeBase node)
                     {
-                        string typeName = element.GetAttribute("_typeName");
-                        if (Type.GetType(typeName) == this.GetType())
-                        {
-                            string name = this.Name;
-                            this.DecodeXml(element);
-                            this._name = name;
-                        }
+                        node.CloneTo(this);
                     }
                 }
             }
@@ -1036,12 +1044,12 @@ namespace DigitalWorld.Logic
 
         protected virtual void OnGUIEditingFieldInfo()
         {
-            if (reorderableFieldList.list.Count > 0)
+            if (RreorderableFieldList.list.Count > 0)
             {
                 GUIStyle style = new GUIStyle("FrameBox");
                 using (EditorGUILayout.VerticalScope v = new EditorGUILayout.VerticalScope(style))
                 {
-                    reorderableFieldList.DoLayoutList();
+                    RreorderableFieldList.DoLayoutList();
                 }
             }
         }
@@ -1264,7 +1272,11 @@ namespace DigitalWorld.Logic
 
         #region GUI/EnumFields
         public delegate void OnDrawEnumFieldValueHandle(ref Rect rect, FieldInfo field);
+        [Newtonsoft.Json.JsonIgnore]
+        [XmlIgnore]
         private Dictionary<Type, OnDrawEnumFieldValueHandle> guiEnumFieldValues = null;
+        [Newtonsoft.Json.JsonIgnore]
+        [XmlIgnore]
         public virtual Dictionary<Type, OnDrawEnumFieldValueHandle> GUIEnumFieldValues
         {
             get

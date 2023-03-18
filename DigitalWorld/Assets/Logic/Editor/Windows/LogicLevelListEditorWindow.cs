@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditorInternal;
 using System.IO;
 using System.Xml;
+using System.Xml.Serialization;
 
 namespace DigitalWorld.Logic.Editor
 {
@@ -273,26 +274,16 @@ namespace DigitalWorld.Logic.Editor
             }
             else
             {
-                Level level = new Level()
-                {
-                    RelativeFolderPath = System.IO.Path.GetDirectoryName(relativePath)
-                };
                 TextAsset ta = AssetDatabase.LoadAssetAtPath<TextAsset>(info.Path);
-
-                if (null != ta)
+                using (StringReader reader = new StringReader(ta.text))
                 {
-                    XmlDocument doc = new XmlDocument();
-                    doc.LoadXml(ta.text);
+                    XmlSerializer serializer = new XmlSerializer(typeof(Level));
+                    Level level = serializer.Deserialize(reader) as Level;
+                    level.RelativeFolderPath = System.IO.Path.GetDirectoryName(relativePath);
 
-                    XmlElement root = doc["node"];
-                    if (null != root)
-                    {
-                        level.DecodeXml(root);
-                    }
+                    window = LogicTriggerEditorWindow.CreateWindow<LogicLevelEditorWindow>(typeof(LogicLevelEditorWindow), null);
+                    window.Show(level);
                 }
-
-                window = LogicTriggerEditorWindow.CreateWindow<LogicLevelEditorWindow>(typeof(LogicLevelEditorWindow), null);
-                window.Show(level);
             }
         }
         #endregion

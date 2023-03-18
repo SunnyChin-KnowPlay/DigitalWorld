@@ -4,7 +4,6 @@
  * 在创建对应的行动后，建议第一时间实现函数效果。
  */
 using DigitalWorld.Game;
-using System;
 
 namespace DigitalWorld.Logic.Actions.Game.Unit
 {

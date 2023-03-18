@@ -3,6 +3,9 @@ using UnityEngine;
 using DigitalWorld.Asset;
 using DigitalWorld.Logic;
 using DigitalWorld.Logic.Properties;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Xml.Serialization;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -139,7 +142,7 @@ namespace DigitalWorld.Logic
         {
             int index = 0;
 
-            while (index < 9999999)
+            while (index < int.MaxValue)
             {
                 string name = string.Format("Trigger_{0}", index);
                 bool v = JudgeChildNameCanUse(name);
@@ -161,54 +164,57 @@ namespace DigitalWorld.Logic
         }
         private void SaveStream()
         {
-            int size = this.CalculateSize();
-            byte[] data = new byte[size];
-            this.Encode(data, 0);
-
-
-            _ = Utility.AESEncrypt(data, 0, size, Utility.GetKey(), out bool ret);
-            if (ret)
+           
+            using (MemoryStream stream = new MemoryStream())
             {
-                string fullPath = System.IO.Path.Combine(RelativeFolderPath, this.Name);
-                fullPath += ".asset";
-                fullPath = System.IO.Path.Combine(Utility.LogicResPath, fullPath);
+                BinaryFormatter formatter = new BinaryFormatter();
+                formatter.Serialize(stream, this);
 
-                string directorPath = System.IO.Path.GetDirectoryName(fullPath);
-                if (!System.IO.Directory.Exists(directorPath))
+                byte[] bytes = new byte[stream.Length];
+                stream.Read(bytes, 0, bytes.Length);
+
+                byte[] outputs = Utility.AESEncrypt(bytes, 0, bytes.Length, Utility.GetKey(), out bool ret);
+                if (ret)
                 {
-                    System.IO.Directory.CreateDirectory(directorPath);
-                }
+                    string fullPath = System.IO.Path.Combine(RelativeFolderPath, this.Name);
+                    fullPath += ".asset";
+                    fullPath = System.IO.Path.Combine(Utility.LogicResPath, fullPath);
 
-                AssetDatabase.DeleteAsset(fullPath);
-                ByteAsset.CreateAsset(data, fullPath);
+                    string directorPath = System.IO.Path.GetDirectoryName(fullPath);
+                    if (!System.IO.Directory.Exists(directorPath))
+                    {
+                        System.IO.Directory.CreateDirectory(directorPath);
+                    }
+
+                    AssetDatabase.DeleteAsset(fullPath);
+                    ByteAsset.CreateAsset(outputs, fullPath);
+                }
+                else
+                {
+                    UnityEngine.Debug.LogError("输出level数据流失败");
+                }
             }
-            else
-            {
-                UnityEngine.Debug.LogError("输出level数据流失败");
-            }
+               
         }
 
         private void SaveXml()
         {
-            XmlDocument xmlDocument = new XmlDocument();
+            using (MemoryStream stream = new MemoryStream())
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(Level));
+                serializer.Serialize(stream, this);
 
-            XmlDeclaration dec = xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-            xmlDocument.AppendChild(dec);
+                string ret = System.Text.Encoding.Default.GetString(stream.GetBuffer());
 
-            XmlElement root = xmlDocument.CreateElement("node");
-            xmlDocument.AppendChild(root);
-
-            this.EncodeXml(root);
-
-            string fullPath = System.IO.Path.Combine(RelativeFolderPath, this.Name);
-            fullPath += ".asset";
-            fullPath = System.IO.Path.Combine(Utility.ConfigsPath, fullPath);
+                string fullPath = System.IO.Path.Combine(RelativeFolderPath, this.Name);
+                fullPath += ".asset";
+                fullPath = System.IO.Path.Combine(Utility.ConfigsPath, fullPath);
 
 
-            TextAsset ta = new TextAsset(xmlDocument.InnerXml);
-            AssetDatabase.DeleteAsset(fullPath);
-            AssetDatabase.CreateAsset(ta, fullPath);
-
+                TextAsset ta = new TextAsset(ret);
+                AssetDatabase.DeleteAsset(fullPath);
+                AssetDatabase.CreateAsset(ta, fullPath);
+            }
         }
 
         public virtual void Save()

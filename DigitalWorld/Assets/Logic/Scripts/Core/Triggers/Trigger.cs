@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Linq;
 using DigitalWorld.Logic.Events;
+using System.Xml.Serialization;
+using System.Runtime.Serialization;
 
 namespace DigitalWorld.Logic
 {
     /// <summary>
     /// 触发器类
     /// </summary>
+    [System.Serializable]
     public partial class Trigger : NodeState
     {
         #region Params
@@ -188,43 +191,18 @@ namespace DigitalWorld.Logic
         }
         #endregion
 
-        #region Proto
-        protected override void OnCalculateSize()
+        #region Serialization
+        public Trigger()
         {
-            base.OnCalculateSize();
 
-            this.CalculateSizeEnum(_listenerEvent);
         }
 
-        protected override void OnEncode()
+        protected Trigger(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         {
-            base.OnEncode();
 
-            EncodeEnum(_listenerEvent);
+
         }
-
-        protected override void OnDecode()
-        {
-            base.OnDecode();
-
-            DecodeEnum(ref _listenerEvent);
-        }
-
-        protected override void OnEncode(XmlElement element)
-        {
-            base.OnEncode(element);
-
-            this.EncodeEnum(_listenerEvent, "_listenerEvent");
-        }
-
-        protected override void OnDecode(XmlElement element)
-        {
-            base.OnDecode(element);
-
-            this.DecodeEnum(ref _listenerEvent, "_listenerEvent");
-        }
-
-
         #endregion
     }
 }

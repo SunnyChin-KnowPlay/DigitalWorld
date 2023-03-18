@@ -2,16 +2,18 @@
 using DigitalWorld.Asset;
 using System;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml;
+using System.Xml.Linq;
+using System.Xml.Serialization;
 using UnityEditor;
 using UnityEngine;
-#endif
+using Newtonsoft.Json;
 
 namespace DigitalWorld.Logic
 {
     public partial class Trigger
     {
-#if UNITY_EDITOR
         #region Params
         /// <summary>
         /// 文件的相对路径 基于logic的相对和基于配置流的相对一致
@@ -139,46 +141,40 @@ namespace DigitalWorld.Logic
 
         private void SaveStream()
         {
-            int size = this.CalculateSize();
-            byte[] data = new byte[size];
-            this.Encode(data, 0);
-
-            string fullPath = System.IO.Path.Combine(RelativeFolderPath, this.Name);
-            fullPath += ".asset";
-            fullPath = System.IO.Path.Combine(Utility.LogicResPath, fullPath);
-
-            string directorPath = Path.GetDirectoryName(fullPath);
-            if (!Directory.Exists(directorPath))
+            using (MemoryStream stream = new MemoryStream())
             {
-                Directory.CreateDirectory(directorPath);
+                BinaryFormatter formatter = new BinaryFormatter();
+                formatter.Serialize(stream, this);
+                string fullPath = System.IO.Path.Combine(RelativeFolderPath, this.Name);
+                fullPath += ".asset";
+                fullPath = System.IO.Path.Combine(Utility.LogicResPath, fullPath);
+
+                string directorPath = Path.GetDirectoryName(fullPath);
+                if (!Directory.Exists(directorPath))
+                {
+                    Directory.CreateDirectory(directorPath);
+                }
+
+                AssetDatabase.DeleteAsset(fullPath);
+                ByteAsset.CreateAsset(stream.GetBuffer(), fullPath);
             }
-
-            AssetDatabase.DeleteAsset(fullPath);
-            ByteAsset.CreateAsset(data, fullPath);
-
         }
 
-        private void SaveXml()
+        private void SaveJson()
         {
-            XmlDocument xmlDocument = new XmlDocument();
-
-            XmlDeclaration dec = xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-            xmlDocument.AppendChild(dec);
-
-            XmlElement root = xmlDocument.CreateElement("node");
-            xmlDocument.AppendChild(root);
-
-            this.EncodeXml(root);
+            JsonSerializerSettings setting = new JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            };
+            string jsonResult = JsonConvert.SerializeObject(this, setting);
 
             string fullPath = System.IO.Path.Combine(RelativeFolderPath, this.Name);
             fullPath += ".asset";
             fullPath = System.IO.Path.Combine(Utility.ConfigsPath, fullPath);
 
-
-            TextAsset ta = new TextAsset(xmlDocument.InnerXml);
+            TextAsset ta = new TextAsset(jsonResult);
             AssetDatabase.DeleteAsset(fullPath);
             AssetDatabase.CreateAsset(ta, fullPath);
-
         }
 
         public virtual void Save()
@@ -194,7 +190,7 @@ namespace DigitalWorld.Logic
                     UnityEngine.Debug.LogException(e);
                 }
 
-                SaveXml();
+                SaveJson();
                 SaveStream();
 
                 this.ResetDirty();
@@ -202,6 +198,7 @@ namespace DigitalWorld.Logic
             }
         }
         #endregion
-#endif
+
     }
 }
+#endif

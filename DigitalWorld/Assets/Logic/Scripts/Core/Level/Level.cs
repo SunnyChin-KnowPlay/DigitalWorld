@@ -1,15 +1,12 @@
-﻿using DigitalWorld.Asset;
-using DigitalWorld.Logic;
-using Dream.Core;
-
-using System.Xml;
-using UnityEngine;
+﻿using Dream.Core;
+using System;
 
 namespace DigitalWorld.Logic
 {
     /// <summary>
     /// 关卡
     /// </summary>
+    [Serializable]
     public partial class Level : NodeState
     {
         #region Params
@@ -51,53 +48,18 @@ namespace DigitalWorld.Logic
             }
         }
 
-     
+
         #endregion
 
         #region Load
-       
 
-       
 
-       
+
+
+
 
         #endregion
 
-        #region Proto
-        protected override void OnCalculateSize()
-        {
-            base.OnCalculateSize();
-
-
-        }
-
-        protected override void OnEncode()
-        {
-            base.OnEncode();
-
-
-        }
-
-        protected override void OnDecode()
-        {
-            base.OnDecode();
-
-
-        }
-
-        protected override void OnEncode(XmlElement element)
-        {
-            base.OnEncode(element);
-
-
-        }
-
-        protected override void OnDecode(XmlElement element)
-        {
-            base.OnDecode(element);
-
-
-        }
-        #endregion
+        
     }
 }

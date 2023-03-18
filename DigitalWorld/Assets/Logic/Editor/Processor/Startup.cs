@@ -3,6 +3,9 @@ using UnityEditor;
 using UnityEngine;
 using DigitalWorld.Logic.Editor;
 using DigitalWorld.Logic;
+using System.IO;
+using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace DigitalWorld.Logic.Editor
 {
@@ -66,7 +69,7 @@ namespace DigitalWorld.Logic.Editor
             }
         }
 
-       
+
         private static void OnSelectedTrigger(string path)
         {
             string relativePath = path.Substring(Logic.Utility.ConfigsPath.Length + 1);
@@ -80,26 +83,27 @@ namespace DigitalWorld.Logic.Editor
             }
             else
             {
-                Trigger trigger = new Trigger
-                {
-                    RelativeFolderPath = System.IO.Path.GetDirectoryName(relativePath)
-                };
                 TextAsset ta = AssetDatabase.LoadAssetAtPath<TextAsset>(path);
 
-                if (null != ta)
+                JsonSerializerSettings setting = new JsonSerializerSettings()
                 {
-                    XmlDocument doc = new XmlDocument();
-                    doc.LoadXml(ta.text);
-
-                    XmlElement root = doc["node"];
-                    if (null != root)
-                    {
-                        trigger.DecodeXml(root);
-                    }
-                }
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                };
+                Trigger trigger = JsonConvert.DeserializeObject<Trigger>(ta.text);
+                trigger.RelativeFolderPath = System.IO.Path.GetDirectoryName(relativePath);
 
                 window = LogicTriggerEditorWindow.CreateWindow<LogicTriggerEditorWindow>(typeof(LogicTriggerEditorWindow), null);
                 window.Show(trigger);
+
+                //using (StringReader reader = new StringReader(ta.text))
+                //{
+                //    XmlSerializer serializer = new XmlSerializer(typeof(Trigger));
+                //    Trigger trigger = serializer.Deserialize(reader) as Trigger;
+                //    trigger.RelativeFolderPath = System.IO.Path.GetDirectoryName(relativePath);
+
+                //    window = LogicTriggerEditorWindow.CreateWindow<LogicTriggerEditorWindow>(typeof(LogicTriggerEditorWindow), null);
+                //    window.Show(trigger);
+                //}
             }
         }
 
@@ -120,7 +124,7 @@ namespace DigitalWorld.Logic.Editor
         {
             if (c == PlayModeStateChange.EnteredPlayMode)
             {
-                
+
             }
         }
         #endregion

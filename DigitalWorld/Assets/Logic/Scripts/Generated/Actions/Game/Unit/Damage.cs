@@ -121,51 +121,6 @@ namespace DigitalWorld.Logic.Actions.Game.Unit
 #endif
 #endregion
 
-#region Serializion
-		protected override void OnCalculateSize()
-        {
-            base.OnCalculateSize();
-	
-			CalculateSizeEnum(this.damageType);
-	
-			CalculateSize(this.attackRatio);
-  
-        }
 
-		protected override void OnEncode()
-        {
-            base.OnEncode();
-			EncodeEnum(this.damageType);
-			Encode(this.attackRatio);
-          
-        }
-
-        protected override void OnDecode()
-        {
-            base.OnDecode();
-			
-			DecodeEnum(ref this.damageType);
-			Decode(ref this.attackRatio);
-        }
-		
-#if UNITY_EDITOR
-        protected override void OnDecode(XmlElement node)
-        {
-            base.OnDecode(node);
-			
-			DecodeEnum(ref this.damageType, "damageType");
-			Decode(ref this.attackRatio, "attackRatio");
-        }
-
-        protected override void OnEncode(XmlElement node)
-        {
-			base.OnEncode(node);
-			EncodeEnum(this.damageType, "damageType");
-			Encode(this.attackRatio, "attackRatio");
-        }
-
-
-#endif
-#endregion
 	}
 }

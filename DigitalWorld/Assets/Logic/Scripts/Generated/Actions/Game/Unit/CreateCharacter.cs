@@ -9,16 +9,18 @@ using System;
 using Dream;
 using Dream.Core;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 #if UNITY_EDITOR
 using System.Xml;
 #endif
 
 namespace DigitalWorld.Logic.Actions.Game.Unit
 {
-	/// <summary>
+    /// <summary>
     /// 基于单位的创建角色，位置使用相对关系
     /// </summary>
-	public partial class CreateCharacter : ActionBase
+    [Serializable]
+    public partial class CreateCharacter : ActionBase
 	{
 #region Common
 		public override int Id
@@ -121,51 +123,6 @@ namespace DigitalWorld.Logic.Actions.Game.Unit
 #endif
 #endregion
 
-#region Serializion
-		protected override void OnCalculateSize()
-        {
-            base.OnCalculateSize();
-	
-			CalculateSize(this.cfgId);
-	
-			CalculateSize(this.localPosition);
-  
-        }
 
-		protected override void OnEncode()
-        {
-            base.OnEncode();
-			Encode(this.cfgId);
-			Encode(this.localPosition);
-          
-        }
-
-        protected override void OnDecode()
-        {
-            base.OnDecode();
-			
-			Decode(ref this.cfgId);
-			Decode(ref this.localPosition);
-        }
-		
-#if UNITY_EDITOR
-        protected override void OnDecode(XmlElement node)
-        {
-            base.OnDecode(node);
-			
-			Decode(ref this.cfgId, "cfgId");
-			Decode(ref this.localPosition, "localPosition");
-        }
-
-        protected override void OnEncode(XmlElement node)
-        {
-			base.OnEncode(node);
-			Encode(this.cfgId, "cfgId");
-			Encode(this.localPosition, "localPosition");
-        }
-
-
-#endif
-#endregion
 	}
 }

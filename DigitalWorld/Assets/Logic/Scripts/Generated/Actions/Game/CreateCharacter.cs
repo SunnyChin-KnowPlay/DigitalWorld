@@ -9,16 +9,18 @@ using System;
 using Dream;
 using Dream.Core;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 #if UNITY_EDITOR
 using System.Xml;
 #endif
 
 namespace DigitalWorld.Logic.Actions.Game
 {
-	/// <summary>
+    /// <summary>
     /// 游戏中的创建对象，位置是基于世界坐标的
     /// </summary>
-	public partial class CreateCharacter : ActionBase
+    [XmlRoot(Namespace = "DigitalWorld.Logic.Actions.Game")]
+    public partial class CreateCharacter : ActionBase
 	{
 #region Common
 		public override int Id
@@ -121,51 +123,6 @@ namespace DigitalWorld.Logic.Actions.Game
 #endif
 #endregion
 
-#region Serializion
-		protected override void OnCalculateSize()
-        {
-            base.OnCalculateSize();
-	
-			CalculateSize(this.cfgId);
-	
-			CalculateSize(this.worldPosition);
-  
-        }
 
-		protected override void OnEncode()
-        {
-            base.OnEncode();
-			Encode(this.cfgId);
-			Encode(this.worldPosition);
-          
-        }
-
-        protected override void OnDecode()
-        {
-            base.OnDecode();
-			
-			Decode(ref this.cfgId);
-			Decode(ref this.worldPosition);
-        }
-		
-#if UNITY_EDITOR
-        protected override void OnDecode(XmlElement node)
-        {
-            base.OnDecode(node);
-			
-			Decode(ref this.cfgId, "cfgId");
-			Decode(ref this.worldPosition, "worldPosition");
-        }
-
-        protected override void OnEncode(XmlElement node)
-        {
-			base.OnEncode(node);
-			Encode(this.cfgId, "cfgId");
-			Encode(this.worldPosition, "worldPosition");
-        }
-
-
-#endif
-#endregion
 	}
 }

@@ -9,15 +9,17 @@ using System;
 using Dream;
 using Dream.Core;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 #if UNITY_EDITOR
 using System.Xml;
 #endif
 
 namespace DigitalWorld.Logic.Actions
 {
-	/// <summary>
+    /// <summary>
     /// 空行动
     /// </summary>
+   
 	public partial class None : ActionBase
 	{
 #region Common
@@ -107,39 +109,5 @@ namespace DigitalWorld.Logic.Actions
 #endif
 #endregion
 
-#region Serializion
-		protected override void OnCalculateSize()
-        {
-            base.OnCalculateSize();
-  
-        }
-
-		protected override void OnEncode()
-        {
-            base.OnEncode();
-          
-        }
-
-        protected override void OnDecode()
-        {
-            base.OnDecode();
-			
-        }
-		
-#if UNITY_EDITOR
-        protected override void OnDecode(XmlElement node)
-        {
-            base.OnDecode(node);
-			
-        }
-
-        protected override void OnEncode(XmlElement node)
-        {
-			base.OnEncode(node);
-        }
-
-
-#endif
-#endregion
 	}
 }

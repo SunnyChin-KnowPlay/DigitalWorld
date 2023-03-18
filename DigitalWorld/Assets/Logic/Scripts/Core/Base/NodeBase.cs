@@ -1,8 +1,15 @@
-﻿using Dream.Proto;
+﻿using DigitalWorld.Logic.Actions;
+using Dream.Core;
+using Dream.Table;
+using Newtonsoft.Json.Linq;
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
 using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 
 namespace DigitalWorld.Logic
 {
@@ -10,7 +17,7 @@ namespace DigitalWorld.Logic
     /// 逻辑根节点
     /// </summary>
     [Serializable]
-    public abstract partial class NodeBase : ByteBuffer, INode, IComparable, ICloneable
+    public abstract partial class NodeBase : IPooledObject, INode, IComparable, ICloneable, ISerializable
     {
         #region Event
         public delegate void OnDirtyChangedHandle(bool dirty);
@@ -93,6 +100,7 @@ namespace DigitalWorld.Logic
         /// <summary>
         /// 获取根节点，如果自己就是根节点则返回自己
         /// </summary>
+        [Newtonsoft.Json.JsonIgnore]
         public NodeBase Root
         {
             get
@@ -194,6 +202,7 @@ namespace DigitalWorld.Logic
             get { return _name; }
             set { _name = value; }
         }
+        [XmlAttribute]
         protected string _name;
 
         /// <summary>
@@ -238,9 +247,8 @@ namespace DigitalWorld.Logic
         #endregion
 
         #region Pool
-        public override void OnAllocate()
+        public virtual void OnAllocate()
         {
-            base.OnAllocate();
             this._enabled = true;
             this._index = 0;
             this._parent = null;
@@ -249,14 +257,30 @@ namespace DigitalWorld.Logic
             this._description = string.Empty;
         }
 
-        public override void OnRecycle()
+        public virtual void OnRecycle()
         {
             this.DetachChildren();
             this.SetParent(null);
-
-            base.OnRecycle();
         }
 
+        [Newtonsoft.Json.JsonIgnore]
+        protected IObjectPool pool;
+
+        public virtual void Recycle()
+        {
+            if (null != pool)
+            {
+                pool.ApplyRecycle(this);
+            }
+        }
+
+        public virtual void SetPool(IObjectPool pool)
+        {
+            this.pool = pool;
+        }
+        #endregion
+
+        #region Cloneable
         public abstract object Clone();
 
         public virtual T CloneTo<T>(T obj) where T : NodeBase
@@ -602,153 +626,6 @@ namespace DigitalWorld.Logic
         #endregion
 
         #region Proto
-        protected override void OnCalculateSize()
-        {
-            base.OnCalculateSize();
-
-            this.CalculateSizeEnum(this.NodeType);
-            this.CalculateSize(this.Id);
-            this.CalculateSize(this._enabled);
-            this.CalculateSize(this._name);
-            this.CalculateSize(this._description);
-            this.CalculateSize(this._children);
-        }
-
-        protected override void OnEncode()
-        {
-            base.OnEncode();
-
-            this.EncodeEnum(this.NodeType);
-            this.Encode(this.Id);
-            this.Encode(this._enabled);
-            this.Encode(this._name);
-            this.Encode(this._description);
-            this.Encode(this._children);
-        }
-
-        protected override void OnDecode()
-        {
-            base.OnDecode();
-
-            ENodeType nodeType = ENodeType.None;
-            this.DecodeEnum(ref nodeType);
-            int id = 0;
-            this.Decode(ref id);
-            this.Decode(ref this._enabled);
-            this.Decode(ref this._name);
-            this.Decode(ref this._description);
-
-            // 先清空子节点队列
-            DetachChildren();
-
-            int childrenCount = 0;
-            this.Decode(ref childrenCount);
-            this._children = new List<NodeBase>(childrenCount);
-            for (int i = 0; i < childrenCount; ++i)
-            {
-                if (ParseType(_buffer, _pos, out ENodeType childNodeType, out int childId))
-                {
-                    NodeBase child = LogicHelper.GetNode(childNodeType, childId);
-                    if (null != child)
-                    {
-                        child.Decode(_buffer, _pos);
-                        _pos = child.Position;
-
-                        child.SetParent(this);
-                    }
-                }
-            }
-        }
-
-        protected override void OnEncode(XmlElement element)
-        {
-            base.OnEncode(element);
-
-            XmlDocument doc = element.OwnerDocument;
-
-            this.Encode(this.TypeName, "_typeName");
-            this.Encode(this._enabled, "_enabled");
-            this.Encode(this._name, "_name");
-            this.Encode(this._description, "_description");
-
-            XmlElement childrenEle = doc.CreateElement("_children");
-            for (int i = 0; i < _children.Count; ++i)
-            {
-                XmlElement childEle = doc.CreateElement("node");
-                _children[i].EncodeXml(childEle);
-                childrenEle.AppendChild(childEle);
-            }
-            element.AppendChild(childrenEle);
-        }
-
-        protected override void OnDecode(XmlElement element)
-        {
-            base.OnDecode(element);
-
-            this.Decode(ref this._enabled, "_enabled");
-            this.Decode(ref this._name, "_name");
-            this.Decode(ref this._description, "_description");
-
-            _children.Clear();
-            XmlElement childrenEle = element["_children"];
-            if (null != childrenEle)
-            {
-                foreach (var node in childrenEle.ChildNodes)
-                {
-                    XmlElement childEle = node as XmlElement;
-
-                    System.Type type = null;
-                    bool ret = ParseType(childEle, out type);
-                    if (ret)
-                    {
-                        if (System.Activator.CreateInstance(type) is NodeBase child)
-                        {
-                            child.DecodeXml(childEle);
-                            child.SetParent(this);
-                        }
-                    }
-                }
-            }
-        }
-
-        public static bool ParseType(XmlElement element, out Type type)
-        {
-            type = null;
-
-            if (element == null)
-                return false;
-
-            if (!element.HasAttribute("_typeName"))
-                return false;
-
-            string typeName = element.GetAttribute("_typeName");
-            type = Type.GetType(typeName);
-            return true;
-        }
-
-        public static bool ParseType(byte[] buffer, int pos, out ENodeType nodeType, out int id)
-        {
-            nodeType = ENodeType.None;
-            id = 0;
-
-            if (null == buffer)
-                return false;
-
-            DecodeEnum(buffer, ref pos, ref nodeType);
-            Decode(buffer, ref pos, ref id);
-            return true;
-        }
-
-        public static bool ParseId(byte[] buffer, int pos, out int id)
-        {
-            id = 0;
-
-            if (null == buffer)
-                return false;
-            Decode(buffer, ref pos, ref id);
-            return true;
-        }
-
         public virtual void Preprocess()
         {
             for (int i = 0; i < this._children.Count; ++i)
@@ -854,6 +731,39 @@ namespace DigitalWorld.Logic
         protected void ThrowException(string message)
         {
             throw new NodeException(this, message);
+        }
+
+
+        #endregion
+
+        #region Serialization
+        protected NodeBase(SerializationInfo info, StreamingContext context)
+        {
+            this._enabled = (bool)info.GetValue("_enabled", typeof(bool));
+            this._name = (string)info.GetValue("_name", typeof(string));
+            this._description = (string)info.GetValue("_description", typeof(string));
+            this._children = new List<NodeBase>();
+            JArray jArray = (JArray)info.GetValue("_children", typeof(JArray));
+            foreach (JToken token in jArray)
+            {
+                string typeName = token.Value<string>("_typeName");
+                if (!string.IsNullOrEmpty(typeName))
+                {
+                    if (System.Activator.CreateInstance(Type.GetType(typeName)) is NodeBase child)
+                    {
+                        child.SetParent(this);
+                    }
+                }
+            }
+        }
+
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("_enabled", this._enabled);
+            info.AddValue("_name", this._name);
+            info.AddValue("_description", this._description);
+            info.AddValue("_children", this._children);
+            info.AddValue("_typeName", this.TypeName);
         }
         #endregion
     }

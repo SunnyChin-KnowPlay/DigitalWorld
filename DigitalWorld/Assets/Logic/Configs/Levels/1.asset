@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!49 &4900000
+TextAsset:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 1
+  m_Script: "<?xml version=\"1.0\"?>\r\n<Level xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"
+    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <IsEditing>false</IsEditing>\r\n 
+    <Index>0</Index>\r\n  <MaxIndex>0</MaxIndex>\r\n  <GlobalIndex>0</GlobalIndex>\r\n 
+    <MaxGlobalIndex>0</MaxGlobalIndex>\r\n  <LastedSelectedGlobalIndex>-1</LastedSelectedGlobalIndex>\r\n 
+    <Children />\r\n  <Enabled>true</Enabled>\r\n  <Name>1</Name>\r\n  <Description
+    />\r\n  <State>Idle</State>\r\n  <RequirementLogic>And</RequirementLogic>\r\n 
+    <RelativeFolderPath>Levels</RelativeFolderPath>\r\n</Level>"

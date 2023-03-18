@@ -500,11 +500,34 @@ namespace DigitalWorld.Logic
 
             return name;
         }
+
+        /// <summary>
+        /// 获取一个累在其所在的程序集中的所有子类
+        /// </summary>
+        /// <param name="parentType"></param>
+        /// <returns></returns>
+        public static List<Type> GetSubClassTypesWithoutGeneric(Type parentType)
+        {
+            List<Type> subTypeList = new List<Type>();
+            Assembly assembly = parentType.Assembly;
+            Type[] assemblyAllTypes = assembly.GetTypes(); // 获取该程序集中的所有类型
+            foreach (Type itemType in assemblyAllTypes)
+            {
+                if (itemType.IsGenericType)
+                    continue;
+
+                if (itemType.IsSubclassOf(parentType)) // 判断itemType是否为parentType的派生类
+                {
+                    subTypeList.Add(itemType);
+                }
+            }
+            return subTypeList;
+        }
 #endif
         #endregion
 
         #region AES
-        private const string keyStr = "&*^^^*&&HKJHHK&&";
+        private const string keyStr = "^*&^*&JJLJUULHKII(*&*()";
 
         public static byte[] GetMd5NN(string str)
         {
@@ -523,11 +546,13 @@ namespace DigitalWorld.Logic
 
                 byte[] ivArray = GetMd5NN("有本事你就解");
 
-                RijndaelManaged rDel = new RijndaelManaged();
-                rDel.Key = key;
-                rDel.IV = ivArray;
-                rDel.Mode = CipherMode.CBC;
-                rDel.Padding = PaddingMode.PKCS7;
+                RijndaelManaged rDel = new RijndaelManaged
+                {
+                    Key = key,
+                    IV = ivArray,
+                    Mode = CipherMode.CBC,
+                    Padding = PaddingMode.PKCS7
+                };
 
                 ICryptoTransform cTransform = rDel.CreateEncryptor();
                 byte[] resultArray = cTransform.TransformFinalBlock(inputBuffer, inputOffset, inputCount);
@@ -549,11 +574,13 @@ namespace DigitalWorld.Logic
 
                 byte[] ivArray = GetMd5NN("有本事你就解");
 
-                RijndaelManaged rDel = new RijndaelManaged();
-                rDel.Key = key;
-                rDel.IV = ivArray;
-                rDel.Mode = CipherMode.CBC;
-                rDel.Padding = PaddingMode.PKCS7;
+                RijndaelManaged rDel = new RijndaelManaged
+                {
+                    Key = key,
+                    IV = ivArray,
+                    Mode = CipherMode.CBC,
+                    Padding = PaddingMode.PKCS7
+                };
                 ICryptoTransform cTransform = rDel.CreateDecryptor();
                 byte[] resultArray = cTransform.TransformFinalBlock(inputBuffer, inputOffset, inputCount);
                 result = true;

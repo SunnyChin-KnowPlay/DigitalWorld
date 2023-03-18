@@ -114,45 +114,6 @@ namespace DigitalWorld.Logic.Actions.Game.Unit
 #endif
 #endregion
 
-#region Serializion
-		protected override void OnCalculateSize()
-        {
-            base.OnCalculateSize();
-	
-			CalculateSize(this.triggerKey);
-  
-        }
 
-		protected override void OnEncode()
-        {
-            base.OnEncode();
-			Encode(this.triggerKey);
-          
-        }
-
-        protected override void OnDecode()
-        {
-            base.OnDecode();
-			
-			Decode(ref this.triggerKey);
-        }
-		
-#if UNITY_EDITOR
-        protected override void OnDecode(XmlElement node)
-        {
-            base.OnDecode(node);
-			
-			Decode(ref this.triggerKey, "triggerKey");
-        }
-
-        protected override void OnEncode(XmlElement node)
-        {
-			base.OnEncode(node);
-			Encode(this.triggerKey, "triggerKey");
-        }
-
-
-#endif
-#endregion
 	}
 }
