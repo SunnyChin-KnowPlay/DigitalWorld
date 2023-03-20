@@ -55,13 +55,11 @@ namespace DigitalWorld.Logic
             if (null == asset)
                 return null;
 
-            using (Stream stream = new MemoryStream(asset.bytes))
-            {
-                BinaryFormatter formatter = new BinaryFormatter();
-                Trigger trigger = formatter.Deserialize(stream) as Trigger;
+            using Stream stream = new MemoryStream(asset.bytes);
+            BinaryFormatter formatter = new BinaryFormatter();
+            Trigger trigger = formatter.Deserialize(stream) as Trigger;
 
-                return trigger;
-            }
+            return trigger;
         }
         #endregion
     }

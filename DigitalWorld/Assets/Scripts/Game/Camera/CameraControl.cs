@@ -171,7 +171,6 @@ namespace DigitalWorld.Game
         {
             if (Input.GetMouseButtonDown(0))
             {
-
                 if (!IsUITouching)
                 {
                     Camera camera = MainCamera;

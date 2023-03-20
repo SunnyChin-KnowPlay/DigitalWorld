@@ -192,8 +192,7 @@ namespace DigitalWorld.Game
 
             gameObject.layer = LayerMask.NameToLayer("Unit");
 
-            ControlUnit unitControl = gameObject.GetComponent<ControlUnit>();
-            if (null == unitControl)
+            if (!gameObject.TryGetComponent<ControlUnit>(out ControlUnit unitControl))
             {
                 unitControl = gameObject.AddComponent<ControlCharacter>();
             }
