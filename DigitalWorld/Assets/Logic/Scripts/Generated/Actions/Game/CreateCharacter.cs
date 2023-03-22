@@ -10,6 +10,7 @@ using Dream;
 using Dream.Core;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using System.Runtime.Serialization;
 #if UNITY_EDITOR
 using System.Xml;
 #endif
@@ -19,7 +20,7 @@ namespace DigitalWorld.Logic.Actions.Game
     /// <summary>
     /// 游戏中的创建对象，位置是基于世界坐标的
     /// </summary>
-    [XmlRoot(Namespace = "DigitalWorld.Logic.Actions.Game")]
+    [Serializable]
     public partial class CreateCharacter : ActionBase
 	{
 #region Common
@@ -82,9 +83,11 @@ namespace DigitalWorld.Logic.Actions.Game
             }
             return obj;
         }
+
+       
 #endregion
 
-#region Editor
+        #region Editor
 #if UNITY_EDITOR
         private static Dictionary<string, string> descs = new Dictionary<string, string>();
 

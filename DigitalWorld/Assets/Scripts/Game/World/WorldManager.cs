@@ -48,6 +48,11 @@ namespace DigitalWorld.Game
         private UnitHandle playerUnit;
 
         private HudPanel hudPanel;
+
+        /// <summary>
+        /// 地图
+        /// </summary>
+        private Map map;
         #endregion
 
         #region Mono
@@ -78,6 +83,25 @@ namespace DigitalWorld.Game
         #region Setup
         private void Setup()
         {
+            SetupMap();
+            SetupUnits();
+            SetupCameras();
+            // 然后开启UI
+            SetupUI();
+        }
+
+        private void SetupUI()
+        {
+            UIManager uiManager = UIManager.Instance;
+            uiManager.ShowPanel<GamePanel>(GamePanel.path);
+            uiManager.ShowPanel<NoticePanel>(NoticePanel.path);
+            hudPanel = uiManager.CreateWidget<HudPanel>("Assets/Res/UI/Elements/Panel/Panel.prefab");
+            hudPanel.gameObject.name = "HudPanel";
+            uiManager.SetupPanel(hudPanel.gameObject);
+        }
+
+        private void SetupUnits()
+        {
             unitIdPool = 0;
             this.units.Clear();
 
@@ -93,7 +117,7 @@ namespace DigitalWorld.Game
                 _ = unit.GetOrAddComponent<ControlBehaviour>();
                 unit.AddControl(ELogicControlType.Test, unit.GetOrAddComponent<ControlTest>());
 
-                Logic.Trigger trigger = Logic.LogicHelper.AllocateTrigger("Assets/Res/Logic/Triggers/123.asset");
+                Logic.Trigger trigger = Logic.LogicHelper.AllocateTrigger("Assets/Res/Logic/Triggers/Game/Character/123.asset");
                 trigger.Invoke(Logic.Events.Event.CreateTrigger(UnitHandle.Null));
                 unit.Trigger.RunTrigger(trigger);
 
@@ -103,28 +127,24 @@ namespace DigitalWorld.Game
                     unit.Skill.Study(skillInfo, 0);
                 }
             }
+        }
 
+        private void SetupCameras()
+        {
 
             // 然后设置摄像机
             CameraControl cc = CameraControl.Instance;
-            //GameObject mainCameraObj = AssetManager.LoadAsset<GameObject>("Assets/Res/Cameras/BattleMainCamera.prefab");
             if (null != cc)
             {
-                cc.focused = unit.transform;
+                cc.focused = playerUnit.Unit.transform;
             }
 
-            // 然后开启UI
-            SetupUI();
         }
 
-        private void SetupUI()
+        private void SetupMap()
         {
-            UIManager uiManager = UIManager.Instance;
-            uiManager.ShowPanel<GamePanel>(GamePanel.path);
-            uiManager.ShowPanel<NoticePanel>(NoticePanel.path);
-            hudPanel = uiManager.CreateWidget<HudPanel>("Assets/Res/UI/Elements/Panel/Panel.prefab");
-            hudPanel.gameObject.name = "HudPanel";
-            uiManager.SetupPanel(hudPanel.gameObject);
+            this.map = new Map(256, 256);
+
         }
         #endregion
 

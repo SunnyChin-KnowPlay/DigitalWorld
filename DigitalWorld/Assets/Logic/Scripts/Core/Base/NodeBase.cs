@@ -743,18 +743,22 @@ namespace DigitalWorld.Logic
             this._name = (string)info.GetValue("_name", typeof(string));
             this._description = (string)info.GetValue("_description", typeof(string));
             this._children = new List<NodeBase>();
-            JArray jArray = (JArray)info.GetValue("_children", typeof(JArray));
-            foreach (JToken token in jArray)
-            {
-                string typeName = token.Value<string>("_typeName");
-                if (!string.IsNullOrEmpty(typeName))
-                {
-                    if (System.Activator.CreateInstance(Type.GetType(typeName)) is NodeBase child)
-                    {
-                        child.SetParent(this);
-                    }
-                }
-            }
+
+            List<NodeBase> jArray = (List<NodeBase>)info.GetValue("_children", typeof(List<NodeBase>));
+
+            int x = 1;
+
+            //foreach (JToken token in jArray)
+            //{
+            //    string typeName = token.Value<string>("_typeName");
+            //    if (!string.IsNullOrEmpty(typeName))
+            //    {
+            //        if (System.Activator.CreateInstance(Type.GetType(typeName)) is NodeBase child)
+            //        {
+            //            child.SetParent(this);
+            //        }
+            //    }
+            //}
         }
 
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)

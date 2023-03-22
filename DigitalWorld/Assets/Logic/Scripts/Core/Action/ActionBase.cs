@@ -1,9 +1,8 @@
-﻿using System.Xml;
-using System.Xml.Serialization;
+﻿using System;
 
 namespace DigitalWorld.Logic.Actions
 {
-    
+    [Serializable]
     public abstract partial class ActionBase : NodeState
     {
         #region Params

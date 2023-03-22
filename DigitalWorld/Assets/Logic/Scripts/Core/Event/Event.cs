@@ -1,4 +1,5 @@
 ﻿using DigitalWorld.Game;
+using System;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -9,6 +10,7 @@ namespace DigitalWorld.Logic.Events
     /// <summary>
     /// 事件
     /// </summary>
+    [Serializable]
     public partial struct Event
     {
         #region Params

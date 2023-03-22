@@ -19,8 +19,9 @@ namespace DigitalWorld.Logic.Actions
     /// <summary>
     /// 空行动
     /// </summary>
-   
-	public partial class None : ActionBase
+    [Serializable]
+
+    public partial class None : ActionBase
 	{
 #region Common
 		public override int Id

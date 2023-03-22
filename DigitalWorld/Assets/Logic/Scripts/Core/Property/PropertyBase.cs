@@ -1,10 +1,12 @@
-﻿using System.Xml;
+﻿using System;
+using System.Xml;
 
 namespace DigitalWorld.Logic.Properties
 {
     /// <summary>
     /// 属性基类
     /// </summary>
+    [Serializable]
     public abstract partial class PropertyBase : NodeBase, System.ICloneable
     {
         #region Params

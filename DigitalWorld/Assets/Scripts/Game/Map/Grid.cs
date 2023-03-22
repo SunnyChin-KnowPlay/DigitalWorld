@@ -1,67 +1,108 @@
-﻿using System.Collections.Generic;
+﻿using Dream.Core;
 using UnityEngine;
 
 namespace DigitalWorld.Game
 {
-    public enum Direction
+    public class Grid : IPooledObject
     {
-        Up,
-        Left,
-        Down,
-        Right
-    }
-
-    public enum GridType
-    {
-        Empty,
-        Wall,
-        Water,
-        Grass
-    }
-
-
-    public class Grid
-    {
-        public int index;
-        public Vector2Int position;
-        public GridType type;
-        public bool isWalkable;
-        public Map map;
-
-        public Grid(int index, Vector2Int position, GridType type, bool isWalkable, Map map)
+        #region Params
+        /// <summary>
+        /// 方向
+        /// </summary>
+        public enum Direction
         {
-            this.index = index;
-            this.position = position;
-            this.type = type;
-            this.isWalkable = isWalkable;
-            this.map = map;
+            Up,
+            Left,
+            Down,
+            Right
         }
 
-        // get neighbor grid in specific direction
-        public Grid GetNeighbor(Direction direction)
+        private int index;
+        public int Index
         {
-            Vector2Int neighborPosition = position;
+            get => index;
+            private set => index = value;
+        }
+
+        private Vector2Int position;
+        public Vector2Int Position
+        {
+            get => position;
+            private set => position = value;
+        }
+
+        private bool isWalkable;
+        public bool IsWalkable
+        {
+            get => isWalkable;
+            set => isWalkable = value;
+        }
+
+        private Map map;
+        #endregion
+
+        #region Logic
+        public virtual void Setup(Map map, int index, Vector2Int position, bool isWalkable)
+        {
+            this.map = map;
+            this.index = index;
+            this.position = position;
+            this.isWalkable = isWalkable;   
+        }
+
+        public Grid GetNeighbor(Map map, Direction direction)
+        {
+            int newX = Position.x;
+            int newY = Position.y;
+
             switch (direction)
             {
                 case Direction.Up:
-                    neighborPosition += Vector2Int.up;
+                    newY++;
                     break;
                 case Direction.Left:
-                    neighborPosition += Vector2Int.left;
+                    newX--;
                     break;
                 case Direction.Down:
-                    neighborPosition += Vector2Int.down;
+                    newY--;
                     break;
                 case Direction.Right:
-                    neighborPosition += Vector2Int.right;
+                    newX++;
                     break;
             }
-            return map.GetGrid(neighborPosition);
+
+            return map.GetGridAt(newX, newY);
         }
+        #endregion
+
+        #region Pool
+        public void OnAllocate()
+        {
+
+        }
+
+        public void OnRecycle()
+        {
+            this.index = 0;
+            this.position = Vector2Int.zero;
+            this.isWalkable = false;
+            this.map = null;
+        }
+
+        private IObjectPool pool;
+        public void SetPool(IObjectPool pool)
+        {
+            this.pool = pool;
+        }
+
+        public void Recycle()
+        {
+            if (null != pool)
+            {
+                this.pool.ApplyRecycle(this);
+            }
+        }
+        #endregion
     }
 
-    
-    
-
-   
 }

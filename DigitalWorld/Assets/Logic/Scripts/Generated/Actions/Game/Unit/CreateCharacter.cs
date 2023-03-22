@@ -10,6 +10,7 @@ using Dream;
 using Dream.Core;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using System.Runtime.Serialization;
 #if UNITY_EDITOR
 using System.Xml;
 #endif
@@ -82,9 +83,19 @@ namespace DigitalWorld.Logic.Actions.Game.Unit
             }
             return obj;
         }
-#endregion
 
-#region Editor
+        public CreateCharacter()
+        {
+
+        }
+
+        public CreateCharacter(SerializationInfo info, StreamingContext context)
+        {
+
+        }
+        #endregion
+
+        #region Editor
 #if UNITY_EDITOR
         private static Dictionary<string, string> descs = new Dictionary<string, string>();
 

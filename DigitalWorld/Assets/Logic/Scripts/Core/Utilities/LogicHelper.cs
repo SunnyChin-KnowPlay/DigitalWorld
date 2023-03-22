@@ -56,8 +56,11 @@ namespace DigitalWorld.Logic
                 return null;
 
             using Stream stream = new MemoryStream(asset.bytes);
+
             BinaryFormatter formatter = new BinaryFormatter();
             Trigger trigger = formatter.Deserialize(stream) as Trigger;
+
+
 
             return trigger;
         }
