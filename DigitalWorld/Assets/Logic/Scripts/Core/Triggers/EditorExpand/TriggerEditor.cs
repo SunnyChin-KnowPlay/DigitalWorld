@@ -3,9 +3,6 @@ using DigitalWorld.Asset;
 using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Serialization;
 using UnityEditor;
 using UnityEngine;
 using Newtonsoft.Json;
@@ -162,11 +159,14 @@ namespace DigitalWorld.Logic
 
         private void SaveJson()
         {
-            JsonSerializerSettings setting = new JsonSerializerSettings()
+            JsonSerializerSettings settings = new JsonSerializerSettings
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                TypeNameHandling = TypeNameHandling.All,
+                Formatting = Formatting.Indented,
             };
-            string jsonResult = JsonConvert.SerializeObject(this, setting);
+
+            string jsonResult = JsonConvert.SerializeObject(this, settings);
 
             string fullPath = System.IO.Path.Combine(RelativeFolderPath, this.Name);
             fullPath += ".asset";

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace DigitalWorld.Logic.Actions
 {
@@ -53,7 +54,10 @@ namespace DigitalWorld.Logic.Actions
         #endregion
 
         #region Serialization
-        
+        public ActionBase(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+
+        }
         #endregion
     }
 }

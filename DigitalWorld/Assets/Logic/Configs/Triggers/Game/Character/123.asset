@@ -7,4 +7,24 @@ TextAsset:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 123
-  m_Script: "{\"RelativeFolderPath\":\"Triggers/Game/Character\",\"RelativeAssetFilePath\":\"Triggers/Game/Character/123.asset\",\"IsEditing\":true,\"Id\":0,\"NodeType\":4,\"ListenerEvent\":0,\"TriggeringEventHandler\":null,\"TotalTime\":0,\"State\":1,\"IsRunning\":false,\"IsEnded\":false,\"RunningTime\":0,\"RunningCount\":0,\"RequirementLogic\":0,\"MotionMode\":0,\"IsSelected\":false,\"IsEditingFromRoot\":true,\"IsCanDelete\":true,\"Desc\":\"\",\"Index\":0,\"MaxIndex\":0,\"GlobalIndex\":0,\"MaxGlobalIndex\":2,\"LastedSelectedGlobalIndex\":1,\"Parent\":null,\"IsRoot\":true,\"Children\":[{\"cfgId\":0,\"localPosition\":{\"X\":0.0,\"Y\":0.0,\"Z\":0.0,\"Magnitude\":0.0,\"MagnitudeXZ\":0.0,\"SqrMagnitude\":0.0,\"SqrMagnitudePrecision\":0,\"SqrMagnitudeXZ\":0.0,\"SqrMagnitudeXZPrecision\":0},\"Id\":3,\"Desc\":\"\u57FA\u4E8E\u5355\u4F4D\u7684\u521B\u5EFA\u89D2\u8272\uFF0C\u4F4D\u7F6E\u4F7F\u7528\u76F8\u5BF9\u5173\u7CFB\",\"NodeType\":2,\"State\":1,\"IsRunning\":false,\"IsEnded\":false,\"RunningTime\":0,\"TotalTime\":0,\"RunningCount\":0,\"RequirementLogic\":0,\"MotionMode\":0,\"IsSelected\":true,\"IsEditingFromRoot\":false,\"IsCanDelete\":true,\"IsEditing\":false,\"Index\":0,\"MaxIndex\":1,\"GlobalIndex\":1,\"MaxGlobalIndex\":0,\"LastedSelectedGlobalIndex\":-1,\"IsRoot\":false,\"Children\":[],\"Enabled\":true,\"TypeName\":\"DigitalWorld.Logic.Actions.Game.Unit.CreateCharacter\",\"SelfTypeName\":\"CreateCharacter\",\"LocalTypeName\":\"Actions.Game.Unit.CreateCharacter\",\"Name\":\"CreateCharacter_0\",\"EnabledDurationTime\":0,\"Description\":\"\",\"IsDirty\":true,\"LayerCount\":1}],\"Enabled\":true,\"TypeName\":\"DigitalWorld.Logic.Trigger\",\"SelfTypeName\":\"Trigger\",\"LocalTypeName\":\"Trigger\",\"Name\":\"123\",\"EnabledDurationTime\":0,\"Description\":\"\",\"IsDirty\":true,\"LayerCount\":0}"
+  m_Script: "{\r\n  \"$type\": \"DigitalWorld.Logic.Trigger, Assembly-CSharp\",\r\n 
+    \"_enabled\": true,\r\n  \"_name\": \"123\",\r\n  \"_description\": \"\",\r\n 
+    \"_children\": {\r\n    \"$type\": \"System.Collections.Generic.List`1[[DigitalWorld.Logic.NodeBase,
+    Assembly-CSharp]], mscorlib\",\r\n    \"$values\": [\r\n      {\r\n        \"$type\":
+    \"DigitalWorld.Logic.Actions.Game.Unit.CreateCharacter, Assembly-CSharp\",\r\n       
+    \"_enabled\": true,\r\n        \"_name\": \"CreateCharacter_0\",\r\n        \"_description\":
+    \"\",\r\n        \"_children\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[DigitalWorld.Logic.NodeBase,
+    Assembly-CSharp]], mscorlib\",\r\n          \"$values\": []\r\n        },\r\n       
+    \"_typeName\": \"DigitalWorld.Logic.Actions.Game.Unit.CreateCharacter\",\r\n       
+    \"_requirementLogic\": 0,\r\n        \"_requirements\": {\r\n          \"$type\":
+    \"System.Collections.Generic.List`1[[DigitalWorld.Logic.Requirement, Assembly-CSharp]],
+    mscorlib\",\r\n          \"$values\": []\r\n        },\r\n        \"_motionMode\":
+    0,\r\n        \"cfgId\": 0,\r\n        \"localPosition\": {\r\n          \"$type\":
+    \"Dream.FixMath.FixVector3, Dream.FixMath\",\r\n          \"X\": 0.0,\r\n         
+    \"Y\": 0.0,\r\n          \"Z\": 0.0,\r\n          \"Magnitude\": 0.0,\r\n         
+    \"MagnitudeXZ\": 0.0,\r\n          \"SqrMagnitude\": 0.0,\r\n          \"SqrMagnitudePrecision\":
+    0,\r\n          \"SqrMagnitudeXZ\": 0.0,\r\n          \"SqrMagnitudeXZPrecision\":
+    0\r\n        }\r\n      }\r\n    ]\r\n  },\r\n  \"_typeName\": \"DigitalWorld.Logic.Trigger\",\r\n 
+    \"_requirementLogic\": 0,\r\n  \"_requirements\": {\r\n    \"$type\": \"System.Collections.Generic.List`1[[DigitalWorld.Logic.Requirement,
+    Assembly-CSharp]], mscorlib\",\r\n    \"$values\": []\r\n  },\r\n  \"_motionMode\":
+    0\r\n}"

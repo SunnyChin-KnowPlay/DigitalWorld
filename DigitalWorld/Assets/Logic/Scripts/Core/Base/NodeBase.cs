@@ -16,7 +16,7 @@ namespace DigitalWorld.Logic
     /// 逻辑根节点
     /// </summary>
     [Serializable]
-    public abstract partial class NodeBase : IPooledObject, INode, IComparable, ICloneable
+    public abstract partial class NodeBase : IPooledObject, INode, IComparable, ICloneable, ISerializable
     {
         #region Event
         public delegate void OnDirtyChangedHandle(bool dirty);
@@ -734,6 +734,23 @@ namespace DigitalWorld.Logic
 
         #endregion
 
-        
+        #region Serialization
+        protected NodeBase(SerializationInfo info, StreamingContext context)
+        {
+            this._enabled = (bool)info.GetValue("_enabled", typeof(bool));
+            this._name = (string)info.GetValue("_name", typeof(string));
+            this._description = (string)info.GetValue("_description", typeof(string));
+            this._children = (List<NodeBase>)info.GetValue("_children", typeof(List<NodeBase>));
+        }
+
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("_enabled", this._enabled);
+            info.AddValue("_name", this._name);
+            info.AddValue("_description", this._description);
+            info.AddValue("_children", this._children);
+            info.AddValue("_typeName", this.TypeName);
+        }
+        #endregion
     }
 }
