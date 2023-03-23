@@ -51,15 +51,6 @@ namespace DigitalWorld.Logic
 
         #endregion
 
-        #region Load
-
-
-
-
-
-
-        #endregion
-
         
     }
 }

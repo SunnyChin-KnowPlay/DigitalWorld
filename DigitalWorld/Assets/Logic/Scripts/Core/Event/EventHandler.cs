@@ -1,5 +1,6 @@
 ﻿using DigitalWorld.Game;
 using Dream.Core;
+using System;
 using System.Collections.Generic;
 
 namespace DigitalWorld.Logic.Events
@@ -7,6 +8,7 @@ namespace DigitalWorld.Logic.Events
     /// <summary>
     /// 事件操作者
     /// </summary>
+    [Serializable]
     public partial class EventHandler : PooledObject
     {
         #region Params

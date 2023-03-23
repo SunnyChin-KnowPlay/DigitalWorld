@@ -133,21 +133,6 @@ namespace DigitalWorld.Logic.Actions
 #endif
 		#endregion
 
-		#region Serialization
-		public None()
-		{
-
-		}
-
-        public None(SerializationInfo info, StreamingContext context)
-        {
-        }
-
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
-
-        }
-        #endregion
+		
 	}
 }

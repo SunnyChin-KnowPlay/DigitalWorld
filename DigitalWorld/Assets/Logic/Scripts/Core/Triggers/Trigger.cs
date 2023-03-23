@@ -191,18 +191,6 @@ namespace DigitalWorld.Logic
         }
         #endregion
 
-        #region Serialization
-        public Trigger()
-        {
-
-        }
-
-        protected Trigger(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-
-
-        }
-        #endregion
+      
     }
 }

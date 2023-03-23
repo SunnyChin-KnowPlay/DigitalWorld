@@ -133,21 +133,6 @@ namespace DigitalWorld.Logic.Actions.Game.Unit
 #endif
 		#endregion
 
-		#region Serialization
-		public ClearTargets()
-		{
-
-		}
-
-        public ClearTargets(SerializationInfo info, StreamingContext context)
-        {
-        }
-
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
-
-        }
-        #endregion
+		
 	}
 }

@@ -16,7 +16,7 @@ namespace DigitalWorld.Logic
     /// 逻辑根节点
     /// </summary>
     [Serializable]
-    public abstract partial class NodeBase : IPooledObject, INode, IComparable, ICloneable, ISerializable
+    public abstract partial class NodeBase : IPooledObject, INode, IComparable, ICloneable
     {
         #region Event
         public delegate void OnDirtyChangedHandle(bool dirty);
@@ -201,7 +201,6 @@ namespace DigitalWorld.Logic
             get { return _name; }
             set { _name = value; }
         }
-        [XmlAttribute]
         protected string _name;
 
         /// <summary>
@@ -735,37 +734,6 @@ namespace DigitalWorld.Logic
 
         #endregion
 
-        #region Serialization
-        protected NodeBase(SerializationInfo info, StreamingContext context)
-        {
-            this._enabled = (bool)info.GetValue("_enabled", typeof(bool));
-            this._name = (string)info.GetValue("_name", typeof(string));
-            this._description = (string)info.GetValue("_description", typeof(string));
-            this._children = new List<NodeBase>();
-
-            List<JToken> jArray = (List<JToken>)info.GetValue("_children", typeof(List<JToken>));
-
-            foreach (JToken token in jArray)
-            {
-                string typeName = token.Value<string>("_typeName");
-                if (!string.IsNullOrEmpty(typeName))
-                {
-                    if (System.Activator.CreateInstance(Type.GetType(typeName)) is NodeBase child)
-                    {
-                        child.SetParent(this);
-                    }
-                }
-            }
-        }
-
-        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("_enabled", this._enabled);
-            info.AddValue("_name", this._name);
-            info.AddValue("_description", this._description);
-            info.AddValue("_children", this._children);
-            info.AddValue("_typeName", this.TypeName);
-        }
-        #endregion
+        
     }
 }

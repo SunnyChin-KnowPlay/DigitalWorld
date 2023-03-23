@@ -147,25 +147,6 @@ namespace DigitalWorld.Logic.Actions.Game.Unit
 #endif
 		#endregion
 
-		#region Serialization
-		public CreateCharacter()
-		{
-
-		}
-
-        public CreateCharacter(SerializationInfo info, StreamingContext context)
-        {
-			this.cfgId = (System.Int32)info.GetValue("cfgId", typeof(System.Int32));
-			this.localPosition = (Dream.FixMath.FixVector3)info.GetValue("localPosition", typeof(Dream.FixMath.FixVector3));
-        }
-
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
-
-			info.AddValue("cfgId", this.cfgId);
-			info.AddValue("localPosition", this.localPosition);
-        }
-        #endregion
+		
 	}
 }
