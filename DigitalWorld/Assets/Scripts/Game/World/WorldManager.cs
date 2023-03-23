@@ -143,7 +143,7 @@ namespace DigitalWorld.Game
 
         private void SetupMap()
         {
-            this.map = new Map(256, 256);
+          
 
         }
         #endregion

@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Xml;
-using System.Xml.Schema;
 using System.Xml.Serialization;
 
 namespace DigitalWorld.Logic
@@ -744,21 +743,19 @@ namespace DigitalWorld.Logic
             this._description = (string)info.GetValue("_description", typeof(string));
             this._children = new List<NodeBase>();
 
-            List<NodeBase> jArray = (List<NodeBase>)info.GetValue("_children", typeof(List<NodeBase>));
+            List<JToken> jArray = (List<JToken>)info.GetValue("_children", typeof(List<JToken>));
 
-            int x = 1;
-
-            //foreach (JToken token in jArray)
-            //{
-            //    string typeName = token.Value<string>("_typeName");
-            //    if (!string.IsNullOrEmpty(typeName))
-            //    {
-            //        if (System.Activator.CreateInstance(Type.GetType(typeName)) is NodeBase child)
-            //        {
-            //            child.SetParent(this);
-            //        }
-            //    }
-            //}
+            foreach (JToken token in jArray)
+            {
+                string typeName = token.Value<string>("_typeName");
+                if (!string.IsNullOrEmpty(typeName))
+                {
+                    if (System.Activator.CreateInstance(Type.GetType(typeName)) is NodeBase child)
+                    {
+                        child.SetParent(this);
+                    }
+                }
+            }
         }
 
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)

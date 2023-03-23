@@ -121,14 +121,17 @@ namespace DigitalWorld.Logic.Editor
 
             this.fields.Clear();
 
-            for (int i = 0; i < node.ChildNodes.Count; ++i)
+            XmlElement fieldElement = node["fields"];
+            if (null != fieldElement)
             {
-                XmlElement fieldEle = node.ChildNodes[i] as XmlElement;
-                NodeField fn = new NodeField();
-                fn.Decode(fieldEle);
-                this.fields.Add(fn);
+                for (int i = 0; i < fieldElement.ChildNodes.Count; ++i)
+                {
+                    XmlElement fieldEle = fieldElement.ChildNodes[i] as XmlElement;
+                    NodeField fn = new NodeField();
+                    fn.Decode(fieldEle);
+                    this.fields.Add(fn);
+                }
             }
-
         }
 
         public override void Encode(XmlElement node)
@@ -137,10 +140,12 @@ namespace DigitalWorld.Logic.Editor
 
             node.SetAttribute("desc", this.desc);
 
+            XmlElement fieldElement = node.OwnerDocument.CreateElement("fields");
+            node.AppendChild(fieldElement);
             for (int i = 0; i < fields.Count; ++i)
             {
                 XmlElement fieldEle = node.OwnerDocument.CreateElement("field");
-                node.AppendChild(fieldEle);
+                fieldElement.AppendChild(fieldEle);
 
                 this.fields[i].Encode(fieldEle);
             }

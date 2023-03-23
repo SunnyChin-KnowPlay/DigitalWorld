@@ -3,106 +3,24 @@ using UnityEngine;
 
 namespace DigitalWorld.Game
 {
-    public class Grid : IPooledObject
+    using UnityEngine;
+
+    public class Grid : MonoBehaviour
     {
-        #region Params
-        /// <summary>
-        /// 方向
-        /// </summary>
-        public enum Direction
+        public MapData mapData; // 存储地图数据的对象
+
+        void OnDrawGizmos()
         {
-            Up,
-            Left,
-            Down,
-            Right
-        }
-
-        private int index;
-        public int Index
-        {
-            get => index;
-            private set => index = value;
-        }
-
-        private Vector2Int position;
-        public Vector2Int Position
-        {
-            get => position;
-            private set => position = value;
-        }
-
-        private bool isWalkable;
-        public bool IsWalkable
-        {
-            get => isWalkable;
-            set => isWalkable = value;
-        }
-
-        private Map map;
-        #endregion
-
-        #region Logic
-        public virtual void Setup(Map map, int index, Vector2Int position, bool isWalkable)
-        {
-            this.map = map;
-            this.index = index;
-            this.position = position;
-            this.isWalkable = isWalkable;   
-        }
-
-        public Grid GetNeighbor(Map map, Direction direction)
-        {
-            int newX = Position.x;
-            int newY = Position.y;
-
-            switch (direction)
+            // 绘制网格
+            for (int i = 0; i < mapData.width * mapData.height; i++)
             {
-                case Direction.Up:
-                    newY++;
-                    break;
-                case Direction.Left:
-                    newX--;
-                    break;
-                case Direction.Down:
-                    newY--;
-                    break;
-                case Direction.Right:
-                    newX++;
-                    break;
-            }
-
-            return map.GetGridAt(newX, newY);
-        }
-        #endregion
-
-        #region Pool
-        public void OnAllocate()
-        {
-
-        }
-
-        public void OnRecycle()
-        {
-            this.index = 0;
-            this.position = Vector2Int.zero;
-            this.isWalkable = false;
-            this.map = null;
-        }
-
-        private IObjectPool pool;
-        public void SetPool(IObjectPool pool)
-        {
-            this.pool = pool;
-        }
-
-        public void Recycle()
-        {
-            if (null != pool)
-            {
-                this.pool.ApplyRecycle(this);
+                Vector3 position = mapData.gridData[i].position;
+                int x = i % mapData.width;
+                int y = i / mapData.width;
+                Gizmos.color = (x + y) % 2 == 0 ? new Color(1, 1, 1, 0.5f) : new Color(0.8f, 0.8f, 0.8f, 0.5f);
+                Gizmos.DrawCube(position, Vector3.one);
             }
         }
-        #endregion
     }
 
 }

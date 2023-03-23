@@ -18,7 +18,7 @@ namespace Assets.Logic.Editor.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+    #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
     public partial class PropertyTemplate : PropertyTemplateBase
     {
@@ -29,14 +29,14 @@ namespace Assets.Logic.Editor.Templates
         public virtual string TransformText()
         {
             
-            #line 19 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 19 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(tips));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 20 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 20 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
 
 	for (int i = 0; i < usingNamespaces.Length; ++i)
 	{
@@ -46,14 +46,14 @@ namespace Assets.Logic.Editor.Templates
             #line hidden
             this.Write("using ");
             
-            #line 24 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 24 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(usingNamespaces[i]));
             
             #line default
             #line hidden
             this.Write(";\r\n");
             
-            #line 25 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 25 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
 
 	}
 
@@ -63,42 +63,42 @@ namespace Assets.Logic.Editor.Templates
             this.Write("using System.Collections.Generic;\r\n#if UNITY_EDITOR\r\nusing System.Xml;\r\n#endif\r\n\r" +
                     "\nnamespace ");
             
-            #line 33 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 33 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(namespaceName));
             
             #line default
             #line hidden
             this.Write("\r\n{\r\n\t/// <summary>\r\n    /// ");
             
-            #line 36 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 36 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(desc));
             
             #line default
             #line hidden
-            this.Write("\r\n    /// </summary>\r\n    public partial class ");
+            this.Write("\r\n    /// </summary>\r\n    [Serializable]\r\n    public partial class ");
             
-            #line 38 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 39 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
             #line hidden
             this.Write(" : PropertyTemplate<");
             
-            #line 38 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 39 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(valueType));
             
             #line default
             #line hidden
             this.Write(">\r\n    {\r\n        #region Params\r\n        public override int Id => ");
             
-            #line 41 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 42 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(id));
             
             #line default
             #line hidden
             this.Write(";       \r\n\r\n");
             
-            #line 43 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 44 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
 
         for (int i = 0; i < types.Length; ++i)
         {
@@ -108,21 +108,21 @@ namespace Assets.Logic.Editor.Templates
             #line hidden
             this.Write("        public ");
             
-            #line 47 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 48 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(types[i]));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 47 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 48 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
             
             #line default
             #line hidden
             this.Write(" = default;\r\n");
             
-            #line 48 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 49 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
 
         }
 
@@ -132,7 +132,7 @@ namespace Assets.Logic.Editor.Templates
             this.Write("        #endregion\r\n\r\n        #region Pool\r\n        public override void OnRecycl" +
                     "e()\r\n        {\r\n            base.OnRecycle();\r\n");
             
-            #line 57 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 58 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
 
 			for (int i = 0; i < types.Length; ++i)
 			{
@@ -142,14 +142,14 @@ namespace Assets.Logic.Editor.Templates
             #line hidden
             this.Write("\t\t\t");
             
-            #line 61 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 62 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
             
             #line default
             #line hidden
             this.Write(" = default;\r\n");
             
-            #line 62 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 63 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
 
 			}
 
@@ -159,7 +159,7 @@ namespace Assets.Logic.Editor.Templates
             this.Write("        }\r\n        #endregion\r\n\r\n        #region Clone\r\n        public override o" +
                     "bject Clone()\r\n        {\r\n            ");
             
-            #line 71 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 72 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
@@ -167,7 +167,7 @@ namespace Assets.Logic.Editor.Templates
             this.Write(" v = null;\r\n            if (Application.isPlaying)\r\n            {\r\n              " +
                     "  v = Dream.Core.ObjectPool<");
             
-            #line 74 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 75 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
@@ -175,7 +175,7 @@ namespace Assets.Logic.Editor.Templates
             this.Write(">.Instance.Allocate();\r\n            }\r\n            else\r\n            {\r\n         " +
                     "       v = new ");
             
-            #line 78 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 79 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
@@ -185,14 +185,14 @@ namespace Assets.Logic.Editor.Templates
                     "ublic override T CloneTo<T>(T obj)\r\n        {\r\n            if (base.CloneTo(obj)" +
                     " is ");
             
-            #line 91 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 92 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
             #line hidden
             this.Write(" v)\r\n            {\r\n");
             
-            #line 93 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 94 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
 
 				for (int i = 0; i < types.Length; ++i)
 				{
@@ -202,21 +202,21 @@ namespace Assets.Logic.Editor.Templates
             #line hidden
             this.Write("\t\t\t\tv.");
             
-            #line 97 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 98 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
             
             #line default
             #line hidden
             this.Write(" = this.");
             
-            #line 97 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 98 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
             
             #line default
             #line hidden
             this.Write(";\r\n");
             
-            #line 98 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 99 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
 
 				}
 
@@ -243,7 +243,7 @@ namespace Assets.Logic.Editor.Templates
                 {
 ");
             
-            #line 119 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 120 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
 
 		            for (int i = 0; i < varNames.Length; ++i)
 		            {
@@ -253,21 +253,21 @@ namespace Assets.Logic.Editor.Templates
             #line hidden
             this.Write("                    fieldDescs.Add(\"");
             
-            #line 123 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 124 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
             
             #line default
             #line hidden
             this.Write("\", \"");
             
-            #line 123 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 124 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(descripts[i]));
             
             #line default
             #line hidden
             this.Write("\");\r\n");
             
-            #line 124 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 125 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
 
 		            }
 
@@ -294,7 +294,7 @@ namespace Assets.Logic.Editor.Templates
             {
                 return """);
             
-            #line 145 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 146 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(desc));
             
             #line default
@@ -303,7 +303,7 @@ namespace Assets.Logic.Editor.Templates
                     "\r\n\t\tprotected override void OnCalculateSize()\r\n        {\r\n            base.OnCal" +
                     "culateSize();\r\n");
             
-            #line 155 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 156 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
 
 			for (int i = 0; i < types.Length; ++i)
 			{
@@ -313,21 +313,21 @@ namespace Assets.Logic.Editor.Templates
             #line hidden
             this.Write("\t\r\n\t\t\t");
             
-            #line 159 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 160 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(calculateFuncs[i]));
             
             #line default
             #line hidden
             this.Write("(this.");
             
-            #line 159 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 160 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
             
             #line default
             #line hidden
             this.Write(");\r\n");
             
-            #line 160 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 161 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
 
 			}
 
@@ -337,7 +337,7 @@ namespace Assets.Logic.Editor.Templates
             this.Write("  \r\n        }\r\n\r\n\t\tprotected override void OnEncode()\r\n        {\r\n            bas" +
                     "e.OnEncode();\r\n");
             
-            #line 168 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 169 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
 
 			for (int i = 0; i < types.Length; ++i)
 			{
@@ -347,21 +347,21 @@ namespace Assets.Logic.Editor.Templates
             #line hidden
             this.Write("\t\t\t");
             
-            #line 172 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 173 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(serializeFuncs[i]));
             
             #line default
             #line hidden
             this.Write("(this.");
             
-            #line 172 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 173 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
             
             #line default
             #line hidden
             this.Write(");\r\n");
             
-            #line 173 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 174 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
 
 			}
 
@@ -371,7 +371,7 @@ namespace Assets.Logic.Editor.Templates
             this.Write("          \r\n        }\r\n\r\n        protected override void OnDecode()\r\n        {\r\n " +
                     "           base.OnDecode();\r\n\t\t\t\r\n");
             
-            #line 182 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 183 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
 
 			for (int i = 0; i < types.Length; ++i)
 			{
@@ -381,21 +381,21 @@ namespace Assets.Logic.Editor.Templates
             #line hidden
             this.Write("\t\t\t");
             
-            #line 186 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 187 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(deserializeFuncs[i]));
             
             #line default
             #line hidden
             this.Write("(ref this.");
             
-            #line 186 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 187 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
             
             #line default
             #line hidden
             this.Write(");\r\n");
             
-            #line 187 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 188 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
 
 			}
 
@@ -405,7 +405,7 @@ namespace Assets.Logic.Editor.Templates
             this.Write("        }\r\n\t\t\r\n#if UNITY_EDITOR\r\n        protected override void OnDecode(XmlElem" +
                     "ent node)\r\n        {\r\n            base.OnDecode(node);\r\n\t\t\t\r\n");
             
-            #line 197 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 198 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
 
 			for (int i = 0; i < types.Length; ++i)
 			{
@@ -415,28 +415,28 @@ namespace Assets.Logic.Editor.Templates
             #line hidden
             this.Write("\t\t\t");
             
-            #line 201 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 202 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(deserializeFuncs[i]));
             
             #line default
             #line hidden
             this.Write("(ref this.");
             
-            #line 201 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 202 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
             
             #line default
             #line hidden
             this.Write(", \"");
             
-            #line 201 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 202 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
             
             #line default
             #line hidden
             this.Write("\");\r\n");
             
-            #line 202 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 203 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
 
 			}
 
@@ -446,7 +446,7 @@ namespace Assets.Logic.Editor.Templates
             this.Write("        }\r\n\r\n        protected override void OnEncode(XmlElement node)\r\n        {" +
                     "\r\n\t\t\tbase.OnEncode(node);\r\n");
             
-            #line 210 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 211 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
 
 			for (int i = 0; i < types.Length; ++i)
 			{
@@ -456,28 +456,28 @@ namespace Assets.Logic.Editor.Templates
             #line hidden
             this.Write("\t\t\t");
             
-            #line 214 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 215 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(serializeFuncs[i]));
             
             #line default
             #line hidden
             this.Write("(this.");
             
-            #line 214 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 215 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
             
             #line default
             #line hidden
             this.Write(", \"");
             
-            #line 214 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 215 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
             
             #line default
             #line hidden
             this.Write("\");\r\n");
             
-            #line 215 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+            #line 216 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
 
 			}
 
@@ -488,7 +488,7 @@ namespace Assets.Logic.Editor.Templates
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 1 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
+        #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyTemplate.tt"
 
 private string _classNameField;
 

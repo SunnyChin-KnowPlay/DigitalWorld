@@ -18,7 +18,7 @@ namespace Assets.Logic.Editor.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
+    #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
     public partial class EventTemplate : EventTemplateBase
     {
@@ -29,14 +29,14 @@ namespace Assets.Logic.Editor.Templates
         public virtual string TransformText()
         {
             
-            #line 10 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
+            #line 10 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(tips));
             
             #line default
             #line hidden
             this.Write("\r\nusing DigitalWorld.Game;\r\nusing UnityEngine;\r\n\r\nnamespace ");
             
-            #line 14 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
+            #line 14 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(namespaceName));
             
             #line default
@@ -44,14 +44,14 @@ namespace Assets.Logic.Editor.Templates
             this.Write("\r\n{\r\n    /// <summary>\r\n    /// 事件\r\n    /// </summary>\r\n    public partial struct" +
                     " Event\r\n    {\r\n        #region Construction\r\n\r\n\t\t/// <summary>\r\n        /// ");
             
-            #line 24 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
+            #line 24 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(desc));
             
             #line default
             #line hidden
             this.Write("\r\n        /// </summary> \r\n\t\tpublic static Event Create");
             
-            #line 26 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
+            #line 26 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(eventName));
             
             #line default
@@ -59,7 +59,7 @@ namespace Assets.Logic.Editor.Templates
             this.Write("(UnitHandle triggering)\r\n        {\r\n            Event ev = new Event\r\n           " +
                     " {\r\n                Id = (int)EEvent.");
             
-            #line 30 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
+            #line 30 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(eventName));
             
             #line default
@@ -69,7 +69,7 @@ namespace Assets.Logic.Editor.Templates
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 1 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
+        #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
 
 private string _eventNameField;
 

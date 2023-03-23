@@ -7,4 +7,4 @@ TextAsset:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 123
-  m_Script: '{"_enabled":true,"_name":"123","_description":"","_children":[{"_enabled":true,"_name":"CreateCharacter_0","_description":"","_children":[],"_typeName":"DigitalWorld.Logic.Actions.Game.Unit.CreateCharacter","_requirementLogic":0,"_requirements":[],"_motionMode":0}],"_typeName":"DigitalWorld.Logic.Trigger","_requirementLogic":0,"_requirements":[],"_motionMode":0}'
+  m_Script: '{"_enabled":true,"_name":"123","_description":"","_children":[{"_enabled":true,"_name":"CreateCharacter_0","_description":"","_children":[],"_typeName":"DigitalWorld.Logic.Actions.Game.Unit.CreateCharacter","_requirementLogic":0,"_requirements":[],"_motionMode":0,"cfgId":0,"localPosition":{"X":0.0,"Y":0.0,"Z":0.0,"Magnitude":0.0,"MagnitudeXZ":0.0,"SqrMagnitude":0.0,"SqrMagnitudePrecision":0,"SqrMagnitudeXZ":0.0,"SqrMagnitudeXZPrecision":0}}],"_typeName":"DigitalWorld.Logic.Trigger","_requirementLogic":0,"_requirements":[],"_motionMode":0}'

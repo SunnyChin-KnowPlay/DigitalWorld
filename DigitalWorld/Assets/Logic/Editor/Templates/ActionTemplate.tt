@@ -7,10 +7,7 @@
 <#@ parameter name="id" type="System.Int32"#>
 <#@ parameter name="desc" type="System.String"#>
 <#@ parameter name="usingNamespaces" type="System.String[]"#>
-<#@ parameter name="serializeFuncs" type="System.String[]"#>
-<#@ parameter name="deserializeFuncs" type="System.String[]"#>
 <#@ parameter name="defaultValues" type="System.String[]"#>
-<#@ parameter name="calculateFuncs" type="System.String[]"#>
 <#@ parameter name="namespaceName" type="System.String"#>
 <#@ parameter name="propertyTypes" type="System.String[]"#>
 <#@ parameter name="propertyNames" type="System.String[]"#>
@@ -24,6 +21,7 @@ using <#= usingNamespaces[i] #>;
 <#
 	}
 #>
+using System.Runtime.Serialization;
 using System.Collections.Generic;
 #if UNITY_EDITOR
 using System.Xml;
@@ -34,6 +32,7 @@ namespace <#= namespaceName #>
 	/// <summary>
     /// <#= desc #>
     /// </summary>
+	[Serializable]
 	public partial class <#= className #> : ActionBase
 	{
 		#region Properties
@@ -200,77 +199,37 @@ namespace <#= namespaceName #>
 #endif
 		#endregion
 
-		#region Serializion
-		protected override void OnCalculateSize()
-        {
-            base.OnCalculateSize();
-<#
-			for (int i = 0; i < types.Length; ++i)
-			{
-#>
-			<#= calculateFuncs[i] #>(this.<#= varNames[i] #>);
-<#
-			}
-#>  
-        }
+		#region Serialization
+		public <#= className #>()
+		{
 
-		protected override void OnEncode()
-        {
-            base.OnEncode();
-<#
-			for (int i = 0; i < types.Length; ++i)
-			{
-#>
-			<#= serializeFuncs[i] #>(this.<#= varNames[i] #>);
-<#
-			}
-#>          
-        }
+		}
 
-        protected override void OnDecode()
+        public <#= className #>(SerializationInfo info, StreamingContext context)
         {
-            base.OnDecode();
-			
 <#
 			for (int i = 0; i < types.Length; ++i)
 			{
 #>
-			<#= deserializeFuncs[i] #>(ref this.<#= varNames[i] #>);
-<#
-			}
-#>
-        }
-		
-#if UNITY_EDITOR
-        protected override void OnDecode(XmlElement node)
-        {
-            base.OnDecode(node);
-			
-<#
-			for (int i = 0; i < types.Length; ++i)
-			{
-#>
-			<#= deserializeFuncs[i] #>(ref this.<#= varNames[i] #>, "<#= varNames[i] #>");
+			this.<#= varNames[i] #> = (<#= types[i] #>)info.GetValue("<#= varNames[i] #>", typeof(<#= types[i] #>));
 <#
 			}
 #>
         }
 
-        protected override void OnEncode(XmlElement node)
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-			base.OnEncode(node);
+            base.GetObjectData(info, context);
+
 <#
 			for (int i = 0; i < types.Length; ++i)
 			{
 #>
-			<#= serializeFuncs[i] #>(this.<#= varNames[i] #>, "<#= varNames[i] #>");
+			info.AddValue("<#= varNames[i] #>", this.<#= varNames[i] #>);
 <#
 			}
 #>
         }
-
-
-#endif
-		#endregion
+        #endregion
 	}
 }

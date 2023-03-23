@@ -33,6 +33,7 @@ namespace <#= namespaceName #>
 	/// <summary>
     /// <#= desc #>
     /// </summary>
+    [Serializable]
     public sealed partial class Property<#= className #> : PropertyTemplate<<#= valueType #>>
     {
         public enum EPropertyModel

@@ -96,6 +96,7 @@ namespace DigitalWorld.Logic.Editor
             tmp.Session["actionValues"] = values.ToArray();
             tmp.Session["actionDescs"] = descs.ToArray();
             tmp.Session["tips"] = Logic.Utility.GeneratedTips;
+            tmp.Session["namespaceName"] = Utility.LogicNamespace;
 
 
             tmp.Initialize();
@@ -361,9 +362,6 @@ namespace DigitalWorld.Logic.Editor
             List<string> types = new List<string>();
             List<string> descs = new List<string>();
             List<string> values = new List<string>();
-            List<string> serializeFuncs = new List<string>();
-            List<string> deserializeFuncs = new List<string>();
-            List<string> calculateFuncs = new List<string>();
             List<string> propertyTypes = new List<string>();
             List<string> propertyNames = new List<string>();
 
@@ -383,9 +381,7 @@ namespace DigitalWorld.Logic.Editor
 
                 descs.Clear();
                 values.Clear();
-                serializeFuncs.Clear();
-                deserializeFuncs.Clear();
-                calculateFuncs.Clear();
+               
                 propertyTypes.Clear();
                 propertyNames.Clear();
 
@@ -401,11 +397,6 @@ namespace DigitalWorld.Logic.Editor
                         standardTypes.Add(Utility.GetStandardizationEnumName(attr.GetAttribute("typeName")));
                         descs.Add(attr.GetAttribute("desc"));
                         values.Add(string.Format("default({0})", attr.GetAttribute("typeName")));
-
-                        System.Type baseType = Type.GetType(attr.GetAttribute("baseTypeName"));
-                        serializeFuncs.Add(baseType == typeof(Enum) ? "EncodeEnum" : "Encode");
-                        deserializeFuncs.Add(baseType == typeof(Enum) ? "DecodeEnum" : "Decode");
-                        calculateFuncs.Add(baseType == typeof(Enum) ? "CalculateSizeEnum" : "CalculateSize");
                     }
                 }
 
@@ -441,9 +432,6 @@ namespace DigitalWorld.Logic.Editor
                         ["descripts"] = descs.ToArray(),
                         ["defaultValues"] = values.ToArray(),
                         ["usingNamespaces"] = Logic.Utility.usingNamespaces,
-                        ["serializeFuncs"] = serializeFuncs.ToArray(),
-                        ["deserializeFuncs"] = deserializeFuncs.ToArray(),
-                        ["calculateFuncs"] = calculateFuncs.ToArray(),
                         ["propertyNames"] = propertyNames.ToArray(),
                         ["propertyTypes"] = propertyTypes.ToArray(),
                     }

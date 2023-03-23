@@ -35,6 +35,7 @@ namespace <#= namespaceName #>
 	/// <summary>
     /// <#= desc #>
     /// </summary>
+    [Serializable]
     public partial class <#= className #> : PropertyTemplate<<#= valueType #>>
     {
         #region Params

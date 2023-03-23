@@ -15,7 +15,7 @@ namespace Assets.Logic.Editor.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
+    #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
     public partial class DefinedTemplate : DefinedTemplateBase
     {
@@ -26,21 +26,21 @@ namespace Assets.Logic.Editor.Templates
         public virtual string TransformText()
         {
             
-            #line 11 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
+            #line 11 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(tips));
             
             #line default
             #line hidden
             this.Write("\r\nnamespace ");
             
-            #line 12 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
+            #line 12 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(namespaceName));
             
             #line default
             #line hidden
             this.Write("\r\n{\r\n\tpublic enum EEvent : int\r\n\t{\r\n");
             
-            #line 16 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
+            #line 16 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
 
 		for (int i = 0; i < eventNames.Length; ++i)
 		{
@@ -50,28 +50,28 @@ namespace Assets.Logic.Editor.Templates
             #line hidden
             this.Write("\t\t/// <summary>\r\n        /// ");
             
-            #line 21 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
+            #line 21 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(eventDescs[i]));
             
             #line default
             #line hidden
             this.Write("\r\n        /// </summary>\r\n\t\t");
             
-            #line 23 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
+            #line 23 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(eventNames[i]));
             
             #line default
             #line hidden
             this.Write(" = ");
             
-            #line 23 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
+            #line 23 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(eventValues[i]));
             
             #line default
             #line hidden
             this.Write(",\r\n");
             
-            #line 24 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
+            #line 24 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
 
 		}
 
@@ -80,7 +80,7 @@ namespace Assets.Logic.Editor.Templates
             #line hidden
             this.Write("\t}\r\n\r\n\tpublic enum EAction : int\r\n\t{\r\n");
             
-            #line 31 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
+            #line 31 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
 
 		for (int i = 0; i < actionNames.Length; ++i)
 		{
@@ -90,28 +90,28 @@ namespace Assets.Logic.Editor.Templates
             #line hidden
             this.Write("\t\t/// <summary>\r\n        /// ");
             
-            #line 36 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
+            #line 36 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(actionDescs[i]));
             
             #line default
             #line hidden
             this.Write("\r\n        /// </summary>\r\n\t\t");
             
-            #line 38 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
+            #line 38 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(actionNames[i]));
             
             #line default
             #line hidden
             this.Write(" = ");
             
-            #line 38 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
+            #line 38 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(actionValues[i]));
             
             #line default
             #line hidden
             this.Write(",\r\n");
             
-            #line 39 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
+            #line 39 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
 
 		}
 
@@ -121,7 +121,7 @@ namespace Assets.Logic.Editor.Templates
             this.Write("\t}\r\n\r\n\tpublic static class Defined\r\n\t{\r\n        public static string GetEventDesc" +
                     "(EEvent e)\r\n        {\r\n\t\t\tswitch (e)\r\n            {\r\n");
             
-            #line 50 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
+            #line 50 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
 
 				for (int i = 0; i < eventNames.Length; ++i)
 				{
@@ -131,21 +131,21 @@ namespace Assets.Logic.Editor.Templates
             #line hidden
             this.Write("\t\t\t\tcase EEvent.");
             
-            #line 54 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
+            #line 54 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(eventNames[i]));
             
             #line default
             #line hidden
             this.Write(":\r\n\t\t\t\t\treturn \"");
             
-            #line 55 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
+            #line 55 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(eventDescs[i]));
             
             #line default
             #line hidden
             this.Write("\";\r\n");
             
-            #line 56 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
+            #line 56 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
 
 				}
 
@@ -155,7 +155,7 @@ namespace Assets.Logic.Editor.Templates
             this.Write("\t\t\t\tdefault:\r\n\t\t\t\t\treturn null;\r\n\t\t\t}\r\n        }\r\n\r\n\t\tpublic static string GetAct" +
                     "ionDesc(EAction e)\r\n        {\r\n\t\t\tswitch (e)\r\n            {\r\n");
             
-            #line 68 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
+            #line 68 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
 
 				for (int i = 0; i < actionNames.Length; ++i)
 				{
@@ -165,21 +165,21 @@ namespace Assets.Logic.Editor.Templates
             #line hidden
             this.Write("\t\t\t\tcase EAction.");
             
-            #line 72 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
+            #line 72 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(actionNames[i]));
             
             #line default
             #line hidden
             this.Write(":\r\n\t\t\t\t\treturn \"");
             
-            #line 73 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
+            #line 73 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(actionDescs[i]));
             
             #line default
             #line hidden
             this.Write("\";\r\n");
             
-            #line 74 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
+            #line 74 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
 
 				}
 
@@ -190,7 +190,7 @@ namespace Assets.Logic.Editor.Templates
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 1 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
+        #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\DefinedTemplate.tt"
 
 private string[] _eventNamesField;
 

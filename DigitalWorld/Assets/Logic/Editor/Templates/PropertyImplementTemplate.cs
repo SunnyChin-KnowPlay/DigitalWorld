@@ -18,7 +18,7 @@ namespace Assets.Logic.Editor.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyImplementTemplate.tt"
+    #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyImplementTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
     public partial class PropertyImplementTemplate : PropertyImplementTemplateBase
     {
@@ -30,21 +30,21 @@ namespace Assets.Logic.Editor.Templates
         {
             this.Write("namespace ");
             
-            #line 9 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyImplementTemplate.tt"
+            #line 9 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyImplementTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(namespaceName));
             
             #line default
             #line hidden
             this.Write("\r\n{\r\n    public partial class ");
             
-            #line 11 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyImplementTemplate.tt"
+            #line 11 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyImplementTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
             #line hidden
             this.Write("\r\n    {\r\n        #region Value\r\n        public override ");
             
-            #line 14 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyImplementTemplate.tt"
+            #line 14 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyImplementTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(valueType));
             
             #line default
@@ -55,7 +55,7 @@ namespace Assets.Logic.Editor.Templates
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 1 "D:\Projects\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyImplementTemplate.tt"
+        #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyImplementTemplate.tt"
 
 private string _classNameField;
 
