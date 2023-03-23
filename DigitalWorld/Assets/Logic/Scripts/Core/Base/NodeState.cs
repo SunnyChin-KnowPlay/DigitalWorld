@@ -312,6 +312,27 @@ namespace DigitalWorld.Logic
         }
         #endregion
 
-        
+        #region Serialization
+        protected NodeState(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            this._requirementLogic = (ECheckLogic)info.GetValue("_requirementLogic", typeof(ECheckLogic));
+            this._requirements = (List<Requirement>)info.GetValue("_requirements", typeof(List<Requirement>));
+            this._motionMode = (EMotionMode)info.GetValue("_motionMode", typeof(EMotionMode));
+        }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+
+            info.AddValue("_requirementLogic", _requirementLogic);
+            info.AddValue("_requirements", _requirements);
+            info.AddValue("_motionMode", _motionMode);
+
+            // 二进制的序列化已经写好了
+            // 
+        }
+        #endregion
+
     }
 }
