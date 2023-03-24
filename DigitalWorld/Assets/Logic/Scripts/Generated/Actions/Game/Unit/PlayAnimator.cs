@@ -140,6 +140,23 @@ namespace DigitalWorld.Logic.Actions.Game.Unit
 #endif
 		#endregion
 
-	
+		#region Serialization
+		public PlayAnimator()
+		{
+
+		}
+
+        public PlayAnimator(SerializationInfo info, StreamingContext context)
+        {
+			this.triggerKey = (System.String)info.GetValue("triggerKey", typeof(System.String));
+        }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+
+			info.AddValue("triggerKey", this.triggerKey);
+        }
+        #endregion
 	}
 }

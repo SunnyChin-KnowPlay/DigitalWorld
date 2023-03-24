@@ -56,16 +56,17 @@ namespace Assets.Logic.Editor.Templates
             
             #line default
             #line hidden
-            this.Write("(UnitHandle triggering)\r\n        {\r\n            Event ev = new Event\r\n           " +
-                    " {\r\n                Id = (int)EEvent.");
+            this.Write("(UnitHandle triggering, UnitHandle target = default)\r\n        {\r\n            Even" +
+                    "t ev = new Event\r\n            {\r\n                Id = (int)EEvent.");
             
             #line 30 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\EventTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(eventName));
             
             #line default
             #line hidden
-            this.Write(",\r\n                Triggering = triggering,\r\n            };\r\n            return e" +
-                    "v;\r\n        }\r\n\r\n        #endregion\r\n    }\r\n}\r\n");
+            this.Write(",\r\n                Triggering = triggering,\r\n                Target = target\r\n   " +
+                    "         };\r\n            return ev;\r\n        }\r\n\r\n        #endregion\r\n    }\r\n}\r\n" +
+                    "");
             return this.GenerationEnvironment.ToString();
         }
         

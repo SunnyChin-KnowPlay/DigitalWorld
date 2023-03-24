@@ -145,27 +145,27 @@ namespace DigitalWorld.Logic.Actions.Game
             }
         }
 #endif
-        #endregion
+		#endregion
 
-        #region Serialization
-        public CreateCharacter()
+		#region Serialization
+		public CreateCharacter()
+		{
+
+		}
+
+        public CreateCharacter(SerializationInfo info, StreamingContext context)
         {
-
-        }
-
-        public CreateCharacter(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-            this.cfgId = (System.Int32)info.GetValue("cfgId", typeof(System.Int32));
-            this.worldPosition = (Dream.FixMath.FixVector3)info.GetValue("worldPosition", typeof(Dream.FixMath.FixVector3));
+			this.cfgId = (System.Int32)info.GetValue("cfgId", typeof(System.Int32));
+			this.worldPosition = (Dream.FixMath.FixVector3)info.GetValue("worldPosition", typeof(Dream.FixMath.FixVector3));
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
 
-            info.AddValue("cfgId", this.cfgId);
-            info.AddValue("worldPosition", this.worldPosition);
+			info.AddValue("cfgId", this.cfgId);
+			info.AddValue("worldPosition", this.worldPosition);
         }
         #endregion
-    }
+	}
 }

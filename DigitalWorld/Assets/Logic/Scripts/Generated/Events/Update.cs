@@ -21,12 +21,13 @@ namespace DigitalWorld.Logic.Events
 		/// <summary>
         /// 迭代
         /// </summary> 
-		public static Event CreateUpdate(UnitHandle triggering)
+		public static Event CreateUpdate(UnitHandle triggering, UnitHandle target = default)
         {
             Event ev = new Event
             {
                 Id = (int)EEvent.Update,
                 Triggering = triggering,
+                Target = target
             };
             return ev;
         }

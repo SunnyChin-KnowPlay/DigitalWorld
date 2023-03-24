@@ -147,5 +147,25 @@ namespace DigitalWorld.Logic.Actions.Game.Unit
 #endif
 		#endregion
 
+		#region Serialization
+		public Damage()
+		{
+
+		}
+
+        public Damage(SerializationInfo info, StreamingContext context)
+        {
+			this.damageType = (DigitalWorld.Game.EDamagerType)info.GetValue("damageType", typeof(DigitalWorld.Game.EDamagerType));
+			this.attackRatio = (Dream.FixMath.FixFactor)info.GetValue("attackRatio", typeof(Dream.FixMath.FixFactor));
+        }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+
+			info.AddValue("damageType", this.damageType);
+			info.AddValue("attackRatio", this.attackRatio);
+        }
+        #endregion
 	}
 }

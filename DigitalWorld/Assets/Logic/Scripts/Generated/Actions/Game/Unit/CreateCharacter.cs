@@ -20,95 +20,95 @@ using System.Xml;
 
 namespace DigitalWorld.Logic.Actions.Game.Unit
 {
-    /// <summary>
+	/// <summary>
     /// 基于单位的创建角色，位置使用相对关系
     /// </summary>
-    [Serializable]
-    public partial class CreateCharacter : ActionBase
-    {
-        #region Properties
-
+	[Serializable]
+	public partial class CreateCharacter : ActionBase
+	{
+		#region Properties
+       
         #endregion
 
-        #region Fields
-        /// <summary>
+		#region Fields
+		/// <summary>
         /// 角色配置ID
         /// </summary> 
-        public System.Int32 cfgId = default;
-        /// <summary>
+		public System.Int32 cfgId = default;
+		/// <summary>
         /// 本地坐标偏移量
         /// </summary> 
-        public Dream.FixMath.FixVector3 localPosition = default;
-        #endregion
-
-        #region Common
-        public override int Id
-        {
-            get
-            {
-                return 3;
-            }
-        }
+		public Dream.FixMath.FixVector3 localPosition = default;
+		#endregion
+		
+		#region Common
+		public override int Id
+		{
+			get
+			{
+				return 3;
+			}
+		}
 
 #if UNITY_EDITOR
-        /// <summary>
+		/// <summary>
         /// 当被编辑器创建时的回调
         /// </summary>
         public override void OnCreate()
         {
-            base.OnCreate();
+			base.OnCreate();
             Type[] types = null;
 
-
+  
         }
 #endif
 
-        public override void OnAllocate()
+		public override void OnAllocate()
         {
-            base.OnAllocate();
+			base.OnAllocate();
 
         }
 
-        public override void OnRecycle()
+		public override void OnRecycle()
         {
             base.OnRecycle();
-            cfgId = default;
-            localPosition = default;
+			cfgId = default;
+			localPosition = default;
         }
 
-        public override object Clone()
+		public override object Clone()
         {
-            CreateCharacter v = null;
-            if (Application.isPlaying)
+			CreateCharacter v = null;
+			if (Application.isPlaying)
             {
-                v = Dream.Core.ObjectPool<CreateCharacter>.Instance.Allocate();
+				v = Dream.Core.ObjectPool<CreateCharacter>.Instance.Allocate();
             }
-            else
-            {
-                v = new CreateCharacter();
-            }
-
-            if (null != v)
-            {
-                this.CloneTo(v);
-            }
+			else
+			{
+				v = new CreateCharacter();
+			}
+			
+			if (null != v)
+			{
+				this.CloneTo(v);
+			}
 
             return v;
         }
 
-        public override T CloneTo<T>(T obj)
+		public override T CloneTo<T>(T obj)
         {
             CreateCharacter v = base.CloneTo(obj) as CreateCharacter;
             if (null != v)
             {
-                v.cfgId = this.cfgId;
-                v.localPosition = this.localPosition;
+				v.cfgId = this.cfgId;
+				v.localPosition = this.localPosition;
             }
             return obj;
         }
-        #endregion
+		#endregion
 
-        #region Editor
+		#region Editor
 #if UNITY_EDITOR
         private static Dictionary<string, string> fieldDescs = new Dictionary<string, string>();
 
@@ -129,7 +129,7 @@ namespace DigitalWorld.Logic.Actions.Game.Unit
             }
         }
 
-        protected override string GetFieldDesc(string fieldName)
+		protected override string GetFieldDesc(string fieldName)
         {
             Dictionary<string, string> descs = FieldDescs;
             string v = string.Empty;
@@ -145,27 +145,27 @@ namespace DigitalWorld.Logic.Actions.Game.Unit
             }
         }
 #endif
-        #endregion
+		#endregion
 
-        #region Serialization
-        public CreateCharacter()
+		#region Serialization
+		public CreateCharacter()
+		{
+
+		}
+
+        public CreateCharacter(SerializationInfo info, StreamingContext context)
         {
-
-        }
-
-        public CreateCharacter(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-            this.cfgId = (System.Int32)info.GetValue("cfgId", typeof(System.Int32));
-            this.localPosition = (Dream.FixMath.FixVector3)info.GetValue("localPosition", typeof(Dream.FixMath.FixVector3));
+			this.cfgId = (System.Int32)info.GetValue("cfgId", typeof(System.Int32));
+			this.localPosition = (Dream.FixMath.FixVector3)info.GetValue("localPosition", typeof(Dream.FixMath.FixVector3));
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
 
-            info.AddValue("cfgId", this.cfgId);
-            info.AddValue("localPosition", this.localPosition);
+			info.AddValue("cfgId", this.cfgId);
+			info.AddValue("localPosition", this.localPosition);
         }
         #endregion
-    }
+	}
 }

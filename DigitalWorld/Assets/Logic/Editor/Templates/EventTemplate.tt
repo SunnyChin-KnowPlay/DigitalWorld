@@ -23,12 +23,13 @@ namespace <#= namespaceName #>
 		/// <summary>
         /// <#= desc #>
         /// </summary> 
-		public static Event Create<#= eventName #>(UnitHandle triggering)
+		public static Event Create<#= eventName #>(UnitHandle triggering, UnitHandle target = default)
         {
             Event ev = new Event
             {
                 Id = (int)EEvent.<#= eventName #>,
                 Triggering = triggering,
+                Target = target
             };
             return ev;
         }
