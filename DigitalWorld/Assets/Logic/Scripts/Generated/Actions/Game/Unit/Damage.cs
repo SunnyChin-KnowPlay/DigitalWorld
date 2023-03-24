@@ -154,6 +154,7 @@ namespace DigitalWorld.Logic.Actions.Game.Unit
 		}
 
         public Damage(SerializationInfo info, StreamingContext context)
+			: base(info, context)
         {
 			this.damageType = (DigitalWorld.Game.EDamagerType)info.GetValue("damageType", typeof(DigitalWorld.Game.EDamagerType));
 			this.attackRatio = (Dream.FixMath.FixFactor)info.GetValue("attackRatio", typeof(Dream.FixMath.FixFactor));

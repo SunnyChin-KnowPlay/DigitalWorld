@@ -140,6 +140,7 @@ namespace DigitalWorld.Logic.Actions.Game.Unit
 		}
 
         public ClearTargets(SerializationInfo info, StreamingContext context)
+			: base(info, context)
         {
         }
 

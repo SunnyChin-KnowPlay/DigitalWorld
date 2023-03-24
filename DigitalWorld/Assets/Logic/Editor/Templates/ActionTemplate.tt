@@ -206,6 +206,7 @@ namespace <#= namespaceName #>
 		}
 
         public <#= className #>(SerializationInfo info, StreamingContext context)
+			: base(info, context)
         {
 <#
 			for (int i = 0; i < types.Length; ++i)

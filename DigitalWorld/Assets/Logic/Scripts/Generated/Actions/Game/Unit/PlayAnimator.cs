@@ -147,6 +147,7 @@ namespace DigitalWorld.Logic.Actions.Game.Unit
 		}
 
         public PlayAnimator(SerializationInfo info, StreamingContext context)
+			: base(info, context)
         {
 			this.triggerKey = (System.String)info.GetValue("triggerKey", typeof(System.String));
         }

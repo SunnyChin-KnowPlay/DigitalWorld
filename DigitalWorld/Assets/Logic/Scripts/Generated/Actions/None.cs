@@ -140,6 +140,7 @@ namespace DigitalWorld.Logic.Actions
 		}
 
         public None(SerializationInfo info, StreamingContext context)
+			: base(info, context)
         {
         }
 

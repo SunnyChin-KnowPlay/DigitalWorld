@@ -401,9 +401,10 @@ namespace Assets.Logic.Editor.Templates
             
             #line default
             #line hidden
-            this.Write("(SerializationInfo info, StreamingContext context)\r\n        {\r\n");
+            this.Write("(SerializationInfo info, StreamingContext context)\r\n\t\t\t: base(info, context)\r\n   " +
+                    "     {\r\n");
             
-            #line 210 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+            #line 211 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 
 			for (int i = 0; i < types.Length; ++i)
 			{
@@ -413,35 +414,35 @@ namespace Assets.Logic.Editor.Templates
             #line hidden
             this.Write("\t\t\tthis.");
             
-            #line 214 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+            #line 215 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
             
             #line default
             #line hidden
             this.Write(" = (");
             
-            #line 214 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+            #line 215 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(types[i]));
             
             #line default
             #line hidden
             this.Write(")info.GetValue(\"");
             
-            #line 214 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+            #line 215 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
             
             #line default
             #line hidden
             this.Write("\", typeof(");
             
-            #line 214 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+            #line 215 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(types[i]));
             
             #line default
             #line hidden
             this.Write("));\r\n");
             
-            #line 215 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+            #line 216 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 
 			}
 
@@ -452,7 +453,7 @@ namespace Assets.Logic.Editor.Templates
                     "treamingContext context)\r\n        {\r\n            base.GetObjectData(info, contex" +
                     "t);\r\n\r\n");
             
-            #line 224 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+            #line 225 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 
 			for (int i = 0; i < types.Length; ++i)
 			{
@@ -462,21 +463,21 @@ namespace Assets.Logic.Editor.Templates
             #line hidden
             this.Write("\t\t\tinfo.AddValue(\"");
             
-            #line 228 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+            #line 229 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
             
             #line default
             #line hidden
             this.Write("\", this.");
             
-            #line 228 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+            #line 229 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(varNames[i]));
             
             #line default
             #line hidden
             this.Write(");\r\n");
             
-            #line 229 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
+            #line 230 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\ActionTemplate.tt"
 
 			}
 

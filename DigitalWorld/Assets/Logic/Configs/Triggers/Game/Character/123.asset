@@ -19,12 +19,12 @@ TextAsset:
     \"_requirementLogic\": 0,\r\n        \"_requirements\": {\r\n          \"$type\":
     \"System.Collections.Generic.List`1[[DigitalWorld.Logic.Requirement, Assembly-CSharp]],
     mscorlib\",\r\n          \"$values\": []\r\n        },\r\n        \"_motionMode\":
-    0,\r\n        \"cfgId\": 0,\r\n        \"localPosition\": {\r\n          \"$type\":
+    0,\r\n        \"cfgId\": 1002,\r\n        \"localPosition\": {\r\n          \"$type\":
     \"Dream.FixMath.FixVector3, Dream.FixMath\",\r\n          \"X\": 0.0,\r\n         
-    \"Y\": 0.0,\r\n          \"Z\": 0.0,\r\n          \"Magnitude\": 0.0,\r\n         
-    \"MagnitudeXZ\": 0.0,\r\n          \"SqrMagnitude\": 0.0,\r\n          \"SqrMagnitudePrecision\":
-    0,\r\n          \"SqrMagnitudeXZ\": 0.0,\r\n          \"SqrMagnitudeXZPrecision\":
-    0\r\n        }\r\n      }\r\n    ]\r\n  },\r\n  \"_typeName\": \"DigitalWorld.Logic.Trigger\",\r\n 
+    \"Y\": 0.0,\r\n          \"Z\": 5.0,\r\n          \"Magnitude\": 5.0,\r\n         
+    \"MagnitudeXZ\": 5.0,\r\n          \"SqrMagnitude\": 25.0,\r\n          \"SqrMagnitudePrecision\":
+    25000000,\r\n          \"SqrMagnitudeXZ\": 25.0,\r\n          \"SqrMagnitudeXZPrecision\":
+    25000000\r\n        }\r\n      }\r\n    ]\r\n  },\r\n  \"_typeName\": \"DigitalWorld.Logic.Trigger\",\r\n 
     \"_requirementLogic\": 0,\r\n  \"_requirements\": {\r\n    \"$type\": \"System.Collections.Generic.List`1[[DigitalWorld.Logic.Requirement,
     Assembly-CSharp]], mscorlib\",\r\n    \"$values\": []\r\n  },\r\n  \"_motionMode\":
     0\r\n}"

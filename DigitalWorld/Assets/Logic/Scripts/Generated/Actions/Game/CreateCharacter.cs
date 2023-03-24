@@ -154,6 +154,7 @@ namespace DigitalWorld.Logic.Actions.Game
 		}
 
         public CreateCharacter(SerializationInfo info, StreamingContext context)
+			: base(info, context)
         {
 			this.cfgId = (System.Int32)info.GetValue("cfgId", typeof(System.Int32));
 			this.worldPosition = (Dream.FixMath.FixVector3)info.GetValue("worldPosition", typeof(Dream.FixMath.FixVector3));
