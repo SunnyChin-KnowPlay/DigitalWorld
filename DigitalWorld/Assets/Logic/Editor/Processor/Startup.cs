@@ -1,10 +1,5 @@
-﻿using System.Xml;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
-using DigitalWorld.Logic.Editor;
-using DigitalWorld.Logic;
-using System.IO;
-using System.Xml.Serialization;
 using Newtonsoft.Json;
 
 namespace DigitalWorld.Logic.Editor
@@ -85,11 +80,15 @@ namespace DigitalWorld.Logic.Editor
             {
                 TextAsset ta = AssetDatabase.LoadAssetAtPath<TextAsset>(path);
 
-                JsonSerializerSettings setting = new JsonSerializerSettings()
+                JsonSerializerSettings settings = new JsonSerializerSettings
                 {
+                    TypeNameHandling = TypeNameHandling.All,
+                    Formatting = Formatting.Indented,
                     ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                   
                 };
-                Trigger trigger = JsonConvert.DeserializeObject<Trigger>(ta.text);
+
+                Trigger trigger = JsonConvert.DeserializeObject<Trigger>(ta.text, settings);
                 trigger.RelativeFolderPath = System.IO.Path.GetDirectoryName(relativePath);
 
                 window = LogicTriggerEditorWindow.CreateWindow<LogicTriggerEditorWindow>(typeof(LogicTriggerEditorWindow), null);
