@@ -52,7 +52,7 @@ namespace DigitalWorld.Game
         /// <summary>
         /// 地图
         /// </summary>
-        private Map map;
+        private MapControl map;
         #endregion
 
         #region Mono
@@ -68,6 +68,12 @@ namespace DigitalWorld.Game
             {
                 GameObject.Destroy(hudPanel.gameObject);
                 hudPanel = null;
+            }
+
+            if (null != this.map)
+            {
+                GameObject.Destroy(map.gameObject);
+                map = null;
             }
 
             base.OnDestroy();
@@ -131,20 +137,18 @@ namespace DigitalWorld.Game
 
         private void SetupCameras()
         {
-
             // 然后设置摄像机
             CameraControl cc = CameraControl.Instance;
             if (null != cc)
             {
                 cc.focused = playerUnit.Unit.transform;
             }
-
         }
 
         private void SetupMap()
         {
-          
-
+            MapData data = new MapData(128, 128);
+            this.map = MapControl.Create(data);
         }
         #endregion
 
@@ -159,7 +163,6 @@ namespace DigitalWorld.Game
             ControlUnit unit = this.CreateCharacter(data.CharacterInfo.PrefabPath);
             if (null != unit)
             {
-
                 this.RegisterUnit(unit, data);
                 return unit;
             }
