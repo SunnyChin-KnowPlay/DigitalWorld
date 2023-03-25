@@ -162,7 +162,6 @@ public class NewBehaviourScript : MonoBehaviour
         using (FileStream fs = new FileStream("C:/Users/sunny/Documents/text.txt", FileMode.Open))
         {
             TA b = serializer.Deserialize(fs) as TA;
-            int x = 1;
         }
 
 

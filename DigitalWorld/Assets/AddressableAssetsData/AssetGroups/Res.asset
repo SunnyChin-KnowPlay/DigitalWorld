@@ -21,38 +21,52 @@ MonoBehaviour:
     m_Address: Assets/Res/Tile
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 07d1527261447ed4d817bc53b80eb967
     m_Address: Assets/Res/Shaders
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a3fb870445474fc45bc597b50af5e03a
     m_Address: Assets/Res/NavMesh
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bbaf918217f261544bf09334b548c615
     m_Address: Assets/Res/Map
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f44d2b2a55b5b0f47b1fe2acfb9d78c0
     m_Address: Assets/Res/Logic
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5fe2b6b3f9418764f8d9f81da39148cb
     m_Address: Assets/Res/Config
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ef6a906a873da81488b51637a8b595b6
     m_Address: Assets/Res/Cameras
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ae6be9d8735b329428a37210a9d2a7ed
     m_Address: Assets/Res/UI
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c437655b1edf23a4098ff720d9f2a8cb
     m_Address: Assets/Res/Unit
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 21602229e8ec9f340be6892be12cc7e0
+    m_Address: Assets/Res/Grids
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 594d75798cb81484bb1f918a5de643e6, type: 2}
   m_SchemaSet:

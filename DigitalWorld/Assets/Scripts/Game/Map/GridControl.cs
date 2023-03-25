@@ -10,15 +10,15 @@ namespace DigitalWorld.Game
         /// 格子的数据
         /// </summary>
         public GridData gridData;
+
+        public bool showGridLines = true; // 控制是否显示网格线
+       
         #endregion
 
         #region Mono
-        void OnDrawGizmos()
+        void Awake()
         {
-            Color c = Gizmos.color;
-            Gizmos.color = Color.white * .5f;
-            Gizmos.DrawCube(transform.position, new Vector3(1, 0.2f, 1));
-            Gizmos.color = c;
+           
         }
         #endregion
 
@@ -27,7 +27,10 @@ namespace DigitalWorld.Game
         {
             this.gridData = gridData;
         }
+
+        
         #endregion
     }
+
 
 }

@@ -108,7 +108,7 @@ namespace DigitalWorld.Game
                         lastedTargetPosition = focused.position;
 
                         float axis = Input.GetAxis("Mouse ScrollWheel");
-                        this.distance = Mathf.Clamp(this.distance + axis * mouseScrollWheelSpeed, distanceClamp.x, distanceClamp.y);
+                        this.distance = Mathf.Clamp(this.distance + -axis * mouseScrollWheelSpeed, distanceClamp.x, distanceClamp.y);
 
                         standardDirSqrMagnitude += mag * 10f;
 

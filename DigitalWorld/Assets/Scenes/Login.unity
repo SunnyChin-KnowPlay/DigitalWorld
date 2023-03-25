@@ -308,6 +308,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   autoRecordLog: 1
+  autoSaveToLocalLog: 1
 --- !u!4 &649752855
 Transform:
   m_ObjectHideFlags: 0
