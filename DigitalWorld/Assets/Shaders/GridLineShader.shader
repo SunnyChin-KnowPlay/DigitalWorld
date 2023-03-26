@@ -1,32 +1,47 @@
-Shader "Grid/GridLineShader" {
-    Properties{
+Shader "Grid/BasicUnlitColor"
+{
+    Properties
+    {
         _Color("Color", Color) = (1, 1, 1, 1)
-        _LineWidth("Line Width", Range(0.1, 10)) = 1
     }
 
-        SubShader{
-            Tags {"Queue" = "Transparent" "RenderType" = "Transparent"}
-            LOD 100
+        SubShader
+    {
+        Tags {"Queue" = "Transparent" "RenderType" = "Transparent"}
+        LOD 100
 
+        Pass
+        {
             CGPROGRAM
-            #pragma surface surf Lambert
+            #pragma vertex vert
+            #pragma fragment frag
+            #include "UnityCG.cginc"
 
-            float4 _Color;
-            float _LineWidth;
-
-            struct Input {
-                float2 uv_MainTex;
+            struct appdata
+            {
+                float4 vertex : POSITION;
             };
 
-            void surf(Input IN, inout SurfaceOutput o) {
-                // Calculate line width based on uv
-                float lineWidth = step(IN.uv_MainTex.x, _LineWidth) * step(IN.uv_MainTex.y, _LineWidth);
+            struct v2f
+            {
+                float4 vertex : SV_POSITION;
+            };
 
-                // Set color and transparency
-                o.Albedo = _Color.rgb;
-                o.Alpha = _Color.a * lineWidth;
+            float4 _Color;
+
+            v2f vert(appdata v)
+            {
+                v2f o;
+                o.vertex = UnityObjectToClipPos(v.vertex);
+                return o;
+            }
+
+            fixed4 frag(v2f i) : SV_Target
+            {
+                return _Color;
             }
             ENDCG
+        }
     }
         FallBack "Diffuse"
 }

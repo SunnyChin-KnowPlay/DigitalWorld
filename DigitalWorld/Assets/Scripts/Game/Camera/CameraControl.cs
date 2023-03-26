@@ -34,7 +34,7 @@ namespace DigitalWorld.Game
         public float distance = 15;
 
         public Vector2 distanceClamp = new Vector2(5, 25);
-        public Vector2 verticalAngleClamp = new Vector2(-85, 85);
+        public Vector2 verticalAngleClamp = new Vector2(5, 85);
 
         public const float mouseScrollWheelSpeed = 5;
 
@@ -84,7 +84,7 @@ namespace DigitalWorld.Game
 
         protected override void OnDestroy()
         {
-        
+
 
             base.OnDestroy();
         }
@@ -107,9 +107,12 @@ namespace DigitalWorld.Game
                         float mag = (focused.position - lastedTargetPosition).sqrMagnitude;
                         lastedTargetPosition = focused.position;
 
-                        float axis = Input.GetAxis("Mouse ScrollWheel");
-                        this.distance = Mathf.Clamp(this.distance + -axis * mouseScrollWheelSpeed, distanceClamp.x, distanceClamp.y);
-
+                        if (IsMouseInGameWindow())
+                        {
+                            float axis = Input.GetAxis("Mouse ScrollWheel");
+                            this.distance = Mathf.Clamp(this.distance + -axis * mouseScrollWheelSpeed, distanceClamp.x, distanceClamp.y);
+                        }
+                           
                         standardDirSqrMagnitude += mag * 10f;
 
                         if (Input.GetMouseButtonDown(1))
@@ -129,7 +132,7 @@ namespace DigitalWorld.Game
 
                             inputHorizontalRotation *= Quaternion.AngleAxis(deltaPosition.x, Vector3.up);
                             inputVerticalRotation *= Quaternion.AngleAxis(deltaPosition.y, Vector3.right);
-                           
+
                             Vector3 eulerAngles = inputVerticalRotation.eulerAngles;
                             eulerAngles = new Vector3(eulerAngles.x >= 180 ? eulerAngles.x - 360 : eulerAngles.x, 0, 0);
                             eulerAngles = new Vector3(Mathf.Clamp(eulerAngles.x, verticalAngleClamp.x, verticalAngleClamp.y), 0, 0);
@@ -157,6 +160,7 @@ namespace DigitalWorld.Game
 
 
                     } while (false);
+
                 }
             }
         }
@@ -198,7 +202,7 @@ namespace DigitalWorld.Game
             situation.SelectTarget(new UnitHandle(target));
         }
 
-        
+
         #endregion
 
         #region Input
@@ -212,6 +216,12 @@ namespace DigitalWorld.Game
             {
                 return EventSystem.current.IsPointerOverGameObject() || GUIUtility.hotControl != 0;
             }
+        }
+
+        bool IsMouseInGameWindow()
+        {
+            Vector3 mousePosition = Input.mousePosition;
+            return mousePosition.x >= 0 && mousePosition.x <= Screen.width && mousePosition.y >= 0 && mousePosition.y <= Screen.height;
         }
         #endregion
     }
