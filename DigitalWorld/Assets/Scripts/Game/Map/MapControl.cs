@@ -10,12 +10,23 @@ namespace DigitalWorld.Game
 
     public class MapControl : MonoBehaviour
     {
-        #region Params
+        #region Constant
         private const string gridObjectPath = "Assets/Res/Grids/Grid.prefab";
+        #endregion
 
-        public Material gridLineMaterial;
-        public MapData mapData; // 存储地图数据的对象
-
+        #region Params
+        /// <summary>
+        /// 存储地图数据的对象
+        /// </summary>
+        private MapData mapData;
+        /// <summary>
+        /// 网格线的材质
+        /// </summary>
+        private Material gridLineMaterial;
+        
+        /// <summary>
+        /// 格子队列
+        /// </summary>
         private readonly List<GridControl> grids = new List<GridControl>();
 
         #endregion
@@ -30,25 +41,10 @@ namespace DigitalWorld.Game
         }
         #endregion
 
-        #region Logic
-        private void Awake()
+        #region Setup
+        public void Setup(MapData data)
         {
-            GameObject gridObject = AssetManager.LoadAsset<GameObject>(gridObjectPath);
-            if (null != gridObject)
-            {
-                MeshRenderer mr = gridObject.GetComponent<MeshRenderer>();
-                this.gridLineMaterial = mr.sharedMaterial;
-            }
-        }
-
-        private void Start()
-        {
-            CreateGridLines();
-            StartCoroutine(InitializeMap());
-        }
-
-        void Update()
-        {
+            this.mapData = data;
         }
 
         private void CreateGridLines()
@@ -70,10 +66,13 @@ namespace DigitalWorld.Game
             List<Vector3> vertices = new List<Vector3>();
             List<int> indices = new List<int>();
 
+            int halfWidth = mapData.width / 2;
+            int halfHeight = mapData.height / 2;
+
             for (int x = 0; x <= mapData.width; x++)
             {
-                vertices.Add(new Vector3(x, 0, 0));
-                vertices.Add(new Vector3(x, 0, mapData.height));
+                vertices.Add(new Vector3(x - halfWidth, 0, -halfHeight));
+                vertices.Add(new Vector3(x - halfWidth, 0, mapData.height - halfHeight));
 
                 indices.Add(2 * x);
                 indices.Add(2 * x + 1);
@@ -81,8 +80,8 @@ namespace DigitalWorld.Game
 
             for (int z = 0; z <= mapData.height; z++)
             {
-                vertices.Add(new Vector3(0, 0, z));
-                vertices.Add(new Vector3(mapData.width, 0, z));
+                vertices.Add(new Vector3(-halfWidth, 0, z - halfHeight));
+                vertices.Add(new Vector3(mapData.width - halfWidth, 0, z - halfHeight));
 
                 indices.Add(2 * (mapData.width + 1) + 2 * z);
                 indices.Add(2 * (mapData.width + 1) + 2 * z + 1);
@@ -94,8 +93,6 @@ namespace DigitalWorld.Game
 
             meshFilter.mesh = mesh;
         }
-
-
 
         private IEnumerator InitializeMap()
         {
@@ -129,16 +126,29 @@ namespace DigitalWorld.Game
                 yield return new WaitForEndOfFrame();
             }
         }
-
-
         #endregion
 
-        #region Setup
-        public void Setup(MapData data)
+        #region Logic
+        private void Awake()
         {
-            this.mapData = data;
+            GameObject gridObject = AssetManager.LoadAsset<GameObject>(gridObjectPath);
+            if (null != gridObject)
+            {
+                MeshRenderer mr = gridObject.GetComponent<MeshRenderer>();
+                this.gridLineMaterial = mr.sharedMaterial;
+            }
         }
+
+        private void Start()
+        {
+            CreateGridLines();
+            StartCoroutine(InitializeMap());
+        }
+
+        
         #endregion
+
+       
     }
 
 }

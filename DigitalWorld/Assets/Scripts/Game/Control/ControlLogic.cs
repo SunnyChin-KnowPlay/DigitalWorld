@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace DigitalWorld.Game
 {
     /// <summary>
     /// 逻辑控制器
     /// </summary>
+    [Serializable]
     public abstract class ControlLogic : MonoBehaviour
     {
         #region Params

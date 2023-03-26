@@ -31,12 +31,15 @@ namespace DigitalWorld.Game
             this.height = height;
             gridData = new GridData[width * height];
 
+            int halfWidth = width / 2;
+            int halfHeight = height / 2;
+
             for (int i = 0; i < width * height; i++)
             {
                 int x = i % width;
                 int y = i / width;
 
-                Vector3 position = new Vector3(x, 0, y); // 根据每个格子的 1x1 大小计算位置
+                Vector3 position = new Vector3(x - halfWidth, 0, y - halfHeight); // 根据每个格子的 1x1 大小计算位置，并考虑地图的中心点
                 gridData[i] = new GridData { index = i, position = position };
             }
         }

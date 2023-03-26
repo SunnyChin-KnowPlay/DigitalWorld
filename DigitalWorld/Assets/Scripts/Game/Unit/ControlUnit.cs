@@ -1,4 +1,5 @@
 using DigitalWorld.Extension.Unity;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,7 @@ using UnityEngine.AI;
 
 namespace DigitalWorld.Game
 {
+    [Serializable]
     public abstract class ControlUnit : ControlLogic
     {
         #region Delegate

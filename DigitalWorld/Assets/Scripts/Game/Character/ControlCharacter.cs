@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using DigitalWorld.Extension.Unity;
 using DigitalWorld.Events;
+using System;
 
 namespace DigitalWorld.Game
 {
+    [Serializable]
     public partial class ControlCharacter : ControlUnit
     {
         #region Params
