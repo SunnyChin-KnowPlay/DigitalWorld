@@ -11,6 +11,7 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using DigitalWorld.Behaviours;
 using DigitalWorld.Notices.UI;
+using static UnityEngine.Rendering.VirtualTexturing.Debugging;
 
 namespace DigitalWorld.Game
 {
@@ -26,6 +27,11 @@ namespace DigitalWorld.Game
         #endregion
 
         #region Params
+        /// <summary>
+        /// 管理器词典
+        /// </summary>
+        private readonly Dictionary<EUnitType, UnitManager> managers = new Dictionary<EUnitType, UnitManager>();
+
         /// <summary>
         /// 单位词典
         /// </summary>
@@ -90,6 +96,7 @@ namespace DigitalWorld.Game
         private void Setup()
         {
             SetupMap();
+            SetupManagers();
             SetupUnits();
             SetupCameras();
             // 然后开启UI
@@ -152,7 +159,47 @@ namespace DigitalWorld.Game
         }
         #endregion
 
-        #region Create & Register
+        #region Manager
+        private void SetupManagers()
+        {
+            RegisterManager<ManagerCharacter>();
+            RegisterManager<ManagerBuilding>();
+        }
+
+        private void RegisterManager<T>() where T : UnitManager
+        {
+            GameObject go = new GameObject();
+
+            T manager = go.AddComponent<T>();
+            if (null != manager)
+            {
+                go.name = manager.Name;
+                go.transform.SetParent(this.transform, false);
+
+                this.RegisterManager(manager);
+            }
+        }
+
+        private void RegisterManager(UnitManager manager)
+        {
+            if (this.managers.ContainsKey(manager.Type))
+            {
+                this.managers[manager.Type] = manager;
+            }
+            else
+            {
+                this.managers.Add(manager.Type, manager);
+            }
+        }
+
+        private UnitManager GetManager(EUnitType type)
+        {
+            this.managers.TryGetValue(type, out UnitManager manager);
+            return manager;
+        }
+        #endregion
+
+        #region Unit
         private uint GetNewUnitId()
         {
             return ++unitIdPool;
@@ -184,6 +231,9 @@ namespace DigitalWorld.Game
             {
                 this.units.Add(unit.Uid, handle);
             }
+
+            UnitManager manager = this.GetManager(unit.Type);
+            manager?.RegisterUnit(handle);
         }
 
         private void UnregisterUnit(ControlUnit unit)
@@ -191,6 +241,11 @@ namespace DigitalWorld.Game
             if (this.units.ContainsKey(unit.Uid))
             {
                 this.units.Remove(unit.Uid);
+
+                UnitHandle handle = new UnitHandle(unit);
+
+                UnitManager manager = this.GetManager(unit.Type);
+                manager?.UnregisterUnit(handle);
             }
         }
 

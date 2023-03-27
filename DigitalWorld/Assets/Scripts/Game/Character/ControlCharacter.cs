@@ -9,7 +9,7 @@ namespace DigitalWorld.Game
     public partial class ControlCharacter : ControlUnit
     {
         #region Params
-
+        public override EUnitType Type => EUnitType.Character;
         #endregion
 
         #region Behaviour

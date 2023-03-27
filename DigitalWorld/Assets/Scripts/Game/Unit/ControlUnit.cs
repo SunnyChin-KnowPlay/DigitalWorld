@@ -22,6 +22,10 @@ namespace DigitalWorld.Game
         public uint Uid { get { return uid; } }
 
         /// <summary>
+        /// 单位类型
+        /// </summary>
+        public abstract EUnitType Type { get; }
+        /// <summary>
         /// 本地状态
         /// </summary>
         protected EUnitStatus status;

@@ -17,6 +17,8 @@ namespace DigitalWorld.Game
         /// </summary>
         public List<GridControl> OccupiedGrids => occupieGrids;
         private readonly List<GridControl> occupieGrids = new List<GridControl>();
+
+        public override EUnitType Type => EUnitType.Building;
         #endregion
 
         #region Setup

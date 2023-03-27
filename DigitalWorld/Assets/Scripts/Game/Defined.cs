@@ -52,6 +52,9 @@
         Event,
     }
 
+    /// <summary>
+    /// 单位状态
+    /// </summary>
     public enum EUnitStatus
     {
         /// <summary>
@@ -141,6 +144,21 @@
         /// </summary>
         Constrained,
         Max,
+    }
+
+    /// <summary>
+    /// 单位类型
+    /// </summary>
+    public enum EUnitType
+    {
+        /// <summary>
+        /// 角色
+        /// </summary>
+        Character = 1,
+        /// <summary>
+        /// 建筑
+        /// </summary>
+        Building = 2,
     }
 
     public class Defined
