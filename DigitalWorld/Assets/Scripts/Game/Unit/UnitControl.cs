@@ -8,7 +8,7 @@ using UnityEngine.AI;
 namespace DigitalWorld.Game
 {
     [Serializable]
-    public abstract class ControlUnit : ControlLogic
+    public abstract class UnitControl : ControlLogic
     {
         #region Delegate
         public delegate void OnProcessControl(ControlLogic c);
@@ -119,7 +119,7 @@ namespace DigitalWorld.Game
             this.Setup(this, data);
         }
 
-        public override void Setup(ControlUnit unit, UnitData data)
+        public override void Setup(UnitControl unit, UnitData data)
         {
             base.Setup(unit, data);
 

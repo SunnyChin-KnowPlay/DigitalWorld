@@ -28,13 +28,13 @@ namespace DigitalWorld.Game
                 this.units.Add(handle.Uid, handle);
             }
 
-            ControlUnit unit = handle.Unit;
+            UnitControl unit = handle.Unit;
             unit.transform.SetParent(transform, false);
         }
 
         public virtual void UnregisterUnit(UnitHandle handle)
         {
-            ControlUnit unit = handle.Unit;
+            UnitControl unit = handle.Unit;
             unit.transform.SetParent(null, false);
 
             if (this.units.ContainsKey(handle.Uid))

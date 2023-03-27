@@ -13,11 +13,11 @@ namespace DigitalWorld.Game
         protected UnitData data;
         protected Transform trans = null;
 
-        public ControlUnit Unit
+        public UnitControl Unit
         {
             get { return unit; }
         }
-        private ControlUnit unit = null;
+        private UnitControl unit = null;
 
         public UnitHandle UnitHandle
         {
@@ -61,7 +61,7 @@ namespace DigitalWorld.Game
         #endregion
 
         #region Setup
-        public virtual void Setup(ControlUnit unit, UnitData data)
+        public virtual void Setup(UnitControl unit, UnitData data)
         {
             this.data = data;
             this.unit = unit;

@@ -28,8 +28,8 @@ namespace DigitalWorld.Logic.Actions.Game.Unit
             Events.EventHandler ev = this.Trigger.TriggeringEventHandler;
             if (ev.Triggering && ev.MainTarget)
             {
-                ControlUnit triggeringUnit = ev.Triggering.Unit;
-                ControlUnit targetUnit = ev.MainTarget.Unit;
+                UnitControl triggeringUnit = ev.Triggering.Unit;
+                UnitControl targetUnit = ev.MainTarget.Unit;
                 ParamInjury param = new ParamInjury
                 {
                     source = ev.Triggering,

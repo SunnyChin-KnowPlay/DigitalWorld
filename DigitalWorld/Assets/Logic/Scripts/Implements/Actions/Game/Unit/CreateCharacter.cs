@@ -21,7 +21,7 @@ namespace DigitalWorld.Logic.Actions.Game.Unit
             UnitData unitData = UnitData.CreateFromCharacter(this.cfgId);
 
             WorldManager wm = WorldManager.Instance;
-            ControlUnit unit = wm.RegisterUnit(unitData);
+            UnitControl unit = wm.RegisterUnit(unitData);
             if (null != unit)
             {
                 unit.LogicPosition = Utilities.Convert.ToVector3(this.localPosition);

@@ -9,7 +9,7 @@ namespace DigitalWorld.Game
     /// 建筑的控制器
     /// </summary>
     [Serializable]
-    public class ControlBuilding : ControlUnit
+    public class BuildingControl : UnitControl
     {
         #region Params
         /// <summary>

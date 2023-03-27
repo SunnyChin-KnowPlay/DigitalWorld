@@ -13,7 +13,7 @@ namespace DigitalWorld.Game
         #endregion
 
         #region Setup
-        public override void Setup(ControlUnit unit, UnitData data)
+        public override void Setup(UnitControl unit, UnitData data)
         {
             base.Setup(unit, data);
 

@@ -13,7 +13,7 @@ namespace DigitalWorld.Behaviours
         /// <summary>
         /// 单位控制器
         /// </summary>
-        private ControlCharacter unit;
+        private CharacterControl unit;
         private Transform trans;
 
         public const float mouseDirMoveSpeed = 1;
@@ -23,7 +23,7 @@ namespace DigitalWorld.Behaviours
 
         private void Awake()
         {
-            unit = this.GetComponent<ControlCharacter>();
+            unit = this.GetComponent<CharacterControl>();
             trans = this.transform;
         }
 

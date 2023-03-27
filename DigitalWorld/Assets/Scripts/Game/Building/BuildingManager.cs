@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DigitalWorld.Game
 {
-    public class ManagerBuilding : UnitManager
+    public class BuildingManager : UnitManager
     {
         #region Override
         public override string Name => "Buildings";

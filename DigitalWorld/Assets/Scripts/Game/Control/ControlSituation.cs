@@ -167,7 +167,7 @@ namespace DigitalWorld.Game
         {
             if (default == target)
                 return false;
-            ControlUnit unit = target.Unit;
+            UnitControl unit = target.Unit;
             return Vector3.Dot(this.trans.forward, (unit.LogicPosition - Unit.LogicPosition)) > 0;
         }
 

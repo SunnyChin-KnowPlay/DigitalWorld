@@ -120,7 +120,7 @@ namespace DigitalWorld.Game
 
             UnitData unitData = UnitData.CreateFromCharacter(1001);
 
-            ControlUnit unit = this.RegisterUnit(unitData);
+            UnitControl unit = this.RegisterUnit(unitData);
             if (null != unit)
             {
                 unit.IsPlayerControlling = true;
@@ -162,8 +162,8 @@ namespace DigitalWorld.Game
         #region Manager
         private void SetupManagers()
         {
-            RegisterManager<ManagerCharacter>();
-            RegisterManager<ManagerBuilding>();
+            RegisterManager<CharacterManager>();
+            RegisterManager<BuildingManager>();
         }
 
         private void RegisterManager<T>() where T : UnitManager
@@ -205,9 +205,9 @@ namespace DigitalWorld.Game
             return ++unitIdPool;
         }
 
-        public ControlUnit RegisterUnit(UnitData data)
+        public UnitControl RegisterUnit(UnitData data)
         {
-            ControlUnit unit = this.CreateCharacter(data.CharacterInfo.PrefabPath);
+            UnitControl unit = this.CreateCharacter(data.CharacterInfo.PrefabPath);
             if (null != unit)
             {
                 this.RegisterUnit(unit, data);
@@ -216,7 +216,7 @@ namespace DigitalWorld.Game
             return null;
         }
 
-        private void RegisterUnit(ControlUnit unit, UnitData data)
+        private void RegisterUnit(UnitControl unit, UnitData data)
         {
             uint uid = GetNewUnitId();
             unit.Setup(uid, data);
@@ -236,7 +236,7 @@ namespace DigitalWorld.Game
             manager?.RegisterUnit(handle);
         }
 
-        private void UnregisterUnit(ControlUnit unit)
+        private void UnregisterUnit(UnitControl unit)
         {
             if (this.units.ContainsKey(unit.Uid))
             {
@@ -249,7 +249,7 @@ namespace DigitalWorld.Game
             }
         }
 
-        private ControlUnit CreateCharacter(string path)
+        private UnitControl CreateCharacter(string path)
         {
             Object target = AssetManager.LoadAsset<Object>(path);
             GameObject gameObject = null;
@@ -270,9 +270,9 @@ namespace DigitalWorld.Game
 
             gameObject.layer = LayerMask.NameToLayer("Unit");
 
-            if (!gameObject.TryGetComponent<ControlUnit>(out ControlUnit unitControl))
+            if (!gameObject.TryGetComponent<UnitControl>(out UnitControl unitControl))
             {
-                unitControl = gameObject.AddComponent<ControlCharacter>();
+                unitControl = gameObject.AddComponent<CharacterControl>();
             }
 
 
@@ -289,7 +289,7 @@ namespace DigitalWorld.Game
 
             for (int i = 0; i < this.runningUnits.Count; ++i)
             {
-                ControlUnit unit = this.runningUnits[i];
+                UnitControl unit = this.runningUnits[i];
                 if (unit.Status == EUnitStatus.WaitRecycle)
                 {
                     this.UnregisterUnit(unit);

@@ -29,8 +29,8 @@ namespace DigitalWorld.Game
                 return resultDamage;
             }
 
-            ControlUnit target = param.target.Unit;
-            ControlUnit source = param.source.Unit;
+            UnitControl target = param.target.Unit;
+            UnitControl source = param.source.Unit;
 
             // 反向伤害特殊处理
             if (param.damageType == EDamagerType.Reverse)

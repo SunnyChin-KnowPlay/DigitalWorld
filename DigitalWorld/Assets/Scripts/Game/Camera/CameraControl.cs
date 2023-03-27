@@ -13,14 +13,14 @@ namespace DigitalWorld.Game
         #region Params
         public Transform focused;
 
-        public ControlUnit FocusedUnit
+        public UnitControl FocusedUnit
         {
             get
             {
                 if (null == focused)
                     return null;
 
-                return focused.GetComponent<ControlUnit>();
+                return focused.GetComponent<UnitControl>();
             }
         }
 
@@ -184,7 +184,7 @@ namespace DigitalWorld.Game
                     if (ret)
                     {
                         Collider collider = hit.collider;
-                        if (collider.gameObject.TryGetComponent<ControlUnit>(out var target))
+                        if (collider.gameObject.TryGetComponent<UnitControl>(out var target))
                         {
                             SelectTarget(target);
                             return true;
@@ -195,9 +195,9 @@ namespace DigitalWorld.Game
             return false;
         }
 
-        private void SelectTarget(ControlUnit target)
+        private void SelectTarget(UnitControl target)
         {
-            ControlUnit unit = FocusedUnit.Unit;
+            UnitControl unit = FocusedUnit.Unit;
             ControlSituation situation = unit.Situation;
             situation.SelectTarget(new UnitHandle(target));
         }

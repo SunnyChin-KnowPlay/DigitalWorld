@@ -6,7 +6,7 @@ using System;
 namespace DigitalWorld.Game
 {
     [Serializable]
-    public partial class ControlCharacter : ControlUnit
+    public partial class CharacterControl : UnitControl
     {
         #region Params
         public override EUnitType Type => EUnitType.Character;

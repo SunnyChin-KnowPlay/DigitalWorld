@@ -10,13 +10,13 @@ namespace DigitalWorld.Game
     {
         public uint Uid => uid;
         private uint uid;
-        private ControlUnit obj;
+        private UnitControl obj;
 
-        public ControlUnit Unit => obj;
+        public UnitControl Unit => obj;
 
         public static UnitHandle Null = default;
 
-        public UnitHandle(ControlUnit obj)
+        public UnitHandle(UnitControl obj)
         {
             if (null != obj && obj.Uid > 0u)
             {
@@ -26,7 +26,7 @@ namespace DigitalWorld.Game
             else
             {
                 this.uid = 0u;
-                this.obj = (ControlUnit)((object)null);
+                this.obj = (UnitControl)((object)null);
             }
         }
 
@@ -38,7 +38,7 @@ namespace DigitalWorld.Game
         public void Reset()
         {
             this.uid = 0u;
-            this.obj = (ControlUnit)((object)null);
+            this.obj = (UnitControl)((object)null);
         }
 
         public bool Equals(UnitHandle other)
@@ -71,7 +71,7 @@ namespace DigitalWorld.Game
             return lhs.obj != rhs.obj || lhs.uid != rhs.uid;
         }
 
-        public static implicit operator ControlUnit(UnitHandle ptr)
+        public static implicit operator UnitControl(UnitHandle ptr)
         {
             return ptr.Unit;
         }
