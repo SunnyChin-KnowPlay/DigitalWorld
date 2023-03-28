@@ -2,6 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 using System.Xml;
+using TableGenerator;
 
 namespace DigitalWorld.Table.Editor
 {
@@ -75,14 +76,12 @@ namespace DigitalWorld.Table.Editor
             if (null != root)
             {
                 xmlDocument.AppendChild(root);
-
                 root.SetAttribute("namespace", Table.Utility.defaultNamespaceName);
 
                 foreach (NodeModel model in models)
                 {
                     XmlElement ele = xmlDocument.CreateElement("model");
                     model.Serialize(ele);
-
                     root.AppendChild(ele);
                 }
 
@@ -104,11 +103,9 @@ namespace DigitalWorld.Table.Editor
         private void OnGUI()
         {
             OnGUIButtons();
-
             OnGUITitle();
 
             scrollViewPosition = EditorGUILayout.BeginScrollView(scrollViewPosition);
-
             for (int i = 0; i < models.Count; ++i)
             {
                 NodeModel model = models[i];
@@ -117,7 +114,6 @@ namespace DigitalWorld.Table.Editor
             EditorGUILayout.EndScrollView();
 
             GUILayout.FlexibleSpace();
-
             OnGUIBottom();
         }
 
@@ -130,8 +126,6 @@ namespace DigitalWorld.Table.Editor
             {
                 GenerateCodes();
             }
-
-
             EditorGUILayout.EndVertical();
 
             EditorGUILayout.BeginVertical();
@@ -139,8 +133,6 @@ namespace DigitalWorld.Table.Editor
             {
                 GenerateExcels();
             }
-
-
             EditorGUILayout.EndVertical();
 
             EditorGUILayout.EndHorizontal();
@@ -186,10 +178,15 @@ namespace DigitalWorld.Table.Editor
             EditorGUILayout.EndHorizontal();
         }
 
-
-
         private void OnGUITitleMenus()
         {
+            if (GUILayout.Button("Add"))
+            {
+                ModelCreateWindow window = ModelCreateWindow.DisplayWizard();
+                window.OnCreateModel -= OnAddModel;
+                window.OnCreateModel += OnAddModel;
+            }
+
             if (GUILayout.Button("OpenAll"))
             {
                 ForeachSetEditing(true);
@@ -206,14 +203,19 @@ namespace DigitalWorld.Table.Editor
         #region Listen
         private static void GenerateCodes()
         {
-            Utility.ExecuteTableGenerate(Utility.GenerateCodesCmd);
-
+            Helper.GenerateCodesFromModel(Table.Utility.ModelPath, Table.Utility.CodeGeneratedPath);
+           
             AssetDatabase.Refresh();
         }
 
         private static void GenerateExcels()
         {
-            Utility.ExecuteTableGenerate(Utility.GenerateExcelsCmd);
+            Helper.GenerateExcelsFromModel(Table.Utility.ModelPath, Table.Utility.ExcelTablePath);
+        }
+
+        private void OnAddModel(NodeModel model)
+        {
+            this.models.Add(model);
         }
         #endregion
     }

@@ -1,0 +1,16 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ parameter name="className" type="System.String"#>
+<#@ parameter name="tableName" type="System.String"#>
+<#@ parameter name="describe" type="System.String"#>
+    /// <summary>
+    /// <#= describe #>
+    /// </summary>
+    [TableNameAttibute("<#= tableName #>")]
+    public partial class <#= className #>Table : TableBase<<#= className #>Info>
+    {
+        public override string TableName => "<#= tableName #>";
+    }

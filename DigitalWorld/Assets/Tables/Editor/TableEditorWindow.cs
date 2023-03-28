@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Xml;
+using TableGenerator;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
@@ -59,17 +60,12 @@ namespace DigitalWorld.Table.Editor
 
         private void ExcelToXml(string name)
         {
-
-            Utility.ExecuteTableGenerate(Utility.ConvertExcelToXmlCmd, name);
-
+            Helper.ConvertExcelToXml(Table.Utility.ExcelTablePath, Table.Utility.ConfigSrcPath, name);
         }
 
         private void XmlToExcel(string name)
         {
-
-            Utility.ExecuteTableGenerate(Utility.ConvertXmlToExcelCmd, name);
-
-
+            Helper.ConvertXmlToExcel(Table.Utility.ConfigSrcPath, Table.Utility.ExcelTablePath, name);
         }
         #endregion
 
@@ -222,12 +218,12 @@ namespace DigitalWorld.Table.Editor
 
         private static void ConvertExcelsToXmls()
         {
-            Utility.ExecuteTableGenerate(Utility.ConvertExcelsToXmlsCmd);
+            Helper.ConvertExcelsToXmls(Table.Utility.ExcelTablePath, Table.Utility.ConfigSrcPath);
         }
 
         private static void ConvertXmlsToExcels()
         {
-            Utility.ExecuteTableGenerate(Utility.ConvertXmlsToExcelsCmd);
+            Helper.ConvertXmlsToExcel(Table.Utility.ConfigSrcPath, Table.Utility.ExcelTablePath);
         }
 
         private static void ConvertXmlToBytes()

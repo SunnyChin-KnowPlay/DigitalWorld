@@ -47,7 +47,7 @@ namespace DigitalWorld.Table
         public System.String PrefabPath => prefabPath;
         private System.String prefabPath;
         /// <summary>
-        /// 角色的尺寸
+        /// 缩放尺寸
         /// </summary>
         public Dream.FixMath.FixVector3 ScaleSize => scaleSize;
         private Dream.FixMath.FixVector3 scaleSize;

@@ -1,5 +1,4 @@
 ﻿using DigitalWorld.Asset;
-using DigitalWorld.Inputs;
 using DigitalWorld.Table;
 using DigitalWorld.Extension.Unity;
 using DreamEngine.Core;
@@ -11,7 +10,6 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using DigitalWorld.Behaviours;
 using DigitalWorld.Notices.UI;
-using static UnityEngine.Rendering.VirtualTexturing.Debugging;
 
 namespace DigitalWorld.Game
 {
