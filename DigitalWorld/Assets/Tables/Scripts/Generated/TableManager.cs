@@ -1,5 +1,6 @@
 using Dream.Core;
 using Dream.Proto;
+using System.Runtime.Serialization;
 
 namespace DigitalWorld.Table
 {
@@ -8,28 +9,6 @@ namespace DigitalWorld.Table
     /// </summary>
     public sealed partial class TableManager : Singleton<TableManager>
     {
-        #region Event
-        /// <summary>
-        /// 处理表格
-        /// </summary>
-        /// <param name="table">表格的对象</param>
-        /// <param name="tableName">表名</param>
-        private delegate void OnTableHandle(ByteBuffer table, string tableName);
-        /// <summary>
-        /// 解码表格
-        /// 请执行I/O读取出数据并调用table.Decode()以实现解码并注入表格功能
-        /// </summary>
-        private OnTableHandle OnDecodeTable;
-        /// <summary>
-        /// 从xml来解码表格
-        /// </summary>
-        private OnTableHandle OnDecodeTableWithXml;
-        /// <summary>
-        /// encode table
-        /// </summary>
-        private OnTableHandle OnEncodeTable;
-        #endregion
-
         #region Tables
         public CharacterTable CharacterTable { get; private set; } = new CharacterTable();
         public MapTable MapTable { get; private set; } = new MapTable();
@@ -41,36 +20,30 @@ namespace DigitalWorld.Table
         #region Decode
         public void Decode()
         {
-            this.ApplyDecodeTable(CharacterTable, "character");
-            this.ApplyDecodeTable(MapTable, "map");
-            this.ApplyDecodeTable(CampTable, "camp");
-            this.ApplyDecodeTable(SkillTable, "skill");
-            this.ApplyDecodeTable(BuildingTable, "building");
+            CharacterTable = this.ApplyDecodeTable<CharacterTable>("character");
+            MapTable = this.ApplyDecodeTable<MapTable>("map");
+            CampTable = this.ApplyDecodeTable<CampTable>("camp");
+            SkillTable = this.ApplyDecodeTable<SkillTable>("skill");
+            BuildingTable = this.ApplyDecodeTable<BuildingTable>("building");
         }
 
-        public void DecodeXml()
+        public void DecodeJSON()
         {
-            this.ApplyDecodeTableWithXml(CharacterTable, "character");
-            this.ApplyDecodeTableWithXml(MapTable, "map");
-            this.ApplyDecodeTableWithXml(CampTable, "camp");
-            this.ApplyDecodeTableWithXml(SkillTable, "skill");
-            this.ApplyDecodeTableWithXml(BuildingTable, "building");
+            CharacterTable = this.ApplyDecodeTableWithJSON<CharacterTable>("character");
+            MapTable = this.ApplyDecodeTableWithJSON<MapTable>("map");
+            CampTable = this.ApplyDecodeTableWithJSON<CampTable>("camp");
+            SkillTable = this.ApplyDecodeTableWithJSON<SkillTable>("skill");
+            BuildingTable = this.ApplyDecodeTableWithJSON<BuildingTable>("building");
         }
 
-        private void ApplyDecodeTable(ByteBuffer table, string tableName)
+        private T ApplyDecodeTable<T>(string tableName) where T : class
         {
-            if (null != OnDecodeTable)
-            {
-                OnDecodeTable.Invoke(table, tableName);
-            }
+            return this.ProcessDecodeTable<T>(tableName);
         }
 
-        private void ApplyDecodeTableWithXml(ByteBuffer table, string tableName)
+        private T ApplyDecodeTableWithJSON<T>(string tableName) where T : class
         {
-            if (null != OnDecodeTableWithXml)
-            {
-                OnDecodeTableWithXml.Invoke(table, tableName);
-            }
+            return this.ProcessDecodeTableWithJSON<T>(tableName);
         }
         #endregion
 
@@ -84,12 +57,9 @@ namespace DigitalWorld.Table
             this.ApplyEncodeTable(BuildingTable, "building");
         }
 
-        private void ApplyEncodeTable(ByteBuffer table, string tableName)
+        private void ApplyEncodeTable(object table, string tableName)
         {
-            if (null != OnEncodeTable)
-            {
-                OnEncodeTable.Invoke(table, tableName);
-            }
+            this.ProcessEncodeTable(table, tableName);
         }
         #endregion
 

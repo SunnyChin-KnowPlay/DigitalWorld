@@ -11,6 +11,7 @@ namespace DigitalWorld.Table.Editor
         #region Params
         protected ReorderableList reorderableFieldsList;
 
+        public List<NodeField> FieldList => fieldList;
         protected List<NodeField> fieldList = new List<NodeField>();
         #endregion
 

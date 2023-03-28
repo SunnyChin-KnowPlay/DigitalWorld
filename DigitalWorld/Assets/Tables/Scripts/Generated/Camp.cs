@@ -30,52 +30,6 @@ namespace DigitalWorld.Table
         public CampInfo()
         {
         }
-
-#region Encode
-        protected override void OnEncode()
-        {
-            base.OnEncode();
-
-            this.Encode(this.id);
-            this.Encode(this.name);
-        }
-
-        protected override void OnEncode(XmlElement element)
-        {
-            base.OnEncode(element);
-
-            this.Encode(this.id, "id");
-            this.Encode(this.name, "name");
-        }
-        #endregion
-
-#region Decode
-        protected override void OnDecode()
-        {
-            base.OnDecode();
-
-            this.Decode(ref this.id);
-            this.Decode(ref this.name);
-        }
-
-        protected override void OnDecode(XmlElement element)
-        {
-            base.OnDecode(element);
-
-            this.Decode(ref this.id, "id");
-            this.Decode(ref this.name, "name");
-        }
-#endregion
-
-#region Calculate Size
-        protected override void OnCalculateSize()
-        {
-            base.OnCalculateSize();
-
-            this.CalculateSize(this.id);
-            this.CalculateSize(this.name);
-        }
-#endregion
     }
 
 

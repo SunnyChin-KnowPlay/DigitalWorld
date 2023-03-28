@@ -32,20 +32,20 @@ namespace DigitalWorld.Table.Editor
 
             string fullPath = Table.Utility.ModelPath;
 
-            XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(fullPath);
-            XmlElement root = xmlDocument["models"];
-            if (null != root)
-            {
-                foreach (var node in root.ChildNodes)
-                {
-                    XmlElement childEle = node as XmlElement;
+            //XmlDocument xmlDocument = new XmlDocument();
+            //xmlDocument.Load(fullPath);
+            //XmlElement root = xmlDocument["models"];
+            //if (null != root)
+            //{
+            //    foreach (var node in root.ChildNodes)
+            //    {
+            //        XmlElement childEle = node as XmlElement;
 
-                    NodeModel model = new NodeModel();
-                    model.Deserialize(childEle);
-                    this.models.Add(model);
-                }
-            }
+            //        NodeModel model = new NodeModel();
+            //        model.Deserialize(childEle);
+            //        this.models.Add(model);
+            //    }
+            //}
 
             reorderableModelsList = new ReorderableList(this.models, typeof(NodeField))
             {
@@ -226,7 +226,7 @@ namespace DigitalWorld.Table.Editor
             Helper.ConvertXmlsToExcel(Table.Utility.ConfigSrcPath, Table.Utility.ExcelTablePath);
         }
 
-        private static void ConvertXmlToBytes()
+        private static void ConvertJSONToBytes()
         {
             string bytesDirectory = Utilities.Utility.GetString(Table.Utility.configDataKey, Path.Combine(Utilities.Utility.GetProjectDataPath(), Table.Utility.defaultConfigData));
             if (!string.IsNullOrEmpty(bytesDirectory))
@@ -240,7 +240,7 @@ namespace DigitalWorld.Table.Editor
             }
 
             TableManager m = TableManager.Instance;
-            m.DecodeXml();
+            m.DecodeJSON();
             m.Encode();
 
             AssetDatabase.Refresh();
@@ -258,7 +258,7 @@ namespace DigitalWorld.Table.Editor
         private static void AutoProcess()
         {
             CopyXmlFromConfig();
-            ConvertXmlToBytes();
+            ConvertJSONToBytes();
         }
         #endregion
 

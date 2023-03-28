@@ -6,6 +6,10 @@ using System.IO;
 using System.Reflection;
 using System.Xml;
 using Assets.Tables.Editor.Templates;
+using Newtonsoft.Json;
+using DigitalWorld.Logic;
+using System.IO.Pipes;
+using DigitalWorld.Table.Editor;
 
 namespace TableGenerator
 {
@@ -329,25 +333,35 @@ namespace TableGenerator
                 List<string> tableNames = new List<string>();
                 List<string> classNames = new List<string>();
 
-                XmlDocument xmlDocument = new XmlDocument();
-                xmlDocument.Load(fs);
-                XmlElement root = xmlDocument["models"];
-                if (null != root)
-                {
-                    string namespaceName = root.GetAttribute("namespace");
 
-                    foreach (XmlElement ele in root.ChildNodes)
+                JsonSerializerSettings settings = new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.All,
+                    Formatting = Newtonsoft.Json.Formatting.Indented,
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                };
+
+                using (StreamReader streamReader = new StreamReader(fs))
+                {
+                    // 将 FileStream 读取为字符串
+                    string jsonString = streamReader.ReadToEnd();
+
+                    Model model = JsonConvert.DeserializeObject<Model>(jsonString, settings);
+
+                    string namespaceName = model.NamespaceName;
+
+                    foreach (NodeModel node in model.models)
                     {
 
-                        string tableName = ele.GetAttribute("name");
-                        string className = ele.GetAttribute("name");
+                        string tableName = node.Name;
+                        string className = node.Name;
                         className = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(className);
 
                         tableNames.Add(tableName);
                         classNames.Add(className);
 
-                        string infoString = ParseInfoXml(className, ele);
-                        string tableString = ParseTableXml(className, tableName, ele);
+                        string infoString = ParseInfoXml(className, node);
+                        string tableString = ParseTableXml(className, tableName, node);
 
                         string tableCodeFileString = GenerateTableCodeFileString(infoString, tableString, namespaceName);
                         string codeFullPath = Path.Combine(codePath, className);
@@ -415,7 +429,7 @@ namespace TableGenerator
             return outP;
         }
 
-        private static string ParseTableXml(string className, string tableName, XmlElement ele)
+        private static string ParseTableXml(string className, string tableName, NodeModel model)
         {
             TableTemplate tableTemplate = new TableTemplate
             {
@@ -423,7 +437,7 @@ namespace TableGenerator
                 {
                     ["tableName"] = tableName,
                     ["className"] = className,
-                    ["describe"] = ele.GetAttribute("desc")
+                    ["describe"] = model.Description
                 }
             };
 
@@ -433,14 +447,14 @@ namespace TableGenerator
             return outP;
         }
 
-        private static string ParseInfoXml(string className, XmlElement ele)
+        private static string ParseInfoXml(string className, NodeModel model)
         {
             InfoTemplate infoTemplate = new InfoTemplate
             {
                 Session = new Dictionary<string, object>
                 {
                     ["name"] = className,
-                    ["describe"] = ele.GetAttribute("desc")
+                    ["describe"] = model.Description
                 }
             };
 
@@ -448,29 +462,23 @@ namespace TableGenerator
             List<string> variableNames = new List<string>();
             List<string> variableTypes = new List<string>();
             List<string> variableDescribes = new List<string>();
-            List<string> variableEncodes = new List<string>();
-            List<string> variableDecodes = new List<string>();
-            List<string> variableCalculates = new List<string>();
-
-            foreach (XmlElement n in ele)
+           
+            foreach(NodeField field in model.FieldList)
+            //foreach (XmlElement n in ele)
             {
-                string name = n.GetAttribute("name");
+                string name = field.Name;
                 variableNames.Add(name);
                 propertyNames.Add(name.Substring(0, 1).ToUpper() + name.Substring(1));
-                variableTypes.Add(GetTypeName(n.GetAttribute("type")));
-                variableDescribes.Add(n.GetAttribute("desc"));
-                variableEncodes.Add(GetEncodeFuncName(n.GetAttribute("baseType")));
-                variableDecodes.Add(GetDecodeFuncName(n.GetAttribute("baseType")));
-                variableCalculates.Add(GetCalculateSizeFuncName(n.GetAttribute("baseType")));
+                variableTypes.Add(GetTypeName(field.Type));
+                variableDescribes.Add(field.Description);
+                
             }
 
             infoTemplate.Session["propertyNames"] = propertyNames.ToArray();
             infoTemplate.Session["variableNames"] = variableNames.ToArray();
             infoTemplate.Session["variableTypes"] = variableTypes.ToArray();
             infoTemplate.Session["variableDescribes"] = variableDescribes.ToArray();
-            infoTemplate.Session["variableEncodes"] = variableEncodes.ToArray();
-            infoTemplate.Session["variableDecodes"] = variableDecodes.ToArray();
-            infoTemplate.Session["variableCalculates"] = variableCalculates.ToArray();
+          
 
             infoTemplate.Initialize();
 
@@ -570,6 +578,30 @@ namespace TableGenerator
         {
             string ret = string.Empty;
             System.Type type = GetType(typeName);
+            // 如果是泛型
+            if (type.IsGenericType)
+            {
+                switch (type.Name)
+                {
+                    case "List`1":
+                    {
+                        ret = string.Format("List<{0}>", type.GenericTypeArguments[0].FullName);
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                ret = type.FullName;
+            }
+
+            return ret;
+        }
+
+        private static string GetTypeName(Type type)
+        {
+            string ret = string.Empty;
+
             // 如果是泛型
             if (type.IsGenericType)
             {

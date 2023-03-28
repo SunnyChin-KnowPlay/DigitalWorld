@@ -1,7 +1,11 @@
 ﻿using DigitalWorld.Asset;
+using DigitalWorld.Logic;
 using Dream.Proto;
+using Dream.Table;
+using Newtonsoft.Json;
 using System.IO;
-using System.Xml;
+using System.Runtime.Serialization.Formatters.Binary;
+using UnityEditor;
 using UnityEngine;
 
 namespace DigitalWorld.Table
@@ -10,9 +14,7 @@ namespace DigitalWorld.Table
     {
         private TableManager()
         {
-            this.OnDecodeTable = OnProcessDecodeTable;
-            this.OnDecodeTableWithXml = OnProcessDecodeTableWithXml;
-            this.OnEncodeTable = OnProcessEncodeTable;
+           
         }
 
         #region Utility
@@ -29,82 +31,80 @@ namespace DigitalWorld.Table
         }
         #endregion
 
-        #region Listen
-        /// <summary>
-        /// 处理解码表格
-        /// 先I/O出数据流并解析到对象
-        /// </summary>
-        /// <param name="table">表的数据流</param>
-        /// <param name="tableName">表名</param>
-        private void OnProcessDecodeTable(ByteBuffer table, string tableName)
+        #region Process
+        private T ProcessDecodeTable<T>(string tableName) where T : class
         {
-            if (null != table)
-            {
-                string path = GetDataFilePath(tableName);
-                if (!string.IsNullOrEmpty(path))
-                {
-                    ByteAsset ta = AssetManager.LoadAsset<ByteAsset>(path);
+            string path = GetDataFilePath(tableName);
+            ByteAsset asset = AssetManager.LoadAsset<ByteAsset>(path);
+            if (null == asset)
+                return null;
 
-                    if (null != ta)
-                    {
-                        table.Decode(ta.bytes, 0);
-                    }
-                }
-            }
+            using Stream stream = new MemoryStream(asset.bytes);
+
+            BinaryFormatter formatter = new BinaryFormatter();
+            T table = formatter.Deserialize(stream) as T;
+
+            return table;
         }
 
-        private void OnProcessDecodeTableWithXml(ByteBuffer table, string tableName)
+        private T ProcessDecodeTableWithJSON<T>(string tableName) where T : class 
         {
-            if (null != table)
-            {
+            T obj = default;
 #if UNITY_EDITOR
-                string fullPath = GetXmlFilePath(tableName);
-                TextAsset ta = UnityEditor.AssetDatabase.LoadAssetAtPath(fullPath, typeof(TextAsset)) as TextAsset;
+            string fullPath = GetXmlFilePath(tableName);
+            TextAsset ta = AssetDatabase.LoadAssetAtPath<TextAsset>(fullPath);
 
-                if (null != ta)
-                {
-                    XmlDocument xmlDocument = new XmlDocument();
-                    xmlDocument.LoadXml(ta.text);
-                    XmlElement root = xmlDocument["table"];
-                    if (null != root)
-                    {
-                        table.DecodeXml(root);
-                    }
-                }
+            JsonSerializerSettings settings = new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.All,
+                Formatting = Formatting.Indented,
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+
+            };
+
+            obj = JsonConvert.DeserializeObject<T>(ta.text, settings);
+
+            //Trigger trigger = JsonConvert.DeserializeObject<Trigger>(ta.text, settings);
+            //trigger.RelativeFolderPath = System.IO.Path.GetDirectoryName(relativePath);
+
+
+            //string fullPath = GetXmlFilePath(tableName);
+            //TextAsset ta = UnityEditor.AssetDatabase.LoadAssetAtPath(fullPath, typeof(TextAsset)) as TextAsset;
+
+            //if (null != ta)
+            //{
+            //    XmlDocument xmlDocument = new XmlDocument();
+            //    xmlDocument.LoadXml(ta.text);
+            //    XmlElement root = xmlDocument["table"];
+            //    if (null != root)
+            //    {
+            //        table.DecodeXml(root);
+            //    }
+            //}
 #endif
-
-
-            }
+            return obj;
         }
 
-        private void OnProcessEncodeTable(ByteBuffer table, string tableName)
+        private void ProcessEncodeTable(object table, string tableName)
         {
 #if UNITY_EDITOR
             if (null != table)
             {
-                int size = table.CalculateSize();
-                byte[] data = new byte[size];
-                table.Encode(data, 0);
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    BinaryFormatter formatter = new BinaryFormatter();
+                    formatter.Serialize(stream, this);
+                    string fullPath = GetDataFilePath(tableName);
 
-                ByteAsset.CreateAsset(data, GetDataFilePath(tableName));
+                    string directorPath = Path.GetDirectoryName(fullPath);
+                    if (!Directory.Exists(directorPath))
+                    {
+                        Directory.CreateDirectory(directorPath);
+                    }
 
-
-                //string fullPath = Path.Combine(Application.dataPath,);
-
-                //string path = fullPath;
-                //if (!string.IsNullOrEmpty(path))
-                //{
-                //    string directoryPath = Path.GetDirectoryName(path);
-                //    if (!Directory.Exists(directoryPath))
-                //    {
-                //        Directory.CreateDirectory(directoryPath);
-                //    }
-
-                //    using FileStream fs = File.Open(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
-                //    fs.Write(data, 0, size);
-                //    fs.Flush();
-                //    fs.Close();
-                //}
+                    AssetDatabase.DeleteAsset(fullPath);
+                    ByteAsset.CreateAsset(stream.GetBuffer(), fullPath);
+                }
             }
 #endif
         }

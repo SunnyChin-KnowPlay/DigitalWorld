@@ -10,7 +10,7 @@ namespace DigitalWorld.Table
         public const string defaultOutPutCodePath = "Tables/Scripts/Generated";
 
         public const string modelKey = "Table.Model";
-        public const string defaultModelPath = "D:/Projects/DigitalWorld/DigitalWorld-Config/Models/models.xml";
+        public const string defaultModelPath = "D:/Projects/DigitalWorld/DigitalWorld-Config/Models/models.json";
 
         public const string excelKey = "Table.Excel";
         public const string defaultExcelPath = "D:/Projects/DigitalWorld/DigitalWorld-Config/Excels";

@@ -3,6 +3,8 @@ using UnityEditor;
 using UnityEngine;
 using System.Xml;
 using TableGenerator;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace DigitalWorld.Table.Editor
 {
@@ -49,6 +51,8 @@ namespace DigitalWorld.Table.Editor
         {
             string fullPath = Table.Utility.ModelPath;
 
+
+
             XmlDocument xmlDocument = new XmlDocument();
             xmlDocument.Load(fullPath);
             XmlElement root = xmlDocument["models"];
@@ -67,27 +71,51 @@ namespace DigitalWorld.Table.Editor
 
         private void Save()
         {
-            XmlDocument xmlDocument = new XmlDocument();
+            Model model = new Model();
+            model.NamespaceName = Table.Utility.defaultNamespaceName;
 
-            XmlDeclaration dec = xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-            xmlDocument.AppendChild(dec);
-
-            XmlElement root = xmlDocument.CreateElement("models");
-            if (null != root)
+            JsonSerializerSettings settings = new JsonSerializerSettings
             {
-                xmlDocument.AppendChild(root);
-                root.SetAttribute("namespace", Table.Utility.defaultNamespaceName);
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                TypeNameHandling = TypeNameHandling.All,
+                Formatting = Newtonsoft.Json.Formatting.Indented,
+            };
 
-                foreach (NodeModel model in models)
+            
+
+            string fullPath = Table.Utility.ModelPath;
+            using (FileStream fs = File.Open(fullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite))
+            {
+                using (StreamWriter sw = new StreamWriter(fs))
                 {
-                    XmlElement ele = xmlDocument.CreateElement("model");
-                    model.Serialize(ele);
-                    root.AppendChild(ele);
+                    string jsonResult = JsonConvert.SerializeObject(model, settings);
+                    sw.Write(jsonResult);
                 }
 
-                string fullPath = Table.Utility.ModelPath;
-                xmlDocument.Save(fullPath);
+
             }
+
+            //    XmlDocument xmlDocument = new XmlDocument();
+
+            //XmlDeclaration dec = xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
+            //xmlDocument.AppendChild(dec);
+
+            //XmlElement root = xmlDocument.CreateElement("models");
+            //if (null != root)
+            //{
+            //    xmlDocument.AppendChild(root);
+            //    root.SetAttribute("namespace", Table.Utility.defaultNamespaceName);
+
+            //    foreach (NodeModel model in models)
+            //    {
+            //        XmlElement ele = xmlDocument.CreateElement("model");
+            //        model.Serialize(ele);
+            //        root.AppendChild(ele);
+            //    }
+
+            //    string fullPath = Table.Utility.ModelPath;
+            //    xmlDocument.Save(fullPath);
+            //}
         }
 
         private void ForeachSetEditing(bool isEditing)
