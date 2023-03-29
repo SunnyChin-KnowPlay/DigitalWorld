@@ -30,14 +30,14 @@ namespace Assets.Tables.Editor.Templates
         {
             this.Write("    /// <summary>\r\n    /// ");
             
-            #line 16 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+            #line 13 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(describe));
             
             #line default
             #line hidden
-            this.Write("\r\n    /// </summary>\r\n    public partial class ");
+            this.Write("\r\n    /// </summary>\r\n    [Serializable]\r\n    public partial class ");
             
-            #line 18 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+            #line 16 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(name));
             
             #line default
@@ -45,7 +45,7 @@ namespace Assets.Tables.Editor.Templates
             this.Write("Info : InfoBase\r\n    {\r\n        public override int GetID()\r\n        {\r\n         " +
                     "   return id;\r\n        }\r\n\r\n");
             
-            #line 25 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+            #line 23 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
 
         for (int i = 0; i < variableTypes.Length; ++i)
         {
@@ -55,247 +55,186 @@ namespace Assets.Tables.Editor.Templates
             #line hidden
             this.Write("        /// <summary>\r\n        /// ");
             
-            #line 30 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+            #line 28 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(variableDescribes[i]));
             
             #line default
             #line hidden
             this.Write("\r\n        /// </summary>\r\n        public ");
             
-            #line 32 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+            #line 30 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(variableTypes[i]));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 32 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+            #line 30 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(propertyNames[i]));
             
             #line default
             #line hidden
             this.Write(" => ");
             
-            #line 32 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+            #line 30 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(variableNames[i]));
             
             #line default
             #line hidden
             this.Write(";\r\n        private ");
             
-            #line 33 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+            #line 31 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(variableTypes[i]));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 33 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+            #line 31 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(variableNames[i]));
             
             #line default
             #line hidden
             this.Write(";\r\n");
             
-            #line 34 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+            #line 32 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
 
         }
 
             
             #line default
             #line hidden
-            this.Write("\r\n        public ");
+            this.Write("\r\n        #region Serialization\r\n\t\tpublic ");
             
-            #line 38 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+            #line 37 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(name));
             
             #line default
             #line hidden
-            this.Write("Info()\r\n        {\r\n        }\r\n\r\n#region Encode\r\n        protected override void O" +
-                    "nEncode()\r\n        {\r\n            base.OnEncode();\r\n\r\n");
+            this.Write("Info()\r\n\t\t{\r\n\r\n\t\t}\r\n\r\n        public ");
             
-            #line 47 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+            #line 42 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(name));
+            
+            #line default
+            #line hidden
+            this.Write("Info(SerializationInfo info, StreamingContext context)\r\n\t\t\t: base(info, context)\r" +
+                    "\n        {\r\n");
+            
+            #line 45 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
 
-            for (int i = 0; i < variableTypes.Length; ++i)
-            {
+			for (int i = 0; i < variableTypes.Length; ++i)
+			{
 
             
             #line default
             #line hidden
-            this.Write("            this.");
+            this.Write("\t\t\tthis.");
             
-            #line 51 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(variableEncodes[i]));
+            #line 49 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(variableNames[i]));
             
             #line default
             #line hidden
-            this.Write("(this.");
+            this.Write(" = (");
             
-            #line 51 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+            #line 49 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(variableTypes[i]));
+            
+            #line default
+            #line hidden
+            this.Write(")info.GetValue(\"");
+            
+            #line 49 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(variableNames[i]));
+            
+            #line default
+            #line hidden
+            this.Write("\", typeof(");
+            
+            #line 49 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(variableTypes[i]));
+            
+            #line default
+            #line hidden
+            this.Write("));\r\n");
+            
+            #line 50 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+
+			}
+
+            
+            #line default
+            #line hidden
+            this.Write("        }\r\n\r\n        public override void GetObjectData(SerializationInfo info, S" +
+                    "treamingContext context)\r\n        {\r\n            base.GetObjectData(info, contex" +
+                    "t);\r\n");
+            
+            #line 58 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+
+			for (int i = 0; i < variableTypes.Length; ++i)
+			{
+
+            
+            #line default
+            #line hidden
+            this.Write("\t\t\tinfo.AddValue(\"");
+            
+            #line 62 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(variableNames[i]));
+            
+            #line default
+            #line hidden
+            this.Write("\", this.");
+            
+            #line 62 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(variableNames[i]));
             
             #line default
             #line hidden
             this.Write(");\r\n");
             
-            #line 52 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+            #line 63 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
 
-            }
-
-            
-            #line default
-            #line hidden
-            this.Write("        }\r\n\r\n        protected override void OnEncode(XmlElement element)\r\n      " +
-                    "  {\r\n            base.OnEncode(element);\r\n\r\n");
-            
-            #line 61 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
-
-            for (int i = 0; i < variableTypes.Length; ++i)
-            {
+			}
 
             
             #line default
             #line hidden
-            this.Write("            this.");
+            this.Write("        }\r\n\r\n        public override void SetupRow(DataRow row)\r\n        {\r\n");
             
-            #line 65 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(variableEncodes[i]));
+            #line 70 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+
+			for (int i = 0; i < variableTypes.Length; ++i)
+			{
+
             
             #line default
             #line hidden
-            this.Write("(this.");
+            this.Write("            row[\"");
             
-            #line 65 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+            #line 74 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(variableNames[i]));
             
             #line default
             #line hidden
-            this.Write(", \"");
+            this.Write("\"] = ");
             
-            #line 65 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+            #line 74 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(variableNames[i]));
             
             #line default
             #line hidden
-            this.Write("\");\r\n");
+            this.Write(";\r\n");
             
-            #line 66 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+            #line 75 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
 
-            }
-
-            
-            #line default
-            #line hidden
-            this.Write("        }\r\n        #endregion\r\n\r\n#region Decode\r\n        protected override void " +
-                    "OnDecode()\r\n        {\r\n            base.OnDecode();\r\n\r\n");
-            
-            #line 77 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
-
-            for (int i = 0; i < variableTypes.Length; ++i)
-            {
+			}
 
             
             #line default
             #line hidden
-            this.Write("            this.");
-            
-            #line 81 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(variableDecodes[i]));
-            
-            #line default
-            #line hidden
-            this.Write("(ref this.");
-            
-            #line 81 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(variableNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(");\r\n");
-            
-            #line 82 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
-
-            }
-
-            
-            #line default
-            #line hidden
-            this.Write("        }\r\n\r\n        protected override void OnDecode(XmlElement element)\r\n      " +
-                    "  {\r\n            base.OnDecode(element);\r\n\r\n");
-            
-            #line 91 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
-
-            for (int i = 0; i < variableTypes.Length; ++i)
-            {
-
-            
-            #line default
-            #line hidden
-            this.Write("            this.");
-            
-            #line 95 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(variableDecodes[i]));
-            
-            #line default
-            #line hidden
-            this.Write("(ref this.");
-            
-            #line 95 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(variableNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(", \"");
-            
-            #line 95 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(variableNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write("\");\r\n");
-            
-            #line 96 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
-
-            }
-
-            
-            #line default
-            #line hidden
-            this.Write("        }\r\n#endregion\r\n\r\n#region Calculate Size\r\n        protected override void " +
-                    "OnCalculateSize()\r\n        {\r\n            base.OnCalculateSize();\r\n\r\n");
-            
-            #line 107 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
-
-            for (int i = 0; i < variableTypes.Length; ++i)
-            {
-
-            
-            #line default
-            #line hidden
-            this.Write("            this.");
-            
-            #line 111 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(variableCalculates[i]));
-            
-            #line default
-            #line hidden
-            this.Write("(this.");
-            
-            #line 111 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(variableNames[i]));
-            
-            #line default
-            #line hidden
-            this.Write(");\r\n");
-            
-            #line 112 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
-
-            }
-
-            
-            #line default
-            #line hidden
-            this.Write("        }\r\n#endregion\r\n    }\r\n");
+            this.Write("        }\r\n        #endregion\r\n    }\r\n");
             return this.GenerationEnvironment.ToString();
         }
         
@@ -376,45 +315,6 @@ private string[] variableDescribes
     get
     {
         return this._variableDescribesField;
-    }
-}
-
-private string[] _variableEncodesField;
-
-/// <summary>
-/// Access the variableEncodes parameter of the template.
-/// </summary>
-private string[] variableEncodes
-{
-    get
-    {
-        return this._variableEncodesField;
-    }
-}
-
-private string[] _variableDecodesField;
-
-/// <summary>
-/// Access the variableDecodes parameter of the template.
-/// </summary>
-private string[] variableDecodes
-{
-    get
-    {
-        return this._variableDecodesField;
-    }
-}
-
-private string[] _variableCalculatesField;
-
-/// <summary>
-/// Access the variableCalculates parameter of the template.
-/// </summary>
-private string[] variableCalculates
-{
-    get
-    {
-        return this._variableCalculatesField;
     }
 }
 
@@ -508,48 +408,6 @@ if ((variableDescribesValueAcquired == false))
     if ((data != null))
     {
         this._variableDescribesField = ((string[])(data));
-    }
-}
-bool variableEncodesValueAcquired = false;
-if (this.Session.ContainsKey("variableEncodes"))
-{
-    this._variableEncodesField = ((string[])(this.Session["variableEncodes"]));
-    variableEncodesValueAcquired = true;
-}
-if ((variableEncodesValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("variableEncodes");
-    if ((data != null))
-    {
-        this._variableEncodesField = ((string[])(data));
-    }
-}
-bool variableDecodesValueAcquired = false;
-if (this.Session.ContainsKey("variableDecodes"))
-{
-    this._variableDecodesField = ((string[])(this.Session["variableDecodes"]));
-    variableDecodesValueAcquired = true;
-}
-if ((variableDecodesValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("variableDecodes");
-    if ((data != null))
-    {
-        this._variableDecodesField = ((string[])(data));
-    }
-}
-bool variableCalculatesValueAcquired = false;
-if (this.Session.ContainsKey("variableCalculates"))
-{
-    this._variableCalculatesField = ((string[])(this.Session["variableCalculates"]));
-    variableCalculatesValueAcquired = true;
-}
-if ((variableCalculatesValueAcquired == false))
-{
-    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("variableCalculates");
-    if ((data != null))
-    {
-        this._variableCalculatesField = ((string[])(data));
     }
 }
 

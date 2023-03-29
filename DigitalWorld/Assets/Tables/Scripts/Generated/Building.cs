@@ -1,14 +1,18 @@
 using Dream.Core;
 using Dream.Proto;
 using Dream.Table;
-using System.Xml;
 using System.Collections.Generic;
+using System.Data;
+using System;
+using Newtonsoft.Json;
+using System.Runtime.Serialization;
 
 namespace DigitalWorld.Table
 {
-    /// <summary>
+	    /// <summary>
     /// 建筑
     /// </summary>
+    [Serializable]
     public partial class BuildingInfo : InfoBase
     {
         public override int GetID()
@@ -16,13 +20,8 @@ namespace DigitalWorld.Table
             return id;
         }
 
-        public override object GetField(int index)
-        {
-            throw new System.NotImplementedException();
-        }
-
         /// <summary>
-        /// 唯一ID
+        /// ID
         /// </summary>
         public System.Int32 Id => id;
         private System.Int32 id;
@@ -40,20 +39,44 @@ namespace DigitalWorld.Table
         /// 预制件路径
         /// </summary>
         public System.String PrefabPath => prefabPath;
-
-        public override int FieldCount => throw new System.NotImplementedException();
-
         private System.String prefabPath;
 
-        public BuildingInfo()
+        #region Serialization
+		public BuildingInfo()
+		{
+
+		}
+
+        public BuildingInfo(SerializationInfo info, StreamingContext context)
+			: base(info, context)
         {
+			this.id = (System.Int32)info.GetValue("id", typeof(System.Int32));
+			this.name = (System.String)info.GetValue("name", typeof(System.String));
+			this.size = (Dream.FixMath.FixVector3)info.GetValue("size", typeof(Dream.FixMath.FixVector3));
+			this.prefabPath = (System.String)info.GetValue("prefabPath", typeof(System.String));
         }
 
-     
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+			info.AddValue("id", this.id);
+			info.AddValue("name", this.name);
+			info.AddValue("size", this.size);
+			info.AddValue("prefabPath", this.prefabPath);
+        }
+
+        public override void SetupRow(DataRow row)
+        {
+            row["id"] = id;
+            row["name"] = name;
+            row["size"] = size;
+            row["prefabPath"] = prefabPath;
+        }
+        #endregion
     }
 
 
-    /// <summary>
+	    /// <summary>
     /// 建筑
     /// </summary>
     [TableNameAttibute("building")]

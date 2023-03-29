@@ -28,9 +28,15 @@ namespace Assets.Logic.Editor.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("using System;\r\nusing System.Collections.Generic;\r\n\r\nnamespace ");
+            this.Write("\n");
+            this.Write("\n");
+            this.Write("\n");
+            this.Write("\n");
+            this.Write("\n");
+            this.Write("\n");
+            this.Write("\nusing System;\nusing System.Collections.Generic;\n\nnamespace ");
             
-            #line 11 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyHelperTemplate.tt"
+            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyHelperTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(namespaceName));
             
             #line default
@@ -51,7 +57,7 @@ namespace Assets.Logic.Editor.Templates
                     {
 ");
             
-            #line 25 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyHelperTemplate.tt"
+            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyHelperTemplate.tt"
 
                         foreach (var kvp in properties)
 			            {
@@ -59,16 +65,16 @@ namespace Assets.Logic.Editor.Templates
             
             #line default
             #line hidden
-            this.Write("                        {\r\n                            typeof(");
+            this.Write("\n                        {\n                            typeof(");
             
-            #line 30 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyHelperTemplate.tt"
+            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyHelperTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(kvp.Key));
             
             #line default
             #line hidden
-            this.Write("),\r\n                            new Type[]\r\n                            {\r\n");
+            this.Write("),\n                            new Type[]\n                            {\n");
             
-            #line 33 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyHelperTemplate.tt"
+            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyHelperTemplate.tt"
 
                                 for (int i = 0; i < kvp.Value.Count; ++i)
                                 {
@@ -76,32 +82,33 @@ namespace Assets.Logic.Editor.Templates
             
             #line default
             #line hidden
-            this.Write("                                typeof(");
+            this.Write("\n                                typeof(");
             
-            #line 37 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyHelperTemplate.tt"
+            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyHelperTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(kvp.Value[i]));
             
             #line default
             #line hidden
-            this.Write("),\r\n");
+            this.Write("),\n");
             
-            #line 38 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyHelperTemplate.tt"
+            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyHelperTemplate.tt"
 
                                 }
 
             
             #line default
             #line hidden
-            this.Write("                            }\r\n                        },\r\n");
+            this.Write("\n                            }\n                        },\n");
             
-            #line 43 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyHelperTemplate.tt"
+            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyHelperTemplate.tt"
 
                         }
 
             
             #line default
             #line hidden
-            this.Write(@"                    };
+            this.Write(@"
+                    };
                 }
 
                 return properties;

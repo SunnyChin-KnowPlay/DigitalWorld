@@ -28,24 +28,25 @@ namespace Assets.Tables.Editor.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("using Dream.Core;\r\nusing Dream.Proto;\r\nusing Dream.Table;\r\nusing System.Xml;\r\nusi" +
-                    "ng System.Collections.Generic;\r\n\r\nnamespace ");
+            this.Write("using Dream.Core;\r\nusing Dream.Proto;\r\nusing Dream.Table;\r\nusing System.Collectio" +
+                    "ns.Generic;\r\nusing System.Data;\r\nusing System;\r\nusing Newtonsoft.Json;\r\nusing Sy" +
+                    "stem.Runtime.Serialization;\r\n\r\nnamespace ");
             
-            #line 15 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableFileTemplate.tt"
+            #line 18 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableFileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(namespaceName));
             
             #line default
             #line hidden
             this.Write("\r\n{\r\n\t");
             
-            #line 17 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableFileTemplate.tt"
+            #line 20 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableFileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(info));
             
             #line default
             #line hidden
             this.Write("\r\n\r\n\t");
             
-            #line 19 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableFileTemplate.tt"
+            #line 22 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableFileTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(table));
             
             #line default

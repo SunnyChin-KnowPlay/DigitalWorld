@@ -35,39 +35,11 @@ namespace Assets.Tables.Editor.Templates
             
             #line default
             #line hidden
-            this.Write(@"
-{
-    /// <summary>
-    /// 表格管理器
-    /// </summary>
-    public sealed partial class TableManager : Singleton<TableManager>
-    {
-        #region Event
-        /// <summary>
-        /// 处理表格
-        /// </summary>
-        /// <param name=""table"">表格的对象</param>
-        /// <param name=""tableName"">表名</param>
-        private delegate void OnTableHandle(ByteBuffer table, string tableName);
-        /// <summary>
-        /// 解码表格
-        /// 请执行I/O读取出数据并调用table.Decode()以实现解码并注入表格功能
-        /// </summary>
-        private OnTableHandle OnDecodeTable;
-        /// <summary>
-        /// 从xml来解码表格
-        /// </summary>
-        private OnTableHandle OnDecodeTableWithXml;
-        /// <summary>
-        /// encode table
-        /// </summary>
-        private OnTableHandle OnEncodeTable;
-        #endregion
-
-        #region Tables
-");
+            this.Write("\r\n{\r\n    /// <summary>\r\n    /// 表格管理器\r\n    /// </summary>\r\n    public sealed part" +
+                    "ial class TableManager : Singleton<TableManager>\r\n    {\r\n        #region Tables\r" +
+                    "\n");
             
-            #line 42 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
+            #line 20 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
 
         for (int i = 0; i < tableNames.Length; ++i)
         {
@@ -77,28 +49,28 @@ namespace Assets.Tables.Editor.Templates
             #line hidden
             this.Write("        public ");
             
-            #line 46 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
+            #line 24 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(tableClassNames[i]));
             
             #line default
             #line hidden
             this.Write("Table ");
             
-            #line 46 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
+            #line 24 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(tableClassNames[i]));
             
             #line default
             #line hidden
             this.Write("Table { get; private set; } = new ");
             
-            #line 46 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
+            #line 24 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(tableClassNames[i]));
             
             #line default
             #line hidden
             this.Write("Table();\r\n");
             
-            #line 47 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
+            #line 25 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
 
         }
 
@@ -108,7 +80,7 @@ namespace Assets.Tables.Editor.Templates
             this.Write("        #endregion\r\n\r\n        #region Decode\r\n        public void Decode()\r\n     " +
                     "   {\r\n");
             
-            #line 55 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
+            #line 33 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
 
         for (int i = 0; i < tableNames.Length; ++i)
         {
@@ -116,32 +88,39 @@ namespace Assets.Tables.Editor.Templates
             
             #line default
             #line hidden
-            this.Write("            this.ApplyDecodeTable(");
+            this.Write("           ");
             
-            #line 59 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
+            #line 37 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(tableClassNames[i]));
             
             #line default
             #line hidden
-            this.Write("Table, \"");
+            this.Write("Table = this.ApplyDecodeTable<");
             
-            #line 59 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
+            #line 37 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(tableClassNames[i]));
+            
+            #line default
+            #line hidden
+            this.Write("Table>(\"");
+            
+            #line 37 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(tableNames[i]));
             
             #line default
             #line hidden
             this.Write("\");\r\n");
             
-            #line 60 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
+            #line 38 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
 
         }
 
             
             #line default
             #line hidden
-            this.Write("        }\r\n\r\n        public void DecodeXml()\r\n        {\r\n");
+            this.Write("        }\r\n\r\n        public void DecodeJSON()\r\n        {\r\n");
             
-            #line 67 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
+            #line 45 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
 
         for (int i = 0; i < tableNames.Length; ++i)
         {
@@ -149,23 +128,30 @@ namespace Assets.Tables.Editor.Templates
             
             #line default
             #line hidden
-            this.Write("            this.ApplyDecodeTableWithXml(");
+            this.Write("            ");
             
-            #line 71 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
+            #line 49 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(tableClassNames[i]));
             
             #line default
             #line hidden
-            this.Write("Table, \"");
+            this.Write("Table = this.ApplyDecodeTableWithJSON<");
             
-            #line 71 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
+            #line 49 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(tableClassNames[i]));
+            
+            #line default
+            #line hidden
+            this.Write("Table>(\"");
+            
+            #line 49 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(tableNames[i]));
             
             #line default
             #line hidden
             this.Write("\");\r\n");
             
-            #line 72 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
+            #line 50 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
 
         }
 
@@ -174,20 +160,14 @@ namespace Assets.Tables.Editor.Templates
             #line hidden
             this.Write(@"        }
 
-        private void ApplyDecodeTable(ByteBuffer table, string tableName)
+        private T ApplyDecodeTable<T>(string tableName) where T : class
         {
-            if (null != OnDecodeTable)
-            {
-                OnDecodeTable.Invoke(table, tableName);
-            }
+            return this.ProcessDecodeTable<T>(tableName);
         }
 
-        private void ApplyDecodeTableWithXml(ByteBuffer table, string tableName)
+        private T ApplyDecodeTableWithJSON<T>(string tableName) where T : class
         {
-            if (null != OnDecodeTableWithXml)
-            {
-                OnDecodeTableWithXml.Invoke(table, tableName);
-            }
+            return this.ProcessDecodeTableWithJSON<T>(tableName);
         }
         #endregion
 
@@ -196,7 +176,7 @@ namespace Assets.Tables.Editor.Templates
         {
 ");
             
-            #line 97 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
+            #line 69 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
 
         for (int i = 0; i < tableNames.Length; ++i)
         {
@@ -206,41 +186,30 @@ namespace Assets.Tables.Editor.Templates
             #line hidden
             this.Write("            this.ApplyEncodeTable(");
             
-            #line 101 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
+            #line 73 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(tableClassNames[i]));
             
             #line default
             #line hidden
             this.Write("Table, \"");
             
-            #line 101 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
+            #line 73 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(tableNames[i]));
             
             #line default
             #line hidden
             this.Write("\");\r\n");
             
-            #line 102 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
+            #line 74 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
 
         }
 
             
             #line default
             #line hidden
-            this.Write(@"        }
-
-        private void ApplyEncodeTable(ByteBuffer table, string tableName)
-        {
-            if (null != OnEncodeTable)
-            {
-                OnEncodeTable.Invoke(table, tableName);
-            }
-        }
-        #endregion
-
-    }
-}
-");
+            this.Write("        }\r\n\r\n        private void ApplyEncodeTable(object table, string tableName" +
+                    ")\r\n        {\r\n            this.ProcessEncodeTable(table, tableName);\r\n        }\r" +
+                    "\n        #endregion\r\n\r\n    }\r\n}\r\n");
             return this.GenerationEnvironment.ToString();
         }
         

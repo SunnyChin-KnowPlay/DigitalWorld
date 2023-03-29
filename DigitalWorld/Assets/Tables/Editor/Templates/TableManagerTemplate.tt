@@ -16,28 +16,6 @@ namespace <#= namespaceName #>
     /// </summary>
     public sealed partial class TableManager : Singleton<TableManager>
     {
-        #region Event
-        /// <summary>
-        /// 处理表格
-        /// </summary>
-        /// <param name="table">表格的对象</param>
-        /// <param name="tableName">表名</param>
-        private delegate void OnTableHandle(ByteBuffer table, string tableName);
-        /// <summary>
-        /// 解码表格
-        /// 请执行I/O读取出数据并调用table.Decode()以实现解码并注入表格功能
-        /// </summary>
-        private OnTableHandle OnDecodeTable;
-        /// <summary>
-        /// 从xml来解码表格
-        /// </summary>
-        private OnTableHandle OnDecodeTableWithXml;
-        /// <summary>
-        /// encode table
-        /// </summary>
-        private OnTableHandle OnEncodeTable;
-        #endregion
-
         #region Tables
 <#
         for (int i = 0; i < tableNames.Length; ++i)
@@ -56,38 +34,32 @@ namespace <#= namespaceName #>
         for (int i = 0; i < tableNames.Length; ++i)
         {
 #>
-            this.ApplyDecodeTable(<#= tableClassNames[i] #>Table, "<#= tableNames[i] #>");
+           <#= tableClassNames[i] #>Table = this.ApplyDecodeTable<<#= tableClassNames[i] #>Table>("<#= tableNames[i] #>");
 <#
         }
 #>
         }
 
-        public void DecodeXml()
+        public void DecodeJSON()
         {
 <#
         for (int i = 0; i < tableNames.Length; ++i)
         {
 #>
-            this.ApplyDecodeTableWithXml(<#= tableClassNames[i] #>Table, "<#= tableNames[i] #>");
+            <#= tableClassNames[i] #>Table = this.ApplyDecodeTableWithJSON<<#= tableClassNames[i] #>Table>("<#= tableNames[i] #>");
 <#
         }
 #>
         }
 
-        private void ApplyDecodeTable(ByteBuffer table, string tableName)
+        private T ApplyDecodeTable<T>(string tableName) where T : class
         {
-            if (null != OnDecodeTable)
-            {
-                OnDecodeTable.Invoke(table, tableName);
-            }
+            return this.ProcessDecodeTable<T>(tableName);
         }
 
-        private void ApplyDecodeTableWithXml(ByteBuffer table, string tableName)
+        private T ApplyDecodeTableWithJSON<T>(string tableName) where T : class
         {
-            if (null != OnDecodeTableWithXml)
-            {
-                OnDecodeTableWithXml.Invoke(table, tableName);
-            }
+            return this.ProcessDecodeTableWithJSON<T>(tableName);
         }
         #endregion
 
@@ -104,12 +76,9 @@ namespace <#= namespaceName #>
 #>
         }
 
-        private void ApplyEncodeTable(ByteBuffer table, string tableName)
+        private void ApplyEncodeTable(object table, string tableName)
         {
-            if (null != OnEncodeTable)
-            {
-                OnEncodeTable.Invoke(table, tableName);
-            }
+            this.ProcessEncodeTable(table, tableName);
         }
         #endregion
 

@@ -1,6 +1,5 @@
 using Dream.Core;
 using Dream.Proto;
-using System.Runtime.Serialization;
 
 namespace DigitalWorld.Table
 {
@@ -20,11 +19,11 @@ namespace DigitalWorld.Table
         #region Decode
         public void Decode()
         {
-            CharacterTable = this.ApplyDecodeTable<CharacterTable>("character");
-            MapTable = this.ApplyDecodeTable<MapTable>("map");
-            CampTable = this.ApplyDecodeTable<CampTable>("camp");
-            SkillTable = this.ApplyDecodeTable<SkillTable>("skill");
-            BuildingTable = this.ApplyDecodeTable<BuildingTable>("building");
+           CharacterTable = this.ApplyDecodeTable<CharacterTable>("character");
+           MapTable = this.ApplyDecodeTable<MapTable>("map");
+           CampTable = this.ApplyDecodeTable<CampTable>("camp");
+           SkillTable = this.ApplyDecodeTable<SkillTable>("skill");
+           BuildingTable = this.ApplyDecodeTable<BuildingTable>("building");
         }
 
         public void DecodeJSON()

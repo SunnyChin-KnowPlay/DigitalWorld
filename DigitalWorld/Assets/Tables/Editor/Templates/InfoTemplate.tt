@@ -9,12 +9,10 @@
 <#@ parameter name="propertyNames" type="System.String[]"#>
 <#@ parameter name="variableTypes" type="System.String[]"#>
 <#@ parameter name="variableDescribes" type="System.String[]"#>
-<#@ parameter name="variableEncodes" type="System.String[]"#>
-<#@ parameter name="variableDecodes" type="System.String[]"#>
-<#@ parameter name="variableCalculates" type="System.String[]"#>
     /// <summary>
     /// <#= describe #>
     /// </summary>
+    [Serializable]
     public partial class <#= name #>Info : InfoBase
     {
         public override int GetID()
@@ -35,83 +33,48 @@
         }
 #>
 
-        public <#= name #>Info()
+        #region Serialization
+		public <#= name #>Info()
+		{
+
+		}
+
+        public <#= name #>Info(SerializationInfo info, StreamingContext context)
+			: base(info, context)
         {
+<#
+			for (int i = 0; i < variableTypes.Length; ++i)
+			{
+#>
+			this.<#= variableNames[i] #> = (<#= variableTypes[i] #>)info.GetValue("<#= variableNames[i] #>", typeof(<#= variableTypes[i] #>));
+<#
+			}
+#>
         }
 
-#region Encode
-        protected override void OnEncode()
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            base.OnEncode();
-
+            base.GetObjectData(info, context);
 <#
-            for (int i = 0; i < variableTypes.Length; ++i)
-            {
+			for (int i = 0; i < variableTypes.Length; ++i)
+			{
 #>
-            this.<#= variableEncodes[i] #>(this.<#= variableNames[i] #>);
+			info.AddValue("<#= variableNames[i] #>", this.<#= variableNames[i] #>);
 <#
-            }
+			}
 #>
         }
 
-        protected override void OnEncode(XmlElement element)
+        public override void SetupRow(DataRow row)
         {
-            base.OnEncode(element);
-
 <#
-            for (int i = 0; i < variableTypes.Length; ++i)
-            {
+			for (int i = 0; i < variableTypes.Length; ++i)
+			{
 #>
-            this.<#= variableEncodes[i] #>(this.<#= variableNames[i] #>, "<#= variableNames[i] #>");
+            row["<#= variableNames[i] #>"] = <#= variableNames[i] #>;
 <#
-            }
+			}
 #>
         }
         #endregion
-
-#region Decode
-        protected override void OnDecode()
-        {
-            base.OnDecode();
-
-<#
-            for (int i = 0; i < variableTypes.Length; ++i)
-            {
-#>
-            this.<#= variableDecodes[i] #>(ref this.<#= variableNames[i] #>);
-<#
-            }
-#>
-        }
-
-        protected override void OnDecode(XmlElement element)
-        {
-            base.OnDecode(element);
-
-<#
-            for (int i = 0; i < variableTypes.Length; ++i)
-            {
-#>
-            this.<#= variableDecodes[i] #>(ref this.<#= variableNames[i] #>, "<#= variableNames[i] #>");
-<#
-            }
-#>
-        }
-#endregion
-
-#region Calculate Size
-        protected override void OnCalculateSize()
-        {
-            base.OnCalculateSize();
-
-<#
-            for (int i = 0; i < variableTypes.Length; ++i)
-            {
-#>
-            this.<#= variableCalculates[i] #>(this.<#= variableNames[i] #>);
-<#
-            }
-#>
-        }
-#endregion
     }

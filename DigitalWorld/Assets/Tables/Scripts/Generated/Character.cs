@@ -1,14 +1,18 @@
 using Dream.Core;
 using Dream.Proto;
 using Dream.Table;
-using System.Xml;
 using System.Collections.Generic;
+using System.Data;
+using System;
+using Newtonsoft.Json;
+using System.Runtime.Serialization;
 
 namespace DigitalWorld.Table
 {
 	    /// <summary>
     /// 角色
     /// </summary>
+    [Serializable]
     public partial class CharacterInfo : InfoBase
     {
         public override int GetID()
@@ -16,13 +20,8 @@ namespace DigitalWorld.Table
             return id;
         }
 
-        public override object GetField(int index)
-        {
-            throw new System.NotImplementedException();
-        }
-
         /// <summary>
-        /// 唯一ID
+        /// ID
         /// </summary>
         public System.Int32 Id => id;
         private System.Int32 id;
@@ -32,7 +31,7 @@ namespace DigitalWorld.Table
         public System.String Name => name;
         private System.String name;
         /// <summary>
-        /// 基础血量
+        /// 血量
         /// </summary>
         public System.Int32 Hp => hp;
         private System.Int32 hp;
@@ -55,14 +54,49 @@ namespace DigitalWorld.Table
         /// 缩放尺寸
         /// </summary>
         public Dream.FixMath.FixVector3 ScaleSize => scaleSize;
-
-        public override int FieldCount => throw new System.NotImplementedException();
-
         private Dream.FixMath.FixVector3 scaleSize;
 
-        public CharacterInfo()
+        #region Serialization
+		public CharacterInfo()
+		{
+
+		}
+
+        public CharacterInfo(SerializationInfo info, StreamingContext context)
+			: base(info, context)
         {
+			this.id = (System.Int32)info.GetValue("id", typeof(System.Int32));
+			this.name = (System.String)info.GetValue("name", typeof(System.String));
+			this.hp = (System.Int32)info.GetValue("hp", typeof(System.Int32));
+			this.attack = (System.Int32)info.GetValue("attack", typeof(System.Int32));
+			this.moveSpeed = (System.Int32)info.GetValue("moveSpeed", typeof(System.Int32));
+			this.prefabPath = (System.String)info.GetValue("prefabPath", typeof(System.String));
+			this.scaleSize = (Dream.FixMath.FixVector3)info.GetValue("scaleSize", typeof(Dream.FixMath.FixVector3));
         }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+			info.AddValue("id", this.id);
+			info.AddValue("name", this.name);
+			info.AddValue("hp", this.hp);
+			info.AddValue("attack", this.attack);
+			info.AddValue("moveSpeed", this.moveSpeed);
+			info.AddValue("prefabPath", this.prefabPath);
+			info.AddValue("scaleSize", this.scaleSize);
+        }
+
+        public override void SetupRow(DataRow row)
+        {
+            row["id"] = id;
+            row["name"] = name;
+            row["hp"] = hp;
+            row["attack"] = attack;
+            row["moveSpeed"] = moveSpeed;
+            row["prefabPath"] = prefabPath;
+            row["scaleSize"] = scaleSize;
+        }
+        #endregion
     }
 
 

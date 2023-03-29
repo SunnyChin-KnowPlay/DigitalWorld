@@ -33,8 +33,7 @@ namespace TableGenerator
                 {
                     object obj = JsonConvert.DeserializeObject(sr.ReadToEnd());
 
-                    ITable<InfoBase> table = obj as ITable<InfoBase>;
-                    if (null != table)
+                    if (obj is ITable<InfoBase> table)
                     {
                         int rows = table.Infos.Count;
 
@@ -46,13 +45,13 @@ namespace TableGenerator
 
                         i = contentStartRowIndex;
 
-                        foreach (KeyValuePair<int, InfoBase> kvp in table.Infos)
+                        DataTable dt = table.GetTable();
+                        foreach (DataRow row in dt.Rows)
                         {
                             int j = 1;
-
-                            for(int k = 0; k < kvp.Value.FieldCount; ++k)
+                            foreach (var v in row.ItemArray)
                             {
-                                sheet.SetValue(i, j, kvp.Value.GetField(k));
+                                sheet.SetValue(i, j, v);
                                 j++;
                             }
                         }
@@ -393,7 +392,6 @@ namespace TableGenerator
 
             foreach (NodeModel node in model.models)
             {
-
                 string tableName = node.Name;
                 string className = node.Name;
                 className = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(className);
@@ -474,7 +472,7 @@ namespace TableGenerator
                 {
                     ["tableName"] = tableName,
                     ["className"] = className,
-                    ["describe"] = model.Description
+                    ["describe"] = string.IsNullOrEmpty(model.Description) ? "" : model.Description
                 }
             };
 
@@ -491,7 +489,7 @@ namespace TableGenerator
                 Session = new Dictionary<string, object>
                 {
                     ["name"] = className,
-                    ["describe"] = model.Description
+                    ["describe"] = string.IsNullOrEmpty(model.Description) ? "" : model.Description
                 }
             };
 
@@ -507,7 +505,7 @@ namespace TableGenerator
                 variableNames.Add(name);
                 propertyNames.Add(name.Substring(0, 1).ToUpper() + name.Substring(1));
                 variableTypes.Add(GetTypeName(field.Type));
-                variableDescribes.Add(field.Description);
+                variableDescribes.Add(string.IsNullOrEmpty(field.Description) ? "" : field.Description);
 
             }
 

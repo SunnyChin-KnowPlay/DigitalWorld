@@ -1,14 +1,18 @@
 using Dream.Core;
 using Dream.Proto;
 using Dream.Table;
-using System.Xml;
 using System.Collections.Generic;
+using System.Data;
+using System;
+using Newtonsoft.Json;
+using System.Runtime.Serialization;
 
 namespace DigitalWorld.Table
 {
 	    /// <summary>
     /// 技能
     /// </summary>
+    [Serializable]
     public partial class SkillInfo : InfoBase
     {
         public override int GetID()
@@ -16,13 +20,8 @@ namespace DigitalWorld.Table
             return id;
         }
 
-        public override object GetField(int index)
-        {
-            throw new System.NotImplementedException();
-        }
-
         /// <summary>
-        /// 唯一ID
+        /// ID
         /// </summary>
         public System.Int32 Id => id;
         private System.Int32 id;
@@ -45,15 +44,43 @@ namespace DigitalWorld.Table
         /// 施法半径，单位：毫米
         /// </summary>
         public System.Int32 CastRadius => castRadius;
-
-        public override int FieldCount => throw new System.NotImplementedException();
-
         private System.Int32 castRadius;
 
-        public SkillInfo()
+        #region Serialization
+		public SkillInfo()
+		{
+
+		}
+
+        public SkillInfo(SerializationInfo info, StreamingContext context)
+			: base(info, context)
         {
+			this.id = (System.Int32)info.GetValue("id", typeof(System.Int32));
+			this.name = (System.String)info.GetValue("name", typeof(System.String));
+			this.coolDownTime = (System.Int32)info.GetValue("coolDownTime", typeof(System.Int32));
+			this.behaviourAssetPath = (System.String)info.GetValue("behaviourAssetPath", typeof(System.String));
+			this.castRadius = (System.Int32)info.GetValue("castRadius", typeof(System.Int32));
         }
 
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+			info.AddValue("id", this.id);
+			info.AddValue("name", this.name);
+			info.AddValue("coolDownTime", this.coolDownTime);
+			info.AddValue("behaviourAssetPath", this.behaviourAssetPath);
+			info.AddValue("castRadius", this.castRadius);
+        }
+
+        public override void SetupRow(DataRow row)
+        {
+            row["id"] = id;
+            row["name"] = name;
+            row["coolDownTime"] = coolDownTime;
+            row["behaviourAssetPath"] = behaviourAssetPath;
+            row["castRadius"] = castRadius;
+        }
+        #endregion
     }
 
 

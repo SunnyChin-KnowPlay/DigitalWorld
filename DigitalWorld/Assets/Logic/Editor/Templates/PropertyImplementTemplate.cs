@@ -28,30 +28,37 @@ namespace Assets.Logic.Editor.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("namespace ");
+            this.Write("\n");
+            this.Write("\n");
+            this.Write("\n");
+            this.Write("\n");
+            this.Write("\n");
+            this.Write("\n");
+            this.Write("\n");
+            this.Write("\nnamespace ");
             
-            #line 9 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyImplementTemplate.tt"
+            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyImplementTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(namespaceName));
             
             #line default
             #line hidden
-            this.Write("\r\n{\r\n    public partial class ");
+            this.Write("\n{\n    public partial class ");
             
-            #line 11 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyImplementTemplate.tt"
+            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyImplementTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
             #line hidden
-            this.Write("\r\n    {\r\n        #region Value\r\n        public override ");
+            this.Write("\n    {\n        #region Value\n        public override ");
             
-            #line 14 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyImplementTemplate.tt"
+            #line 1 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Logic\Editor\Templates\PropertyImplementTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(valueType));
             
             #line default
             #line hidden
-            this.Write(" Value\r\n        {\r\n            get => throw new System.NotImplementedException();" +
-                    "\r\n            set => throw new System.NotImplementedException();\r\n        }\r\n   " +
-                    "     #endregion\r\n    }\r\n}\r\n");
+            this.Write(" Value\n        {\n            get => throw new System.NotImplementedException();\n " +
+                    "           set => throw new System.NotImplementedException();\n        }\n        " +
+                    "#endregion\n    }\n}\n");
             return this.GenerationEnvironment.ToString();
         }
         

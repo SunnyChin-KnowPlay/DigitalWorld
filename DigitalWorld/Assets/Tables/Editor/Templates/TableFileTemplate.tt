@@ -9,8 +9,11 @@
 using Dream.Core;
 using Dream.Proto;
 using Dream.Table;
-using System.Xml;
 using System.Collections.Generic;
+using System.Data;
+using System;
+using Newtonsoft.Json;
+using System.Runtime.Serialization;
 
 namespace <#= namespaceName #>
 {
