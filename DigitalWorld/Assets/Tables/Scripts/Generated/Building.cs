@@ -16,6 +16,11 @@ namespace DigitalWorld.Table
             return id;
         }
 
+        public override object GetField(int index)
+        {
+            throw new System.NotImplementedException();
+        }
+
         /// <summary>
         /// 唯一ID
         /// </summary>
@@ -35,6 +40,9 @@ namespace DigitalWorld.Table
         /// 预制件路径
         /// </summary>
         public System.String PrefabPath => prefabPath;
+
+        public override int FieldCount => throw new System.NotImplementedException();
+
         private System.String prefabPath;
 
         public BuildingInfo()

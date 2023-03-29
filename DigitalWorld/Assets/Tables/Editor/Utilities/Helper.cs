@@ -4,13 +4,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using System.Xml;
 using Assets.Tables.Editor.Templates;
 using Newtonsoft.Json;
-using DigitalWorld.Logic;
-using System.IO.Pipes;
 using DigitalWorld.Table.Editor;
 using System.Data;
+using Dream.Table;
 
 namespace TableGenerator
 {
@@ -26,47 +24,78 @@ namespace TableGenerator
             ExcelPackage.LicenseContext = LicenseContext.Commercial;
         }
         #region Convert
-        private static void ConvertXmlToExcel(string xmlFullPath, ExcelWorksheet sheet)
+        private static void ConvertJSONToExcel(string jsonFullPath, ExcelWorksheet sheet)
         {
-            using (FileStream fs = File.Open(xmlFullPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (FileStream fs = File.Open(jsonFullPath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                XmlDocument xmlDocument = new XmlDocument();
-                xmlDocument.Load(fs);
 
-                XmlElement root = xmlDocument["table"];
-                if (null != root)
+                using (StreamReader sr = new StreamReader(fs))
                 {
-                    int rows = sheet.Dimension.Rows;
-                    int cols = sheet.Dimension.Columns;
+                    object obj = JsonConvert.DeserializeObject(sr.ReadToEnd());
 
-                    int i;
-                    for (i = rows; i >= contentStartRowIndex; --i)
+                    ITable<InfoBase> table = obj as ITable<InfoBase>;
+                    if (null != table)
                     {
-                        sheet.DeleteRow(i);
-                    }
+                        int rows = table.Infos.Count;
 
-                    i = contentStartRowIndex;
-
-                    foreach (XmlElement record in root.ChildNodes)
-                    {
-                        int j = 1;
-
-                        foreach (XmlAttribute attribute in record.Attributes)
+                        int i;
+                        for (i = rows; i >= contentStartRowIndex; --i)
                         {
-                            sheet.SetValue(i, j, attribute.Value);
-                            j++;
+                            sheet.DeleteRow(i);
                         }
 
-                        i++;
+                        i = contentStartRowIndex;
+
+                        foreach (KeyValuePair<int, InfoBase> kvp in table.Infos)
+                        {
+                            int j = 1;
+
+                            for(int k = 0; k < kvp.Value.FieldCount; ++k)
+                            {
+                                sheet.SetValue(i, j, kvp.Value.GetField(k));
+                                j++;
+                            }
+                        }
                     }
                 }
+
+                //XmlDocument xmlDocument = new XmlDocument();
+                //xmlDocument.Load(fs);
+
+                //XmlElement root = xmlDocument["table"];
+                //if (null != root)
+                //{
+                //    int rows = sheet.Dimension.Rows;
+                //    int cols = sheet.Dimension.Columns;
+
+                //    int i;
+                //    for (i = rows; i >= contentStartRowIndex; --i)
+                //    {
+                //        sheet.DeleteRow(i);
+                //    }
+
+                //    i = contentStartRowIndex;
+
+                //    foreach (XmlElement record in root.ChildNodes)
+                //    {
+                //        int j = 1;
+
+                //        foreach (XmlAttribute attribute in record.Attributes)
+                //        {
+                //            sheet.SetValue(i, j, attribute.Value);
+                //            j++;
+                //        }
+
+                //        i++;
+                //    }
+                //}
             }
         }
 
-        public static void ConvertXmlToExcel(string xmlsPath, string excelsPath, string fileName)
+        public static void ConvertXmlToExcel(string jsonsPath, string excelsPath, string fileName)
         {
-            string xmlFullPath = Path.Combine(xmlsPath, fileName);
-            xmlFullPath += ".xml";
+            string jsonFullPath = Path.Combine(jsonsPath, fileName);
+            jsonFullPath += ".json";
 
             string excelFullPath = Path.Combine(excelsPath, fileName);
             excelFullPath += ".xlsx";
@@ -99,7 +128,7 @@ namespace TableGenerator
 
                 if (null != sheet)
                 {
-                    ConvertXmlToExcel(xmlFullPath, sheet);
+                    ConvertJSONToExcel(jsonFullPath, sheet);
                 }
 
                 package.Save();
@@ -117,16 +146,16 @@ namespace TableGenerator
             }
         }
 
-        public static void ConvertXmlsToExcel(string xmlsPath, string excelsPath)
+        public static void ConvertXmlsToExcel(string jsonsPath, string excelsPath)
         {
-            string[] xmlFiles = Directory.GetFiles(xmlsPath);
+            string[] jsonFiles = Directory.GetFiles(jsonsPath);
 
-            for (int j = 0; j < xmlFiles.Length; ++j)
+            for (int j = 0; j < jsonFiles.Length; ++j)
             {
-                string xmlFullPath = xmlFiles[j];
+                string jsonlFullPath = jsonFiles[j];
 
-                string xmlFileName = Path.GetFileNameWithoutExtension(xmlFiles[j]);
-                string excelFullPath = Path.Combine(excelsPath, xmlFileName);
+                string jsonFileName = Path.GetFileNameWithoutExtension(jsonFiles[j]);
+                string excelFullPath = Path.Combine(excelsPath, jsonFileName);
                 excelFullPath += ".xlsx";
 
                 bool isOpened = false;
@@ -160,7 +189,7 @@ namespace TableGenerator
 
                     if (null != sheet)
                     {
-                        ConvertXmlToExcel(xmlFullPath, sheet);
+                        ConvertJSONToExcel(jsonlFullPath, sheet);
                     }
 
                     package.Save();
@@ -523,10 +552,10 @@ namespace TableGenerator
         /// </summary>
         /// <param name="tablePath"></param>
         /// <param name="configPath"></param>
-        public static void ConvertExcelsToXmls(string excelsPath, string xmlsPath)
+        public static void ConvertExcelsToJSONs(string excelsPath, string jsonsPath)
         {
             #region 先清空配置文件夹
-            string[] xmlFiles = Directory.GetFiles(xmlsPath);
+            string[] xmlFiles = Directory.GetFiles(jsonsPath);
             for (int i = 0; i < xmlFiles.Length; ++i)
             {
                 if (File.Exists(xmlFiles[i]))
@@ -557,8 +586,8 @@ namespace TableGenerator
                     ExcelWorksheet sheet = workbook.Worksheets["Data"];
                     if (null != sheet)
                     {
-                        string configFullPath = Path.Combine(xmlsPath, fileName);
-                        configFullPath += ".xml";
+                        string configFullPath = Path.Combine(jsonsPath, fileName);
+                        configFullPath += ".json";
                         ConvertExcelToConfig(sheet, configFullPath);
                     }
                 }
@@ -580,30 +609,6 @@ namespace TableGenerator
             }
 
             return null;
-        }
-
-        private static string GetTypeName(string typeName)
-        {
-            string ret = string.Empty;
-            System.Type type = GetType(typeName);
-            // 如果是泛型
-            if (type.IsGenericType)
-            {
-                switch (type.Name)
-                {
-                    case "List`1":
-                    {
-                        ret = string.Format("List<{0}>", type.GenericTypeArguments[0].FullName);
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                ret = type.FullName;
-            }
-
-            return ret;
         }
 
         private static string GetTypeName(Type type)

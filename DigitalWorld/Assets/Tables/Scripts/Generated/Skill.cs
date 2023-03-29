@@ -16,6 +16,11 @@ namespace DigitalWorld.Table
             return id;
         }
 
+        public override object GetField(int index)
+        {
+            throw new System.NotImplementedException();
+        }
+
         /// <summary>
         /// 唯一ID
         /// </summary>
@@ -40,6 +45,9 @@ namespace DigitalWorld.Table
         /// 施法半径，单位：毫米
         /// </summary>
         public System.Int32 CastRadius => castRadius;
+
+        public override int FieldCount => throw new System.NotImplementedException();
+
         private System.Int32 castRadius;
 
         public SkillInfo()

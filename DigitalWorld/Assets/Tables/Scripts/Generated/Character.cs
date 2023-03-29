@@ -16,6 +16,11 @@ namespace DigitalWorld.Table
             return id;
         }
 
+        public override object GetField(int index)
+        {
+            throw new System.NotImplementedException();
+        }
+
         /// <summary>
         /// 唯一ID
         /// </summary>
@@ -50,6 +55,9 @@ namespace DigitalWorld.Table
         /// 缩放尺寸
         /// </summary>
         public Dream.FixMath.FixVector3 ScaleSize => scaleSize;
+
+        public override int FieldCount => throw new System.NotImplementedException();
+
         private Dream.FixMath.FixVector3 scaleSize;
 
         public CharacterInfo()

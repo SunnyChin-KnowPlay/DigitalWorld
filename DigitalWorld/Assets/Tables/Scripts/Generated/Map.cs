@@ -16,6 +16,11 @@ namespace DigitalWorld.Table
             return id;
         }
 
+        public override object GetField(int index)
+        {
+            throw new System.NotImplementedException();
+        }
+
         /// <summary>
         /// 唯一ID
         /// </summary>
@@ -35,6 +40,9 @@ namespace DigitalWorld.Table
         /// 地图等级
         /// </summary>
         public System.Int32 Level => level;
+
+        public override int FieldCount => throw new System.NotImplementedException();
+
         private System.Int32 level;
 
         public MapInfo()

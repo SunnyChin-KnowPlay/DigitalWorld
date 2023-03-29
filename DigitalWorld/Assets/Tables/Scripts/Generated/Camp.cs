@@ -16,6 +16,11 @@ namespace DigitalWorld.Table
             return id;
         }
 
+        public override object GetField(int index)
+        {
+            throw new System.NotImplementedException();
+        }
+
         /// <summary>
         /// 唯一ID
         /// </summary>
@@ -25,6 +30,9 @@ namespace DigitalWorld.Table
         /// 名字
         /// </summary>
         public System.String Name => name;
+
+        public override int FieldCount => throw new System.NotImplementedException();
+
         private System.String name;
 
         public CampInfo()

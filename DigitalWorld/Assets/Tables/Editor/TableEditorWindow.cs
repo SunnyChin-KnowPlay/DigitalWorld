@@ -174,7 +174,7 @@ namespace DigitalWorld.Table.Editor
 
             if (GUILayout.Button("ConvertExcelsToXmls"))
             {
-                ConvertExcelsToXmls();
+                ConvertExcelsToJSONs();
             }
 
             if (GUILayout.Button("Auto Process"))
@@ -187,7 +187,7 @@ namespace DigitalWorld.Table.Editor
 
             if (GUILayout.Button("ConvertXmlsToExcels"))
             {
-                ConvertXmlsToExcels();
+                ConvertJSONsToExcels();
             }
 
             if (GUILayout.Button("Edit Models"))
@@ -216,12 +216,12 @@ namespace DigitalWorld.Table.Editor
             EditorWindow.GetWindow<TableEditorWindow>("Table Editor").Show();
         }
 
-        private static void ConvertExcelsToXmls()
+        private static void ConvertExcelsToJSONs()
         {
-            Helper.ConvertExcelsToXmls(Table.Utility.ExcelTablePath, Table.Utility.ConfigSrcPath);
+            Helper.ConvertExcelsToJSONs(Table.Utility.ExcelTablePath, Table.Utility.ConfigSrcPath);
         }
 
-        private static void ConvertXmlsToExcels()
+        private static void ConvertJSONsToExcels()
         {
             Helper.ConvertXmlsToExcel(Table.Utility.ConfigSrcPath, Table.Utility.ExcelTablePath);
         }

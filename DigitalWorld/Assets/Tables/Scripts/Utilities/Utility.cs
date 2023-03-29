@@ -16,7 +16,7 @@ namespace DigitalWorld.Table
         public const string defaultExcelPath = "D:/Projects/DigitalWorld/DigitalWorld-Config/Excels";
 
         public const string configSrcKey = "Table.Config.Src";
-        public const string defaultConfigSrc = "D:/Projects/DigitalWorld/DigitalWorld-Config/Xmls";
+        public const string defaultConfigSrc = "D:/Projects/DigitalWorld/DigitalWorld-Config/JSON";
 
         public const string configXmlKey = "Table.Config.Xml";
         public const string defaultConfigXml = "Assets/Tables/Config/Xml";
