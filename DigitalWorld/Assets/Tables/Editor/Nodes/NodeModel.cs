@@ -3,9 +3,11 @@ using UnityEditor;
 using UnityEditorInternal;
 using System.Collections.Generic;
 using System.Xml;
+using System;
 
 namespace DigitalWorld.Table.Editor
 {
+    [Serializable]
     internal class NodeModel : NodeBase
     {
         #region Params

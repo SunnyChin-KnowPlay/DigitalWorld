@@ -5,6 +5,7 @@ using System.Xml;
 using TableGenerator;
 using Newtonsoft.Json;
 using System.IO;
+using DigitalWorld.Logic;
 
 namespace DigitalWorld.Table.Editor
 {
@@ -51,28 +52,28 @@ namespace DigitalWorld.Table.Editor
         {
             string fullPath = Table.Utility.ModelPath;
 
-
-
-            XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(fullPath);
-            XmlElement root = xmlDocument["models"];
-            if (null != root)
+            using FileStream fs = File.Open(fullPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            using StreamReader streamReader = new StreamReader(fs);
+            string jsonResult = streamReader.ReadToEnd();
+            JsonSerializerSettings settings = new JsonSerializerSettings
             {
-                foreach (var node in root.ChildNodes)
-                {
-                    XmlElement childEle = node as XmlElement;
+                TypeNameHandling = TypeNameHandling.All,
+                Formatting = Newtonsoft.Json.Formatting.Indented,
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            };
 
-                    NodeModel model = new NodeModel();
-                    model.Deserialize(childEle);
-                    this.models.Add(model);
-                }
-            }
+            Model model = JsonConvert.DeserializeObject<Model>(jsonResult, settings);
+            this.models.Clear();
+            this.models.AddRange(model.models);
         }
 
         private void Save()
         {
-            Model model = new Model();
-            model.NamespaceName = Table.Utility.defaultNamespaceName;
+            Model model = new Model
+            {
+                NamespaceName = Table.Utility.defaultNamespaceName,
+                models = this.models,
+            };
 
             JsonSerializerSettings settings = new JsonSerializerSettings
             {
@@ -81,41 +82,12 @@ namespace DigitalWorld.Table.Editor
                 Formatting = Newtonsoft.Json.Formatting.Indented,
             };
 
-            
-
             string fullPath = Table.Utility.ModelPath;
-            using (FileStream fs = File.Open(fullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite))
-            {
-                using (StreamWriter sw = new StreamWriter(fs))
-                {
-                    string jsonResult = JsonConvert.SerializeObject(model, settings);
-                    sw.Write(jsonResult);
-                }
+            using FileStream fs = File.Open(fullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
+            using StreamWriter sw = new StreamWriter(fs);
+            string jsonResult = JsonConvert.SerializeObject(model, settings);
+            sw.Write(jsonResult);
 
-
-            }
-
-            //    XmlDocument xmlDocument = new XmlDocument();
-
-            //XmlDeclaration dec = xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-            //xmlDocument.AppendChild(dec);
-
-            //XmlElement root = xmlDocument.CreateElement("models");
-            //if (null != root)
-            //{
-            //    xmlDocument.AppendChild(root);
-            //    root.SetAttribute("namespace", Table.Utility.defaultNamespaceName);
-
-            //    foreach (NodeModel model in models)
-            //    {
-            //        XmlElement ele = xmlDocument.CreateElement("model");
-            //        model.Serialize(ele);
-            //        root.AppendChild(ele);
-            //    }
-
-            //    string fullPath = Table.Utility.ModelPath;
-            //    xmlDocument.Save(fullPath);
-            //}
         }
 
         private void ForeachSetEditing(bool isEditing)

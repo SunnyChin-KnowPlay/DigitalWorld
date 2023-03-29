@@ -1,9 +1,9 @@
-﻿using UnityEngine;
-using UnityEditor;
-using System.Xml;
+﻿using System.Xml;
+using System;
 
 namespace DigitalWorld.Table.Editor
 {
+    [Serializable]
     internal class NodeField : NodeBase
     {
         #region Params

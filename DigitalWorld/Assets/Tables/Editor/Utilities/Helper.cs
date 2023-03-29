@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using DigitalWorld.Logic;
 using System.IO.Pipes;
 using DigitalWorld.Table.Editor;
+using System.Data;
 
 namespace TableGenerator
 {
@@ -178,7 +179,7 @@ namespace TableGenerator
             }
         }
 
-        private static void ConvertModelToExcel(XmlElement root, string tableFullPath)
+        private static void ConvertModelToExcel(NodeModel model, string tableFullPath)
         {
             bool isOpened = false;
             if (File.Exists(tableFullPath))
@@ -211,13 +212,15 @@ namespace TableGenerator
                 if (null != sheet)
                 {
                     int col = 1;
-                    foreach (XmlElement ele in root.ChildNodes)
+
+                    foreach (NodeField field in model.FieldList)
                     {
-                        sheet.SetValue(titleRowIndex, col, ele.GetAttribute("desc"));
-                        sheet.SetValue(keyRowIndex, col, ele.GetAttribute("name"));
-                        sheet.SetValue(typeRowIndex, col, ele.GetAttribute("type"));
+                        sheet.SetValue(titleRowIndex, col, field.Description);
+                        sheet.SetValue(keyRowIndex, col, field.Name);
+                        sheet.SetValue(typeRowIndex, col, field.Type.ToString());
                         col += 1;
                     }
+
                     sheet.View.FreezePanes(contentStartRowIndex, 2);
                 }
 
@@ -244,31 +247,40 @@ namespace TableGenerator
                 fs.Seek(0, SeekOrigin.Begin);
                 fs.SetLength(0);
 
-                int rows = sheet.Dimension.Rows;
-                int cols = sheet.Dimension.Columns;
-
-                XmlDocument xmlDocument = new XmlDocument();
-                XmlDeclaration xmlDeclaration = xmlDocument.CreateXmlDeclaration("1.0", "utf-8", null);
-                xmlDocument.AppendChild(xmlDeclaration);
-
-                XmlElement root = xmlDocument.CreateElement("table");
-
-                for (int i = contentStartRowIndex; i <= rows; ++i)
+                string jsonString = ExcelWorksheetToJson(sheet);
+                using (StreamWriter sw = new StreamWriter(fs))
                 {
-                    XmlElement record = xmlDocument.CreateElement("record");
-
-                    for (int j = 1; j <= cols; ++j)
-                    {
-                        object head = sheet.GetValue(keyRowIndex, j);
-                        object value = sheet.GetValue(i, j);
-                        record.SetAttribute(null != head ? head.ToString() : string.Empty, null != value ? value.ToString() : string.Empty);
-                    }
-                    root.AppendChild(record);
+                    sw.Write(jsonString);
                 }
 
-                xmlDocument.AppendChild(root);
-                xmlDocument.Save(fs);
-                fs.Close();
+
+                //    int rows = sheet.Dimension.Rows;
+                //int cols = sheet.Dimension.Columns;
+
+
+
+                //XmlDocument xmlDocument = new XmlDocument();
+                //XmlDeclaration xmlDeclaration = xmlDocument.CreateXmlDeclaration("1.0", "utf-8", null);
+                //xmlDocument.AppendChild(xmlDeclaration);
+
+                //XmlElement root = xmlDocument.CreateElement("table");
+
+                //for (int i = contentStartRowIndex; i <= rows; ++i)
+                //{
+                //    XmlElement record = xmlDocument.CreateElement("record");
+
+                //    for (int j = 1; j <= cols; ++j)
+                //    {
+                //        object head = sheet.GetValue(keyRowIndex, j);
+                //        object value = sheet.GetValue(i, j);
+                //        record.SetAttribute(null != head ? head.ToString() : string.Empty, null != value ? value.ToString() : string.Empty);
+                //    }
+                //    root.AppendChild(record); 
+                //}
+
+                //xmlDocument.AppendChild(root);
+                //xmlDocument.Save(fs);
+                //fs.Close();
             }
         }
         #endregion
@@ -297,23 +309,25 @@ namespace TableGenerator
             }
             #endregion
 
-            using (FileStream fs = File.Open(modelPath, FileMode.Open, FileAccess.Read, FileShare.Read))
-            {
-                XmlDocument xmlDocument = new XmlDocument();
-                xmlDocument.Load(fs);
-                XmlElement root = xmlDocument["models"];
-                if (null != root)
-                {
-                    foreach (XmlElement ele in root.ChildNodes)
-                    {
-                        string tableName = ele.GetAttribute("name");
-                        string tableFullPath = Path.Combine(excelsPath, tableName);
-                        tableFullPath += ".xlsx";
+            using FileStream fs = File.Open(modelPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            using StreamReader streamReader = new StreamReader(fs);
+            // 将 FileStream 读取为字符串
+            string jsonString = streamReader.ReadToEnd();
 
-                        ConvertModelToExcel(ele, tableFullPath);
-                    }
-                }
+            JsonSerializerSettings settings = new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.All,
+                Formatting = Newtonsoft.Json.Formatting.Indented,
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            };
+            Model model = JsonConvert.DeserializeObject<Model>(jsonString, settings);
+            foreach (NodeModel nodeModel in model.models)
+            {
+                string tableFullPath = Path.Combine(excelsPath, nodeModel.Name);
+                tableFullPath += ".xlsx";
+                ConvertModelToExcel(nodeModel, tableFullPath);
             }
+
         }
         #endregion
 
@@ -328,68 +342,62 @@ namespace TableGenerator
             }
             #endregion
 
-            using (FileStream fs = File.Open(modelPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using FileStream fs = File.Open(modelPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            List<string> tableNames = new List<string>();
+            List<string> classNames = new List<string>();
+
+
+            JsonSerializerSettings settings = new JsonSerializerSettings
             {
-                List<string> tableNames = new List<string>();
-                List<string> classNames = new List<string>();
+                TypeNameHandling = TypeNameHandling.All,
+                Formatting = Newtonsoft.Json.Formatting.Indented,
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            };
 
+            using StreamReader streamReader = new StreamReader(fs);
+            // 将 FileStream 读取为字符串
+            string jsonString = streamReader.ReadToEnd();
 
-                JsonSerializerSettings settings = new JsonSerializerSettings
-                {
-                    TypeNameHandling = TypeNameHandling.All,
-                    Formatting = Newtonsoft.Json.Formatting.Indented,
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                };
+            Model model = JsonConvert.DeserializeObject<Model>(jsonString, settings);
 
-                using (StreamReader streamReader = new StreamReader(fs))
-                {
-                    // 将 FileStream 读取为字符串
-                    string jsonString = streamReader.ReadToEnd();
+            string namespaceName = model.NamespaceName;
 
-                    Model model = JsonConvert.DeserializeObject<Model>(jsonString, settings);
+            foreach (NodeModel node in model.models)
+            {
 
-                    string namespaceName = model.NamespaceName;
+                string tableName = node.Name;
+                string className = node.Name;
+                className = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(className);
 
-                    foreach (NodeModel node in model.models)
-                    {
+                tableNames.Add(tableName);
+                classNames.Add(className);
 
-                        string tableName = node.Name;
-                        string className = node.Name;
-                        className = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(className);
+                string infoString = ParseInfoXml(className, node);
+                string tableString = ParseTableXml(className, tableName, node);
 
-                        tableNames.Add(tableName);
-                        classNames.Add(className);
+                string tableCodeFileString = GenerateTableCodeFileString(infoString, tableString, namespaceName);
+                string codeFullPath = Path.Combine(codePath, className);
+                codeFullPath += ".cs";
 
-                        string infoString = ParseInfoXml(className, node);
-                        string tableString = ParseTableXml(className, tableName, node);
+                using FileStream codeFs = File.Open(codeFullPath, FileMode.Create, FileAccess.ReadWrite);
+                StreamWriter writer = new StreamWriter(codeFs);
+                writer.Write(tableCodeFileString);
+                writer.Flush();
+                writer.Close();
+                codeFs.Close();
+            }
 
-                        string tableCodeFileString = GenerateTableCodeFileString(infoString, tableString, namespaceName);
-                        string codeFullPath = Path.Combine(codePath, className);
-                        codeFullPath += ".cs";
+            string tableManagerCodeString = GenerateTableManagerCode(namespaceName, tableNames.ToArray(), classNames.ToArray());
+            string tableManagerCodeFullPath = Path.Combine(codePath, "TableManager");
+            tableManagerCodeFullPath += ".cs";
 
-                        using (FileStream codeFs = File.Open(codeFullPath, FileMode.Create, FileAccess.ReadWrite))
-                        {
-                            StreamWriter writer = new StreamWriter(codeFs);
-                            writer.Write(tableCodeFileString);
-                            writer.Flush();
-                            writer.Close();
-                            codeFs.Close();
-                        }
-                    }
-
-                    string tableManagerCodeString = GenerateTableManagerCode(namespaceName, tableNames.ToArray(), classNames.ToArray());
-                    string tableManagerCodeFullPath = Path.Combine(codePath, "TableManager");
-                    tableManagerCodeFullPath += ".cs";
-
-                    using (FileStream codeFs = File.Open(tableManagerCodeFullPath, FileMode.Create, FileAccess.ReadWrite))
-                    {
-                        StreamWriter writer = new StreamWriter(codeFs);
-                        writer.Write(tableManagerCodeString);
-                        writer.Flush();
-                        writer.Close();
-                        codeFs.Close();
-                    }
-                }
+            using (FileStream codeFs = File.Open(tableManagerCodeFullPath, FileMode.Create, FileAccess.ReadWrite))
+            {
+                StreamWriter writer = new StreamWriter(codeFs);
+                writer.Write(tableManagerCodeString);
+                writer.Flush();
+                writer.Close();
+                codeFs.Close();
             }
         }
 
@@ -462,8 +470,8 @@ namespace TableGenerator
             List<string> variableNames = new List<string>();
             List<string> variableTypes = new List<string>();
             List<string> variableDescribes = new List<string>();
-           
-            foreach(NodeField field in model.FieldList)
+
+            foreach (NodeField field in model.FieldList)
             //foreach (XmlElement n in ele)
             {
                 string name = field.Name;
@@ -471,14 +479,14 @@ namespace TableGenerator
                 propertyNames.Add(name.Substring(0, 1).ToUpper() + name.Substring(1));
                 variableTypes.Add(GetTypeName(field.Type));
                 variableDescribes.Add(field.Description);
-                
+
             }
 
             infoTemplate.Session["propertyNames"] = propertyNames.ToArray();
             infoTemplate.Session["variableNames"] = variableNames.ToArray();
             infoTemplate.Session["variableTypes"] = variableTypes.ToArray();
             infoTemplate.Session["variableDescribes"] = variableDescribes.ToArray();
-          
+
 
             infoTemplate.Initialize();
 
@@ -503,7 +511,7 @@ namespace TableGenerator
                 if (null != sheet)
                 {
                     string configFullPath = Path.Combine(xmlsPath, fileName);
-                    configFullPath += ".xml";
+                    configFullPath += ".json";
                     ConvertExcelToConfig(sheet, configFullPath);
                 }
             }
@@ -622,40 +630,33 @@ namespace TableGenerator
             return ret;
         }
 
-        private static string GetEncodeFuncName(string baseType)
+        public static string ExcelWorksheetToJson(ExcelWorksheet worksheet)
         {
-            if (baseType.ToLower() == "enum")
-            {
-                return string.Format("EncodeEnum");
-            }
-            else
-            {
-                return string.Format("Encode");
-            }
-        }
+            DataTable dataTable = new DataTable(worksheet.Name);
 
-        private static string GetDecodeFuncName(string baseType)
-        {
-            if (baseType.ToLower() == "enum")
+            // 获取列名
+            foreach (var firstRowCell in worksheet.Cells[2, 1, 2, worksheet.Dimension.End.Column])
             {
-                return string.Format("DecodeEnum");
+                dataTable.Columns.Add(firstRowCell.Text);
             }
-            else
-            {
-                return string.Format("Decode");
-            }
-        }
 
-        private static string GetCalculateSizeFuncName(string baseType)
-        {
-            if (baseType.ToLower() == "enum")
+            // 获取数据
+            for (var rowNumber = contentStartRowIndex; rowNumber <= worksheet.Dimension.End.Row; rowNumber++)
             {
-                return string.Format("CalculateSizeEnum");
+                var row = worksheet.Cells[rowNumber, 1, rowNumber, worksheet.Dimension.End.Column];
+                var newRow = dataTable.NewRow();
+                foreach (var cell in row)
+                {
+                    newRow[cell.Start.Column - 1] = cell.Text;
+                }
+
+                dataTable.Rows.Add(newRow);
             }
-            else
-            {
-                return string.Format("CalculateSize");
-            }
+
+            // 将 DataTable 转换为 JSON
+            string json = JsonConvert.SerializeObject(dataTable);
+
+            return json;
         }
         #endregion
     }
