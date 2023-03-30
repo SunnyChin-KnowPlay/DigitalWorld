@@ -118,7 +118,7 @@ namespace Assets.Tables.Editor.Templates
             
             #line default
             #line hidden
-            this.Write("        }\r\n\r\n        public void DecodeJSON()\r\n        {\r\n");
+            this.Write("        }\r\n\r\n        public void DecodeJson()\r\n        {\r\n");
             
             #line 45 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
 
@@ -135,7 +135,7 @@ namespace Assets.Tables.Editor.Templates
             
             #line default
             #line hidden
-            this.Write("Table = this.ApplyDecodeTableWithJSON<");
+            this.Write("Table = this.ApplyDecodeTableWithJson<");
             
             #line 49 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(tableClassNames[i]));
@@ -165,9 +165,9 @@ namespace Assets.Tables.Editor.Templates
             return this.ProcessDecodeTable<T>(tableName);
         }
 
-        private T ApplyDecodeTableWithJSON<T>(string tableName) where T : class
+        private T ApplyDecodeTableWithJson<T>(string tableName) where T : class
         {
-            return this.ProcessDecodeTableWithJSON<T>(tableName);
+            return this.ProcessDecodeTableWithJson<T>(tableName);
         }
         #endregion
 
@@ -215,7 +215,7 @@ namespace Assets.Tables.Editor.Templates
         }
         #endregion
 
-        #region Creator
+        #region Utility
         public static ITable CreateTable(string tableName)
         {
             switch (tableName)
@@ -247,6 +247,42 @@ namespace Assets.Tables.Editor.Templates
             this.Write("Table();\r\n");
             
             #line 96 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
+
+                }
+
+            
+            #line default
+            #line hidden
+            this.Write("                default:\r\n                {\r\n                    return null;\r\n  " +
+                    "              }\r\n            }\r\n        }\r\n\r\n        public static System.Type G" +
+                    "etTableType(string tableName)\r\n        {\r\n            switch (tableName)\r\n      " +
+                    "      {\r\n");
+            
+            #line 110 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
+
+                for (int i = 0; i < tableNames.Length; ++i)
+                {
+
+            
+            #line default
+            #line hidden
+            this.Write("                case \"");
+            
+            #line 114 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(tableNames[i]));
+            
+            #line default
+            #line hidden
+            this.Write("\":\r\n                    return typeof(");
+            
+            #line 115 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(tableClassNames[i]));
+            
+            #line default
+            #line hidden
+            this.Write("Table);\r\n");
+            
+            #line 116 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
 
                 }
 

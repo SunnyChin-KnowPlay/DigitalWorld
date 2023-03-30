@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<table>
-  <record id="1001" name="兽人" hp="100" attack="10" moveSpeed="3000" prefabPath="Assets/Res/Unit/Characters/Orc.prefab" scaleSize="(0, 2, 0)" />
-  <record id="1002" name="龙" hp="100" attack="10" moveSpeed="1000" prefabPath="Assets/Res/Unit/Characters/Dragon.prefab" scaleSize="(0, 2, 0)" />
-  <record id="1003" name="骷髅" hp="50" attack="5" moveSpeed="1000" prefabPath="Assets/Res/Unit/Characters/Skeleton.prefab" scaleSize="(0, 2, 0)" />
-</table>

@@ -10,7 +10,19 @@
     /// <#= describe #>
     /// </summary>
     [TableNameAttibute("<#= tableName #>")]
+    [Serializable]
     public partial class <#= className #>Table : TableBase<<#= className #>Info>
     {
         public override string TableName => "<#= tableName #>";
+
+        public <#= className #>Table()
+        {
+
+        }
+
+        public <#= className #>Table(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+
+        }
     }

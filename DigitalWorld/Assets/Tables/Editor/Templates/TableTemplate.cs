@@ -42,28 +42,43 @@ namespace Assets.Tables.Editor.Templates
             
             #line default
             #line hidden
-            this.Write("\")]\r\n    public partial class ");
+            this.Write("\")]\r\n    [Serializable]\r\n    public partial class ");
             
-            #line 13 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableTemplate.tt"
+            #line 14 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
             #line hidden
             this.Write("Table : TableBase<");
             
-            #line 13 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableTemplate.tt"
+            #line 14 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
             #line hidden
             this.Write("Info>\r\n    {\r\n        public override string TableName => \"");
             
-            #line 15 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableTemplate.tt"
+            #line 16 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(tableName));
             
             #line default
             #line hidden
-            this.Write("\";\r\n    }");
+            this.Write("\";\r\n\r\n        public ");
+            
+            #line 18 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(className));
+            
+            #line default
+            #line hidden
+            this.Write("Table()\r\n        {\r\n\r\n        }\r\n\r\n        public ");
+            
+            #line 23 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(className));
+            
+            #line default
+            #line hidden
+            this.Write("Table(SerializationInfo info, StreamingContext context)\r\n            : base(info," +
+                    " context)\r\n        {\r\n\r\n        }\r\n    }");
             return this.GenerationEnvironment.ToString();
         }
         

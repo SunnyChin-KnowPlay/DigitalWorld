@@ -65,7 +65,7 @@ namespace DigitalWorld.Table
 			info.AddValue("prefabPath", this.prefabPath);
         }
 
-        public override void SetupRow(DataRow row)
+        public override void ToDataRow(DataRow row)
         {
             row["id"] = id;
             row["name"] = name;
@@ -73,12 +73,12 @@ namespace DigitalWorld.Table
             row["prefabPath"] = prefabPath;
         }
 
-        public override void UpdateRow(DataRow row)
+        public override void FromDataRow(DataRow row)
         {
-            this.id = (System.Int32)row["id"];
-            this.name = (System.String)row["name"];
-            this.size = (Dream.FixMath.FixVector3)row["size"];
-            this.prefabPath = (System.String)row["prefabPath"];
+            this.id = (System.Int32)ParseDataField(row, "id", typeof(System.Int32));
+            this.name = (System.String)ParseDataField(row, "name", typeof(System.String));
+            this.size = (Dream.FixMath.FixVector3)ParseDataField(row, "size", typeof(Dream.FixMath.FixVector3));
+            this.prefabPath = (System.String)ParseDataField(row, "prefabPath", typeof(System.String));
         }
         #endregion
     }
@@ -88,8 +88,20 @@ namespace DigitalWorld.Table
     /// 建筑
     /// </summary>
     [TableNameAttibute("building")]
+    [Serializable]
     public partial class BuildingTable : TableBase<BuildingInfo>
     {
         public override string TableName => "building";
+
+        public BuildingTable()
+        {
+
+        }
+
+        public BuildingTable(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+
+        }
     }
 }

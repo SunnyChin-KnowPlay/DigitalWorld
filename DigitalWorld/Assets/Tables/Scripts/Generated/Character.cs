@@ -86,7 +86,7 @@ namespace DigitalWorld.Table
 			info.AddValue("scaleSize", this.scaleSize);
         }
 
-        public override void SetupRow(DataRow row)
+        public override void ToDataRow(DataRow row)
         {
             row["id"] = id;
             row["name"] = name;
@@ -97,17 +97,15 @@ namespace DigitalWorld.Table
             row["scaleSize"] = scaleSize;
         }
 
-        public override void UpdateRow(DataRow row)
+        public override void FromDataRow(DataRow row)
         {
-            var vvv = row["id"];
-
-            this.id = (System.Int32)row["id"];
-            this.name = (System.String)row["name"];
-            this.hp = (System.Int32)row["hp"];
-            this.attack = (System.Int32)row["attack"];
-            this.moveSpeed = (System.Int32)row["moveSpeed"];
-            this.prefabPath = (System.String)row["prefabPath"];
-            this.scaleSize = (Dream.FixMath.FixVector3)row["scaleSize"];
+            this.id = (System.Int32)ParseDataField(row, "id", typeof(System.Int32));
+            this.name = (System.String)ParseDataField(row, "name", typeof(System.String));
+            this.hp = (System.Int32)ParseDataField(row, "hp", typeof(System.Int32));
+            this.attack = (System.Int32)ParseDataField(row, "attack", typeof(System.Int32));
+            this.moveSpeed = (System.Int32)ParseDataField(row, "moveSpeed", typeof(System.Int32));
+            this.prefabPath = (System.String)ParseDataField(row, "prefabPath", typeof(System.String));
+            this.scaleSize = (Dream.FixMath.FixVector3)ParseDataField(row, "scaleSize", typeof(Dream.FixMath.FixVector3));
         }
         #endregion
     }
@@ -117,8 +115,20 @@ namespace DigitalWorld.Table
     /// 角色
     /// </summary>
     [TableNameAttibute("character")]
+    [Serializable]
     public partial class CharacterTable : TableBase<CharacterInfo>
     {
         public override string TableName => "character";
+
+        public CharacterTable()
+        {
+
+        }
+
+        public CharacterTable(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+
+        }
     }
 }

@@ -72,7 +72,7 @@ namespace DigitalWorld.Table
 			info.AddValue("castRadius", this.castRadius);
         }
 
-        public override void SetupRow(DataRow row)
+        public override void ToDataRow(DataRow row)
         {
             row["id"] = id;
             row["name"] = name;
@@ -81,13 +81,13 @@ namespace DigitalWorld.Table
             row["castRadius"] = castRadius;
         }
 
-        public override void UpdateRow(DataRow row)
+        public override void FromDataRow(DataRow row)
         {
-            this.id = (System.Int32)row["id"];
-            this.name = (System.String)row["name"];
-            this.coolDownTime = (System.Int32)row["coolDownTime"];
-            this.behaviourAssetPath = (System.String)row["behaviourAssetPath"];
-            this.castRadius = (System.Int32)row["castRadius"];
+            this.id = (System.Int32)ParseDataField(row, "id", typeof(System.Int32));
+            this.name = (System.String)ParseDataField(row, "name", typeof(System.String));
+            this.coolDownTime = (System.Int32)ParseDataField(row, "coolDownTime", typeof(System.Int32));
+            this.behaviourAssetPath = (System.String)ParseDataField(row, "behaviourAssetPath", typeof(System.String));
+            this.castRadius = (System.Int32)ParseDataField(row, "castRadius", typeof(System.Int32));
         }
         #endregion
     }
@@ -97,8 +97,20 @@ namespace DigitalWorld.Table
     /// 技能
     /// </summary>
     [TableNameAttibute("skill")]
+    [Serializable]
     public partial class SkillTable : TableBase<SkillInfo>
     {
         public override string TableName => "skill";
+
+        public SkillTable()
+        {
+
+        }
+
+        public SkillTable(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+
+        }
     }
 }

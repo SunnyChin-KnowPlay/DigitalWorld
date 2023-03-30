@@ -51,16 +51,16 @@ namespace DigitalWorld.Table
 			info.AddValue("name", this.name);
         }
 
-        public override void SetupRow(DataRow row)
+        public override void ToDataRow(DataRow row)
         {
             row["id"] = id;
             row["name"] = name;
         }
 
-        public override void UpdateRow(DataRow row)
+        public override void FromDataRow(DataRow row)
         {
-            this.id = (System.Int32)row["id"];
-            this.name = (System.String)row["name"];
+            this.id = (System.Int32)ParseDataField(row, "id", typeof(System.Int32));
+            this.name = (System.String)ParseDataField(row, "name", typeof(System.String));
         }
         #endregion
     }
@@ -70,8 +70,20 @@ namespace DigitalWorld.Table
     /// 阵营
     /// </summary>
     [TableNameAttibute("camp")]
+    [Serializable]
     public partial class CampTable : TableBase<CampInfo>
     {
         public override string TableName => "camp";
+
+        public CampTable()
+        {
+
+        }
+
+        public CampTable(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+
+        }
     }
 }

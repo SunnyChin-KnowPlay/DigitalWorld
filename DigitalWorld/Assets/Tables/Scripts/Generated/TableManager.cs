@@ -26,13 +26,13 @@ namespace DigitalWorld.Table
            BuildingTable = this.ApplyDecodeTable<BuildingTable>("building");
         }
 
-        public void DecodeJSON()
+        public void DecodeJson()
         {
-            CharacterTable = this.ApplyDecodeTableWithJSON<CharacterTable>("character");
-            MapTable = this.ApplyDecodeTableWithJSON<MapTable>("map");
-            CampTable = this.ApplyDecodeTableWithJSON<CampTable>("camp");
-            SkillTable = this.ApplyDecodeTableWithJSON<SkillTable>("skill");
-            BuildingTable = this.ApplyDecodeTableWithJSON<BuildingTable>("building");
+            CharacterTable = this.ApplyDecodeTableWithJson<CharacterTable>("character");
+            MapTable = this.ApplyDecodeTableWithJson<MapTable>("map");
+            CampTable = this.ApplyDecodeTableWithJson<CampTable>("camp");
+            SkillTable = this.ApplyDecodeTableWithJson<SkillTable>("skill");
+            BuildingTable = this.ApplyDecodeTableWithJson<BuildingTable>("building");
         }
 
         private T ApplyDecodeTable<T>(string tableName) where T : class
@@ -40,9 +40,9 @@ namespace DigitalWorld.Table
             return this.ProcessDecodeTable<T>(tableName);
         }
 
-        private T ApplyDecodeTableWithJSON<T>(string tableName) where T : class
+        private T ApplyDecodeTableWithJson<T>(string tableName) where T : class
         {
-            return this.ProcessDecodeTableWithJSON<T>(tableName);
+            return this.ProcessDecodeTableWithJson<T>(tableName);
         }
         #endregion
 
@@ -62,7 +62,7 @@ namespace DigitalWorld.Table
         }
         #endregion
 
-        #region Creator
+        #region Utility
         public static ITable CreateTable(string tableName)
         {
             switch (tableName)
@@ -77,6 +77,27 @@ namespace DigitalWorld.Table
                     return new SkillTable();
                 case "building":
                     return new BuildingTable();
+                default:
+                {
+                    return null;
+                }
+            }
+        }
+
+        public static System.Type GetTableType(string tableName)
+        {
+            switch (tableName)
+            {
+                case "character":
+                    return typeof(CharacterTable);
+                case "map":
+                    return typeof(MapTable);
+                case "camp":
+                    return typeof(CampTable);
+                case "skill":
+                    return typeof(SkillTable);
+                case "building":
+                    return typeof(BuildingTable);
                 default:
                 {
                     return null;

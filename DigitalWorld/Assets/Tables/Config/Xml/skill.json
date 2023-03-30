@@ -1,0 +1,15 @@
+{
+  "$type": "DigitalWorld.Table.SkillTable, Assembly-CSharp",
+  "TableName": "skill",
+  "Infos": {
+    "$type": "System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[DigitalWorld.Table.SkillInfo, Assembly-CSharp]], mscorlib",
+    "100001": {
+      "$type": "DigitalWorld.Table.SkillInfo, Assembly-CSharp",
+      "id": 100001,
+      "name": "怒击",
+      "coolDownTime": 1500,
+      "behaviourAssetPath": "Assets/Res/Logic/Triggers/Game/Character/100001.asset",
+      "castRadius": 2000
+    }
+  }
+}

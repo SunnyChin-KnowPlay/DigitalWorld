@@ -1,0 +1,6 @@
+{
+  "$type": "DigitalWorld.Table.BuildingTable, Assembly-CSharp",
+  "infos": {
+    "$type": "System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[DigitalWorld.Table.BuildingInfo, Assembly-CSharp]], mscorlib"
+  }
+}

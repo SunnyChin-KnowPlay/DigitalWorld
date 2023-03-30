@@ -65,7 +65,7 @@
 #>
         }
 
-        public override void SetupRow(DataRow row)
+        public override void ToDataRow(DataRow row)
         {
 <#
 			for (int i = 0; i < variableTypes.Length; ++i)
@@ -77,13 +77,13 @@
 #>
         }
 
-        public override void UpdateRow(DataRow row)
+        public override void FromDataRow(DataRow row)
         {
 <#
 			for (int i = 0; i < variableTypes.Length; ++i)
 			{
 #>
-            this.<#= variableNames[i] #> = (<#= variableTypes[i] #>)row["<#= variableNames[i] #>"];
+            this.<#= variableNames[i] #> = (<#= variableTypes[i] #>)ParseDataField(row, "<#= variableNames[i] #>", typeof(<#= variableTypes[i] #>));
 <#
 			}
 #>

@@ -1,10 +1,7 @@
-using DigitalWorld.Utilities;
 using Newtonsoft.Json;
 using OfficeOpenXml;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Xml;
 using TableGenerator;
 using UnityEditor;
 using UnityEditorInternal;
@@ -59,14 +56,14 @@ namespace DigitalWorld.Table.Editor
             };
         }
 
-        private void ExcelToJSON(string name)
+        private void ExcelToJson(string name)
         {
-            Helper.ConvertExcelToJSON(Table.Utility.ExcelTablePath, Table.Utility.ConfigSrcPath, name);
+            Helper.ConvertExcelToJson(Table.Utility.ExcelTablePath, Table.Utility.ConfigSrcPath, name);
         }
 
-        private void JSONToExcel(string name)
+        private void JsonToExcel(string name)
         {
-            Helper.ConvertJSONToExcel(Table.Utility.ConfigSrcPath, Table.Utility.ExcelTablePath, name);
+            Helper.ConvertJsonToExcel(Table.Utility.ConfigSrcPath, Table.Utility.ExcelTablePath, name);
         }
         #endregion
 
@@ -110,17 +107,17 @@ namespace DigitalWorld.Table.Editor
                 rect.xMax = width;
                 rect.xMin = rect.xMax - width * 0.2f;
 
-                if (GUI.Button(rect, "ExcelToJSON"))
+                if (GUI.Button(rect, "ExcelToJson"))
                 {
-                    ExcelToJSON(item.Name);
+                    ExcelToJson(item.Name);
                 }
 
                 rect.xMax = rect.xMin - 4;
                 rect.xMin = rect.xMax - width * 0.2f;
 
-                if (GUI.Button(rect, "JSONToExcel"))
+                if (GUI.Button(rect, "JsonToExcel"))
                 {
-                    JSONToExcel(item.Name);
+                    JsonToExcel(item.Name);
                 }
 
                 EditorGUI.EndDisabledGroup();
@@ -173,9 +170,9 @@ namespace DigitalWorld.Table.Editor
 
             EditorGUILayout.BeginVertical();
 
-            if (GUILayout.Button("ConvertExcelsToXmls"))
+            if (GUILayout.Button("ConvertExcelsToJsons"))
             {
-                ConvertExcelsToJSONs();
+                ConvertExcelsToJsons();
             }
 
             if (GUILayout.Button("Auto Process"))
@@ -186,9 +183,9 @@ namespace DigitalWorld.Table.Editor
 
             EditorGUILayout.BeginVertical();
 
-            if (GUILayout.Button("ConvertXmlsToExcels"))
+            if (GUILayout.Button("ConvertJsonsToExcels"))
             {
-                ConvertJSONsToExcels();
+                ConvertJsonsToExcels();
             }
 
             if (GUILayout.Button("Edit Models"))
@@ -217,17 +214,17 @@ namespace DigitalWorld.Table.Editor
             EditorWindow.GetWindow<TableEditorWindow>("Table Editor").Show();
         }
 
-        private static void ConvertExcelsToJSONs()
+        private static void ConvertExcelsToJsons()
         {
-            Helper.ConvertExcelsToJSONs(Table.Utility.ExcelTablePath, Table.Utility.ConfigSrcPath);
+            Helper.ConvertExcelsToJsons(Table.Utility.ExcelTablePath, Table.Utility.ConfigSrcPath);
         }
 
-        private static void ConvertJSONsToExcels()
+        private static void ConvertJsonsToExcels()
         {
-            Helper.ConvertXmlsToExcel(Table.Utility.ConfigSrcPath, Table.Utility.ExcelTablePath);
+            Helper.ConvertJsonsToExcel(Table.Utility.ConfigSrcPath, Table.Utility.ExcelTablePath);
         }
 
-        private static void ConvertJSONToBytes()
+        private static void ConvertJsonToBytes()
         {
             string bytesDirectory = Utilities.Utility.GetString(Table.Utility.configDataKey, Path.Combine(Utilities.Utility.GetProjectDataPath(), Table.Utility.defaultConfigData));
             if (!string.IsNullOrEmpty(bytesDirectory))
@@ -241,15 +238,15 @@ namespace DigitalWorld.Table.Editor
             }
 
             TableManager m = TableManager.Instance;
-            m.DecodeJSON();
+            m.DecodeJson();
             m.Encode();
 
             AssetDatabase.Refresh();
         }
 
-        private static void CopyXmlFromConfig()
+        private static void CopyJsonFromConfig()
         {
-            string targetPath = Utilities.Utility.GetString(Table.Utility.configXmlKey, Path.Combine(Utilities.Utility.GetProjectDataPath(), Table.Utility.defaultConfigXml));
+            string targetPath = Utilities.Utility.GetString(Table.Utility.configJsonKey, Path.Combine(Utilities.Utility.GetProjectDataPath(), Table.Utility.defaultConfigJson));
             Utility.ClearDirectory(targetPath);
 
             Utility.CopyDirectory(Utilities.Utility.GetString(Table.Utility.configSrcKey, Table.Utility.defaultConfigSrc), targetPath, null);
@@ -258,8 +255,8 @@ namespace DigitalWorld.Table.Editor
 
         private static void AutoProcess()
         {
-            CopyXmlFromConfig();
-            ConvertJSONToBytes();
+            CopyJsonFromConfig();
+            ConvertJsonToBytes();
         }
         #endregion
 

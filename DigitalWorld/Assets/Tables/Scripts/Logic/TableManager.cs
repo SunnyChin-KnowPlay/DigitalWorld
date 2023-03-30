@@ -19,10 +19,10 @@ namespace DigitalWorld.Table
         }
 
         #region Utility
-        private string GetXmlFilePath(string tableName)
+        private string GetJsonFilePath(string tableName)
         {
-            string folderPath = Utility.defaultConfigXml;
-            return string.Format("{0}/{1}.xml", folderPath, tableName);
+            string folderPath = Utility.defaultConfigJson;
+            return string.Format("{0}/{1}.json", folderPath, tableName);
         }
 
         private string GetDataFilePath(string tableName)
@@ -48,11 +48,11 @@ namespace DigitalWorld.Table
             return table;
         }
 
-        private T ProcessDecodeTableWithJSON<T>(string tableName) where T : class 
+        private T ProcessDecodeTableWithJson<T>(string tableName) where T : class 
         {
             T obj = default;
 #if UNITY_EDITOR
-            string fullPath = GetXmlFilePath(tableName);
+            string fullPath = GetJsonFilePath(tableName);
             TextAsset ta = AssetDatabase.LoadAssetAtPath<TextAsset>(fullPath);
 
             JsonSerializerSettings settings = new JsonSerializerSettings
@@ -76,7 +76,7 @@ namespace DigitalWorld.Table
                 using (MemoryStream stream = new MemoryStream())
                 {
                     BinaryFormatter formatter = new BinaryFormatter();
-                    formatter.Serialize(stream, this);
+                    formatter.Serialize(stream, table);
                     string fullPath = GetDataFilePath(tableName);
 
                     string directorPath = Path.GetDirectoryName(fullPath);

@@ -9,8 +9,8 @@ using Newtonsoft.Json;
 using DigitalWorld.Table.Editor;
 using System.Data;
 using Dream.Table;
-using DigitalWorld.Table;
-using Dream.FixMath;
+using UnityEditor;
+using UnityEngine;
 
 namespace TableGenerator
 {
@@ -26,14 +26,25 @@ namespace TableGenerator
             ExcelPackage.LicenseContext = LicenseContext.Commercial;
         }
         #region Convert
-        private static void ConvertJSONToExcel(string jsonFullPath, ExcelWorksheet sheet)
+        private static void ConvertJsonToExcel(string jsonFullPath, ExcelWorksheet sheet, string tableName)
         {
             using (FileStream fs = File.Open(jsonFullPath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-
                 using (StreamReader sr = new StreamReader(fs))
                 {
-                    object obj = JsonConvert.DeserializeObject(sr.ReadToEnd());
+                    Type tableType = null;
+
+                    string tableManagerFullName = string.Format("{0}.{1}", Application.productName, "Table.TableManager");
+                    Type tmType = GetType(tableManagerFullName);
+                    MethodInfo getTypeTypeMethod = tmType.GetMethod("GetTableType", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+
+                    if (null != getTypeTypeMethod)
+                    {
+                        object[] methodParameters = new object[] { tableName };
+                        tableType = getTypeTypeMethod.Invoke(null, methodParameters) as Type;
+                    }
+
+                    object obj = JsonConvert.DeserializeObject(sr.ReadToEnd(), tableType);
 
                     if (obj is ITable table)
                     {
@@ -56,44 +67,14 @@ namespace TableGenerator
                                 sheet.SetValue(i, j, v);
                                 j++;
                             }
+                            i++;
                         }
                     }
                 }
-
-                //XmlDocument xmlDocument = new XmlDocument();
-                //xmlDocument.Load(fs);
-
-                //XmlElement root = xmlDocument["table"];
-                //if (null != root)
-                //{
-                //    int rows = sheet.Dimension.Rows;
-                //    int cols = sheet.Dimension.Columns;
-
-                //    int i;
-                //    for (i = rows; i >= contentStartRowIndex; --i)
-                //    {
-                //        sheet.DeleteRow(i);
-                //    }
-
-                //    i = contentStartRowIndex;
-
-                //    foreach (XmlElement record in root.ChildNodes)
-                //    {
-                //        int j = 1;
-
-                //        foreach (XmlAttribute attribute in record.Attributes)
-                //        {
-                //            sheet.SetValue(i, j, attribute.Value);
-                //            j++;
-                //        }
-
-                //        i++;
-                //    }
-                //}
             }
         }
 
-        public static void ConvertJSONToExcel(string jsonsPath, string excelsPath, string fileName)
+        public static void ConvertJsonToExcel(string jsonsPath, string excelsPath, string fileName)
         {
             string jsonFullPath = Path.Combine(jsonsPath, fileName);
             jsonFullPath += ".json";
@@ -129,7 +110,7 @@ namespace TableGenerator
 
                 if (null != sheet)
                 {
-                    ConvertJSONToExcel(jsonFullPath, sheet);
+                    ConvertJsonToExcel(jsonFullPath, sheet, fileName);
                 }
 
                 package.Save();
@@ -147,65 +128,75 @@ namespace TableGenerator
             }
         }
 
-        public static void ConvertXmlsToExcel(string jsonsPath, string excelsPath)
+        public static void ConvertJsonsToExcel(string jsonsPath, string excelsPath)
         {
             string[] jsonFiles = Directory.GetFiles(jsonsPath);
 
             for (int j = 0; j < jsonFiles.Length; ++j)
             {
-                string jsonlFullPath = jsonFiles[j];
+                string jsonFullPath = jsonFiles[j];
 
                 string jsonFileName = Path.GetFileNameWithoutExtension(jsonFiles[j]);
                 string excelFullPath = Path.Combine(excelsPath, jsonFileName);
                 excelFullPath += ".xlsx";
 
                 bool isOpened = false;
-
-                if (File.Exists(excelFullPath))
+                try
                 {
-                    List<Process> processes = DigitalWorld.Table.Editor.Utility.GetProcessesLockingFile(excelFullPath);
+                    EditorUtility.DisplayProgressBar(string.Format("导出json至excel({0}/{1})", j, jsonFiles.Length), jsonFileName, j / (float)jsonFiles.Length);
 
-                    if (processes.Count > 0)
+                    if (File.Exists(excelFullPath))
                     {
-                        isOpened = true;
-                        for (int i = 0; i < processes.Count; ++i)
+                        List<Process> processes = DigitalWorld.Table.Editor.Utility.GetProcessesLockingFile(excelFullPath);
+
+                        if (processes.Count > 0)
                         {
-                            processes[i].Kill();
-                            processes[i].WaitForExit();
+                            isOpened = true;
+                            for (int i = 0; i < processes.Count; ++i)
+                            {
+                                processes[i].Kill();
+                                processes[i].WaitForExit();
+                            }
                         }
                     }
-                }
 
-                using (ExcelPackage package = new ExcelPackage(excelFullPath))
-                {
-                    ExcelWorkbook workbook = package.Workbook;
-                    ExcelWorksheet sheet = workbook.Worksheets["Data"];
-                    if (null == sheet)
+                    using (ExcelPackage package = new ExcelPackage(excelFullPath))
                     {
-                        sheet = workbook.Worksheets.Add("Data");
+                        ExcelWorkbook workbook = package.Workbook;
+                        ExcelWorksheet sheet = workbook.Worksheets["Data"];
+                        if (null == sheet)
+                        {
+                            sheet = workbook.Worksheets.Add("Data");
+
+                            if (null != sheet)
+                                workbook.Worksheets.MoveToStart("Data");
+                        }
 
                         if (null != sheet)
-                            workbook.Worksheets.MoveToStart("Data");
+                        {
+                            ConvertJsonToExcel(jsonFullPath, sheet, jsonFileName);
+                        }
+
+                        package.Save();
                     }
 
-                    if (null != sheet)
+                    if (isOpened)
                     {
-                        ConvertJSONToExcel(jsonlFullPath, sheet);
+                        Process process = new Process();
+                        ProcessStartInfo processStartInfo = new ProcessStartInfo(excelFullPath)
+                        {
+                            UseShellExecute = true
+                        };
+                        process.StartInfo = processStartInfo;
+                        process.Start();
                     }
-
-                    package.Save();
                 }
-
-                if (isOpened)
+                finally
                 {
-                    Process process = new Process();
-                    ProcessStartInfo processStartInfo = new ProcessStartInfo(excelFullPath)
-                    {
-                        UseShellExecute = true
-                    };
-                    process.StartInfo = processStartInfo;
-                    process.Start();
+                    EditorUtility.ClearProgressBar();
                 }
+
+
             }
         }
 
@@ -496,7 +487,7 @@ namespace TableGenerator
         }
         #endregion
 
-        public static void ConvertExcelToJSON(string excelsPath, string jsonsPath, string fileName)
+        public static void ConvertExcelToJson(string excelsPath, string jsonsPath, string fileName)
         {
             if (string.IsNullOrEmpty(fileName))
                 throw new FileNotFoundException(fileName);
@@ -524,7 +515,7 @@ namespace TableGenerator
         /// </summary>
         /// <param name="tablePath"></param>
         /// <param name="configPath"></param>
-        public static void ConvertExcelsToJSONs(string excelsPath, string jsonsPath)
+        public static void ConvertExcelsToJsons(string excelsPath, string jsonsPath)
         {
             #region 先清空配置文件夹
             string[] xmlFiles = Directory.GetFiles(jsonsPath);
@@ -539,31 +530,42 @@ namespace TableGenerator
 
             string[] excelFiles = Directory.GetFiles(excelsPath);
 
-            for (int j = 0; j < excelFiles.Length; ++j)
+            try
             {
-                string excelFullPath = excelFiles[j];
-                string fileName = Path.GetFileNameWithoutExtension(excelFullPath);
-
-                if (fileName.Contains("~$"))
+                for (int j = 0; j < excelFiles.Length; ++j)
                 {
-                    continue;
-                }
+                    string excelFullPath = excelFiles[j];
+                    string fileName = Path.GetFileNameWithoutExtension(excelFullPath);
 
-                FileInfo fileInfo = new FileInfo(excelFullPath);
-
-                using (ExcelPackage package = new ExcelPackage(fileInfo))
-                {
-                    ExcelWorkbook workbook = package.Workbook;
-
-                    ExcelWorksheet sheet = workbook.Worksheets["Data"];
-                    if (null != sheet)
+                    if (fileName.Contains("~$"))
                     {
-                        string configFullPath = Path.Combine(jsonsPath, fileName);
-                        configFullPath += ".json";
-                        ConvertExcelToConfig(sheet, configFullPath, fileName);
+                        continue;
+                    }
+
+                    EditorUtility.DisplayProgressBar(string.Format("导出excel至json({0}/{1})", j, excelFiles.Length), fileName, j / (float)excelFiles.Length);
+
+                    FileInfo fileInfo = new FileInfo(excelFullPath);
+
+                    using (ExcelPackage package = new ExcelPackage(fileInfo))
+                    {
+                        ExcelWorkbook workbook = package.Workbook;
+
+                        ExcelWorksheet sheet = workbook.Worksheets["Data"];
+                        if (null != sheet)
+                        {
+                            string configFullPath = Path.Combine(jsonsPath, fileName);
+                            configFullPath += ".json";
+                            ConvertExcelToConfig(sheet, configFullPath, fileName);
+                        }
                     }
                 }
             }
+            finally
+            {
+                EditorUtility.ClearProgressBar();
+            }
+
+
         }
 
         #region Common
@@ -611,24 +613,12 @@ namespace TableGenerator
         {
             DataTable dataTable = new DataTable(tableName);
 
-            List<string> colNames = new List<string>();
-            List<Type> colTypes = new List<Type>();
-
             // 获取列名
             foreach (var firstRowCell in worksheet.Cells[2, 1, 2, worksheet.Dimension.End.Column])
             {
-                colNames.Add(firstRowCell.Text);
+                dataTable.Columns.Add(firstRowCell.Text);
             }
 
-            foreach (var firstRowCell in worksheet.Cells[3, 1, 3, worksheet.Dimension.End.Column])
-            {
-                colTypes.Add(DigitalWorld.Table.Editor.Utility.GetType(firstRowCell.Text));
-            }
-
-            for (int i = 0; i < colNames.Count; ++i)
-            {
-                dataTable.Columns.Add(colNames[i], colTypes[i]);
-            }
 
             // 获取数据
             for (var rowNumber = contentStartRowIndex; rowNumber <= worksheet.Dimension.End.Row; rowNumber++)
@@ -637,27 +627,37 @@ namespace TableGenerator
                 var newRow = dataTable.NewRow();
                 foreach (var cell in row)
                 {
-                    
-                    newRow[cell.Start.Column - 1] = Convert.ChangeType(cell.Text, colTypes[cell.Start.Column - 1]);
-                    //newRow[cell.Start.Column - 1] = cell.Text;
+                    newRow[cell.Start.Column - 1] = cell.Text;
                 }
 
                 dataTable.Rows.Add(newRow);
             }
 
-            ITable table = TableManager.CreateTable(tableName);
-            table.LoadTable(dataTable);
+            string tableManagerFullName = string.Format("{0}.{1}", Application.productName, "Table.TableManager");
+            Type tmType = GetType(tableManagerFullName);
+            MethodInfo createTableMethod = tmType.GetMethod("CreateTable", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
 
-            // 将 DataTable 转换为 JSON
-            JsonSerializerSettings settings = new JsonSerializerSettings
+            if (null != createTableMethod)
             {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                TypeNameHandling = TypeNameHandling.All,
-                Formatting = Formatting.Indented,
-            };
-            string json = JsonConvert.SerializeObject(table, settings);
+                object[] methodParameters = new object[] { tableName };
 
-            return json;
+                ITable table = createTableMethod.Invoke(null, methodParameters) as ITable;
+                table.LoadTable(dataTable);
+
+                // 将 DataTable 转换为 JSON
+                JsonSerializerSettings settings = new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    TypeNameHandling = TypeNameHandling.All,
+                    Formatting = Formatting.Indented,
+                };
+                string json = JsonConvert.SerializeObject(table, settings);
+
+                return json;
+            }
+
+            return string.Empty;
+
         }
         #endregion
     }

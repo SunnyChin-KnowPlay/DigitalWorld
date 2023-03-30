@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<table>
-  <record id="1" name="友方Npc阵营" />
-  <record id="2" name="敌方Npc阵营" />
-  <record id="3" name="玩家阵营" />
-  <record id="4" name="敌对阵营" />
-</table>

@@ -201,7 +201,7 @@ namespace Assets.Tables.Editor.Templates
             
             #line default
             #line hidden
-            this.Write("        }\r\n\r\n        public override void SetupRow(DataRow row)\r\n        {\r\n");
+            this.Write("        }\r\n\r\n        public override void ToDataRow(DataRow row)\r\n        {\r\n");
             
             #line 70 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
 
@@ -234,7 +234,7 @@ namespace Assets.Tables.Editor.Templates
             
             #line default
             #line hidden
-            this.Write("        }\r\n\r\n        public override void UpdateRow(DataRow row)\r\n        {\r\n");
+            this.Write("        }\r\n\r\n        public override void FromDataRow(DataRow row)\r\n        {\r\n");
             
             #line 82 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
 
@@ -258,14 +258,21 @@ namespace Assets.Tables.Editor.Templates
             
             #line default
             #line hidden
-            this.Write(")row[\"");
+            this.Write(")ParseDataField(row, \"");
             
             #line 86 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(variableNames[i]));
             
             #line default
             #line hidden
-            this.Write("\"];\r\n");
+            this.Write("\", typeof(");
+            
+            #line 86 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(variableTypes[i]));
+            
+            #line default
+            #line hidden
+            this.Write("));\r\n");
             
             #line 87 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
 

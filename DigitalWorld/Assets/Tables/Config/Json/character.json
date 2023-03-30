@@ -1,0 +1,69 @@
+{
+  "$type": "DigitalWorld.Table.CharacterTable, Assembly-CSharp",
+  "infos": {
+    "$type": "System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[DigitalWorld.Table.CharacterInfo, Assembly-CSharp]], mscorlib",
+    "1001": {
+      "$type": "DigitalWorld.Table.CharacterInfo, Assembly-CSharp",
+      "id": 1001,
+      "name": "兽人",
+      "hp": 100,
+      "attack": 10,
+      "moveSpeed": 3000,
+      "prefabPath": "Assets/Res/Unit/Characters/Orc.prefab",
+      "scaleSize": {
+        "$type": "Dream.FixMath.FixVector3, Dream.FixMath",
+        "X": 0.0,
+        "Y": 2.0,
+        "Z": 0.0,
+        "Magnitude": 2.0,
+        "MagnitudeXZ": 0.0,
+        "SqrMagnitude": 4.0,
+        "SqrMagnitudePrecision": 4000000,
+        "SqrMagnitudeXZ": 0.0,
+        "SqrMagnitudeXZPrecision": 0
+      }
+    },
+    "1002": {
+      "$type": "DigitalWorld.Table.CharacterInfo, Assembly-CSharp",
+      "id": 1002,
+      "name": "龙",
+      "hp": 100,
+      "attack": 10,
+      "moveSpeed": 1000,
+      "prefabPath": "Assets/Res/Unit/Characters/Dragon.prefab",
+      "scaleSize": {
+        "$type": "Dream.FixMath.FixVector3, Dream.FixMath",
+        "X": 0.0,
+        "Y": 2.0,
+        "Z": 0.0,
+        "Magnitude": 2.0,
+        "MagnitudeXZ": 0.0,
+        "SqrMagnitude": 4.0,
+        "SqrMagnitudePrecision": 4000000,
+        "SqrMagnitudeXZ": 0.0,
+        "SqrMagnitudeXZPrecision": 0
+      }
+    },
+    "1003": {
+      "$type": "DigitalWorld.Table.CharacterInfo, Assembly-CSharp",
+      "id": 1003,
+      "name": "骷髅",
+      "hp": 50,
+      "attack": 5,
+      "moveSpeed": 1000,
+      "prefabPath": "Assets/Res/Unit/Characters/Skeleton.prefab",
+      "scaleSize": {
+        "$type": "Dream.FixMath.FixVector3, Dream.FixMath",
+        "X": 0.0,
+        "Y": 2.0,
+        "Z": 0.0,
+        "Magnitude": 2.0,
+        "MagnitudeXZ": 0.0,
+        "SqrMagnitude": 4.0,
+        "SqrMagnitudePrecision": 4000000,
+        "SqrMagnitudeXZ": 0.0,
+        "SqrMagnitudeXZPrecision": 0
+      }
+    }
+  }
+}

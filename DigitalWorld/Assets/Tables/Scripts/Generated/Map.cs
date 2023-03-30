@@ -65,7 +65,7 @@ namespace DigitalWorld.Table
 			info.AddValue("level", this.level);
         }
 
-        public override void SetupRow(DataRow row)
+        public override void ToDataRow(DataRow row)
         {
             row["id"] = id;
             row["name"] = name;
@@ -73,12 +73,12 @@ namespace DigitalWorld.Table
             row["level"] = level;
         }
 
-        public override void UpdateRow(DataRow row)
+        public override void FromDataRow(DataRow row)
         {
-            this.id = (System.Int32)row["id"];
-            this.name = (System.String)row["name"];
-            this.assetPath = (System.String)row["assetPath"];
-            this.level = (System.Int32)row["level"];
+            this.id = (System.Int32)ParseDataField(row, "id", typeof(System.Int32));
+            this.name = (System.String)ParseDataField(row, "name", typeof(System.String));
+            this.assetPath = (System.String)ParseDataField(row, "assetPath", typeof(System.String));
+            this.level = (System.Int32)ParseDataField(row, "level", typeof(System.Int32));
         }
         #endregion
     }
@@ -88,8 +88,20 @@ namespace DigitalWorld.Table
     /// 地图
     /// </summary>
     [TableNameAttibute("map")]
+    [Serializable]
     public partial class MapTable : TableBase<MapInfo>
     {
         public override string TableName => "map";
+
+        public MapTable()
+        {
+
+        }
+
+        public MapTable(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+
+        }
     }
 }

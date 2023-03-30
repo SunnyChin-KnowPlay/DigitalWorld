@@ -1,0 +1,26 @@
+{
+  "$type": "DigitalWorld.Table.CampTable, Assembly-CSharp",
+  "infos": {
+    "$type": "System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[DigitalWorld.Table.CampInfo, Assembly-CSharp]], mscorlib",
+    "1": {
+      "$type": "DigitalWorld.Table.CampInfo, Assembly-CSharp",
+      "id": 1,
+      "name": "友方Npc阵营"
+    },
+    "2": {
+      "$type": "DigitalWorld.Table.CampInfo, Assembly-CSharp",
+      "id": 2,
+      "name": "敌方Npc阵营"
+    },
+    "3": {
+      "$type": "DigitalWorld.Table.CampInfo, Assembly-CSharp",
+      "id": 3,
+      "name": "玩家阵营"
+    },
+    "4": {
+      "$type": "DigitalWorld.Table.CampInfo, Assembly-CSharp",
+      "id": 4,
+      "name": "敌对阵营"
+    }
+  }
+}
