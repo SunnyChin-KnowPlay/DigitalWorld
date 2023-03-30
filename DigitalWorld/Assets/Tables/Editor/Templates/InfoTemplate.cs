@@ -234,6 +234,46 @@ namespace Assets.Tables.Editor.Templates
             
             #line default
             #line hidden
+            this.Write("        }\r\n\r\n        public override void UpdateRow(DataRow row)\r\n        {\r\n");
+            
+            #line 82 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+
+			for (int i = 0; i < variableTypes.Length; ++i)
+			{
+
+            
+            #line default
+            #line hidden
+            this.Write("            this.");
+            
+            #line 86 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(variableNames[i]));
+            
+            #line default
+            #line hidden
+            this.Write(" = (");
+            
+            #line 86 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(variableTypes[i]));
+            
+            #line default
+            #line hidden
+            this.Write(")row[\"");
+            
+            #line 86 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(variableNames[i]));
+            
+            #line default
+            #line hidden
+            this.Write("\"];\r\n");
+            
+            #line 87 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\InfoTemplate.tt"
+
+			}
+
+            
+            #line default
+            #line hidden
             this.Write("        }\r\n        #endregion\r\n    }\r\n");
             return this.GenerationEnvironment.ToString();
         }

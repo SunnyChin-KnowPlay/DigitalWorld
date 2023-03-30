@@ -9,6 +9,8 @@ using Newtonsoft.Json;
 using DigitalWorld.Table.Editor;
 using System.Data;
 using Dream.Table;
+using DigitalWorld.Table;
+using Dream.FixMath;
 
 namespace TableGenerator
 {
@@ -33,9 +35,10 @@ namespace TableGenerator
                 {
                     object obj = JsonConvert.DeserializeObject(sr.ReadToEnd());
 
-                    if (obj is ITable<InfoBase> table)
+                    if (obj is ITable table)
                     {
-                        int rows = table.Infos.Count;
+                        DataTable dt = table.GetTable();
+                        int rows = dt.Rows.Count;
 
                         int i;
                         for (i = rows; i >= contentStartRowIndex; --i)
@@ -45,7 +48,6 @@ namespace TableGenerator
 
                         i = contentStartRowIndex;
 
-                        DataTable dt = table.GetTable();
                         foreach (DataRow row in dt.Rows)
                         {
                             int j = 1;
@@ -91,7 +93,7 @@ namespace TableGenerator
             }
         }
 
-        public static void ConvertXmlToExcel(string jsonsPath, string excelsPath, string fileName)
+        public static void ConvertJSONToExcel(string jsonsPath, string excelsPath, string fileName)
         {
             string jsonFullPath = Path.Combine(jsonsPath, fileName);
             jsonFullPath += ".json";
@@ -268,47 +270,19 @@ namespace TableGenerator
             }
         }
 
-        private static void ConvertExcelToConfig(ExcelWorksheet sheet, string configFullPath)
+        private static void ConvertExcelToConfig(ExcelWorksheet sheet, string configFullPath, string fileName)
         {
             using (FileStream fs = File.Open(configFullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
             {
                 fs.Seek(0, SeekOrigin.Begin);
                 fs.SetLength(0);
 
-                string jsonString = ExcelWorksheetToJson(sheet);
+                string jsonString = ExcelWorksheetToJson(sheet, fileName);
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
                     sw.Write(jsonString);
                 }
 
-
-                //    int rows = sheet.Dimension.Rows;
-                //int cols = sheet.Dimension.Columns;
-
-
-
-                //XmlDocument xmlDocument = new XmlDocument();
-                //XmlDeclaration xmlDeclaration = xmlDocument.CreateXmlDeclaration("1.0", "utf-8", null);
-                //xmlDocument.AppendChild(xmlDeclaration);
-
-                //XmlElement root = xmlDocument.CreateElement("table");
-
-                //for (int i = contentStartRowIndex; i <= rows; ++i)
-                //{
-                //    XmlElement record = xmlDocument.CreateElement("record");
-
-                //    for (int j = 1; j <= cols; ++j)
-                //    {
-                //        object head = sheet.GetValue(keyRowIndex, j);
-                //        object value = sheet.GetValue(i, j);
-                //        record.SetAttribute(null != head ? head.ToString() : string.Empty, null != value ? value.ToString() : string.Empty);
-                //    }
-                //    root.AppendChild(record); 
-                //}
-
-                //xmlDocument.AppendChild(root);
-                //xmlDocument.Save(fs);
-                //fs.Close();
             }
         }
         #endregion
@@ -522,7 +496,7 @@ namespace TableGenerator
         }
         #endregion
 
-        public static void ConvertExcelToXml(string excelsPath, string xmlsPath, string fileName)
+        public static void ConvertExcelToJSON(string excelsPath, string jsonsPath, string fileName)
         {
             if (string.IsNullOrEmpty(fileName))
                 throw new FileNotFoundException(fileName);
@@ -537,9 +511,9 @@ namespace TableGenerator
                 ExcelWorksheet sheet = workbook.Worksheets["Data"];
                 if (null != sheet)
                 {
-                    string configFullPath = Path.Combine(xmlsPath, fileName);
+                    string configFullPath = Path.Combine(jsonsPath, fileName);
                     configFullPath += ".json";
-                    ConvertExcelToConfig(sheet, configFullPath);
+                    ConvertExcelToConfig(sheet, configFullPath, fileName);
                 }
             }
         }
@@ -586,7 +560,7 @@ namespace TableGenerator
                     {
                         string configFullPath = Path.Combine(jsonsPath, fileName);
                         configFullPath += ".json";
-                        ConvertExcelToConfig(sheet, configFullPath);
+                        ConvertExcelToConfig(sheet, configFullPath, fileName);
                     }
                 }
             }
@@ -633,14 +607,27 @@ namespace TableGenerator
             return ret;
         }
 
-        public static string ExcelWorksheetToJson(ExcelWorksheet worksheet)
+        public static string ExcelWorksheetToJson(ExcelWorksheet worksheet, string tableName)
         {
-            DataTable dataTable = new DataTable(worksheet.Name);
+            DataTable dataTable = new DataTable(tableName);
+
+            List<string> colNames = new List<string>();
+            List<Type> colTypes = new List<Type>();
 
             // 获取列名
             foreach (var firstRowCell in worksheet.Cells[2, 1, 2, worksheet.Dimension.End.Column])
             {
-                dataTable.Columns.Add(firstRowCell.Text);
+                colNames.Add(firstRowCell.Text);
+            }
+
+            foreach (var firstRowCell in worksheet.Cells[3, 1, 3, worksheet.Dimension.End.Column])
+            {
+                colTypes.Add(DigitalWorld.Table.Editor.Utility.GetType(firstRowCell.Text));
+            }
+
+            for (int i = 0; i < colNames.Count; ++i)
+            {
+                dataTable.Columns.Add(colNames[i], colTypes[i]);
             }
 
             // 获取数据
@@ -650,14 +637,25 @@ namespace TableGenerator
                 var newRow = dataTable.NewRow();
                 foreach (var cell in row)
                 {
-                    newRow[cell.Start.Column - 1] = cell.Text;
+                    
+                    newRow[cell.Start.Column - 1] = Convert.ChangeType(cell.Text, colTypes[cell.Start.Column - 1]);
+                    //newRow[cell.Start.Column - 1] = cell.Text;
                 }
 
                 dataTable.Rows.Add(newRow);
             }
 
+            ITable table = TableManager.CreateTable(tableName);
+            table.LoadTable(dataTable);
+
             // 将 DataTable 转换为 JSON
-            string json = JsonConvert.SerializeObject(dataTable);
+            JsonSerializerSettings settings = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                TypeNameHandling = TypeNameHandling.All,
+                Formatting = Formatting.Indented,
+            };
+            string json = JsonConvert.SerializeObject(table, settings);
 
             return json;
         }

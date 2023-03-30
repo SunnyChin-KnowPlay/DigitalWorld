@@ -1,5 +1,5 @@
 using Dream.Core;
-using Dream.Proto;
+using Dream.Table;
 
 namespace DigitalWorld.Table
 {
@@ -59,6 +59,29 @@ namespace DigitalWorld.Table
         private void ApplyEncodeTable(object table, string tableName)
         {
             this.ProcessEncodeTable(table, tableName);
+        }
+        #endregion
+
+        #region Creator
+        public static ITable CreateTable(string tableName)
+        {
+            switch (tableName)
+            {
+                case "character":
+                    return new CharacterTable();
+                case "map":
+                    return new MapTable();
+                case "camp":
+                    return new CampTable();
+                case "skill":
+                    return new SkillTable();
+                case "building":
+                    return new BuildingTable();
+                default:
+                {
+                    return null;
+                }
+            }
         }
         #endregion
 

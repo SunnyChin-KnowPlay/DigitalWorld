@@ -64,24 +64,6 @@ namespace DigitalWorld.Table
             };
 
             obj = JsonConvert.DeserializeObject<T>(ta.text, settings);
-
-            //Trigger trigger = JsonConvert.DeserializeObject<Trigger>(ta.text, settings);
-            //trigger.RelativeFolderPath = System.IO.Path.GetDirectoryName(relativePath);
-
-
-            //string fullPath = GetXmlFilePath(tableName);
-            //TextAsset ta = UnityEditor.AssetDatabase.LoadAssetAtPath(fullPath, typeof(TextAsset)) as TextAsset;
-
-            //if (null != ta)
-            //{
-            //    XmlDocument xmlDocument = new XmlDocument();
-            //    xmlDocument.LoadXml(ta.text);
-            //    XmlElement root = xmlDocument["table"];
-            //    if (null != root)
-            //    {
-            //        table.DecodeXml(root);
-            //    }
-            //}
 #endif
             return obj;
         }

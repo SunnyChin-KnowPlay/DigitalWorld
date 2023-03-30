@@ -76,5 +76,17 @@
 			}
 #>
         }
+
+        public override void UpdateRow(DataRow row)
+        {
+<#
+			for (int i = 0; i < variableTypes.Length; ++i)
+			{
+#>
+            this.<#= variableNames[i] #> = (<#= variableTypes[i] #>)row["<#= variableNames[i] #>"];
+<#
+			}
+#>
+        }
         #endregion
     }

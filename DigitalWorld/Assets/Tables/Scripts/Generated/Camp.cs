@@ -56,6 +56,12 @@ namespace DigitalWorld.Table
             row["id"] = id;
             row["name"] = name;
         }
+
+        public override void UpdateRow(DataRow row)
+        {
+            this.id = (System.Int32)row["id"];
+            this.name = (System.String)row["name"];
+        }
         #endregion
     }
 

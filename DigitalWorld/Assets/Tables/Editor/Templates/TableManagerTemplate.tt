@@ -7,7 +7,7 @@
 <#@ parameter name="tableNames" type="System.String[]"#>
 <#@ parameter name="tableClassNames" type="System.String[]"#>
 using Dream.Core;
-using Dream.Proto;
+using Dream.Table;
 
 namespace <#= namespaceName #>
 {
@@ -79,6 +79,28 @@ namespace <#= namespaceName #>
         private void ApplyEncodeTable(object table, string tableName)
         {
             this.ProcessEncodeTable(table, tableName);
+        }
+        #endregion
+
+        #region Creator
+        public static ITable CreateTable(string tableName)
+        {
+            switch (tableName)
+            {
+<#
+                for (int i = 0; i < tableNames.Length; ++i)
+                {
+#>
+                case "<#= tableNames[i] #>":
+                    return new <#= tableClassNames[i] #>Table();
+<#
+                }
+#>
+                default:
+                {
+                    return null;
+                }
+            }
         }
         #endregion
 

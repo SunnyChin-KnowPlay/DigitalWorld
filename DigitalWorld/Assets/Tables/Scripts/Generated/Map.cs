@@ -72,6 +72,14 @@ namespace DigitalWorld.Table
             row["assetPath"] = assetPath;
             row["level"] = level;
         }
+
+        public override void UpdateRow(DataRow row)
+        {
+            this.id = (System.Int32)row["id"];
+            this.name = (System.String)row["name"];
+            this.assetPath = (System.String)row["assetPath"];
+            this.level = (System.Int32)row["level"];
+        }
         #endregion
     }
 

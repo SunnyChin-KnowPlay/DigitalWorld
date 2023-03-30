@@ -96,6 +96,19 @@ namespace DigitalWorld.Table
             row["prefabPath"] = prefabPath;
             row["scaleSize"] = scaleSize;
         }
+
+        public override void UpdateRow(DataRow row)
+        {
+            var vvv = row["id"];
+
+            this.id = (System.Int32)row["id"];
+            this.name = (System.String)row["name"];
+            this.hp = (System.Int32)row["hp"];
+            this.attack = (System.Int32)row["attack"];
+            this.moveSpeed = (System.Int32)row["moveSpeed"];
+            this.prefabPath = (System.String)row["prefabPath"];
+            this.scaleSize = (Dream.FixMath.FixVector3)row["scaleSize"];
+        }
         #endregion
     }
 

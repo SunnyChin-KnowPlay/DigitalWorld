@@ -1,4 +1,6 @@
 using DigitalWorld.Utilities;
+using Newtonsoft.Json;
+using OfficeOpenXml;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -21,7 +23,7 @@ namespace DigitalWorld.Table.Editor
         #region Construction
         static TableEditorWindow()
         {
-
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
         }
         #endregion
 
@@ -32,20 +34,19 @@ namespace DigitalWorld.Table.Editor
 
             string fullPath = Table.Utility.ModelPath;
 
-            //XmlDocument xmlDocument = new XmlDocument();
-            //xmlDocument.Load(fullPath);
-            //XmlElement root = xmlDocument["models"];
-            //if (null != root)
-            //{
-            //    foreach (var node in root.ChildNodes)
-            //    {
-            //        XmlElement childEle = node as XmlElement;
+            using FileStream fs = File.Open(fullPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            using StreamReader streamReader = new StreamReader(fs);
+            string jsonResult = streamReader.ReadToEnd();
+            JsonSerializerSettings settings = new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.All,
+                Formatting = Newtonsoft.Json.Formatting.Indented,
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            };
 
-            //        NodeModel model = new NodeModel();
-            //        model.Deserialize(childEle);
-            //        this.models.Add(model);
-            //    }
-            //}
+            Model model = JsonConvert.DeserializeObject<Model>(jsonResult, settings);
+            this.models.Clear();
+            this.models.AddRange(model.models);
 
             reorderableModelsList = new ReorderableList(this.models, typeof(NodeField))
             {
@@ -58,14 +59,14 @@ namespace DigitalWorld.Table.Editor
             };
         }
 
-        private void ExcelToXml(string name)
+        private void ExcelToJSON(string name)
         {
-            Helper.ConvertExcelToXml(Table.Utility.ExcelTablePath, Table.Utility.ConfigSrcPath, name);
+            Helper.ConvertExcelToJSON(Table.Utility.ExcelTablePath, Table.Utility.ConfigSrcPath, name);
         }
 
-        private void XmlToExcel(string name)
+        private void JSONToExcel(string name)
         {
-            Helper.ConvertXmlToExcel(Table.Utility.ConfigSrcPath, Table.Utility.ExcelTablePath, name);
+            Helper.ConvertJSONToExcel(Table.Utility.ConfigSrcPath, Table.Utility.ExcelTablePath, name);
         }
         #endregion
 
@@ -109,17 +110,17 @@ namespace DigitalWorld.Table.Editor
                 rect.xMax = width;
                 rect.xMin = rect.xMax - width * 0.2f;
 
-                if (GUI.Button(rect, "ExcelToXml"))
+                if (GUI.Button(rect, "ExcelToJSON"))
                 {
-                    ExcelToXml(item.Name);
+                    ExcelToJSON(item.Name);
                 }
 
                 rect.xMax = rect.xMin - 4;
                 rect.xMin = rect.xMax - width * 0.2f;
 
-                if (GUI.Button(rect, "XmlToExcel"))
+                if (GUI.Button(rect, "JSONToExcel"))
                 {
-                    XmlToExcel(item.Name);
+                    JSONToExcel(item.Name);
                 }
 
                 EditorGUI.EndDisabledGroup();

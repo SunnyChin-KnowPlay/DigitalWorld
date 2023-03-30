@@ -72,6 +72,14 @@ namespace DigitalWorld.Table
             row["size"] = size;
             row["prefabPath"] = prefabPath;
         }
+
+        public override void UpdateRow(DataRow row)
+        {
+            this.id = (System.Int32)row["id"];
+            this.name = (System.String)row["name"];
+            this.size = (Dream.FixMath.FixVector3)row["size"];
+            this.prefabPath = (System.String)row["prefabPath"];
+        }
         #endregion
     }
 

@@ -28,7 +28,7 @@ namespace Assets.Tables.Editor.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("using Dream.Core;\r\nusing Dream.Proto;\r\n\r\nnamespace ");
+            this.Write("using Dream.Core;\r\nusing Dream.Table;\r\n\r\nnamespace ");
             
             #line 12 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(namespaceName));
@@ -207,9 +207,54 @@ namespace Assets.Tables.Editor.Templates
             
             #line default
             #line hidden
-            this.Write("        }\r\n\r\n        private void ApplyEncodeTable(object table, string tableName" +
-                    ")\r\n        {\r\n            this.ProcessEncodeTable(table, tableName);\r\n        }\r" +
-                    "\n        #endregion\r\n\r\n    }\r\n}\r\n");
+            this.Write(@"        }
+
+        private void ApplyEncodeTable(object table, string tableName)
+        {
+            this.ProcessEncodeTable(table, tableName);
+        }
+        #endregion
+
+        #region Creator
+        public static ITable CreateTable(string tableName)
+        {
+            switch (tableName)
+            {
+");
+            
+            #line 90 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
+
+                for (int i = 0; i < tableNames.Length; ++i)
+                {
+
+            
+            #line default
+            #line hidden
+            this.Write("                case \"");
+            
+            #line 94 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(tableNames[i]));
+            
+            #line default
+            #line hidden
+            this.Write("\":\r\n                    return new ");
+            
+            #line 95 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(tableClassNames[i]));
+            
+            #line default
+            #line hidden
+            this.Write("Table();\r\n");
+            
+            #line 96 "D:\Projects\DigitalWorld\DigitalWorld\DigitalWorld\Assets\Tables\Editor\Templates\TableManagerTemplate.tt"
+
+                }
+
+            
+            #line default
+            #line hidden
+            this.Write("                default:\r\n                {\r\n                    return null;\r\n  " +
+                    "              }\r\n            }\r\n        }\r\n        #endregion\r\n\r\n    }\r\n}\r\n");
             return this.GenerationEnvironment.ToString();
         }
         

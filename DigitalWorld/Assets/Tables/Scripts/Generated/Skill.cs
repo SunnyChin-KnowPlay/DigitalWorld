@@ -80,6 +80,15 @@ namespace DigitalWorld.Table
             row["behaviourAssetPath"] = behaviourAssetPath;
             row["castRadius"] = castRadius;
         }
+
+        public override void UpdateRow(DataRow row)
+        {
+            this.id = (System.Int32)row["id"];
+            this.name = (System.String)row["name"];
+            this.coolDownTime = (System.Int32)row["coolDownTime"];
+            this.behaviourAssetPath = (System.String)row["behaviourAssetPath"];
+            this.castRadius = (System.Int32)row["castRadius"];
+        }
         #endregion
     }
 
