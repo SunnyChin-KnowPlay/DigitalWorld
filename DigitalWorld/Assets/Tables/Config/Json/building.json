@@ -1,6 +1,24 @@
 {
   "$type": "DigitalWorld.Table.BuildingTable, Assembly-CSharp",
   "infos": {
-    "$type": "System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[DigitalWorld.Table.BuildingInfo, Assembly-CSharp]], mscorlib"
+    "$type": "System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[DigitalWorld.Table.BuildingInfo, Assembly-CSharp]], mscorlib",
+    "1001": {
+      "$type": "DigitalWorld.Table.BuildingInfo, Assembly-CSharp",
+      "id": 1001,
+      "name": "民房",
+      "size": {
+        "$type": "Dream.FixMath.FixVector3, Dream.FixMath",
+        "X": 3000.00024,
+        "Y": 2000.00012,
+        "Z": 3000.00024,
+        "Magnitude": 4690.415,
+        "MagnitudeXZ": 4242.64,
+        "SqrMagnitude": 2.2E+07,
+        "SqrMagnitudePrecision": 22000000000000,
+        "SqrMagnitudeXZ": 1.8E+07,
+        "SqrMagnitudeXZPrecision": 18000000000000
+      },
+      "prefabPath": "Assets/Res/Unit/Buildings/House_1.prefab"
+    }
   }
 }

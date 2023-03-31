@@ -58,7 +58,7 @@ namespace DreamEngine.Core
             {
                 System.Type type = typeof(T);
 
-                instance = FindObjectOfType(type) as T;
+                instance = FindFirstObjectByType(type) as T;
                 if (null == instance)
                 {
                     string name = string.Format("Singleton of {0}", type.Name);

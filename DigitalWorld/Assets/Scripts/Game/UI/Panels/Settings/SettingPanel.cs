@@ -74,7 +74,7 @@ namespace DigitalWorld.Game.UI.Settings
         {
             base.OnDisable();
 
-            Events.EventManager.Instance?.UnregisterListener(Events.EEventType.Escape, OnEscape);
+            Events.EventManager.Instance.UnregisterListener(Events.EEventType.Escape, OnEscape);
         }
         #endregion
 

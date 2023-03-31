@@ -11,6 +11,19 @@ namespace DigitalWorld.Game
         #region Override
         public override string Name => "Buildings";
         public override EUnitType Type => EUnitType.Building;
+
+        /// <summary>
+        /// 放置器
+        /// </summary>
+        public BuildingPlacement Placement { get; private set; }
+        #endregion
+
+        #region Mono
+        protected override void Awake()
+        {
+            base.Awake();
+            Placement = this.gameObject.AddComponent<BuildingPlacement>();
+        }
         #endregion
     }
 }

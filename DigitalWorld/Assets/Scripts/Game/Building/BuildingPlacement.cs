@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace DigitalWorld.Game
 {
     /// <summary>
-    /// 建筑摆放
+    /// 建筑摆放器
     /// </summary>
     public class BuildingPlacement : MonoBehaviour
     {

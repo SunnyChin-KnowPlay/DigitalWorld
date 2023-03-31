@@ -42,7 +42,7 @@ namespace DigitalWorld.Game
 
         private void OnDisable()
         {
-            Events.EventManager.Instance?.UnregisterListener(Events.EEventType.Escape, OnUnselectTarget);
+            Events.EventManager.Instance.UnregisterListener(Events.EEventType.Escape, OnUnselectTarget);
         }
         #endregion
 

@@ -122,7 +122,7 @@ namespace DigitalWorld.Game.UI
 
         private void UnregisterEventListeners()
         {
-            Events.EventManager.Instance?.UnregisterListener(Events.EEventType.Escape, OnEscape);
+            Events.EventManager.Instance.UnregisterListener(Events.EEventType.Escape, OnEscape);
         }
 
         /// <summary>

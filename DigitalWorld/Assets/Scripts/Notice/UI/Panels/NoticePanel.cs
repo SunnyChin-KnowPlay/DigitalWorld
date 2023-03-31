@@ -84,7 +84,7 @@ namespace DigitalWorld.Notices.UI
             base.OnDisable();
 
             // 通知
-            Events.EventManager.Instance?.UnregisterListener(Events.EEventType.Notice_Board, OnNotice);
+            Events.EventManager.Instance.UnregisterListener(Events.EEventType.Notice_Board, OnNotice);
         }
         #endregion
 

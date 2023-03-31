@@ -128,15 +128,15 @@ namespace DigitalWorld.Game
                 _ = unit.GetOrAddComponent<ControlBehaviour>();
                 unit.AddControl(ELogicControlType.Test, unit.GetOrAddComponent<ControlTest>());
 
-                Logic.Trigger trigger = Logic.LogicHelper.AllocateTrigger("Assets/Res/Logic/Triggers/Game/Character/123.asset");
-                trigger.Invoke(Logic.Events.Event.CreateTrigger(UnitHandle.Null));
-                unit.Trigger.RunTrigger(trigger);
-
                 SkillInfo skillInfo = TableManager.Instance.SkillTable[100001];
                 if (null != skillInfo)
                 {
                     unit.Skill.Study(skillInfo, 0);
                 }
+
+                //Logic.Trigger trigger = Logic.LogicHelper.AllocateTrigger("Assets/Res/Logic/Triggers/Game/Character/123.asset");
+                //trigger.Invoke(Logic.Events.Event.CreateTrigger(UnitHandle.Null));
+                //unit.Trigger.RunTrigger(trigger);
             }
         }
 
@@ -157,7 +157,10 @@ namespace DigitalWorld.Game
         }
         #endregion
 
-        #region Manager
+        #region UnitManager
+        public CharacterManager CharacterManager => GetManager<CharacterManager>(EUnitType.Character);
+        public BuildingManager BuildingManager => GetManager<BuildingManager>(EUnitType.Building);
+
         private void SetupManagers()
         {
             RegisterManager<CharacterManager>();
@@ -194,6 +197,12 @@ namespace DigitalWorld.Game
         {
             this.managers.TryGetValue(type, out UnitManager manager);
             return manager;
+        }
+
+        public T GetManager<T>(EUnitType type) where T : UnitManager
+        {
+            UnitManager manager = GetManager(type);
+            return manager as T;
         }
         #endregion
 

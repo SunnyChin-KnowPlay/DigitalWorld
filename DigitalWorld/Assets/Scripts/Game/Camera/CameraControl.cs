@@ -214,7 +214,9 @@ namespace DigitalWorld.Game
         {
             get
             {
-                return EventSystem.current.IsPointerOverGameObject() || GUIUtility.hotControl != 0;
+                return EventSystem.current.IsPointerOverGameObject(PointerInputModule.kMouseLeftId) || 
+                    EventSystem.current.IsPointerOverGameObject(PointerInputModule.kMouseRightId) ||
+                    GUIUtility.hotControl != 0;
             }
         }
 
