@@ -11,6 +11,9 @@ namespace DigitalWorld.UI
     [RequireComponent(typeof(GraphicRaycaster))]
     public partial class PanelControl : Control
     {
+        #region Const
+        public const string PanelPrefabPath = "Assets/Res/UI/Elements/Panel/Panel.prefab";
+        #endregion
         #region Params
         /// <summary>
         /// panel组件

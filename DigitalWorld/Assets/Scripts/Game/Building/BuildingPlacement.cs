@@ -108,7 +108,11 @@ namespace DigitalWorld.Game
             }
         }
 
-        public void Setup(int buildingCfgId)
+        /// <summary>
+        /// 申请开始放置
+        /// </summary>
+        /// <param name="buildingCfgId"></param>
+        public void StartPlace(int buildingCfgId)
         {
             this.buildingCfgId = buildingCfgId;
         }

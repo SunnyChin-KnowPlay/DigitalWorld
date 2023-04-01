@@ -107,7 +107,7 @@ namespace DigitalWorld.Game
             UIManager uiManager = UIManager.Instance;
             uiManager.ShowPanel<GamePanel>(GamePanel.path);
             uiManager.ShowPanel<NoticePanel>(NoticePanel.path);
-            hudPanel = uiManager.CreateWidget<HudPanel>("Assets/Res/UI/Elements/Panel/Panel.prefab");
+            hudPanel = uiManager.CreateWidget<HudPanel>(PanelControl.PanelPrefabPath);
             hudPanel.gameObject.name = "HudPanel";
             uiManager.SetupPanel(hudPanel.gameObject);
         }
