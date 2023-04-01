@@ -309,12 +309,12 @@ namespace DigitalWorld.UI
 
             if (!go.TryGetComponent<PanelControl>(out PanelControl panel))
             {
-                control = go.AddComponent<TControl>();
+                go.AddComponent<TControl>();
             }
             else if (panel.GetType() != typeof(TControl))
             {
                 GameObject.Destroy(panel);
-                control = go.AddComponent<TControl>();
+                go.AddComponent<TControl>();
             }
 
             go.SetActive(true);

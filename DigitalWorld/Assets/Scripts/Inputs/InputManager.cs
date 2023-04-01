@@ -193,6 +193,12 @@ namespace DigitalWorld.Inputs
             };
 
         }
+
+        public static bool IsMouseInGameWindow()
+        {
+            Vector3 mousePosition = Input.mousePosition;
+            return mousePosition.x >= 0 && mousePosition.x <= Screen.width && mousePosition.y >= 0 && mousePosition.y <= Screen.height;
+        }
         #endregion
 
         #region Serialization

@@ -1,3 +1,4 @@
+using DigitalWorld.Inputs;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -107,12 +108,12 @@ namespace DigitalWorld.Game
                         float mag = (focused.position - lastedTargetPosition).sqrMagnitude;
                         lastedTargetPosition = focused.position;
 
-                        if (IsMouseInGameWindow())
+                        if (InputManager.IsMouseInGameWindow())
                         {
                             float axis = Input.GetAxis("Mouse ScrollWheel");
                             this.distance = Mathf.Clamp(this.distance + -axis * mouseScrollWheelSpeed, distanceClamp.x, distanceClamp.y);
                         }
-                           
+
                         standardDirSqrMagnitude += mag * 10f;
 
                         if (Input.GetMouseButtonDown(1))
@@ -214,17 +215,13 @@ namespace DigitalWorld.Game
         {
             get
             {
-                return EventSystem.current.IsPointerOverGameObject(PointerInputModule.kMouseLeftId) || 
+                return EventSystem.current.IsPointerOverGameObject(PointerInputModule.kMouseLeftId) ||
                     EventSystem.current.IsPointerOverGameObject(PointerInputModule.kMouseRightId) ||
                     GUIUtility.hotControl != 0;
             }
         }
 
-        bool IsMouseInGameWindow()
-        {
-            Vector3 mousePosition = Input.mousePosition;
-            return mousePosition.x >= 0 && mousePosition.x <= Screen.width && mousePosition.y >= 0 && mousePosition.y <= Screen.height;
-        }
+
         #endregion
     }
 }

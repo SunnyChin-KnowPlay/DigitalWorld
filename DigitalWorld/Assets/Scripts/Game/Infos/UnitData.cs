@@ -17,19 +17,16 @@ namespace DigitalWorld.Game
         /// 配置ID
         /// </summary>
         public int configId;
-
-        /// <summary>
-        /// 等级
-        /// </summary>
-        public int level;
-
+        
         /// <summary>
         /// 角色信息
         /// </summary>
-        public Table.CharacterInfo CharacterInfo
-        {
-            get { return TableManager.Instance.CharacterTable[configId]; }
-        }
+        private Table.CharacterInfo CharacterInfo => TableManager.Instance.CharacterTable[configId];
+
+        /// <summary>
+        /// 建筑信息
+        /// </summary>
+        private Table.BuildingInfo BuildingInfo => TableManager.Instance.BuildingTable[configId];
 
         /// <summary>
         /// 血量
@@ -92,11 +89,19 @@ namespace DigitalWorld.Game
         {
             get
             {
-                Table.CharacterInfo info = CharacterInfo;
-                if (null == info)
-                    return string.Empty;
+                switch (this.unitType)
+                {
+                    case EUnitType.Character:
+                    {
+                        return CharacterInfo?.Name;
+                    }
+                    case EUnitType.Building:
+                    {
+                        return BuildingInfo?.Name;
+                    }
+                }
 
-                return info.Name;
+                return string.Empty;
             }
         }
 
@@ -110,6 +115,25 @@ namespace DigitalWorld.Game
                 return info.ScaleSize;
             }
         }
+
+        public string PrefabPath
+        {
+            get
+            {
+                switch (this.unitType)
+                {
+                    case EUnitType.Character:
+                    {
+                        return CharacterInfo?.PrefabPath;
+                    }
+                    case EUnitType.Building:
+                    {
+                        return BuildingInfo?.PrefabPath;
+                    }
+                }
+                return string.Empty;
+            }
+        }
         #endregion
 
         #region Common
@@ -119,7 +143,16 @@ namespace DigitalWorld.Game
             {
                 configId = configId,
                 unitType = EUnitType.Character,
-                level = 1
+            };
+            return unitData;
+        }
+
+        public static UnitData CreateFromBuilding(int configId)
+        {
+            UnitData unitData = new UnitData
+            {
+                configId = configId,
+                unitType = EUnitType.Building,
             };
             return unitData;
         }

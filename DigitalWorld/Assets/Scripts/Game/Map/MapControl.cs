@@ -23,11 +23,11 @@ namespace DigitalWorld.Game
         /// 网格线的材质
         /// </summary>
         private Material gridLineMaterial;
-        
+
         /// <summary>
         /// 格子队列
         /// </summary>
-        private readonly List<GridControl> grids = new List<GridControl>();
+        private GridControl[,] grids = null;
 
         #endregion
 
@@ -66,13 +66,10 @@ namespace DigitalWorld.Game
             List<Vector3> vertices = new List<Vector3>();
             List<int> indices = new List<int>();
 
-            int halfWidth = mapData.width / 2;
-            int halfHeight = mapData.height / 2;
-
             for (int x = 0; x <= mapData.width; x++)
             {
-                vertices.Add(new Vector3(x - halfWidth, 0, -halfHeight));
-                vertices.Add(new Vector3(x - halfWidth, 0, mapData.height - halfHeight));
+                vertices.Add(new Vector3(x, 0, 0));
+                vertices.Add(new Vector3(x, 0, mapData.height));
 
                 indices.Add(2 * x);
                 indices.Add(2 * x + 1);
@@ -80,8 +77,8 @@ namespace DigitalWorld.Game
 
             for (int z = 0; z <= mapData.height; z++)
             {
-                vertices.Add(new Vector3(-halfWidth, 0, z - halfHeight));
-                vertices.Add(new Vector3(mapData.width - halfWidth, 0, z - halfHeight));
+                vertices.Add(new Vector3(0, 0, z));
+                vertices.Add(new Vector3(mapData.width, 0, z));
 
                 indices.Add(2 * (mapData.width + 1) + 2 * z);
                 indices.Add(2 * (mapData.width + 1) + 2 * z + 1);
@@ -96,17 +93,17 @@ namespace DigitalWorld.Game
 
         private IEnumerator InitializeMap()
         {
-            grids.Clear();
+            grids = new GridControl[mapData.height, mapData.width];
 
             // 初始化地图，根据MapData实例化格子
-            for (int y = 0; y < mapData.height; y++)
+            for (int z = 0; z < mapData.height; z++)
             {
                 for (int x = 0; x < mapData.width; x++)
                 {
-                    int i = y * mapData.width + x;
+                    int i = z * mapData.width + x;
                     GridData gridData = mapData.gridData[i];
 
-                    string name = string.Format("Grid_{0}_{1}", y, x); // 修改后的名称，包含行和列信息
+                    string name = string.Format("Grid_{0}_{1}", z, x); // 修改后的名称，包含行和列信息
                                                                        // 实例化预制件并设置属性
                     GameObject gridObject = new GameObject(name);
                     gridObject.transform.localPosition = gridData.position;
@@ -120,7 +117,7 @@ namespace DigitalWorld.Game
                     if (null != grid)
                     {
                         grid.gridData = gridData;
-                        grids.Add(grid);
+                        grids[z, x] = grid;
                     }
                 }
                 yield return new WaitForEndOfFrame();
@@ -145,10 +142,20 @@ namespace DigitalWorld.Game
             StartCoroutine(InitializeMap());
         }
 
-        
+        public GridControl GetGrid(Vector3 pos)
+        {
+            Vector3Int vi = new Vector3Int((int)pos.x, (int)pos.y, (int)pos.z);
+
+            if (vi.z < 0 || vi.x < 0 || vi.z >= grids.GetLength(0) || vi.x >= grids.GetLength(1))
+            {
+                return null;
+            }
+
+            return grids[vi.z, vi.x];
+        }
         #endregion
 
-       
+
     }
 
 }

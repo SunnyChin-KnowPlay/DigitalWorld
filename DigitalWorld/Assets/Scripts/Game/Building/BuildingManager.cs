@@ -23,6 +23,7 @@ namespace DigitalWorld.Game
         {
             base.Awake();
             Placement = this.gameObject.AddComponent<BuildingPlacement>();
+            Placement.enabled = false;
         }
         #endregion
     }

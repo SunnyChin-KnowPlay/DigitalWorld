@@ -1,4 +1,5 @@
 ﻿using Dream.Core;
+using Dream.FixMath;
 using UnityEngine;
 
 namespace DigitalWorld.Game
@@ -13,6 +14,10 @@ namespace DigitalWorld.Game
         /// 格子的数据
         /// </summary>
         public GridData gridData;
+        /// <summary>
+        /// 位置
+        /// </summary>
+        public Vector3 Position => transform.position;
 
         public bool showGridLines = true; // 控制是否显示网格线
 

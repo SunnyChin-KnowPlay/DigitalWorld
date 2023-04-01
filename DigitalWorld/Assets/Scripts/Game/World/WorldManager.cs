@@ -56,6 +56,7 @@ namespace DigitalWorld.Game
         /// <summary>
         /// 地图
         /// </summary>
+        public MapControl Map => map;
         private MapControl map;
         #endregion
 
@@ -214,7 +215,7 @@ namespace DigitalWorld.Game
 
         public UnitControl RegisterUnit(UnitData data)
         {
-            UnitControl unit = this.CreateCharacter(data.CharacterInfo.PrefabPath);
+            UnitControl unit = this.CreateCharacter(data.PrefabPath);
             if (null != unit)
             {
                 this.RegisterUnit(unit, data);

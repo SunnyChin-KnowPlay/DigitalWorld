@@ -1,5 +1,6 @@
 ﻿using DreamEngine.UI;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace DigitalWorld.UI
 {
@@ -7,14 +8,10 @@ namespace DigitalWorld.UI
     /// 界面控制器
     /// </summary>
     [RequireComponent(typeof(Canvas))]
+    [RequireComponent(typeof(GraphicRaycaster))]
     public partial class PanelControl : Control
     {
         #region Params
-        /// <summary>
-        /// 画布 界面控制器必须拥有画布
-        /// </summary>
-        protected Canvas canvas;
-
         /// <summary>
         /// panel组件
         /// </summary>
@@ -25,8 +22,6 @@ namespace DigitalWorld.UI
         protected override void Awake()
         {
             base.Awake();
-
-            canvas = this.GetComponent<Canvas>();
         }
 
         protected virtual void OnEnable()
