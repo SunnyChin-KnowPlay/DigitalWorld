@@ -29,7 +29,7 @@ namespace DigitalWorld.Game.UI.Settings
                 SettingControlTitle sc = go.AddComponent<SettingControlTitle>();
                 sc.OnClickTitle += OnClickTitle;
                 sc.Setup(ec);
-                listView.AddItemToBottom(go);
+                //listView.AddItemToBottom(go);
             }
 
             if (this.TryGetControlComponent<WidgetButton>("ResetButton", out WidgetButton resetButton))
