@@ -1,4 +1,5 @@
 using DigitalWorld.Events;
+using DigitalWorld.Game.UI.Buildings;
 using DigitalWorld.Game.UI.Settings;
 using DigitalWorld.UI;
 using System;
@@ -24,6 +25,11 @@ namespace DigitalWorld.Game.UI
         /// Ä¿±ê¿ò¼Ü
         /// </summary>
         private UnitFramework targetUnit;
+
+        /// <summary>
+        /// ½¨ÖþÈÝÆ÷
+        /// </summary>
+        private BuildingContent buildingContent;
         #endregion
 
         #region Mono
@@ -32,12 +38,11 @@ namespace DigitalWorld.Game.UI
             base.Awake();
 
             playerUnit = this.GetOrAddControlComponent<UnitFramework>("Root/PlayerUnit");
-            if (null != playerUnit)
-            {
-                playerUnit.Bind(WorldManager.Instance.PlayerUnit);
-            }
+            playerUnit.Bind(WorldManager.Instance.PlayerUnit);
 
             targetUnit = this.GetOrAddControlComponent<UnitFramework>("Root/TargetUnit");
+
+            buildingContent = this.GetOrAddControlComponent<BuildingContent>("Root/BuildingContent");
         }
 
         protected override void OnEnable()

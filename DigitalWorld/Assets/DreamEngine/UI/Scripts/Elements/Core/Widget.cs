@@ -11,7 +11,7 @@ namespace DreamEngine.UI
         public RectTransform RectTransform => rectTransform;
         protected RectTransform rectTransform;
 
-       
+
         #endregion
 
         #region Mono
@@ -22,6 +22,14 @@ namespace DreamEngine.UI
         #endregion
 
         #region Getter
+        public virtual GameObject GetObject(string path)
+        {
+            Transform t = this.GetTransform(path);
+            if (null == t)
+                return null;
+            return t.gameObject;
+        }
+
         public virtual Transform GetTransform(string path)
         {
             return rectTransform.Find(path);
