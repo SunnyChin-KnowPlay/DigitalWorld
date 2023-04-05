@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DigitalWorld.Events;
 
 namespace DigitalWorld.Game
 {
@@ -24,6 +20,29 @@ namespace DigitalWorld.Game
             base.Awake();
             Placement = this.gameObject.AddComponent<BuildingPlacement>();
             Placement.enabled = false;
+        }
+
+        private void OnEnable()
+        {
+            EventManager.Instance.RegisterListener(EEventType.Building_StartPlace, OnBuilding_StartPlace);
+        }
+
+        private void OnDisable()
+        {
+            EventManager.Instance.UnregisterListener(EEventType.Building_StartPlace, OnBuilding_StartPlace);
+        }
+        #endregion
+
+        #region Events
+        private void OnBuilding_StartPlace(Events.EEventType type, System.EventArgs args)
+        {
+            if (args is EventArgsPlaceBuilding buildingArgs)
+            {
+                if (Placement.enabled)
+                    Placement.enabled = false;
+
+                Placement.StartPlace(buildingArgs.buildingInfo.Id);
+            }
         }
         #endregion
     }

@@ -154,18 +154,13 @@ namespace DigitalWorld.Events
             }
         }
 
-        public void Process(EEventType eventType)
-        {
-            Process(eventType, null);
-        }
-
         /// <summary>
         /// 处理事件
         /// 将事件监听的最后一个(栈顶)delegate唤醒处理
         /// </summary>
         /// <param name="eventType"></param>
         /// <param name="args"></param>
-        public void Process(EEventType eventType, EventArgs args)
+        public void Process(EEventType eventType, EventArgs args = null)
         {
             List<OnProcessEventHandle> handles = GetHandles(eventType);
 
@@ -176,18 +171,13 @@ namespace DigitalWorld.Events
             }
         }
 
-        public void Invoke(EEventType eventType)
-        {
-            Invoke(eventType, null);
-        }
-
         /// <summary>
         /// 调用事件
         /// 目前直接采取广播行动
         /// </summary>
         /// <param name="eventType"></param>
         /// <param name="args"></param>
-        public void Invoke(EEventType eventType, EventArgs args)
+        public void Invoke(EEventType eventType, EventArgs args = null)
         {
             Boardcast(eventType, args);
         }

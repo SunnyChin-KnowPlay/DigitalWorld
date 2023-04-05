@@ -44,7 +44,7 @@ namespace DigitalWorld.Game.UI.Buildings
                 }
                 obj.transform.SetParent(this.FirstWidget.RectTransform, false);
                 obj.SetActive(true);
-                building.Setup(kvp.Value);
+                building.Setup(kvp.Value, OnClickBuilding);
             }
         }
 
@@ -55,6 +55,14 @@ namespace DigitalWorld.Game.UI.Buildings
                 GameObject.Destroy(building.gameObject);
             }
             buildings.Clear();
+        }
+        #endregion
+
+        #region Listen
+        private void OnClickBuilding(Building building)
+        {
+            Events.EventArgsPlaceBuilding args = new Events.EventArgsPlaceBuilding(Vector3.zero, building.BuildingInfo);
+            Events.EventManager.Instance.Invoke(Events.EEventType.Building_StartPlace, args);
         }
         #endregion
     }

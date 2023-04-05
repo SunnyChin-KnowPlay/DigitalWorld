@@ -20,6 +20,13 @@ namespace DigitalWorld.Events
         /// 布告板通知
         /// </summary>
         Notice_Board,
+
+        #region Building
+        /// <summary>
+        /// 开始摆放建筑
+        /// </summary>
+        Building_StartPlace,
+        #endregion
     }
 
     /// <summary>

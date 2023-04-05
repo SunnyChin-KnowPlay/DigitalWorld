@@ -35,7 +35,7 @@ namespace DigitalWorld.Game
             list.Remove(handle);
         }
 
-        public void Invoke(UnitHandle unit, EUnitEventType type,  System.EventArgs args)
+        public void Invoke(UnitHandle unit, EUnitEventType type, System.EventArgs args)
         {
             List<OnUnitHandle> list = GetHandles(type);
             if (null != list && list.Count > 0)

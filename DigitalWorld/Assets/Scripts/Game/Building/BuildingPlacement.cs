@@ -46,18 +46,25 @@ namespace DigitalWorld.Game
 
             GameObject go = AssetManager.LoadAsset<GameObject>(info.PrefabPath);
             selectedBuildingObject = GameObject.Instantiate(go);
+            selectedBuildingTransform = selectedBuildingObject.transform;
 
             cameraControl = CameraControl.Instance;
             mapControl = WorldManager.Instance.Map;
+
+            Events.EventManager.Instance.RegisterListener(Events.EEventType.Escape, OnEscape);
 
         }
 
         protected virtual void OnDisable()
         {
+            Events.EventManager.Instance.UnregisterListener(Events.EEventType.Escape, OnEscape);
+
             if (null != selectedBuildingObject)
             {
                 GameObject.Destroy(selectedBuildingObject);
                 selectedBuildingObject = null;
+
+                selectedBuildingTransform = null;
             }
 
             cameraControl = null;
@@ -115,6 +122,7 @@ namespace DigitalWorld.Game
         public void StartPlace(int buildingCfgId)
         {
             this.buildingCfgId = buildingCfgId;
+            this.enabled = true;
         }
 
         private bool CanPlaceBuildingAtGrids(List<GridControl> targetGrids)
@@ -124,6 +132,18 @@ namespace DigitalWorld.Game
 
             }
             return true;
+        }
+        #endregion
+
+        #region Events
+        /// <summary>
+        /// 当接收到退出事件时 关闭放置器
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="args"></param>
+        protected virtual void OnEscape(Events.EEventType type, System.EventArgs args)
+        {
+            this.gameObject.SetActive(false);
         }
         #endregion
     }
