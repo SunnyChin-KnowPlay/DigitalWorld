@@ -9,6 +9,7 @@ namespace DigitalWorld.UI
     /// </summary>
     [RequireComponent(typeof(Canvas))]
     [RequireComponent(typeof(GraphicRaycaster))]
+    [RequireComponent(typeof(WidgetPanel))]
     public partial class PanelControl : Control
     {
         #region Const
@@ -18,7 +19,7 @@ namespace DigitalWorld.UI
         /// <summary>
         /// panel组件
         /// </summary>
-        public WidgetPanel Panel => widget as WidgetPanel;
+        public WidgetPanel Panel => GetWidget<WidgetPanel>();
         #endregion
 
         #region Mono
@@ -27,14 +28,14 @@ namespace DigitalWorld.UI
             base.Awake();
         }
 
-        protected virtual void OnEnable()
+        protected override void OnEnable()
         {
-            
+            base.OnEnable();
         }
 
-        protected virtual void OnDisable()
+        protected override void OnDisable()
         {
-          
+            base.OnDisable();
         }
         #endregion
 

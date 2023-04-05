@@ -104,7 +104,7 @@ namespace DigitalWorld.Game.UI
                 if (ret)
                 {
                     PlaterControl control = AllocateHudControl<PlaterControl>(platerStack, PlaterControl.path);
-                    control.Widget.RectTransform.SetParent(this.transform, false);
+                    control.FirstWidget.RectTransform.SetParent(this.transform, false);
                     control.Bind(unitHandle);
                     platers.Add(unitHandle.Uid, control);
                 }
@@ -113,7 +113,7 @@ namespace DigitalWorld.Game.UI
 
         private void RecycleHudControl(HudControl control, Stack<GameObject> stack)
         {
-            RectTransform rt = control.Widget.RectTransform;
+            RectTransform rt = control.FirstWidget.RectTransform;
             rt.SetParent(null);
 
             GameObject go = control.gameObject;

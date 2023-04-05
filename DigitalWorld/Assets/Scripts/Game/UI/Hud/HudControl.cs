@@ -33,7 +33,7 @@ namespace DigitalWorld.Game.UI
                     Vector3 screenPoint = mainCamera.WorldToScreenPoint(worldPos);
 
                     Vector3 uiWorldPoint = Canvas.worldCamera.ScreenToWorldPoint(screenPoint);
-                    this.Widget.RectTransform.position = uiWorldPoint;
+                    this.FirstWidget.RectTransform.position = uiWorldPoint;
                 }
                 else
                 {

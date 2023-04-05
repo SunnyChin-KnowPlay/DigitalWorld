@@ -3,12 +3,18 @@ using UnityEngine;
 
 namespace DreamEngine.Core
 {
+    /// <summary>
+    /// GameObject的池子
+    /// </summary>
     public class GameObjectPool
     {
+        #region Params
         private readonly Queue<GameObject> pool;
         private readonly GameObject prefab;
         private readonly Transform root;
+        #endregion
 
+        #region Logic
         public GameObjectPool(Transform trans, GameObject prefab)
         {
             this.root = trans;
@@ -39,5 +45,6 @@ namespace DreamEngine.Core
                 Object.Destroy(item);
             pool.Clear();
         }
+        #endregion
     }
 }

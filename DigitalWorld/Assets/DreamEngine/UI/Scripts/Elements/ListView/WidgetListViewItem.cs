@@ -5,83 +5,78 @@ using UnityEngine.UI;
 namespace DreamEngine.UI
 {
     [RequireComponent(typeof(Button))]
-    public abstract class ListViewItem : MonoBehaviour
+    public abstract class WidgetListViewItem : Widget
     {
-        [SerializeField] GameObject m_selectedGameObject;
-
-        public int id { get; private set; }
-        public WidgetListView.ESelectType selectType { get; private set; }
-        Action<ListViewItem> m_onValueChanged;
-        Action<ListViewItem> m_onClicked;//适用于只在Item被单击时做操作的情况
-
-        RectTransform m_rectTransform;
-        Button m_button;
-
-        bool m_isSelected;
-
-        public bool isSelected
+        /// <summary>
+        /// 数据
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public T GetData<T>() where T : IWidgetListViewItemData
         {
-            get => m_isSelected;
+            return (T)data;
+        }
+        private IWidgetListViewItemData data;
+
+        public int Id { get; private set; }
+
+        private Action<WidgetListViewItem> onClicked;//适用于只在Item被单击时做操作的情况
+        private Button button;
+
+        /// <summary>
+        /// 是否被选择了
+        /// </summary>
+        public bool IsSelected
+        {
+            get => isSelected;
             set
             {
-                if (m_isSelected != value)
+                if (isSelected != value)
                 {
-                    m_isSelected = value;
-                    UpdateSelectedUI();
+                    isSelected = value;
+                    OnRefresh();
                 }
             }
         }
+        private bool isSelected;
 
-        void Awake()
+        #region Mono
+        protected override void Awake()
         {
-            id = GetInstanceID();
-            m_button = GetComponent<Button>();
+            base.Awake();
+
+            Id = GetInstanceID();
             isSelected = false;
-            m_button.onClick.AddListener(OnClicked);
+            button = GetComponent<Button>();
+            button.onClick.AddListener(OnClicked);
 
-            m_rectTransform = GetComponent<RectTransform>();
-            m_rectTransform.anchorMin = Vector2.up;
-            m_rectTransform.anchorMax = Vector2.up;
-            m_rectTransform.pivot = new Vector2(0.5f, 0.5f);
+            rectTransform.anchorMin = Vector2.up;
+            rectTransform.anchorMax = Vector2.up;
+            rectTransform.pivot = new Vector2(0.5f, 0.5f);
         }
+        #endregion
 
-        public void Init(WidgetListView.ESelectType type, Action<ListViewItem> onValueChanged, Action<ListViewItem> onClicked)
+        #region Logic
+        public void Init(Action<WidgetListViewItem> onClicked)
         {
-            selectType = type;
-            m_onValueChanged = onValueChanged;
-            m_onClicked = onClicked;
+            this.onClicked = onClicked;
         }
+
+        public void Setup(IWidgetListViewItemData data)
+        {
+            this.data = data;
+
+            this.OnRefresh();
+        }
+
+        protected abstract void OnRefresh();
 
         void OnClicked()
         {
-            bool isValueChange = false;
-            if (selectType == WidgetListView.ESelectType.Single)
-            {
-                if (!isSelected)
-                    isValueChange = true;
-                isSelected = true;
-            }
-            else
-            {
-                isValueChange = true;
-                isSelected = !isSelected;
-            }
-            if (isValueChange)
-                m_onValueChanged?.Invoke(this);
-            m_onClicked?.Invoke(this);
+            onClicked?.Invoke(this);
         }
 
-        void ClearSelected()
-        {
-            isSelected = false;
-        }
 
-        protected virtual void UpdateSelectedUI()
-        {
-            if (m_selectedGameObject != null)
-            {
-                m_selectedGameObject.SetActive(isSelected);
-            }
-        }
+        #endregion
     }
 }

@@ -132,7 +132,6 @@ namespace DreamEngine.UI
                     cg.alpha = alphaAnimationCurve.Evaluate(t);
                 }
 
-
                 if (hasFunctionBlur && null != image)
                 {
                     image.material.SetFloat("_Size", blurAnimationCurve.Evaluate(t));

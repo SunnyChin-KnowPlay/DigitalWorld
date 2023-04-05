@@ -49,8 +49,8 @@ namespace DigitalWorld.Game.UI.Settings
 
             menuTransform = this.GetControlComponent<RectTransform>("Root/Menus");
 
-            graphicsTransform = this.Widget.GetRectTransform("Root/View/GraphicsContent");
-            controlTransform = this.Widget.GetRectTransform("Root/View/ControlContent");
+            graphicsTransform = this.Panel.GetRectTransform("Root/View/GraphicsContent");
+            controlTransform = this.Panel.GetRectTransform("Root/View/ControlContent");
 
             graphicsTransform.gameObject.AddComponent<SettingGraphics>();
             controlTransform.gameObject.AddComponent<SettingControl>();
