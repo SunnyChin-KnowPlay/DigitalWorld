@@ -62,16 +62,15 @@ namespace DigitalWorld.Login.UI
                 mapId = 1
             };
 
-
-            StartCoroutine(Func());
+            StartCoroutine(StartGame());
         }
 
-        private IEnumerator Func()
+        private IEnumerator StartGame()
         {
+            UIManager.Instance.UnloadAllPanels();
+
             yield return SceneManager.LoadSceneAsync("World");
             yield return new WaitForEndOfFrame();
-
-            UIManager.Instance.UnloadAllPanels();
 
             _ = WorldManager.Instance;
         }

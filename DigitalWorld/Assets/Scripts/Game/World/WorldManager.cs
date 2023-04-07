@@ -283,7 +283,6 @@ namespace DigitalWorld.Game
                 unitControl = gameObject.AddComponent<CharacterControl>();
             }
 
-
             return unitControl;
         }
         #endregion
