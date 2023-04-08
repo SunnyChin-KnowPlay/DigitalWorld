@@ -65,13 +65,20 @@ namespace DigitalWorld.Table
         public CharacterInfo(SerializationInfo info, StreamingContext context)
 			: base(info, context)
         {
-			this.id = (System.Int32)info.GetValue("id", typeof(System.Int32));
-			this.name = (System.String)info.GetValue("name", typeof(System.String));
-			this.hp = (System.Int32)info.GetValue("hp", typeof(System.Int32));
-			this.attack = (System.Int32)info.GetValue("attack", typeof(System.Int32));
-			this.moveSpeed = (System.Int32)info.GetValue("moveSpeed", typeof(System.Int32));
-			this.prefabPath = (System.String)info.GetValue("prefabPath", typeof(System.String));
-			this.scaleSize = (Dream.FixMath.FixVector3)info.GetValue("scaleSize", typeof(Dream.FixMath.FixVector3));
+            try
+            {
+                this.id = (System.Int32)info.GetValue("id", typeof(System.Int32));
+                this.name = (System.String)info.GetValue("name", typeof(System.String));
+                this.hp = (System.Int32)info.GetValue("hp", typeof(System.Int32));
+                this.attack = (System.Int32)info.GetValue("attack", typeof(System.Int32));
+                this.moveSpeed = (System.Int32)info.GetValue("moveSpeed", typeof(System.Int32));
+                this.prefabPath = (System.String)info.GetValue("prefabPath", typeof(System.String));
+                this.scaleSize = (Dream.FixMath.FixVector3)info.GetValue("scaleSize", typeof(Dream.FixMath.FixVector3));
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)

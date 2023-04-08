@@ -13,9 +13,9 @@ namespace DigitalWorld.Game
     {
         #region Params
         /// <summary>
-        /// 建筑的配置ID
+        /// 建筑的配置信息
         /// </summary>
-        protected int buildingCfgId = 0;
+        protected BuildingInfo buildingInfo = null;
         /// <summary>
         /// 正在准备摆放的建筑
         /// </summary>
@@ -29,22 +29,39 @@ namespace DigitalWorld.Game
         /// 相机控制器
         /// </summary>
         private CameraControl cameraControl = null;
-
+        /// <summary>
+        /// 地图
+        /// </summary>
         private MapControl mapControl = null;
+
+        /// <summary>
+        /// 启动世界坐标
+        /// </summary>
+        private Vector3 startWorldPosition = Vector3.zero;
+        /// <summary>
+        /// 节点队列
+        /// </summary>
+        private List<PlaceNode> placeNodes = new List<PlaceNode>();
+        #endregion
+
+        #region Status
+        /// <summary>
+        /// 是否正在放置过程中
+        /// </summary>
+        public bool IsPlacing { get; private set; } = false;
         #endregion
 
         #region Mono
 
         protected virtual void OnEnable()
         {
-            BuildingInfo info = TableManager.Instance.BuildingTable[buildingCfgId];
-            if (null == info)
+            if (null == buildingInfo)
             {
                 this.enabled = false;
                 return;
             }
 
-            GameObject go = AssetManager.LoadAsset<GameObject>(info.PrefabPath);
+            GameObject go = AssetManager.LoadAsset<GameObject>(buildingInfo.PrefabPath);
             selectedBuildingObject = GameObject.Instantiate(go);
             selectedBuildingTransform = selectedBuildingObject.transform;
 
@@ -75,6 +92,21 @@ namespace DigitalWorld.Game
             if (InputManager.IsMouseInGameWindow())
             {
                 SyncBuildingPosition();
+
+                if (Input.GetMouseButtonDown(0))
+                {
+                    OnPlaceWillStart();
+                }
+
+                if (Input.GetMouseButtonUp(0))
+                {
+                    OnPlaceDidFinished();
+                }
+
+                if (Input.GetMouseButtonUp(1))
+                {
+                    this.gameObject.SetActive(false);
+                }
             }
         }
         #endregion
@@ -117,9 +149,9 @@ namespace DigitalWorld.Game
         /// 申请开始放置
         /// </summary>
         /// <param name="buildingCfgId"></param>
-        public void StartPlace(int buildingCfgId)
+        public void StartPlace(BuildingInfo buildingInfo)
         {
-            this.buildingCfgId = buildingCfgId;
+            this.buildingInfo = buildingInfo;
             this.enabled = true;
         }
 
@@ -141,6 +173,29 @@ namespace DigitalWorld.Game
         /// <param name="args"></param>
         protected virtual void OnEscape(Events.EEventType type, System.EventArgs args)
         {
+            this.gameObject.SetActive(false);
+        }
+
+        private void OnPlaceWillStart()
+        {
+            Camera camera = cameraControl.MainCamera;
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+
+            // 这里直接发射射线，先看看有没有碰到任何东西
+            bool ret = Physics.Raycast(ray, out RaycastHit hit);
+            if (ret)
+            {
+                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Terrain"))
+                {
+                    startWorldPosition = hit.point;
+                }
+            }
+        }
+
+        private void OnPlaceDidFinished()
+        {
+
+
             this.gameObject.SetActive(false);
         }
         #endregion

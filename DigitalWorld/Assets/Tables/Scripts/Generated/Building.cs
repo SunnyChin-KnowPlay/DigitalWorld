@@ -40,6 +40,11 @@ namespace DigitalWorld.Table
         /// </summary>
         public System.String PrefabPath => prefabPath;
         private System.String prefabPath;
+        /// <summary>
+        /// 层，每个建筑都有层数概念，一个格子，在同一层内不能覆盖。
+        /// </summary>
+        public System.Int32 Layer => layer;
+        private System.Int32 layer;
 
         #region Serialization
 		public BuildingInfo()
@@ -50,10 +55,18 @@ namespace DigitalWorld.Table
         public BuildingInfo(SerializationInfo info, StreamingContext context)
 			: base(info, context)
         {
-			this.id = (System.Int32)info.GetValue("id", typeof(System.Int32));
-			this.name = (System.String)info.GetValue("name", typeof(System.String));
-			this.size = (Dream.FixMath.FixVector3)info.GetValue("size", typeof(Dream.FixMath.FixVector3));
-			this.prefabPath = (System.String)info.GetValue("prefabPath", typeof(System.String));
+            try
+            {
+                this.id = (System.Int32)info.GetValue("id", typeof(System.Int32));
+                this.name = (System.String)info.GetValue("name", typeof(System.String));
+                this.size = (Dream.FixMath.FixVector3)info.GetValue("size", typeof(Dream.FixMath.FixVector3));
+                this.prefabPath = (System.String)info.GetValue("prefabPath", typeof(System.String));
+                this.layer = (System.Int32)info.GetValue("layer", typeof(System.Int32));
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -63,6 +76,7 @@ namespace DigitalWorld.Table
 			info.AddValue("name", this.name);
 			info.AddValue("size", this.size);
 			info.AddValue("prefabPath", this.prefabPath);
+			info.AddValue("layer", this.layer);
         }
 
         public override void ToDataRow(DataRow row)
@@ -71,6 +85,7 @@ namespace DigitalWorld.Table
             row["name"] = name;
             row["size"] = size;
             row["prefabPath"] = prefabPath;
+            row["layer"] = layer;
         }
 
         public override void FromDataRow(DataRow row)
@@ -79,6 +94,7 @@ namespace DigitalWorld.Table
             this.name = (System.String)ParseDataField(row, "name", typeof(System.String));
             this.size = (Dream.FixMath.FixVector3)ParseDataField(row, "size", typeof(Dream.FixMath.FixVector3));
             this.prefabPath = (System.String)ParseDataField(row, "prefabPath", typeof(System.String));
+            this.layer = (System.Int32)ParseDataField(row, "layer", typeof(System.Int32));
         }
         #endregion
     }

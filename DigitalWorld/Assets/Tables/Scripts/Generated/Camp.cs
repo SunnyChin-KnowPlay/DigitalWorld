@@ -9,7 +9,7 @@ using System.Runtime.Serialization;
 
 namespace DigitalWorld.Table
 {
-	    /// <summary>
+    /// <summary>
     /// 阵营
     /// </summary>
     [Serializable]
@@ -32,23 +32,30 @@ namespace DigitalWorld.Table
         private System.String name;
 
         #region Serialization
-		public CampInfo()
-		{
+        public CampInfo()
+        {
 
-		}
+        }
 
         public CampInfo(SerializationInfo info, StreamingContext context)
-			: base(info, context)
+            : base(info, context)
         {
-			this.id = (System.Int32)info.GetValue("id", typeof(System.Int32));
-			this.name = (System.String)info.GetValue("name", typeof(System.String));
+            try
+            {
+                this.id = (System.Int32)info.GetValue("id", typeof(System.Int32));
+                this.name = (System.String)info.GetValue("name", typeof(System.String));
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
-			info.AddValue("id", this.id);
-			info.AddValue("name", this.name);
+            info.AddValue("id", this.id);
+            info.AddValue("name", this.name);
         }
 
         public override void ToDataRow(DataRow row)
@@ -66,7 +73,7 @@ namespace DigitalWorld.Table
     }
 
 
-	    /// <summary>
+    /// <summary>
     /// 阵营
     /// </summary>
     [TableNameAttibute("camp")]

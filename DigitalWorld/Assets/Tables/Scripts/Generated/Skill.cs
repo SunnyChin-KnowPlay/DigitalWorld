@@ -55,11 +55,18 @@ namespace DigitalWorld.Table
         public SkillInfo(SerializationInfo info, StreamingContext context)
 			: base(info, context)
         {
-			this.id = (System.Int32)info.GetValue("id", typeof(System.Int32));
-			this.name = (System.String)info.GetValue("name", typeof(System.String));
-			this.coolDownTime = (System.Int32)info.GetValue("coolDownTime", typeof(System.Int32));
-			this.behaviourAssetPath = (System.String)info.GetValue("behaviourAssetPath", typeof(System.String));
-			this.castRadius = (System.Int32)info.GetValue("castRadius", typeof(System.Int32));
+            try
+            {
+                this.id = (System.Int32)info.GetValue("id", typeof(System.Int32));
+                this.name = (System.String)info.GetValue("name", typeof(System.String));
+                this.coolDownTime = (System.Int32)info.GetValue("coolDownTime", typeof(System.Int32));
+                this.behaviourAssetPath = (System.String)info.GetValue("behaviourAssetPath", typeof(System.String));
+                this.castRadius = (System.Int32)info.GetValue("castRadius", typeof(System.Int32));
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)

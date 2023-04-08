@@ -41,7 +41,7 @@ namespace DigitalWorld.Game
                 if (Placement.enabled)
                     Placement.enabled = false;
 
-                Placement.StartPlace(buildingArgs.buildingInfo.Id);
+                Placement.StartPlace(buildingArgs.buildingInfo);
             }
         }
         #endregion

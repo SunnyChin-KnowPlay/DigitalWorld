@@ -50,10 +50,17 @@ namespace DigitalWorld.Table
         public MapInfo(SerializationInfo info, StreamingContext context)
 			: base(info, context)
         {
-			this.id = (System.Int32)info.GetValue("id", typeof(System.Int32));
-			this.name = (System.String)info.GetValue("name", typeof(System.String));
-			this.assetPath = (System.String)info.GetValue("assetPath", typeof(System.String));
-			this.level = (System.Int32)info.GetValue("level", typeof(System.Int32));
+            try
+            {
+                this.id = (System.Int32)info.GetValue("id", typeof(System.Int32));
+                this.name = (System.String)info.GetValue("name", typeof(System.String));
+                this.assetPath = (System.String)info.GetValue("assetPath", typeof(System.String));
+                this.level = (System.Int32)info.GetValue("level", typeof(System.Int32));
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
