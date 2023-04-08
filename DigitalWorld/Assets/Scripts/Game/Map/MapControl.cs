@@ -1,13 +1,11 @@
 ﻿using DigitalWorld.Asset;
+using DigitalWorld.Game.Datas;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
-
 
 namespace DigitalWorld.Game
 {
-
     public class MapControl : MonoBehaviour
     {
         #region Constant
@@ -101,12 +99,12 @@ namespace DigitalWorld.Game
                 for (int x = 0; x < mapData.width; x++)
                 {
                     int i = z * mapData.width + x;
-                    GridData gridData = mapData.gridData[i];
+                    GridData gridData = mapData.gridDatas[i];
 
                     string name = string.Format("Grid_{0}_{1}", z, x); // 修改后的名称，包含行和列信息
                                                                        // 实例化预制件并设置属性
                     GameObject gridObject = new GameObject(name);
-                    gridObject.transform.localPosition = gridData.position;
+                    gridObject.transform.localPosition = Utilities.Convert.ToVector3(gridData.position);
                     gridObject.transform.localScale = Vector3.one;
                     gridObject.transform.SetParent(transform);
 

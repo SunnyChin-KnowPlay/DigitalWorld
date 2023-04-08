@@ -75,8 +75,6 @@ namespace DigitalWorld.Game
             if (InputManager.IsMouseInGameWindow())
             {
                 SyncBuildingPosition();
-
-
             }
         }
         #endregion

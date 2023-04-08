@@ -1,5 +1,6 @@
 ﻿using DigitalWorld.Events;
 using DigitalWorld.Game;
+using DigitalWorld.Game.Datas;
 using DigitalWorld.Net;
 using DigitalWorld.Proto.Common;
 using DigitalWorld.UI;
@@ -67,12 +68,14 @@ namespace DigitalWorld.Login.UI
 
         private IEnumerator StartGame()
         {
-            UIManager.Instance.UnloadAllPanels();
-
             yield return SceneManager.LoadSceneAsync("World");
             yield return new WaitForEndOfFrame();
 
-            _ = WorldManager.Instance;
+            UIManager.Instance.UnloadAllPanels();
+
+            WorldManager wm = WorldManager.Instance;
+            wm.GameData = GameData.CreateTestData();
+            wm.Load();
         }
 
         private void OnClickLogin()
@@ -90,7 +93,7 @@ namespace DigitalWorld.Login.UI
         /// <param name="args"></param>
         protected override void OnEscape(EEventType type, EventArgs args)
         {
-            
+
         }
         #endregion
 

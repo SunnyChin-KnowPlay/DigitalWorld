@@ -10,6 +10,7 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using DigitalWorld.Behaviours;
 using DigitalWorld.Notices.UI;
+using DigitalWorld.Game.Datas;
 
 namespace DigitalWorld.Game
 {
@@ -24,12 +25,7 @@ namespace DigitalWorld.Game
         public delegate bool JudgeUnitHandle(UnitHandle unit);
         #endregion
 
-        #region Params
-        /// <summary>
-        /// 管理器词典
-        /// </summary>
-        private readonly Dictionary<EUnitType, UnitManager> managers = new Dictionary<EUnitType, UnitManager>();
-
+        #region Units
         /// <summary>
         /// 单位词典
         /// </summary>
@@ -39,12 +35,20 @@ namespace DigitalWorld.Game
         /// 跑Update用的单位队列
         /// </summary>
         private readonly List<UnitHandle> runningUnits = new List<UnitHandle>();
-
         /// <summary>
         /// 单位id池
         /// </summary>
         private uint unitIdPool = 0;
+        #endregion
 
+        #region Datas
+        /// <summary>
+        /// 游戏数据
+        /// </summary>
+        public GameData GameData { get; set; }
+        #endregion
+
+        #region Params
         /// <summary>
         /// 玩家的单元
         /// </summary>
@@ -64,7 +68,6 @@ namespace DigitalWorld.Game
         protected override void Awake()
         {
             base.Awake();
-            this.Setup();
         }
 
         protected override void OnDestroy()
@@ -91,11 +94,18 @@ namespace DigitalWorld.Game
         }
         #endregion
 
+        #region Load
+        public void Load()
+        {
+            this.Setup();
+        }
+        #endregion
+
         #region Setup
         private void Setup()
         {
             SetupMap();
-            SetupManagers();
+            SetupUnitManagers();
             SetupUnits();
             SetupCameras();
             // 然后开启UI
@@ -153,16 +163,19 @@ namespace DigitalWorld.Game
 
         private void SetupMap()
         {
-            MapData data = new MapData(128, 128);
-            this.map = MapControl.Create(data);
+            this.map = MapControl.Create(GameData.MapData);
         }
         #endregion
 
         #region UnitManager
+        /// <summary>
+        /// 单位管理器词典
+        /// </summary>
+        private readonly Dictionary<EUnitType, UnitManager> unitManagers = new Dictionary<EUnitType, UnitManager>();
         public CharacterManager CharacterManager => GetManager<CharacterManager>(EUnitType.Character);
         public BuildingManager BuildingManager => GetManager<BuildingManager>(EUnitType.Building);
 
-        private void SetupManagers()
+        private void SetupUnitManagers()
         {
             RegisterManager<CharacterManager>();
             RegisterManager<BuildingManager>();
@@ -184,19 +197,19 @@ namespace DigitalWorld.Game
 
         private void RegisterManager(UnitManager manager)
         {
-            if (this.managers.ContainsKey(manager.Type))
+            if (this.unitManagers.ContainsKey(manager.Type))
             {
-                this.managers[manager.Type] = manager;
+                this.unitManagers[manager.Type] = manager;
             }
             else
             {
-                this.managers.Add(manager.Type, manager);
+                this.unitManagers.Add(manager.Type, manager);
             }
         }
 
         private UnitManager GetManager(EUnitType type)
         {
-            this.managers.TryGetValue(type, out UnitManager manager);
+            this.unitManagers.TryGetValue(type, out UnitManager manager);
             return manager;
         }
 
