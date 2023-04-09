@@ -1,5 +1,6 @@
 ﻿using DigitalWorld.Asset;
 using DigitalWorld.Game.Datas;
+using Dream.FixMath;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,6 +28,7 @@ namespace DigitalWorld.Game
         /// </summary>
         private GridControl[,] grids = null;
 
+        private readonly static List<GridControl> calculatedGrids = new List<GridControl>();
         #endregion
 
         #region Creator
@@ -150,6 +152,23 @@ namespace DigitalWorld.Game
             }
 
             return grids[vi.z, vi.x];
+        }
+
+        /// <summary>
+        /// 通过传入的位置和尺寸，返回覆盖的格子队列
+        /// 尺寸的处理将分为奇偶性，如果是偶数尺寸(x或者z为偶数)，则为向右(x)上(z)方向寻找格子
+        /// 例如(2, 0, 2)，则返回4个格子，pos所在的一格，pos.x + 1所在的1格，pos.z + 1所在的1格，pos.x + 1, pos.z + 1所在的一格
+        /// 如果是奇数尺寸，则为左右(x)或者上下(z)各取1格。
+        /// 例如(3, 0, 3)，则返回8格格子。
+        /// </summary>
+        /// <param name="pos">世界坐标位置</param>
+        /// <param name="size">尺寸</param>
+        /// <param name="grids">返回的格子队列，复用性的，如果需要后续使用请用队列AddRange()记录下来</param>
+        /// <returns>结果，如果格子有越界区域，请返回false，不然返回true</returns>
+        public bool GetGrids(Vector3 pos, FixVector3 size, out List<GridControl> grids)
+        {
+            grids = null;
+            return true;
         }
         #endregion
 

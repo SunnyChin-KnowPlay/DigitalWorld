@@ -105,7 +105,7 @@ namespace DigitalWorld.Game
 
                 if (Input.GetMouseButtonUp(1))
                 {
-                    this.gameObject.SetActive(false);
+                    this.enabled = false;
                 }
             }
         }
@@ -173,7 +173,7 @@ namespace DigitalWorld.Game
         /// <param name="args"></param>
         protected virtual void OnEscape(Events.EEventType type, System.EventArgs args)
         {
-            this.gameObject.SetActive(false);
+            this.enabled = false;
         }
 
         private void OnPlaceWillStart()
@@ -194,9 +194,9 @@ namespace DigitalWorld.Game
 
         private void OnPlaceDidFinished()
         {
+            
 
-
-            this.gameObject.SetActive(false);
+            this.enabled = false;
         }
         #endregion
     }
